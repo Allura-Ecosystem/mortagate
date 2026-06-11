@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Band_Width__c</fullName>
+    <label>Band Width</label>
+    <type>Number</type>
+    <precision>6</precision>
+    <scale>4</scale>
+    <required>false</required>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+</CustomField>

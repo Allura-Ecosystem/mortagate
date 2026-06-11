@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Evaluated_Facts__c</fullName>
+    <label>Evaluated Facts</label>
+    <type>Lookup</type>
+    <referenceTo>Extracted_Facts__c</referenceTo>
+    <relationshipLabel>Evaluated Factss</relationshipLabel>
+    <relationshipName>Evaluated_Facts_Links</relationshipName>
+    <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
+</CustomField>

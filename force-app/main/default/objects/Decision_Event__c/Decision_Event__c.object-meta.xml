@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Decision Event</label>
+    <pluralLabel>Decision Events</pluralLabel>
+    <nameField>
+        <label>Event ID</label>
+        <type>AutoNumber</type>
+        <displayFormat>DE-{000000}</displayFormat>
+        <startingNumber>1</startingNumber>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ControlledByParent</sharingModel>
+    <description>Append-only audit trail. Each record represents one decision point in a loan lifecycle. Records MUST NOT be updated or deleted — enforced by Apex trigger. References the Policy_Rule_Version__c active at decision time.</description>
+</CustomObject>

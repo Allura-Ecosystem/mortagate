@@ -1,0 +1,7 @@
+# LWC Jest unit tests — local only, never deployed to the org
+**/__tests__/**
+**/*.test.js
+
+# Tooling / local artifacts
+**/jsconfig.json
+**/.eslintrc.json

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application__c</fullName>
+    <label>Application</label>
+    <type>Lookup</type>
+    <referenceTo>Loan_Application__c</referenceTo>
+    <relationshipLabel>Applications</relationshipLabel>
+    <relationshipName>Application_Links</relationshipName>
+    <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
+</CustomField>

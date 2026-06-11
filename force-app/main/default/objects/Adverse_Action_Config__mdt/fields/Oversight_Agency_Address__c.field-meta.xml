@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Oversight_Agency_Address__c</fullName>
+    <label>Oversight Agency Address</label>
+    <type>TextArea</type>
+    <required>false</required>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <description>Address of the federal agency that administers compliance, required by 12 CFR 1002.9(b)(1).</description>
+</CustomField>

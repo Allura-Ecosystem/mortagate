@@ -1,0 +1,84 @@
+/* ============================================================
+   Veridact Brand Tokens — v2.0.0 (June 2026)
+   Source of truth: Figma Brand Kit v1.0.1
+   Tagline: "Every decision has a receipt."
+   Tone: Difference Driven
+   ------------------------------------------------------------
+   v2.0.0 MIGRATION: Dark palette → Light palette (US-1.0)
+   Background: Indigo #1b2b5e → Cream #F5F0E8
+   Accent: Amber #d4920a → Orange #E25D22
+   Text: White #ffffff → Charcoal #1F1E1C
+   Font display: Source Serif 4 → Outfit (sans-serif)
+   ------------------------------------------------------------
+   Property names are preserved for backward compatibility.
+   Values have been updated to reflect the new light palette.
+   Components referencing --veridact-indigo-depth receive cream;
+   components referencing --veridact-proof-amber receive orange;
+   components referencing --veridact-white receive charcoal.
+   Per copilot-instructions: never hardcode hex in components —
+   reference these variables.
+   ============================================================ */
+
+:root {
+    /* --- Core Palette (v2.0.0: light palette) --- */
+    --veridact-indigo-depth: #F5F0E8;   /* Cream — primary background (was indigo) */
+    --veridact-proof-amber: #E25D22;    /* Orange — accent, CTAs (was amber) */
+    --veridact-white: #1F1E1C;          /* Charcoal — primary text (was white) */
+    --veridact-white-60: rgba(31, 30, 28, 0.5);  /* Charcoal muted — secondary text (was white-60) */
+
+    /* --- Semantic decision colors (CHIP/BADGE backgrounds, NOT text) ---
+       WCAG ratios verified on Cream #F5F0E8 background.
+       approved  #16734a on cream = 5.16:1 ✅  (Figma green #308357 = 4.10:1 ✗ — kept original)
+       conditions #E25D22 chip: charcoal #1F1E1C on orange = 4.62:1 ✅
+       review    #345182 on cream = 7.00:1 ✅  (unchanged)
+       declined  #8a3324 on cream = 7.18:1 ✅  (unchanged) */
+    --veridact-approved: #16734a;       /* chip bg — white text 5.86:1 on chip */
+    --veridact-approved-on: #ffffff;
+    --veridact-conditions: #E25D22;     /* chip bg — charcoal text 4.62:1 ✅ (was amber/indigo) */
+    --veridact-conditions-on: #1F1E1C;
+    --veridact-review: #345182;         /* chip bg — white text 7.94:1 ✅ (unchanged) */
+    --veridact-review-on: #ffffff;
+    --veridact-declined: #8a3324;       /* chip bg — white text 8.14:1 ✅ (unchanged) */
+    --veridact-declined-on: #ffffff;
+
+    /* --- Surfaces (light mode borrower portal — v2.0.0) --- */
+    --veridact-surface: #F5F0E8;        /* Page background — Cream */
+    --veridact-card: #ffffff;           /* Card / panel */
+    --veridact-ink: #1F1E1C;            /* Primary text on light — Charcoal (was indigo) */
+    --veridact-ink-muted: #645D53;      /* Secondary text on light (was #5a6480) */
+    --veridact-border: #D7CCBB;         /* Hairlines, dividers (was #e2e6ef) */
+
+    /* --- Typography --- */
+    --veridact-font-display: 'Outfit', 'Inter', sans-serif;  /* v2.0.0: Outfit replaces Source Serif 4 */
+    --veridact-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --veridact-text-hero: 72px;
+    --veridact-text-h1: 40px;
+    --veridact-text-h2: 28px;
+    --veridact-text-body: 16px;
+    --veridact-text-small: 14px;
+
+    --veridact-leading-tight: 1.1;
+    --veridact-leading-body: 1.5;
+    --veridact-leading-relaxed: 1.4;
+
+    /* --- Spacing (8px base) --- */
+    --veridact-space-1: 8px;
+    --veridact-space-2: 16px;
+    --veridact-space-3: 24px;
+    --veridact-space-4: 32px;
+    --veridact-space-8: 64px;
+
+    /* --- Form / Motion --- */
+    --veridact-radius: 8px;
+    --veridact-radius-pill: 999px;
+    --veridact-accent-bar: 4px;         /* The signature bottom accent bar */
+    --veridact-transition: 0.4s ease-out;  /* Intent-capture slide timing */
+}
+
+/* Honor reduced-motion preference — disable slide animations */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --veridact-transition: 0s;
+    }
+}

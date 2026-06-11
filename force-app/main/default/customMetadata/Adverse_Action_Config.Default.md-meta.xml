@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <label>Default</label>
+    <protected>false</protected>
+    <values>
+        <field>Creditor_Name__c</field>
+        <value xsi:type="xsd:string">Veridact Lending</value>
+    </values>
+    <values>
+        <field>Creditor_Address__c</field>
+        <value xsi:type="xsd:string">Veridact Lending, 1 Market Street, Suite 400, San Francisco, CA 94105</value>
+    </values>
+    <values>
+        <field>Oversight_Agency_Name__c</field>
+        <value xsi:type="xsd:string">Consumer Financial Protection Bureau</value>
+    </values>
+    <values>
+        <field>Oversight_Agency_Address__c</field>
+        <value xsi:type="xsd:string">Consumer Financial Protection Bureau, 1700 G Street NW, Washington, DC 20006</value>
+    </values>
+    <values>
+        <field>ECOA_Notice__c</field>
+        <value xsi:type="xsd:string">The Federal Equal Credit Opportunity Act prohibits creditors from discriminating against credit applicants on the basis of race, color, religion, national origin, sex, marital status, age (provided the applicant has the capacity to enter into a binding contract); because all or part of the applicant&apos;s income derives from any public assistance program; or because the applicant has in good faith exercised any right under the Consumer Credit Protection Act. The Federal agency that administers compliance with this law concerning this creditor is [AGENCY].</value>
+    </values>
+    <values>
+        <field>Reason_Limit__c</field>
+        <value xsi:type="xsd:double">4</value>
+    </values>
+    <values>
+        <field>Notice_Window_Days__c</field>
+        <value xsi:type="xsd:double">30</value>
+    </values>
+</CustomMetadata>

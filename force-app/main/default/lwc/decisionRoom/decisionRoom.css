@@ -1,0 +1,99 @@
+:host {
+    --indigo: var(--veridact-indigo-depth, #F5F0E8);
+    --amber: var(--veridact-proof-amber, #E25D22);
+    --white: var(--veridact-white, #1F1E1C);
+    --white-60: var(--veridact-white-60, rgba(31, 30, 28, 0.5));
+    --body: var(--veridact-font-body, 'Inter', -apple-system, sans-serif);
+    --accent: var(--veridact-accent-bar, 4px);
+    --border: rgba(31, 30, 28, 0.12);
+    display: block;
+}
+
+.room {
+    position: relative;
+    min-height: 100dvh;
+    background: var(--indigo);
+    color: var(--white);
+    font-family: var(--body);
+    display: flex;
+    flex-direction: column;
+}
+
+.body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px 24px;
+}
+
+/* Timeline */
+.timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.event {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 28px;
+    position: relative;
+}
+.event:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 14px;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+}
+.dot {
+    flex: 0 0 11px;
+    width: 11px;
+    height: 11px;
+    margin-top: 3px;
+    border-radius: 999px;
+    background: var(--amber);
+}
+.event-label { margin: 0; font-size: 16px; }
+.event-time { margin: 2px 0 0; font-size: 14px; color: var(--white-60); }
+
+/* Pending: single orange heartbeat — the only motion on the screen */
+.pending {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+.pulse {
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--amber);
+    animation: heartbeat 1.6s ease-in-out infinite;
+}
+.pending-line {
+    font-size: 16px;
+    color: var(--white-60);
+    max-width: 28ch;
+    margin: 0;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.45; }
+}
+
+/* Heartbeat must not animate under reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .pulse { animation: none; }
+}
+
+.accent-bar {
+    height: var(--accent);
+    background: var(--amber);
+    width: 100%;
+    flex-shrink: 0;
+}

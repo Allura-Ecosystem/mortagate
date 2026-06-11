@@ -1,0 +1,3694 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_clean_approval"
+      },
+      "Application__c": "@app_clean_approval",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 97803.0,
+      "Monthly_Income__c": 8150.25,
+      "DTI_Ratio__c": 33.1,
+      "FICO_Score__c": 727,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 126,
+      "Address_Tenure_Months__c": 132,
+      "Asset_Value__c": 75.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_conditional_short_employment"
+      },
+      "Application__c": "@app_conditional_short_employment",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 55961.0,
+      "Monthly_Income__c": 4663.42,
+      "DTI_Ratio__c": 8.6,
+      "FICO_Score__c": 704,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 14,
+      "Address_Tenure_Months__c": 38,
+      "Asset_Value__c": 131.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_hard_decline_dti"
+      },
+      "Application__c": "@app_hard_decline_dti",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 80393.0,
+      "Monthly_Income__c": 6699.42,
+      "DTI_Ratio__c": 51.7,
+      "FICO_Score__c": 688,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 14,
+      "Address_Tenure_Months__c": 18,
+      "Asset_Value__c": 83.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_integration_boundary"
+      },
+      "Application__c": "@app_integration_boundary",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 80023.0,
+      "Monthly_Income__c": 6668.58,
+      "DTI_Ratio__c": 43.1,
+      "FICO_Score__c": 698,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 241,
+      "Address_Tenure_Months__c": 245,
+      "Asset_Value__c": 2340.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_fico_decline"
+      },
+      "Application__c": "@app_fico_decline",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 32015.0,
+      "Monthly_Income__c": 2667.92,
+      "DTI_Ratio__c": 3.5,
+      "FICO_Score__c": 570,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 160,
+      "Address_Tenure_Months__c": 160,
+      "Asset_Value__c": 253.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_000"
+      },
+      "Application__c": "@app_bulk_000",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 80593.0,
+      "Monthly_Income__c": 6716.08,
+      "DTI_Ratio__c": 7.4,
+      "FICO_Score__c": 721,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 36,
+      "Address_Tenure_Months__c": 47,
+      "Asset_Value__c": 4581.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_001"
+      },
+      "Application__c": "@app_bulk_001",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 77344.0,
+      "Monthly_Income__c": 6445.33,
+      "DTI_Ratio__c": 5.8,
+      "FICO_Score__c": 603,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 37,
+      "Address_Tenure_Months__c": 49,
+      "Asset_Value__c": 10.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_002"
+      },
+      "Application__c": "@app_bulk_002",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 11.3,
+      "FICO_Score__c": 611,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 34,
+      "Asset_Value__c": 76.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_003"
+      },
+      "Application__c": "@app_bulk_003",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 36.0,
+      "FICO_Score__c": 665,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 3,
+      "Address_Tenure_Months__c": 11,
+      "Asset_Value__c": 218.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_004"
+      },
+      "Application__c": "@app_bulk_004",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 26611.0,
+      "Monthly_Income__c": 2217.58,
+      "DTI_Ratio__c": 39.8,
+      "FICO_Score__c": 783,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 40,
+      "Address_Tenure_Months__c": 40,
+      "Asset_Value__c": 198.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_005"
+      },
+      "Application__c": "@app_bulk_005",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46043.0,
+      "Monthly_Income__c": 3836.92,
+      "DTI_Ratio__c": 16.5,
+      "FICO_Score__c": 746,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 88,
+      "Address_Tenure_Months__c": 91,
+      "Asset_Value__c": 688.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_006"
+      },
+      "Application__c": "@app_bulk_006",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46670.0,
+      "Monthly_Income__c": 3889.17,
+      "DTI_Ratio__c": 15.8,
+      "FICO_Score__c": 652,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 18,
+      "Address_Tenure_Months__c": 34,
+      "Asset_Value__c": 767.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_007"
+      },
+      "Application__c": "@app_bulk_007",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 127042.0,
+      "Monthly_Income__c": 10586.83,
+      "DTI_Ratio__c": 35.1,
+      "FICO_Score__c": 757,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 229,
+      "Address_Tenure_Months__c": 232,
+      "Asset_Value__c": 516.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_008"
+      },
+      "Application__c": "@app_bulk_008",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 17994.0,
+      "Monthly_Income__c": 1499.5,
+      "DTI_Ratio__c": 44.3,
+      "FICO_Score__c": 580,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 110,
+      "Address_Tenure_Months__c": 119,
+      "Asset_Value__c": 266.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_009"
+      },
+      "Application__c": "@app_bulk_009",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45346.0,
+      "Monthly_Income__c": 3778.83,
+      "DTI_Ratio__c": 61.3,
+      "FICO_Score__c": 643,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 61,
+      "Address_Tenure_Months__c": 80,
+      "Asset_Value__c": 17432.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_010"
+      },
+      "Application__c": "@app_bulk_010",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 90132.0,
+      "Monthly_Income__c": 7511.0,
+      "DTI_Ratio__c": 30.3,
+      "FICO_Score__c": 713,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 205,
+      "Address_Tenure_Months__c": 222,
+      "Asset_Value__c": 11569.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_011"
+      },
+      "Application__c": "@app_bulk_011",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 31314.0,
+      "Monthly_Income__c": 2609.5,
+      "DTI_Ratio__c": 47.3,
+      "FICO_Score__c": 661,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 22,
+      "Address_Tenure_Months__c": 30,
+      "Asset_Value__c": 106.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_012"
+      },
+      "Application__c": "@app_bulk_012",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 22513.0,
+      "Monthly_Income__c": 1876.08,
+      "DTI_Ratio__c": 24.3,
+      "FICO_Score__c": 683,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 3,
+      "Address_Tenure_Months__c": 9,
+      "Asset_Value__c": 3945.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_013"
+      },
+      "Application__c": "@app_bulk_013",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 27952.0,
+      "Monthly_Income__c": 2329.33,
+      "DTI_Ratio__c": 46.7,
+      "FICO_Score__c": 667,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 85,
+      "Address_Tenure_Months__c": 93,
+      "Asset_Value__c": 83.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_014"
+      },
+      "Application__c": "@app_bulk_014",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 30249.0,
+      "Monthly_Income__c": 2520.75,
+      "DTI_Ratio__c": 29.8,
+      "FICO_Score__c": 547,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 40,
+      "Address_Tenure_Months__c": 43,
+      "Asset_Value__c": 3887.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_015"
+      },
+      "Application__c": "@app_bulk_015",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 29921.0,
+      "Monthly_Income__c": 2493.42,
+      "DTI_Ratio__c": 28.9,
+      "FICO_Score__c": 603,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 68,
+      "Address_Tenure_Months__c": 84,
+      "Asset_Value__c": 271.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_016"
+      },
+      "Application__c": "@app_bulk_016",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 38857.0,
+      "Monthly_Income__c": 3238.08,
+      "DTI_Ratio__c": 32.6,
+      "FICO_Score__c": 665,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 115,
+      "Address_Tenure_Months__c": 123,
+      "Asset_Value__c": 1644.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_017"
+      },
+      "Application__c": "@app_bulk_017",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 100237.0,
+      "Monthly_Income__c": 8353.08,
+      "DTI_Ratio__c": 9.0,
+      "FICO_Score__c": 714,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 198,
+      "Address_Tenure_Months__c": 221,
+      "Asset_Value__c": 3815.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_018"
+      },
+      "Application__c": "@app_bulk_018",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 30185.0,
+      "Monthly_Income__c": 2515.42,
+      "DTI_Ratio__c": 24.6,
+      "FICO_Score__c": 681,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 91,
+      "Address_Tenure_Months__c": 111,
+      "Asset_Value__c": 207.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_019"
+      },
+      "Application__c": "@app_bulk_019",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 33349.0,
+      "Monthly_Income__c": 2779.08,
+      "DTI_Ratio__c": 17.3,
+      "FICO_Score__c": 608,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 2,
+      "Address_Tenure_Months__c": 12,
+      "Asset_Value__c": 450.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_020"
+      },
+      "Application__c": "@app_bulk_020",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 129139.0,
+      "Monthly_Income__c": 10761.58,
+      "DTI_Ratio__c": 49.7,
+      "FICO_Score__c": 714,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 201,
+      "Address_Tenure_Months__c": 213,
+      "Asset_Value__c": 7613.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_021"
+      },
+      "Application__c": "@app_bulk_021",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 78399.0,
+      "Monthly_Income__c": 6533.25,
+      "DTI_Ratio__c": 11.7,
+      "FICO_Score__c": 616,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 13,
+      "Address_Tenure_Months__c": 30,
+      "Asset_Value__c": 776.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_022"
+      },
+      "Application__c": "@app_bulk_022",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 70093.0,
+      "Monthly_Income__c": 5841.08,
+      "DTI_Ratio__c": 23.3,
+      "FICO_Score__c": 570,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 24,
+      "Address_Tenure_Months__c": 30,
+      "Asset_Value__c": 13827.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_023"
+      },
+      "Application__c": "@app_bulk_023",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 57712.0,
+      "Monthly_Income__c": 4809.33,
+      "DTI_Ratio__c": 74.4,
+      "FICO_Score__c": 602,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 24,
+      "Asset_Value__c": 1059.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_024"
+      },
+      "Application__c": "@app_bulk_024",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 57851.0,
+      "Monthly_Income__c": 4820.92,
+      "DTI_Ratio__c": 30.5,
+      "FICO_Score__c": 682,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 265,
+      "Address_Tenure_Months__c": 279,
+      "Asset_Value__c": 3627.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_025"
+      },
+      "Application__c": "@app_bulk_025",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 54617.0,
+      "Monthly_Income__c": 4551.42,
+      "DTI_Ratio__c": 30.2,
+      "FICO_Score__c": 729,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 247,
+      "Address_Tenure_Months__c": 269,
+      "Asset_Value__c": 193.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_026"
+      },
+      "Application__c": "@app_bulk_026",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 38879.0,
+      "Monthly_Income__c": 3239.92,
+      "DTI_Ratio__c": 31.7,
+      "FICO_Score__c": 657,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 326,
+      "Address_Tenure_Months__c": 347,
+      "Asset_Value__c": 237.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_027"
+      },
+      "Application__c": "@app_bulk_027",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 41511.0,
+      "Monthly_Income__c": 3459.25,
+      "DTI_Ratio__c": 56.0,
+      "FICO_Score__c": 728,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 153,
+      "Address_Tenure_Months__c": 158,
+      "Asset_Value__c": 217.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_028"
+      },
+      "Application__c": "@app_bulk_028",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 111012.0,
+      "Monthly_Income__c": 9251.0,
+      "DTI_Ratio__c": 32.6,
+      "FICO_Score__c": 686,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 232,
+      "Address_Tenure_Months__c": 234,
+      "Asset_Value__c": 2785.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_029"
+      },
+      "Application__c": "@app_bulk_029",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 132256.0,
+      "Monthly_Income__c": 11021.33,
+      "DTI_Ratio__c": 10.1,
+      "FICO_Score__c": 596,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 31,
+      "Asset_Value__c": 2.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_030"
+      },
+      "Application__c": "@app_bulk_030",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 16636.0,
+      "Monthly_Income__c": 1386.33,
+      "DTI_Ratio__c": 60.2,
+      "FICO_Score__c": 606,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 14,
+      "Asset_Value__c": 65.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_031"
+      },
+      "Application__c": "@app_bulk_031",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 116469.0,
+      "Monthly_Income__c": 9705.75,
+      "DTI_Ratio__c": 54.9,
+      "FICO_Score__c": 608,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 132,
+      "Address_Tenure_Months__c": 132,
+      "Asset_Value__c": 359.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_032"
+      },
+      "Application__c": "@app_bulk_032",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 130300.0,
+      "Monthly_Income__c": 10858.33,
+      "DTI_Ratio__c": 8.7,
+      "FICO_Score__c": 718,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 40,
+      "Address_Tenure_Months__c": 45,
+      "Asset_Value__c": 1037.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_033"
+      },
+      "Application__c": "@app_bulk_033",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 74183.0,
+      "Monthly_Income__c": 6181.92,
+      "DTI_Ratio__c": 38.5,
+      "FICO_Score__c": 722,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 30,
+      "Asset_Value__c": 56.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_034"
+      },
+      "Application__c": "@app_bulk_034",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 42.8,
+      "FICO_Score__c": 608,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 13,
+      "Asset_Value__c": 50.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_035"
+      },
+      "Application__c": "@app_bulk_035",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 28.9,
+      "FICO_Score__c": 562,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 6,
+      "Address_Tenure_Months__c": 7,
+      "Asset_Value__c": 33.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_036"
+      },
+      "Application__c": "@app_bulk_036",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 33508.0,
+      "Monthly_Income__c": 2792.33,
+      "DTI_Ratio__c": 14.3,
+      "FICO_Score__c": 617,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 62,
+      "Address_Tenure_Months__c": 72,
+      "Asset_Value__c": 1552.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_037"
+      },
+      "Application__c": "@app_bulk_037",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 40794.0,
+      "Monthly_Income__c": 3399.5,
+      "DTI_Ratio__c": 78.8,
+      "FICO_Score__c": 643,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 44,
+      "Address_Tenure_Months__c": 61,
+      "Asset_Value__c": 4316.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_038"
+      },
+      "Application__c": "@app_bulk_038",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 19094.0,
+      "Monthly_Income__c": 1591.17,
+      "DTI_Ratio__c": 34.7,
+      "FICO_Score__c": 549,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 51,
+      "Address_Tenure_Months__c": 70,
+      "Asset_Value__c": 1855.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_039"
+      },
+      "Application__c": "@app_bulk_039",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 58133.0,
+      "Monthly_Income__c": 4844.42,
+      "DTI_Ratio__c": 23.1,
+      "FICO_Score__c": 670,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 19,
+      "Asset_Value__c": 1253.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_040"
+      },
+      "Application__c": "@app_bulk_040",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45249.0,
+      "Monthly_Income__c": 3770.75,
+      "DTI_Ratio__c": 21.1,
+      "FICO_Score__c": 663,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 6,
+      "Address_Tenure_Months__c": 23,
+      "Asset_Value__c": 2077.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_041"
+      },
+      "Application__c": "@app_bulk_041",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 44920.0,
+      "Monthly_Income__c": 3743.33,
+      "DTI_Ratio__c": 9.5,
+      "FICO_Score__c": 589,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 6,
+      "Address_Tenure_Months__c": 20,
+      "Asset_Value__c": 6850.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_042"
+      },
+      "Application__c": "@app_bulk_042",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 106462.0,
+      "Monthly_Income__c": 8871.83,
+      "DTI_Ratio__c": 69.5,
+      "FICO_Score__c": 607,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 110,
+      "Address_Tenure_Months__c": 116,
+      "Asset_Value__c": 1030.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_043"
+      },
+      "Application__c": "@app_bulk_043",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 71743.0,
+      "Monthly_Income__c": 5978.58,
+      "DTI_Ratio__c": 26.1,
+      "FICO_Score__c": 694,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 3,
+      "Address_Tenure_Months__c": 11,
+      "Asset_Value__c": 2107.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_044"
+      },
+      "Application__c": "@app_bulk_044",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15417.0,
+      "Monthly_Income__c": 1284.75,
+      "DTI_Ratio__c": 31.4,
+      "FICO_Score__c": 657,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 20,
+      "Address_Tenure_Months__c": 42,
+      "Asset_Value__c": 5.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_045"
+      },
+      "Application__c": "@app_bulk_045",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 55712.0,
+      "Monthly_Income__c": 4642.67,
+      "DTI_Ratio__c": 27.4,
+      "FICO_Score__c": 575,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 28,
+      "Asset_Value__c": 80.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_046"
+      },
+      "Application__c": "@app_bulk_046",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 19915.0,
+      "Monthly_Income__c": 1659.58,
+      "DTI_Ratio__c": 29.8,
+      "FICO_Score__c": 689,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 78,
+      "Address_Tenure_Months__c": 81,
+      "Asset_Value__c": 3926.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_047"
+      },
+      "Application__c": "@app_bulk_047",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46798.0,
+      "Monthly_Income__c": 3899.83,
+      "DTI_Ratio__c": 31.7,
+      "FICO_Score__c": 704,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 24,
+      "Address_Tenure_Months__c": 24,
+      "Asset_Value__c": 168.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_048"
+      },
+      "Application__c": "@app_bulk_048",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 57487.0,
+      "Monthly_Income__c": 4790.58,
+      "DTI_Ratio__c": 45.1,
+      "FICO_Score__c": 644,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 162,
+      "Address_Tenure_Months__c": 164,
+      "Asset_Value__c": 80.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_049"
+      },
+      "Application__c": "@app_bulk_049",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 79668.0,
+      "Monthly_Income__c": 6639.0,
+      "DTI_Ratio__c": 64.0,
+      "FICO_Score__c": 514,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 24,
+      "Address_Tenure_Months__c": 44,
+      "Asset_Value__c": 708.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_050"
+      },
+      "Application__c": "@app_bulk_050",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 97592.0,
+      "Monthly_Income__c": 8132.67,
+      "DTI_Ratio__c": 2.6,
+      "FICO_Score__c": 685,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 218,
+      "Address_Tenure_Months__c": 231,
+      "Asset_Value__c": 6848.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_051"
+      },
+      "Application__c": "@app_bulk_051",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 38299.0,
+      "Monthly_Income__c": 3191.58,
+      "DTI_Ratio__c": 45.4,
+      "FICO_Score__c": 696,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 424,
+      "Address_Tenure_Months__c": 439,
+      "Asset_Value__c": 1555.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_052"
+      },
+      "Application__c": "@app_bulk_052",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 41695.0,
+      "Monthly_Income__c": 3474.58,
+      "DTI_Ratio__c": 10.6,
+      "FICO_Score__c": 562,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 102,
+      "Address_Tenure_Months__c": 102,
+      "Asset_Value__c": 9865.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_053"
+      },
+      "Application__c": "@app_bulk_053",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 29.8,
+      "FICO_Score__c": 577,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 30,
+      "Address_Tenure_Months__c": 46,
+      "Asset_Value__c": 35.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_054"
+      },
+      "Application__c": "@app_bulk_054",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 23.4,
+      "FICO_Score__c": 634,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 13,
+      "Address_Tenure_Months__c": 22,
+      "Asset_Value__c": 1.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_055"
+      },
+      "Application__c": "@app_bulk_055",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 40275.0,
+      "Monthly_Income__c": 3356.25,
+      "DTI_Ratio__c": 28.8,
+      "FICO_Score__c": 672,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 142,
+      "Address_Tenure_Months__c": 145,
+      "Asset_Value__c": 694.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_056"
+      },
+      "Application__c": "@app_bulk_056",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45726.0,
+      "Monthly_Income__c": 3810.5,
+      "DTI_Ratio__c": 20.5,
+      "FICO_Score__c": 674,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 226,
+      "Address_Tenure_Months__c": 232,
+      "Asset_Value__c": 651.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_057"
+      },
+      "Application__c": "@app_bulk_057",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15974.0,
+      "Monthly_Income__c": 1331.17,
+      "DTI_Ratio__c": 5.5,
+      "FICO_Score__c": 649,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 8,
+      "Address_Tenure_Months__c": 10,
+      "Asset_Value__c": 1766.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_058"
+      },
+      "Application__c": "@app_bulk_058",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 30021.0,
+      "Monthly_Income__c": 2501.75,
+      "DTI_Ratio__c": 38.2,
+      "FICO_Score__c": 563,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 9,
+      "Asset_Value__c": 724.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_059"
+      },
+      "Application__c": "@app_bulk_059",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 24039.0,
+      "Monthly_Income__c": 2003.25,
+      "DTI_Ratio__c": 7.9,
+      "FICO_Score__c": 664,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 25,
+      "Address_Tenure_Months__c": 47,
+      "Asset_Value__c": 52.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_060"
+      },
+      "Application__c": "@app_bulk_060",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 26958.0,
+      "Monthly_Income__c": 2246.5,
+      "DTI_Ratio__c": 25.1,
+      "FICO_Score__c": 614,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 152,
+      "Address_Tenure_Months__c": 169,
+      "Asset_Value__c": 856.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_061"
+      },
+      "Application__c": "@app_bulk_061",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 141868.0,
+      "Monthly_Income__c": 11822.33,
+      "DTI_Ratio__c": 18.1,
+      "FICO_Score__c": 723,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 240,
+      "Address_Tenure_Months__c": 264,
+      "Asset_Value__c": 2516.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_062"
+      },
+      "Application__c": "@app_bulk_062",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 43709.0,
+      "Monthly_Income__c": 3642.42,
+      "DTI_Ratio__c": 25.5,
+      "FICO_Score__c": 563,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 26,
+      "Address_Tenure_Months__c": 30,
+      "Asset_Value__c": 122.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_063"
+      },
+      "Application__c": "@app_bulk_063",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 30718.0,
+      "Monthly_Income__c": 2559.83,
+      "DTI_Ratio__c": 20.9,
+      "FICO_Score__c": 698,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 24,
+      "Address_Tenure_Months__c": 27,
+      "Asset_Value__c": 325.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_064"
+      },
+      "Application__c": "@app_bulk_064",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 63045.0,
+      "Monthly_Income__c": 5253.75,
+      "DTI_Ratio__c": 76.6,
+      "FICO_Score__c": 579,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 26,
+      "Address_Tenure_Months__c": 38,
+      "Asset_Value__c": 898.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_065"
+      },
+      "Application__c": "@app_bulk_065",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 24716.0,
+      "Monthly_Income__c": 2059.67,
+      "DTI_Ratio__c": 39.3,
+      "FICO_Score__c": 693,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 61,
+      "Address_Tenure_Months__c": 84,
+      "Asset_Value__c": 293.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_066"
+      },
+      "Application__c": "@app_bulk_066",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 47355.0,
+      "Monthly_Income__c": 3946.25,
+      "DTI_Ratio__c": 26.3,
+      "FICO_Score__c": 673,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 194,
+      "Address_Tenure_Months__c": 194,
+      "Asset_Value__c": 7297.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_067"
+      },
+      "Application__c": "@app_bulk_067",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 17454.0,
+      "Monthly_Income__c": 1454.5,
+      "DTI_Ratio__c": 41.8,
+      "FICO_Score__c": 631,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 18,
+      "Address_Tenure_Months__c": 33,
+      "Asset_Value__c": 3.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_068"
+      },
+      "Application__c": "@app_bulk_068",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 24419.0,
+      "Monthly_Income__c": 2034.92,
+      "DTI_Ratio__c": 6.4,
+      "FICO_Score__c": 621,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 16,
+      "Address_Tenure_Months__c": 40,
+      "Asset_Value__c": 10812.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_069"
+      },
+      "Application__c": "@app_bulk_069",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 72153.0,
+      "Monthly_Income__c": 6012.75,
+      "DTI_Ratio__c": 18.7,
+      "FICO_Score__c": 570,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 60,
+      "Address_Tenure_Months__c": 70,
+      "Asset_Value__c": 4341.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_070"
+      },
+      "Application__c": "@app_bulk_070",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 102954.0,
+      "Monthly_Income__c": 8579.5,
+      "DTI_Ratio__c": 16.1,
+      "FICO_Score__c": 598,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 240,
+      "Address_Tenure_Months__c": 260,
+      "Asset_Value__c": 559.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_071"
+      },
+      "Application__c": "@app_bulk_071",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46569.0,
+      "Monthly_Income__c": 3880.75,
+      "DTI_Ratio__c": 39.4,
+      "FICO_Score__c": 577,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 103,
+      "Address_Tenure_Months__c": 124,
+      "Asset_Value__c": 126.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_072"
+      },
+      "Application__c": "@app_bulk_072",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 62624.0,
+      "Monthly_Income__c": 5218.67,
+      "DTI_Ratio__c": 32.4,
+      "FICO_Score__c": 775,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 381,
+      "Address_Tenure_Months__c": 396,
+      "Asset_Value__c": 36.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_073"
+      },
+      "Application__c": "@app_bulk_073",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45221.0,
+      "Monthly_Income__c": 3768.42,
+      "DTI_Ratio__c": 50.0,
+      "FICO_Score__c": 695,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 4,
+      "Address_Tenure_Months__c": 8,
+      "Asset_Value__c": 382.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_074"
+      },
+      "Application__c": "@app_bulk_074",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 63919.0,
+      "Monthly_Income__c": 5326.58,
+      "DTI_Ratio__c": 4.0,
+      "FICO_Score__c": 645,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 292,
+      "Address_Tenure_Months__c": 297,
+      "Asset_Value__c": 7471.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_075"
+      },
+      "Application__c": "@app_bulk_075",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 41016.0,
+      "Monthly_Income__c": 3418.0,
+      "DTI_Ratio__c": 12.0,
+      "FICO_Score__c": 692,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 19,
+      "Address_Tenure_Months__c": 25,
+      "Asset_Value__c": 1584.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_076"
+      },
+      "Application__c": "@app_bulk_076",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 55238.0,
+      "Monthly_Income__c": 4603.17,
+      "DTI_Ratio__c": 13.3,
+      "FICO_Score__c": 721,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 159,
+      "Address_Tenure_Months__c": 175,
+      "Asset_Value__c": 1167.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_077"
+      },
+      "Application__c": "@app_bulk_077",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 133101.0,
+      "Monthly_Income__c": 11091.75,
+      "DTI_Ratio__c": 4.1,
+      "FICO_Score__c": 666,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 242,
+      "Address_Tenure_Months__c": 263,
+      "Asset_Value__c": 2263.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_078"
+      },
+      "Application__c": "@app_bulk_078",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 31059.0,
+      "Monthly_Income__c": 2588.25,
+      "DTI_Ratio__c": 65.6,
+      "FICO_Score__c": 587,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 7,
+      "Asset_Value__c": 48.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_079"
+      },
+      "Application__c": "@app_bulk_079",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 78558.0,
+      "Monthly_Income__c": 6546.5,
+      "DTI_Ratio__c": 5.4,
+      "FICO_Score__c": 809,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 268,
+      "Address_Tenure_Months__c": 288,
+      "Asset_Value__c": 232.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_080"
+      },
+      "Application__c": "@app_bulk_080",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 53195.0,
+      "Monthly_Income__c": 4432.92,
+      "DTI_Ratio__c": 28.3,
+      "FICO_Score__c": 595,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 38,
+      "Address_Tenure_Months__c": 49,
+      "Asset_Value__c": 6605.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_081"
+      },
+      "Application__c": "@app_bulk_081",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 18623.0,
+      "Monthly_Income__c": 1551.92,
+      "DTI_Ratio__c": 18.7,
+      "FICO_Score__c": 621,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 94,
+      "Address_Tenure_Months__c": 98,
+      "Asset_Value__c": 852.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_082"
+      },
+      "Application__c": "@app_bulk_082",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 43492.0,
+      "Monthly_Income__c": 3624.33,
+      "DTI_Ratio__c": 7.8,
+      "FICO_Score__c": 701,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 7,
+      "Address_Tenure_Months__c": 10,
+      "Asset_Value__c": 737.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_083"
+      },
+      "Application__c": "@app_bulk_083",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 27032.0,
+      "Monthly_Income__c": 2252.67,
+      "DTI_Ratio__c": 11.9,
+      "FICO_Score__c": 628,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 181,
+      "Address_Tenure_Months__c": 189,
+      "Asset_Value__c": 91.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_084"
+      },
+      "Application__c": "@app_bulk_084",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45702.0,
+      "Monthly_Income__c": 3808.5,
+      "DTI_Ratio__c": 44.6,
+      "FICO_Score__c": 661,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 162,
+      "Address_Tenure_Months__c": 174,
+      "Asset_Value__c": 1276.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_085"
+      },
+      "Application__c": "@app_bulk_085",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 26.2,
+      "FICO_Score__c": 733,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 18,
+      "Address_Tenure_Months__c": 20,
+      "Asset_Value__c": 5097.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_086"
+      },
+      "Application__c": "@app_bulk_086",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 69.6,
+      "FICO_Score__c": 521,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 1,
+      "Address_Tenure_Months__c": 7,
+      "Asset_Value__c": 6.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_087"
+      },
+      "Application__c": "@app_bulk_087",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 66845.0,
+      "Monthly_Income__c": 5570.42,
+      "DTI_Ratio__c": 60.9,
+      "FICO_Score__c": 611,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 146,
+      "Address_Tenure_Months__c": 159,
+      "Asset_Value__c": 913.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_088"
+      },
+      "Application__c": "@app_bulk_088",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 76034.0,
+      "Monthly_Income__c": 6336.17,
+      "DTI_Ratio__c": 34.9,
+      "FICO_Score__c": 708,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 63,
+      "Address_Tenure_Months__c": 75,
+      "Asset_Value__c": 28843.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_089"
+      },
+      "Application__c": "@app_bulk_089",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 108376.0,
+      "Monthly_Income__c": 9031.33,
+      "DTI_Ratio__c": 6.1,
+      "FICO_Score__c": 582,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 260,
+      "Address_Tenure_Months__c": 284,
+      "Asset_Value__c": 483.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_090"
+      },
+      "Application__c": "@app_bulk_090",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 28519.0,
+      "Monthly_Income__c": 2376.58,
+      "DTI_Ratio__c": 29.8,
+      "FICO_Score__c": 600,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 36,
+      "Address_Tenure_Months__c": 55,
+      "Asset_Value__c": 255.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_091"
+      },
+      "Application__c": "@app_bulk_091",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 87138.0,
+      "Monthly_Income__c": 7261.5,
+      "DTI_Ratio__c": 41.1,
+      "FICO_Score__c": 695,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 172,
+      "Address_Tenure_Months__c": 192,
+      "Asset_Value__c": 82381.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_092"
+      },
+      "Application__c": "@app_bulk_092",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 59593.0,
+      "Monthly_Income__c": 4966.08,
+      "DTI_Ratio__c": 16.3,
+      "FICO_Score__c": 600,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 130,
+      "Address_Tenure_Months__c": 138,
+      "Asset_Value__c": 2495.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_093"
+      },
+      "Application__c": "@app_bulk_093",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 51857.0,
+      "Monthly_Income__c": 4321.42,
+      "DTI_Ratio__c": 50.5,
+      "FICO_Score__c": 603,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 37,
+      "Address_Tenure_Months__c": 45,
+      "Asset_Value__c": 102.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_094"
+      },
+      "Application__c": "@app_bulk_094",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 31619.0,
+      "Monthly_Income__c": 2634.92,
+      "DTI_Ratio__c": 2.0,
+      "FICO_Score__c": 587,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 294,
+      "Address_Tenure_Months__c": 297,
+      "Asset_Value__c": 476.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_095"
+      },
+      "Application__c": "@app_bulk_095",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 37512.0,
+      "Monthly_Income__c": 3126.0,
+      "DTI_Ratio__c": 22.4,
+      "FICO_Score__c": 707,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 121,
+      "Address_Tenure_Months__c": 130,
+      "Asset_Value__c": 909.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_096"
+      },
+      "Application__c": "@app_bulk_096",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 29744.0,
+      "Monthly_Income__c": 2478.67,
+      "DTI_Ratio__c": 26.9,
+      "FICO_Score__c": 597,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 38,
+      "Address_Tenure_Months__c": 53,
+      "Asset_Value__c": 6586.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_097"
+      },
+      "Application__c": "@app_bulk_097",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 27236.0,
+      "Monthly_Income__c": 2269.67,
+      "DTI_Ratio__c": 25.5,
+      "FICO_Score__c": 595,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 21,
+      "Asset_Value__c": 18.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_098"
+      },
+      "Application__c": "@app_bulk_098",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 42603.0,
+      "Monthly_Income__c": 3550.25,
+      "DTI_Ratio__c": 44.8,
+      "FICO_Score__c": 697,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 4,
+      "Address_Tenure_Months__c": 6,
+      "Asset_Value__c": 1235.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_099"
+      },
+      "Application__c": "@app_bulk_099",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 20982.0,
+      "Monthly_Income__c": 1748.5,
+      "DTI_Ratio__c": 35.8,
+      "FICO_Score__c": 592,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 6,
+      "Asset_Value__c": 3.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_100"
+      },
+      "Application__c": "@app_bulk_100",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 41945.0,
+      "Monthly_Income__c": 3495.42,
+      "DTI_Ratio__c": 15.5,
+      "FICO_Score__c": 636,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 3,
+      "Address_Tenure_Months__c": 26,
+      "Asset_Value__c": 210.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_101"
+      },
+      "Application__c": "@app_bulk_101",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 57353.0,
+      "Monthly_Income__c": 4779.42,
+      "DTI_Ratio__c": 27.8,
+      "FICO_Score__c": 691,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 363,
+      "Address_Tenure_Months__c": 381,
+      "Asset_Value__c": 17454.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_102"
+      },
+      "Application__c": "@app_bulk_102",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 44298.0,
+      "Monthly_Income__c": 3691.5,
+      "DTI_Ratio__c": 30.3,
+      "FICO_Score__c": 650,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 207,
+      "Address_Tenure_Months__c": 213,
+      "Asset_Value__c": 183.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_103"
+      },
+      "Application__c": "@app_bulk_103",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46860.0,
+      "Monthly_Income__c": 3905.0,
+      "DTI_Ratio__c": 79.8,
+      "FICO_Score__c": 661,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 253,
+      "Address_Tenure_Months__c": 277,
+      "Asset_Value__c": 9819.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_104"
+      },
+      "Application__c": "@app_bulk_104",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 35838.0,
+      "Monthly_Income__c": 2986.5,
+      "DTI_Ratio__c": 13.5,
+      "FICO_Score__c": 641,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 13,
+      "Asset_Value__c": 25.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_105"
+      },
+      "Application__c": "@app_bulk_105",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 63782.0,
+      "Monthly_Income__c": 5315.17,
+      "DTI_Ratio__c": 37.2,
+      "FICO_Score__c": 609,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 45,
+      "Address_Tenure_Months__c": 48,
+      "Asset_Value__c": 495.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_106"
+      },
+      "Application__c": "@app_bulk_106",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 22800.0,
+      "Monthly_Income__c": 1900.0,
+      "DTI_Ratio__c": 7.8,
+      "FICO_Score__c": 626,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 145,
+      "Address_Tenure_Months__c": 158,
+      "Asset_Value__c": 349.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_107"
+      },
+      "Application__c": "@app_bulk_107",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 33795.0,
+      "Monthly_Income__c": 2816.25,
+      "DTI_Ratio__c": 18.4,
+      "FICO_Score__c": 651,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 302,
+      "Address_Tenure_Months__c": 304,
+      "Asset_Value__c": 378.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_108"
+      },
+      "Application__c": "@app_bulk_108",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 36765.0,
+      "Monthly_Income__c": 3063.75,
+      "DTI_Ratio__c": 42.5,
+      "FICO_Score__c": 726,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 126,
+      "Address_Tenure_Months__c": 146,
+      "Asset_Value__c": 44.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_109"
+      },
+      "Application__c": "@app_bulk_109",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 22548.0,
+      "Monthly_Income__c": 1879.0,
+      "DTI_Ratio__c": 48.8,
+      "FICO_Score__c": 575,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 14,
+      "Address_Tenure_Months__c": 35,
+      "Asset_Value__c": 188.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_110"
+      },
+      "Application__c": "@app_bulk_110",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 37910.0,
+      "Monthly_Income__c": 3159.17,
+      "DTI_Ratio__c": 48.4,
+      "FICO_Score__c": 572,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 188,
+      "Address_Tenure_Months__c": 190,
+      "Asset_Value__c": 2844.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_111"
+      },
+      "Application__c": "@app_bulk_111",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 39100.0,
+      "Monthly_Income__c": 3258.33,
+      "DTI_Ratio__c": 60.6,
+      "FICO_Score__c": 758,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 283,
+      "Address_Tenure_Months__c": 304,
+      "Asset_Value__c": 5281.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_112"
+      },
+      "Application__c": "@app_bulk_112",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 22002.0,
+      "Monthly_Income__c": 1833.5,
+      "DTI_Ratio__c": 42.9,
+      "FICO_Score__c": 640,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 21,
+      "Address_Tenure_Months__c": 42,
+      "Asset_Value__c": 156.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_113"
+      },
+      "Application__c": "@app_bulk_113",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 42186.0,
+      "Monthly_Income__c": 3515.5,
+      "DTI_Ratio__c": 13.2,
+      "FICO_Score__c": 565,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 69,
+      "Address_Tenure_Months__c": 73,
+      "Asset_Value__c": 2252.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_114"
+      },
+      "Application__c": "@app_bulk_114",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45158.0,
+      "Monthly_Income__c": 3763.17,
+      "DTI_Ratio__c": 21.0,
+      "FICO_Score__c": 583,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 236,
+      "Address_Tenure_Months__c": 253,
+      "Asset_Value__c": 3515.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_115"
+      },
+      "Application__c": "@app_bulk_115",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 36652.0,
+      "Monthly_Income__c": 3054.33,
+      "DTI_Ratio__c": 10.0,
+      "FICO_Score__c": 705,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 122,
+      "Address_Tenure_Months__c": 131,
+      "Asset_Value__c": 1578.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_116"
+      },
+      "Application__c": "@app_bulk_116",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 22757.0,
+      "Monthly_Income__c": 1896.42,
+      "DTI_Ratio__c": 28.2,
+      "FICO_Score__c": 595,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 16,
+      "Asset_Value__c": 5.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_117"
+      },
+      "Application__c": "@app_bulk_117",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 51709.0,
+      "Monthly_Income__c": 4309.08,
+      "DTI_Ratio__c": 2.5,
+      "FICO_Score__c": 809,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 46,
+      "Address_Tenure_Months__c": 57,
+      "Asset_Value__c": 108.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_118"
+      },
+      "Application__c": "@app_bulk_118",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46815.0,
+      "Monthly_Income__c": 3901.25,
+      "DTI_Ratio__c": 37.5,
+      "FICO_Score__c": 602,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 92,
+      "Address_Tenure_Months__c": 109,
+      "Asset_Value__c": 390.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_119"
+      },
+      "Application__c": "@app_bulk_119",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 41439.0,
+      "Monthly_Income__c": 3453.25,
+      "DTI_Ratio__c": 36.2,
+      "FICO_Score__c": 718,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 162,
+      "Address_Tenure_Months__c": 173,
+      "Asset_Value__c": 134.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_120"
+      },
+      "Application__c": "@app_bulk_120",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 24531.0,
+      "Monthly_Income__c": 2044.25,
+      "DTI_Ratio__c": 37.6,
+      "FICO_Score__c": 663,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 277,
+      "Address_Tenure_Months__c": 283,
+      "Asset_Value__c": 1388.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_121"
+      },
+      "Application__c": "@app_bulk_121",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 48.8,
+      "FICO_Score__c": 564,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 2,
+      "Address_Tenure_Months__c": 18,
+      "Asset_Value__c": 132.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_122"
+      },
+      "Application__c": "@app_bulk_122",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46916.0,
+      "Monthly_Income__c": 3909.67,
+      "DTI_Ratio__c": 22.4,
+      "FICO_Score__c": 544,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 27,
+      "Address_Tenure_Months__c": 47,
+      "Asset_Value__c": 939.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_123"
+      },
+      "Application__c": "@app_bulk_123",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 48357.0,
+      "Monthly_Income__c": 4029.75,
+      "DTI_Ratio__c": 36.2,
+      "FICO_Score__c": 512,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 6,
+      "Asset_Value__c": 774.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_124"
+      },
+      "Application__c": "@app_bulk_124",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45458.0,
+      "Monthly_Income__c": 3788.17,
+      "DTI_Ratio__c": 12.1,
+      "FICO_Score__c": 667,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 98,
+      "Address_Tenure_Months__c": 112,
+      "Asset_Value__c": 25506.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_125"
+      },
+      "Application__c": "@app_bulk_125",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 38554.0,
+      "Monthly_Income__c": 3212.83,
+      "DTI_Ratio__c": 40.9,
+      "FICO_Score__c": 749,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 9,
+      "Address_Tenure_Months__c": 13,
+      "Asset_Value__c": 5066.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_126"
+      },
+      "Application__c": "@app_bulk_126",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46787.0,
+      "Monthly_Income__c": 3898.92,
+      "DTI_Ratio__c": 18.0,
+      "FICO_Score__c": 677,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 81,
+      "Address_Tenure_Months__c": 88,
+      "Asset_Value__c": 208.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_127"
+      },
+      "Application__c": "@app_bulk_127",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 35085.0,
+      "Monthly_Income__c": 2923.75,
+      "DTI_Ratio__c": 17.9,
+      "FICO_Score__c": 639,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 67,
+      "Address_Tenure_Months__c": 72,
+      "Asset_Value__c": 1281.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_128"
+      },
+      "Application__c": "@app_bulk_128",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 38548.0,
+      "Monthly_Income__c": 3212.33,
+      "DTI_Ratio__c": 55.8,
+      "FICO_Score__c": 638,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 31,
+      "Address_Tenure_Months__c": 54,
+      "Asset_Value__c": 2492.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_129"
+      },
+      "Application__c": "@app_bulk_129",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46124.0,
+      "Monthly_Income__c": 3843.67,
+      "DTI_Ratio__c": 36.4,
+      "FICO_Score__c": 601,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 246,
+      "Address_Tenure_Months__c": 260,
+      "Asset_Value__c": 954.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_130"
+      },
+      "Application__c": "@app_bulk_130",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 31833.0,
+      "Monthly_Income__c": 2652.75,
+      "DTI_Ratio__c": 30.5,
+      "FICO_Score__c": 593,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 97,
+      "Address_Tenure_Months__c": 118,
+      "Asset_Value__c": 1265.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_131"
+      },
+      "Application__c": "@app_bulk_131",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 100154.0,
+      "Monthly_Income__c": 8346.17,
+      "DTI_Ratio__c": 24.0,
+      "FICO_Score__c": 771,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 369,
+      "Address_Tenure_Months__c": 374,
+      "Asset_Value__c": 770.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_132"
+      },
+      "Application__c": "@app_bulk_132",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 56729.0,
+      "Monthly_Income__c": 4727.42,
+      "DTI_Ratio__c": 18.9,
+      "FICO_Score__c": 676,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 22,
+      "Address_Tenure_Months__c": 26,
+      "Asset_Value__c": 34847.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_133"
+      },
+      "Application__c": "@app_bulk_133",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 83895.0,
+      "Monthly_Income__c": 6991.25,
+      "DTI_Ratio__c": 21.6,
+      "FICO_Score__c": 634,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 90,
+      "Address_Tenure_Months__c": 100,
+      "Asset_Value__c": 4789.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_134"
+      },
+      "Application__c": "@app_bulk_134",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 26422.0,
+      "Monthly_Income__c": 2201.83,
+      "DTI_Ratio__c": 41.3,
+      "FICO_Score__c": 593,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 14,
+      "Address_Tenure_Months__c": 19,
+      "Asset_Value__c": 17.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_135"
+      },
+      "Application__c": "@app_bulk_135",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46311.0,
+      "Monthly_Income__c": 3859.25,
+      "DTI_Ratio__c": 25.8,
+      "FICO_Score__c": 617,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 37,
+      "Address_Tenure_Months__c": 58,
+      "Asset_Value__c": 1456.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_136"
+      },
+      "Application__c": "@app_bulk_136",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 19666.0,
+      "Monthly_Income__c": 1638.83,
+      "DTI_Ratio__c": 43.2,
+      "FICO_Score__c": 661,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 2,
+      "Address_Tenure_Months__c": 14,
+      "Asset_Value__c": 5.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_137"
+      },
+      "Application__c": "@app_bulk_137",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 20870.0,
+      "Monthly_Income__c": 1739.17,
+      "DTI_Ratio__c": 22.4,
+      "FICO_Score__c": 600,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 13,
+      "Address_Tenure_Months__c": 18,
+      "Asset_Value__c": 0.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_138"
+      },
+      "Application__c": "@app_bulk_138",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 21491.0,
+      "Monthly_Income__c": 1790.92,
+      "DTI_Ratio__c": 23.7,
+      "FICO_Score__c": 641,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 186,
+      "Address_Tenure_Months__c": 201,
+      "Asset_Value__c": 548.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_139"
+      },
+      "Application__c": "@app_bulk_139",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 213060.0,
+      "Monthly_Income__c": 17755.0,
+      "DTI_Ratio__c": 21.0,
+      "FICO_Score__c": 738,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 55,
+      "Address_Tenure_Months__c": 71,
+      "Asset_Value__c": 2711.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_140"
+      },
+      "Application__c": "@app_bulk_140",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 26.9,
+      "FICO_Score__c": 584,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 13,
+      "Address_Tenure_Months__c": 17,
+      "Asset_Value__c": 1.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_141"
+      },
+      "Application__c": "@app_bulk_141",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 25802.0,
+      "Monthly_Income__c": 2150.17,
+      "DTI_Ratio__c": 34.3,
+      "FICO_Score__c": 707,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 218,
+      "Address_Tenure_Months__c": 230,
+      "Asset_Value__c": 189.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_142"
+      },
+      "Application__c": "@app_bulk_142",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 54745.0,
+      "Monthly_Income__c": 4562.08,
+      "DTI_Ratio__c": 11.3,
+      "FICO_Score__c": 682,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 46,
+      "Address_Tenure_Months__c": 61,
+      "Asset_Value__c": 477.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_143"
+      },
+      "Application__c": "@app_bulk_143",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 176388.0,
+      "Monthly_Income__c": 14699.0,
+      "DTI_Ratio__c": 21.0,
+      "FICO_Score__c": 681,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 43,
+      "Address_Tenure_Months__c": 57,
+      "Asset_Value__c": 1067.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_144"
+      },
+      "Application__c": "@app_bulk_144",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 36923.0,
+      "Monthly_Income__c": 3076.92,
+      "DTI_Ratio__c": 17.8,
+      "FICO_Score__c": 673,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 28,
+      "Asset_Value__c": 40.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_145"
+      },
+      "Application__c": "@app_bulk_145",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 58846.0,
+      "Monthly_Income__c": 4903.83,
+      "DTI_Ratio__c": 27.5,
+      "FICO_Score__c": 705,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 61,
+      "Address_Tenure_Months__c": 81,
+      "Asset_Value__c": 12.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_146"
+      },
+      "Application__c": "@app_bulk_146",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 83734.0,
+      "Monthly_Income__c": 6977.83,
+      "DTI_Ratio__c": 8.1,
+      "FICO_Score__c": 624,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 190,
+      "Address_Tenure_Months__c": 208,
+      "Asset_Value__c": 1339.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_147"
+      },
+      "Application__c": "@app_bulk_147",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 22416.0,
+      "Monthly_Income__c": 1868.0,
+      "DTI_Ratio__c": 51.1,
+      "FICO_Score__c": 600,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 54,
+      "Address_Tenure_Months__c": 75,
+      "Asset_Value__c": 821.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_148"
+      },
+      "Application__c": "@app_bulk_148",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 65662.0,
+      "Monthly_Income__c": 5471.83,
+      "DTI_Ratio__c": 15.5,
+      "FICO_Score__c": 626,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 31,
+      "Address_Tenure_Months__c": 34,
+      "Asset_Value__c": 11931.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_149"
+      },
+      "Application__c": "@app_bulk_149",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 36863.0,
+      "Monthly_Income__c": 3071.92,
+      "DTI_Ratio__c": 16.0,
+      "FICO_Score__c": 607,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 162,
+      "Address_Tenure_Months__c": 167,
+      "Asset_Value__c": 93.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_150"
+      },
+      "Application__c": "@app_bulk_150",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 32.3,
+      "FICO_Score__c": 650,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 20,
+      "Address_Tenure_Months__c": 24,
+      "Asset_Value__c": 27.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_151"
+      },
+      "Application__c": "@app_bulk_151",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 15.1,
+      "FICO_Score__c": 686,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 9,
+      "Address_Tenure_Months__c": 26,
+      "Asset_Value__c": 726.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_152"
+      },
+      "Application__c": "@app_bulk_152",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 26790.0,
+      "Monthly_Income__c": 2232.5,
+      "DTI_Ratio__c": 33.0,
+      "FICO_Score__c": 695,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 162,
+      "Address_Tenure_Months__c": 180,
+      "Asset_Value__c": 1725.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_153"
+      },
+      "Application__c": "@app_bulk_153",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 41564.0,
+      "Monthly_Income__c": 3463.67,
+      "DTI_Ratio__c": 10.2,
+      "FICO_Score__c": 687,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 109,
+      "Address_Tenure_Months__c": 122,
+      "Asset_Value__c": 214.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_154"
+      },
+      "Application__c": "@app_bulk_154",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 43528.0,
+      "Monthly_Income__c": 3627.33,
+      "DTI_Ratio__c": 4.0,
+      "FICO_Score__c": 642,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 19,
+      "Address_Tenure_Months__c": 33,
+      "Asset_Value__c": 19642.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_155"
+      },
+      "Application__c": "@app_bulk_155",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 27876.0,
+      "Monthly_Income__c": 2323.0,
+      "DTI_Ratio__c": 32.5,
+      "FICO_Score__c": 539,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 14,
+      "Address_Tenure_Months__c": 37,
+      "Asset_Value__c": 14.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_156"
+      },
+      "Application__c": "@app_bulk_156",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46930.0,
+      "Monthly_Income__c": 3910.83,
+      "DTI_Ratio__c": 27.0,
+      "FICO_Score__c": 768,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 55,
+      "Address_Tenure_Months__c": 76,
+      "Asset_Value__c": 145.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_157"
+      },
+      "Application__c": "@app_bulk_157",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 18529.0,
+      "Monthly_Income__c": 1544.08,
+      "DTI_Ratio__c": 45.8,
+      "FICO_Score__c": 725,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 16,
+      "Address_Tenure_Months__c": 31,
+      "Asset_Value__c": 116.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_158"
+      },
+      "Application__c": "@app_bulk_158",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 40917.0,
+      "Monthly_Income__c": 3409.75,
+      "DTI_Ratio__c": 33.2,
+      "FICO_Score__c": 608,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 43,
+      "Address_Tenure_Months__c": 53,
+      "Asset_Value__c": 505.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_159"
+      },
+      "Application__c": "@app_bulk_159",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 104487.0,
+      "Monthly_Income__c": 8707.25,
+      "DTI_Ratio__c": 12.1,
+      "FICO_Score__c": 811,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 58,
+      "Address_Tenure_Months__c": 63,
+      "Asset_Value__c": 1920.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_160"
+      },
+      "Application__c": "@app_bulk_160",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 65988.0,
+      "Monthly_Income__c": 5499.0,
+      "DTI_Ratio__c": 19.1,
+      "FICO_Score__c": 687,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 73,
+      "Address_Tenure_Months__c": 80,
+      "Asset_Value__c": 193.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_161"
+      },
+      "Application__c": "@app_bulk_161",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 54813.0,
+      "Monthly_Income__c": 4567.75,
+      "DTI_Ratio__c": 36.5,
+      "FICO_Score__c": 687,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 421,
+      "Address_Tenure_Months__c": 430,
+      "Asset_Value__c": 9578.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_162"
+      },
+      "Application__c": "@app_bulk_162",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 32023.0,
+      "Monthly_Income__c": 2668.58,
+      "DTI_Ratio__c": 14.9,
+      "FICO_Score__c": 640,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 4,
+      "Address_Tenure_Months__c": 26,
+      "Asset_Value__c": 417.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_163"
+      },
+      "Application__c": "@app_bulk_163",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 22921.0,
+      "Monthly_Income__c": 1910.08,
+      "DTI_Ratio__c": 48.9,
+      "FICO_Score__c": 716,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 2,
+      "Address_Tenure_Months__c": 19,
+      "Asset_Value__c": 296.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_164"
+      },
+      "Application__c": "@app_bulk_164",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 59554.0,
+      "Monthly_Income__c": 4962.83,
+      "DTI_Ratio__c": 23.4,
+      "FICO_Score__c": 679,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 85,
+      "Address_Tenure_Months__c": 93,
+      "Asset_Value__c": 16643.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_165"
+      },
+      "Application__c": "@app_bulk_165",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 16110.0,
+      "Monthly_Income__c": 1342.5,
+      "DTI_Ratio__c": 27.9,
+      "FICO_Score__c": 609,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 13,
+      "Asset_Value__c": 479.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_166"
+      },
+      "Application__c": "@app_bulk_166",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 80176.0,
+      "Monthly_Income__c": 6681.33,
+      "DTI_Ratio__c": 32.3,
+      "FICO_Score__c": 663,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 22,
+      "Asset_Value__c": 20.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_167"
+      },
+      "Application__c": "@app_bulk_167",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45246.0,
+      "Monthly_Income__c": 3770.5,
+      "DTI_Ratio__c": 32.6,
+      "FICO_Score__c": 601,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 8,
+      "Address_Tenure_Months__c": 16,
+      "Asset_Value__c": 11.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_168"
+      },
+      "Application__c": "@app_bulk_168",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 65253.0,
+      "Monthly_Income__c": 5437.75,
+      "DTI_Ratio__c": 5.9,
+      "FICO_Score__c": 612,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 34,
+      "Address_Tenure_Months__c": 39,
+      "Asset_Value__c": 713.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_169"
+      },
+      "Application__c": "@app_bulk_169",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 46013.0,
+      "Monthly_Income__c": 3834.42,
+      "DTI_Ratio__c": 38.3,
+      "FICO_Score__c": 627,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 78,
+      "Address_Tenure_Months__c": 93,
+      "Asset_Value__c": 843.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_170"
+      },
+      "Application__c": "@app_bulk_170",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 65553.0,
+      "Monthly_Income__c": 5462.75,
+      "DTI_Ratio__c": 2.2,
+      "FICO_Score__c": 668,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 288,
+      "Address_Tenure_Months__c": 305,
+      "Asset_Value__c": 9482.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_171"
+      },
+      "Application__c": "@app_bulk_171",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 89010.0,
+      "Monthly_Income__c": 7417.5,
+      "DTI_Ratio__c": 11.2,
+      "FICO_Score__c": 630,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 199,
+      "Address_Tenure_Months__c": 216,
+      "Asset_Value__c": 340.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_172"
+      },
+      "Application__c": "@app_bulk_172",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 98322.0,
+      "Monthly_Income__c": 8193.5,
+      "DTI_Ratio__c": 32.4,
+      "FICO_Score__c": 689,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 98,
+      "Address_Tenure_Months__c": 102,
+      "Asset_Value__c": 90.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_173"
+      },
+      "Application__c": "@app_bulk_173",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 80925.0,
+      "Monthly_Income__c": 6743.75,
+      "DTI_Ratio__c": 26.5,
+      "FICO_Score__c": 585,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 28,
+      "Address_Tenure_Months__c": 43,
+      "Asset_Value__c": 684.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_174"
+      },
+      "Application__c": "@app_bulk_174",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 63628.0,
+      "Monthly_Income__c": 5302.33,
+      "DTI_Ratio__c": 2.3,
+      "FICO_Score__c": 569,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 24,
+      "Address_Tenure_Months__c": 27,
+      "Asset_Value__c": 4280.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_175"
+      },
+      "Application__c": "@app_bulk_175",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 37286.0,
+      "Monthly_Income__c": 3107.17,
+      "DTI_Ratio__c": 46.7,
+      "FICO_Score__c": 615,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 84,
+      "Address_Tenure_Months__c": 103,
+      "Asset_Value__c": 683.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_176"
+      },
+      "Application__c": "@app_bulk_176",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 15000.0,
+      "Monthly_Income__c": 1250.0,
+      "DTI_Ratio__c": 8.4,
+      "FICO_Score__c": 573,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 6,
+      "Asset_Value__c": 25.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_177"
+      },
+      "Application__c": "@app_bulk_177",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 34885.0,
+      "Monthly_Income__c": 2907.08,
+      "DTI_Ratio__c": 31.0,
+      "FICO_Score__c": 711,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 152,
+      "Address_Tenure_Months__c": 161,
+      "Asset_Value__c": 306.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_178"
+      },
+      "Application__c": "@app_bulk_178",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 62904.0,
+      "Monthly_Income__c": 5242.0,
+      "DTI_Ratio__c": 44.0,
+      "FICO_Score__c": 629,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 49,
+      "Address_Tenure_Months__c": 51,
+      "Asset_Value__c": 11715.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_179"
+      },
+      "Application__c": "@app_bulk_179",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 93045.0,
+      "Monthly_Income__c": 7753.75,
+      "DTI_Ratio__c": 48.5,
+      "FICO_Score__c": 671,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 206,
+      "Address_Tenure_Months__c": 208,
+      "Asset_Value__c": 2061.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_180"
+      },
+      "Application__c": "@app_bulk_180",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 27344.0,
+      "Monthly_Income__c": 2278.67,
+      "DTI_Ratio__c": 21.9,
+      "FICO_Score__c": 654,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 74,
+      "Address_Tenure_Months__c": 87,
+      "Asset_Value__c": 33.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_181"
+      },
+      "Application__c": "@app_bulk_181",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 22594.0,
+      "Monthly_Income__c": 1882.83,
+      "DTI_Ratio__c": 16.4,
+      "FICO_Score__c": 618,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 9,
+      "Address_Tenure_Months__c": 14,
+      "Asset_Value__c": 120.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_182"
+      },
+      "Application__c": "@app_bulk_182",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 47372.0,
+      "Monthly_Income__c": 3947.67,
+      "DTI_Ratio__c": 43.9,
+      "FICO_Score__c": 649,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 109,
+      "Address_Tenure_Months__c": 114,
+      "Asset_Value__c": 2548.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_183"
+      },
+      "Application__c": "@app_bulk_183",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 35497.0,
+      "Monthly_Income__c": 2958.08,
+      "DTI_Ratio__c": 45.8,
+      "FICO_Score__c": 679,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 28,
+      "Address_Tenure_Months__c": 30,
+      "Asset_Value__c": 114.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_184"
+      },
+      "Application__c": "@app_bulk_184",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 21201.0,
+      "Monthly_Income__c": 1766.75,
+      "DTI_Ratio__c": 22.4,
+      "FICO_Score__c": 657,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 88,
+      "Address_Tenure_Months__c": 98,
+      "Asset_Value__c": 31064.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_185"
+      },
+      "Application__c": "@app_bulk_185",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 40592.0,
+      "Monthly_Income__c": 3382.67,
+      "DTI_Ratio__c": 1.8,
+      "FICO_Score__c": 725,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 70,
+      "Address_Tenure_Months__c": 89,
+      "Asset_Value__c": 2087.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_186"
+      },
+      "Application__c": "@app_bulk_186",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 48624.0,
+      "Monthly_Income__c": 4052.0,
+      "DTI_Ratio__c": 14.1,
+      "FICO_Score__c": 552,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 163,
+      "Address_Tenure_Months__c": 169,
+      "Asset_Value__c": 296.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_187"
+      },
+      "Application__c": "@app_bulk_187",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 82576.0,
+      "Monthly_Income__c": 6881.33,
+      "DTI_Ratio__c": 65.3,
+      "FICO_Score__c": 592,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 58,
+      "Address_Tenure_Months__c": 82,
+      "Asset_Value__c": 13666.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_188"
+      },
+      "Application__c": "@app_bulk_188",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 45290.0,
+      "Monthly_Income__c": 3774.17,
+      "DTI_Ratio__c": 6.7,
+      "FICO_Score__c": 643,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 86,
+      "Address_Tenure_Months__c": 103,
+      "Asset_Value__c": 5255.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_189"
+      },
+      "Application__c": "@app_bulk_189",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 171970.0,
+      "Monthly_Income__c": 14330.83,
+      "DTI_Ratio__c": 61.7,
+      "FICO_Score__c": 572,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 15,
+      "Address_Tenure_Months__c": 28,
+      "Asset_Value__c": 363.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_190"
+      },
+      "Application__c": "@app_bulk_190",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 26797.0,
+      "Monthly_Income__c": 2233.08,
+      "DTI_Ratio__c": 28.8,
+      "FICO_Score__c": 665,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 69,
+      "Address_Tenure_Months__c": 74,
+      "Asset_Value__c": 137.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_191"
+      },
+      "Application__c": "@app_bulk_191",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 27469.0,
+      "Monthly_Income__c": 2289.08,
+      "DTI_Ratio__c": 68.4,
+      "FICO_Score__c": 691,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 123,
+      "Address_Tenure_Months__c": 144,
+      "Asset_Value__c": 2151.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_192"
+      },
+      "Application__c": "@app_bulk_192",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 34697.0,
+      "Monthly_Income__c": 2891.42,
+      "DTI_Ratio__c": 22.3,
+      "FICO_Score__c": 722,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 2,
+      "Address_Tenure_Months__c": 25,
+      "Asset_Value__c": 3699.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_193"
+      },
+      "Application__c": "@app_bulk_193",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 41246.0,
+      "Monthly_Income__c": 3437.17,
+      "DTI_Ratio__c": 52.0,
+      "FICO_Score__c": 681,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 238,
+      "Address_Tenure_Months__c": 262,
+      "Asset_Value__c": 270.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_194"
+      },
+      "Application__c": "@app_bulk_194",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 51557.0,
+      "Monthly_Income__c": 4296.42,
+      "DTI_Ratio__c": 20.5,
+      "FICO_Score__c": 683,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 85,
+      "Address_Tenure_Months__c": 85,
+      "Asset_Value__c": 105.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_195"
+      },
+      "Application__c": "@app_bulk_195",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 38696.0,
+      "Monthly_Income__c": 3224.67,
+      "DTI_Ratio__c": 28.1,
+      "FICO_Score__c": 546,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 2,
+      "Address_Tenure_Months__c": 26,
+      "Asset_Value__c": 36.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_196"
+      },
+      "Application__c": "@app_bulk_196",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 17032.0,
+      "Monthly_Income__c": 1419.33,
+      "DTI_Ratio__c": 30.1,
+      "FICO_Score__c": 617,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 0,
+      "Address_Tenure_Months__c": 23,
+      "Asset_Value__c": 252.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_197"
+      },
+      "Application__c": "@app_bulk_197",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 126490.0,
+      "Monthly_Income__c": 10540.83,
+      "DTI_Ratio__c": 5.8,
+      "FICO_Score__c": 614,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 12,
+      "Address_Tenure_Months__c": 19,
+      "Asset_Value__c": 86.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_198"
+      },
+      "Application__c": "@app_bulk_198",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 28340.0,
+      "Monthly_Income__c": 2361.67,
+      "DTI_Ratio__c": 22.9,
+      "FICO_Score__c": 598,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 160,
+      "Address_Tenure_Months__c": 170,
+      "Asset_Value__c": 1706.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    },
+    {
+      "attributes": {
+        "type": "Extracted_Facts__c",
+        "referenceId": "facts_bulk_199"
+      },
+      "Application__c": "@app_bulk_199",
+      "Fact_Type__c": "CREDIT",
+      "Annual_Income__c": 86090.0,
+      "Monthly_Income__c": 7174.17,
+      "DTI_Ratio__c": 44.6,
+      "FICO_Score__c": 543,
+      "LTV_Ratio__c": 80.0,
+      "Employment_Months__c": 30,
+      "Address_Tenure_Months__c": 43,
+      "Asset_Value__c": 223.0,
+      "Extracted_Date__c": "2026-06-07T04:46:06.000Z",
+      "Verified__c": true
+    }
+  ]
+}

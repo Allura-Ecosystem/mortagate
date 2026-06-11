@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Adverse Action Config</label>
+    <pluralLabel>Adverse Action Configs</pluralLabel>
+    <visibility>Public</visibility>
+    <description>Config-as-data for the ECOA / Regulation B (12 CFR 1002.9) adverse action notice: creditor identity, the federal oversight agency block, the verbatim anti-discrimination notice, and the principal-reason cap. Editable without a deployment so legal/compliance can keep the disclosure current (e.g. agency address changes) without a code release.</description>
+</CustomObject>

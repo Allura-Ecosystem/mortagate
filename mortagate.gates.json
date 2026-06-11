@@ -1,0 +1,228 @@
+{
+  "$schema": "https://allura.local/schemas/gate-runner.v1.json",
+  "project": {
+    "id": "mortagate",
+    "name": "Mortgage Approval Engine",
+    "platform": "salesforce",
+    "memory_group_id": "allura-mortgage",
+    "salesforce_org_alias": "mortagate-de",
+    "source_of_truth": [
+      "copilot-instructions.md",
+      "BLUEPRINT.md",
+      "SOLUTION-ARCHITECTURE.md",
+      "DESIGN-*.md",
+      "REQUIREMENTS-MATRIX.md",
+      "RISKS-AND-DECISIONS.md",
+      "DATA-DICTIONARY.md"
+    ]
+  },
+  "runner": {
+    "version": 1,
+    "default_shell": "bash",
+    "fail_fast": true,
+    "required_environment": {
+      "SF_TARGET_ORG": "mortagate-de"
+    }
+  },
+  "phases": [
+    {
+      "id": "phase-0",
+      "name": "Workspace And Org Readiness",
+      "intent": "Confirm the local project, Salesforce CLI, and authenticated org are available before any metadata work.",
+      "acceptance_criteria": [
+        "Salesforce CLI is installed and callable as sf.",
+        "Org alias mortagate-de is authenticated.",
+        "Project context files are present."
+      ],
+      "checks": [
+        {
+          "id": "p0-001-sf-cli-version",
+          "type": "command",
+          "command": "sf --version",
+          "required": true
+        },
+        {
+          "id": "p0-002-org-display",
+          "type": "command",
+          "command": "sf org display --target-org mortagate-de --json",
+          "required": true
+        },
+        {
+          "id": "p0-003-org-list",
+          "type": "command",
+          "command": "sf org list --all --json",
+          "required": true
+        },
+        {
+          "id": "p0-004-project-context",
+          "type": "file_exists",
+          "paths": [
+            "planning docs/copilot-instructions.md",
+            "CLAUDE.md",
+            "mortagate.gates.json"
+          ],
+          "required": true
+        }
+      ],
+      "evidence": [
+        "sf org display JSON output for mortagate-de",
+        "sf org list JSON output",
+        "Gate-runner log for phase-0"
+      ]
+    },
+    {
+      "id": "phase-1",
+      "name": "Carlos Documentation Readiness",
+      "intent": "Verify the mandatory source-of-truth documents exist before Salesforce schema, Flow, Apex, LWC, or Experience Cloud implementation.",
+      "acceptance_criteria": [
+        "Blueprint, architecture, requirements, risk, and data dictionary artifacts exist.",
+        "At least one DESIGN document exists for the active implementation area.",
+        "AI disclosure appears in AI-drafted documentation."
+      ],
+      "checks": [
+        {
+          "id": "p1-001-blueprint",
+          "type": "file_exists",
+          "paths": [
+            "planning docs/BLUEPRINT.md"
+          ],
+          "required": true
+        },
+        {
+          "id": "p1-002-solution-architecture",
+          "type": "file_exists",
+          "paths": [
+            "planning docs/SOLUTION-ARCHITECTURE.md"
+          ],
+          "required": true
+        },
+        {
+          "id": "p1-003-requirements-matrix",
+          "type": "file_exists",
+          "paths": [
+            "planning docs/REQUIREMENTS-MATRIX.md"
+          ],
+          "required": true
+        },
+        {
+          "id": "p1-004-risks-decisions",
+          "type": "file_exists",
+          "paths": [
+            "planning docs/RISKS-AND-DECISIONS.md"
+          ],
+          "required": true
+        },
+        {
+          "id": "p1-005-data-dictionary",
+          "type": "file_exists",
+          "paths": [
+            "planning docs/DATA-DICTIONARY.md"
+          ],
+          "required": true
+        },
+        {
+          "id": "p1-006-design-doc",
+          "type": "glob_exists",
+          "patterns": [
+            "my-project/_bmad-output/planning/DESIGN-*.md"
+          ],
+          "required": true
+        },
+        {
+          "id": "p1-007-ai-disclosure",
+          "type": "content_match",
+          "paths": [
+            "planning docs/BLUEPRINT.md",
+            "planning docs/SOLUTION-ARCHITECTURE.md",
+            "planning docs/REQUIREMENTS-MATRIX.md",
+            "planning docs/RISKS-AND-DECISIONS.md",
+            "planning docs/DATA-DICTIONARY.md"
+          ],
+          "pattern": "AI-Assisted Documentation",
+          "required": true
+        }
+      ],
+      "evidence": [
+        "List of source-of-truth documents",
+        "Gate-runner log for phase-1",
+        "Open documentation gaps, if any"
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Salesforce Metadata And Quality Readiness",
+      "intent": "Verify Salesforce project metadata and quality checks are ready before deployment or activation.",
+      "acceptance_criteria": [
+        "Salesforce project metadata is present.",
+        "Metadata can be retrieved or inspected from mortagate-de.",
+        "Apex/LWC tests and source tracking commands are wired when code exists.",
+        "Flow and component quality gates from copilot-instructions.md are represented in review evidence."
+      ],
+      "checks": [
+        {
+          "id": "p2-001-project-json",
+          "type": "file_exists",
+          "paths": [
+            "sfdx-project.json"
+          ],
+          "required": true
+        },
+        {
+          "id": "p2-002-source-status",
+          "type": "command",
+          "command": "sf project deploy start --source-dir force-app --target-org mortagate-de --dry-run --json",
+          "required": true
+        },
+        {
+          "id": "p2-003-apex-tests",
+          "type": "command",
+          "command": "sf apex run test --target-org mortagate-de --result-format json --code-coverage",
+          "required": false,
+          "skip_if_missing": [
+            "force-app/main/default/classes"
+          ]
+        },
+        {
+          "id": "p2-004-lwc-tests",
+          "type": "command",
+          "command": "npm test -- --runInBand",
+          "required": false,
+          "skip_if_missing": [
+            "force-app/main/default/lwc",
+            "package.json"
+          ]
+        },
+        {
+          "id": "p2-005-flow-quality-review",
+          "type": "manual_review",
+          "required": true,
+          "criteria": [
+            "No DML inside loops.",
+            "No Get Records inside loops.",
+            "Fault connectors exist on all DML, email, or callout elements.",
+            "Single-record and 200-plus-record bulk evidence captured.",
+            "Automation density checked before activation."
+          ]
+        },
+        {
+          "id": "p2-006-lwc-quality-review",
+          "type": "manual_review",
+          "required": true,
+          "criteria": [
+            "No innerHTML with user data.",
+            "Apex enforces CRUD/FLS.",
+            "No hardcoded org-specific IDs.",
+            "SLDS tokens used instead of hardcoded colors.",
+            "Keyboard and accessible-label checks pass."
+          ]
+        }
+      ],
+      "evidence": [
+        "sf project deploy preview JSON output",
+        "Apex test JSON output when Apex exists",
+        "LWC Jest output when LWC exists",
+        "Manual Flow and LWC quality review notes"
+      ]
+    }
+  ]
+}

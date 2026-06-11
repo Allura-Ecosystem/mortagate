@@ -1,0 +1,2669 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_clean_approval"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 303494.93,
+      "Requested_Amount__c": 242795.94,
+      "Annual_Income__c": 97803.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_conditional_short_employment"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 55961.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_hard_decline_dti"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 389654.82,
+      "Requested_Amount__c": 311723.86,
+      "Annual_Income__c": 80393.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_integration_boundary"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 323342.93,
+      "Requested_Amount__c": 258674.34,
+      "Annual_Income__c": 80023.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_fico_decline"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 32015.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_000"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 80593.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_001"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 77344.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_002"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_003"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_004"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 26611.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_005"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 46043.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_006"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 46670.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_007"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 418047.58,
+      "Requested_Amount__c": 334438.06,
+      "Annual_Income__c": 127042.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_008"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 17994.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_009"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 260597.79,
+      "Requested_Amount__c": 208478.23,
+      "Annual_Income__c": 45346.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_010"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 256031.21,
+      "Requested_Amount__c": 204824.97,
+      "Annual_Income__c": 90132.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_011"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 138858.02,
+      "Requested_Amount__c": 111086.42,
+      "Annual_Income__c": 31314.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_012"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 22513.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_013"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 122377.35,
+      "Requested_Amount__c": 97901.88,
+      "Annual_Income__c": 27952.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_014"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 30249.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_015"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 29921.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_016"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 118756.71,
+      "Requested_Amount__c": 95005.37,
+      "Annual_Income__c": 38857.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_017"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 100237.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_018"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 30185.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_019"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 33349.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_020"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 601707.03,
+      "Requested_Amount__c": 481365.62,
+      "Annual_Income__c": 129139.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_021"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 78399.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_022"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 153109.4,
+      "Requested_Amount__c": 122487.52,
+      "Annual_Income__c": 70093.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_023"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 402541.2,
+      "Requested_Amount__c": 322032.96,
+      "Annual_Income__c": 57712.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_024"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 165417.7,
+      "Requested_Amount__c": 132334.16,
+      "Annual_Income__c": 57851.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_025"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 154634.38,
+      "Requested_Amount__c": 123707.5,
+      "Annual_Income__c": 54617.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_026"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 115543.53,
+      "Requested_Amount__c": 92434.82,
+      "Annual_Income__c": 38879.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_027"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 217932.75,
+      "Requested_Amount__c": 174346.2,
+      "Annual_Income__c": 41511.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_028"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 339280.42,
+      "Requested_Amount__c": 271424.34,
+      "Annual_Income__c": 111012.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_029"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 125229.9,
+      "Requested_Amount__c": 100183.92,
+      "Annual_Income__c": 132256.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_030"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 16636.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_031"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 599451.38,
+      "Requested_Amount__c": 479561.1,
+      "Annual_Income__c": 116469.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_032"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 106275.94,
+      "Requested_Amount__c": 85020.75,
+      "Annual_Income__c": 130300.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_033"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 267754.27,
+      "Requested_Amount__c": 214203.42,
+      "Annual_Income__c": 74183.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_034"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_035"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_036"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 33508.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_037"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 301365.67,
+      "Requested_Amount__c": 241092.54,
+      "Annual_Income__c": 40794.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_038"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 19094.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_039"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 125894.28,
+      "Requested_Amount__c": 100715.42,
+      "Annual_Income__c": 58133.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_040"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 45249.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_041"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 44920.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_042"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 693666.47,
+      "Requested_Amount__c": 554933.18,
+      "Annual_Income__c": 106462.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_043"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 175546.15,
+      "Requested_Amount__c": 140436.92,
+      "Annual_Income__c": 71743.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_044"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15417.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_045"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 143110.2,
+      "Requested_Amount__c": 114488.16,
+      "Annual_Income__c": 55712.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_046"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 19915.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_047"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 139077.81,
+      "Requested_Amount__c": 111262.25,
+      "Annual_Income__c": 46798.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_048"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 243062.22,
+      "Requested_Amount__c": 194449.78,
+      "Annual_Income__c": 57487.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_049"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 478008.0,
+      "Requested_Amount__c": 382406.4,
+      "Annual_Income__c": 79668.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_050"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 97592.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_051"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 163010.12,
+      "Requested_Amount__c": 130408.1,
+      "Annual_Income__c": 38299.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_052"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 41695.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_053"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_054"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_055"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 108742.5,
+      "Requested_Amount__c": 86994.0,
+      "Annual_Income__c": 40275.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_056"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 45726.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_057"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15974.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_058"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 107512.71,
+      "Requested_Amount__c": 86010.17,
+      "Annual_Income__c": 30021.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_059"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 24039.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_060"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 26958.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_061"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 240732.26,
+      "Requested_Amount__c": 192585.81,
+      "Annual_Income__c": 141868.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_062"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 104491.83,
+      "Requested_Amount__c": 83593.46,
+      "Annual_Income__c": 43709.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_063"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 30718.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_064"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 452741.91,
+      "Requested_Amount__c": 362193.53,
+      "Annual_Income__c": 63045.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_065"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 24716.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_066"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 116759.67,
+      "Requested_Amount__c": 93407.74,
+      "Annual_Income__c": 47355.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_067"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 17454.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_068"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 24419.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_069"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 126493.23,
+      "Requested_Amount__c": 101194.58,
+      "Annual_Income__c": 72153.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_070"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 155396.19,
+      "Requested_Amount__c": 124316.95,
+      "Annual_Income__c": 102954.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_071"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 172014.24,
+      "Requested_Amount__c": 137611.39,
+      "Annual_Income__c": 46569.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_072"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 190220.4,
+      "Requested_Amount__c": 152176.32,
+      "Annual_Income__c": 62624.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_073"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 211973.44,
+      "Requested_Amount__c": 169578.75,
+      "Annual_Income__c": 45221.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_074"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 63919.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_075"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 41016.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_076"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 55238.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_077"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 133101.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_078"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 191012.85,
+      "Requested_Amount__c": 152810.28,
+      "Annual_Income__c": 31059.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_079"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 78558.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_080"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 141132.98,
+      "Requested_Amount__c": 112906.38,
+      "Annual_Income__c": 53195.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_081"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 18623.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_082"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 43492.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_083"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 27032.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_084"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 191091.49,
+      "Requested_Amount__c": 152873.19,
+      "Annual_Income__c": 45702.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_085"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_086"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_087"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 381643.17,
+      "Requested_Amount__c": 305314.54,
+      "Annual_Income__c": 66845.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_088"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 248773.74,
+      "Requested_Amount__c": 199018.99,
+      "Annual_Income__c": 76034.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_089"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 108376.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_090"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 28519.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_091"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 335753.61,
+      "Requested_Amount__c": 268602.89,
+      "Annual_Income__c": 87138.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_092"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 59593.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_093"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 245510.48,
+      "Requested_Amount__c": 196408.38,
+      "Annual_Income__c": 51857.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_094"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 31619.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_095"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 37512.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_096"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 29744.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_097"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 27236.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_098"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 178932.6,
+      "Requested_Amount__c": 143146.08,
+      "Annual_Income__c": 42603.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_099"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 20982.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_100"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 41945.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_101"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 149476.26,
+      "Requested_Amount__c": 119581.01,
+      "Annual_Income__c": 57353.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_102"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 125834.01,
+      "Requested_Amount__c": 100667.21,
+      "Annual_Income__c": 44298.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_103"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 350571.37,
+      "Requested_Amount__c": 280457.1,
+      "Annual_Income__c": 46860.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_104"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 35838.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_105"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 222439.72,
+      "Requested_Amount__c": 177951.78,
+      "Annual_Income__c": 63782.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_106"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 22800.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_107"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 33795.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_108"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 146485.55,
+      "Requested_Amount__c": 117188.44,
+      "Annual_Income__c": 36765.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_109"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 103157.1,
+      "Requested_Amount__c": 82525.68,
+      "Annual_Income__c": 22548.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_110"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 172016.62,
+      "Requested_Amount__c": 137613.3,
+      "Annual_Income__c": 37910.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_111"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 222136.88,
+      "Requested_Amount__c": 177709.5,
+      "Annual_Income__c": 39100.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_112"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 22002.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_113"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 42186.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_114"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 45158.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_115"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 36652.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_116"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 22757.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_117"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 51709.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_118"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 164583.98,
+      "Requested_Amount__c": 131667.18,
+      "Annual_Income__c": 46815.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_119"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 140633.61,
+      "Requested_Amount__c": 112506.89,
+      "Annual_Income__c": 41439.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_120"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 24531.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_121"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_122"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 46916.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_123"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 164111.57,
+      "Requested_Amount__c": 131289.26,
+      "Annual_Income__c": 48357.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_124"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 45458.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_125"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 147830.49,
+      "Requested_Amount__c": 118264.39,
+      "Annual_Income__c": 38554.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_126"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 46787.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_127"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 35085.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_128"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 201654.23,
+      "Requested_Amount__c": 161323.38,
+      "Annual_Income__c": 38548.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_129"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 157398.15,
+      "Requested_Amount__c": 125918.52,
+      "Annual_Income__c": 46124.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_130"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 31833.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_131"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 225346.5,
+      "Requested_Amount__c": 180277.2,
+      "Annual_Income__c": 100154.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_132"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100516.7,
+      "Requested_Amount__c": 80413.36,
+      "Annual_Income__c": 56729.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_133"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 169887.37,
+      "Requested_Amount__c": 135909.9,
+      "Annual_Income__c": 83895.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_134"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 102302.68,
+      "Requested_Amount__c": 81842.14,
+      "Annual_Income__c": 26422.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_135"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 112014.73,
+      "Requested_Amount__c": 89611.78,
+      "Annual_Income__c": 46311.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_136"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 19666.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_137"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 20870.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_138"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 21491.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_139"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 419461.87,
+      "Requested_Amount__c": 335569.5,
+      "Annual_Income__c": 213060.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_140"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_141"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 25802.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_142"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 54745.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_143"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 347263.87,
+      "Requested_Amount__c": 277811.1,
+      "Annual_Income__c": 176388.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_144"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 36923.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_145"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 151712.34,
+      "Requested_Amount__c": 121369.87,
+      "Annual_Income__c": 58846.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_146"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 83734.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_147"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 107386.65,
+      "Requested_Amount__c": 85909.32,
+      "Annual_Income__c": 22416.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_148"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 65662.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_149"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 36863.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_150"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_151"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_152"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 26790.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_153"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 41564.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_154"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 43528.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_155"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 27876.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_156"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 118791.56,
+      "Requested_Amount__c": 95033.25,
+      "Annual_Income__c": 46930.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_157"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 18529.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_158"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 127354.16,
+      "Requested_Amount__c": 101883.33,
+      "Annual_Income__c": 40917.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_159"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 118527.44,
+      "Requested_Amount__c": 94821.95,
+      "Annual_Income__c": 104487.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_160"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 118159.76,
+      "Requested_Amount__c": 94527.81,
+      "Annual_Income__c": 65988.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_161"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 187563.23,
+      "Requested_Amount__c": 150050.58,
+      "Annual_Income__c": 54813.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_162"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 32023.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_163"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 105078.46,
+      "Requested_Amount__c": 84062.77,
+      "Annual_Income__c": 22921.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_164"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 130646.59,
+      "Requested_Amount__c": 104517.27,
+      "Annual_Income__c": 59554.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_165"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 16110.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_166"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 242782.95,
+      "Requested_Amount__c": 194226.36,
+      "Annual_Income__c": 80176.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_167"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 138283.09,
+      "Requested_Amount__c": 110626.47,
+      "Annual_Income__c": 45246.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_168"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 65253.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_169"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 165215.43,
+      "Requested_Amount__c": 132172.34,
+      "Annual_Income__c": 46013.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_170"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 65553.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_171"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 89010.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_172"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 298653.07,
+      "Requested_Amount__c": 238922.46,
+      "Annual_Income__c": 98322.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_173"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 201048.05,
+      "Requested_Amount__c": 160838.44,
+      "Annual_Income__c": 80925.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_174"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 63628.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_175"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 163242.77,
+      "Requested_Amount__c": 130594.22,
+      "Annual_Income__c": 37286.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_176"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 15000.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_177"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 101384.53,
+      "Requested_Amount__c": 81107.62,
+      "Annual_Income__c": 34885.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_178"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 259479.0,
+      "Requested_Amount__c": 207583.2,
+      "Annual_Income__c": 62904.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_179"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 423063.98,
+      "Requested_Amount__c": 338451.18,
+      "Annual_Income__c": 93045.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_180"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 27344.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_181"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 22594.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_182"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 194965.39,
+      "Requested_Amount__c": 155972.31,
+      "Annual_Income__c": 47372.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_183"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 152415.24,
+      "Requested_Amount__c": 121932.19,
+      "Annual_Income__c": 35497.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_184"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 21201.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_185"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 40592.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_186"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 48624.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_187"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 505519.95,
+      "Requested_Amount__c": 404415.96,
+      "Annual_Income__c": 82576.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_188"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 45290.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_189"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 994738.97,
+      "Requested_Amount__c": 795791.18,
+      "Annual_Income__c": 171970.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_190"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 26797.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_191"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 176144.96,
+      "Requested_Amount__c": 140915.97,
+      "Annual_Income__c": 27469.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_192"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 34697.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_193"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 201074.25,
+      "Requested_Amount__c": 160859.4,
+      "Annual_Income__c": 41246.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_194"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 51557.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_195"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 101939.78,
+      "Requested_Amount__c": 81551.82,
+      "Annual_Income__c": 38696.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_196"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 17032.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_197"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 126490.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_198"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 100000,
+      "Requested_Amount__c": 80000.0,
+      "Annual_Income__c": 28340.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    },
+    {
+      "attributes": {
+        "type": "Loan_Application__c",
+        "referenceId": "app_bulk_199"
+      },
+      "Status__c": "SUBMITTED",
+      "Purpose__c": "PURCHASE",
+      "Property_Value__c": 359963.81,
+      "Requested_Amount__c": 287971.05,
+      "Annual_Income__c": 86090.0,
+      "Current_Stage__c": "REVIEW",
+      "Loan_Type__c": "CONVENTIONAL"
+    }
+  ]
+}

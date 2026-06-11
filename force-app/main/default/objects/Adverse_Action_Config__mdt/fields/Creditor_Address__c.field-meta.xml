@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Creditor_Address__c</fullName>
+    <label>Creditor Address</label>
+    <type>TextArea</type>
+    <required>false</required>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <description>Address of the creditor, required content element under 12 CFR 1002.9(a)(2)(i).</description>
+</CustomField>

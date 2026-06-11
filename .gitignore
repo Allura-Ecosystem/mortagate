@@ -1,0 +1,8 @@
+node_modules/
+.sf/
+.sfdx/
+data/kaggle/
+.claude/
+.opencode/mcp.json
+.opencode/oh-my-opencode.json
+_bmad/

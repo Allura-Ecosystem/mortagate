@@ -1,0 +1,136 @@
+{
+  "$schema": "https://opencode.ai/schemas/agent-metadata.json",
+  "schema_version": "1.0.0",
+  "description": "Centralized metadata for Mortgate Team RAM agents. Stores metadata needed for registry management and documentation.",
+  "agents": {
+    "brooks": {
+      "id": "brooks",
+      "name": "Brooks",
+      "category": "core",
+      "type": "primary",
+      "version": "1.1.0",
+      "author": "team-ram",
+      "tags": ["architecture", "orchestration", "primary"],
+      "model": "ollama-cloud/deepseek-v4-pro",
+      "dependencies": [
+        "skill:mortgate-orchestrator",
+        "skill:carlos-guidelines",
+        "skill:sf-deploy",
+        "skill:sf-data-model",
+        "skill:allura-memory-skill",
+        "skill:party-mode",
+        "skill:skill-creator"
+      ]
+    },
+    "woz": {
+      "id": "woz",
+      "name": "Woz",
+      "category": "subagents/code",
+      "type": "subagent",
+      "version": "1.1.0",
+      "author": "team-ram",
+      "tags": ["apex", "lwc", "implementation", "builder"],
+      "model": "ollama-cloud/deepseek-v4-pro",
+      "dependencies": [
+        "skill:lwc-craft",
+        "skill:apex-quality",
+        "skill:sf-deploy",
+        "skill:carlos-guidelines",
+        "skill:allura-memory-skill"
+      ]
+    },
+    "bellard": {
+      "id": "bellard",
+      "name": "Bellard",
+      "category": "subagents/code",
+      "type": "subagent",
+      "version": "1.1.0",
+      "author": "team-ram",
+      "tags": ["diagnostics", "performance", "soql"],
+      "model": "ollama-cloud/deepseek-v4-pro",
+      "dependencies": [
+        "skill:apex-quality",
+        "skill:allura-memory-skill"
+      ]
+    },
+    "scout": {
+      "id": "scout",
+      "name": "Scout",
+      "category": "subagents/core",
+      "type": "utility",
+      "version": "1.0.0",
+      "author": "team-ram",
+      "tags": ["recon", "discovery", "context"],
+      "model": "ollama-cloud/deepseek-v4-pro",
+      "dependencies": [
+        "skill:allura-memory-skill"
+      ]
+    },
+    "knuth": {
+      "id": "knuth",
+      "name": "Knuth",
+      "category": "subagents/infrastructure",
+      "type": "subagent",
+      "version": "1.1.0",
+      "author": "team-ram",
+      "tags": ["data", "schema", "sobject"],
+      "model": "ollama-cloud/deepseek-v4-pro",
+      "dependencies": [
+        "skill:sf-data-model",
+        "skill:carlos-guidelines",
+        "skill:allura-memory-skill"
+      ]
+    },
+    "hightower": {
+      "id": "hightower",
+      "name": "Hightower",
+      "category": "subagents/infrastructure",
+      "type": "subagent",
+      "version": "1.1.0",
+      "author": "team-ram",
+      "tags": ["devops", "deploy", "gates", "sf-cli"],
+      "model": "ollama-cloud/deepseek-v4-pro",
+      "dependencies": [
+        "skill:sf-deploy",
+        "skill:carlos-guidelines",
+        "skill:allura-memory-skill"
+      ]
+    },
+    "pike": {
+      "id": "pike",
+      "name": "Pike",
+      "category": "subagents/review",
+      "type": "subagent",
+      "version": "1.1.0",
+      "author": "team-ram",
+      "tags": ["interface", "lwc", "simplicity"],
+      "model": "ollama-cloud/deepseek-v4-pro",
+      "dependencies": [
+        "skill:lwc-craft",
+        "skill:allura-memory-skill"
+      ]
+    },
+    "fowler": {
+      "id": "fowler",
+      "name": "Fowler",
+      "category": "subagents/review",
+      "type": "subagent",
+      "version": "1.1.0",
+      "author": "team-ram",
+      "tags": ["refactor", "quality", "apex"],
+      "model": "ollama-cloud/deepseek-v4-pro",
+      "dependencies": [
+        "skill:apex-quality",
+        "skill:allura-memory-skill"
+      ]
+    }
+  },
+  "defaults": {
+    "agent": {
+      "version": "1.0.0",
+      "author": "team-ram",
+      "type": "subagent",
+      "tags": []
+    }
+  }
+}

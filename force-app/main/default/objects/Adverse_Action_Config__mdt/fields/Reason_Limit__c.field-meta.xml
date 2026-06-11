@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_Limit__c</fullName>
+    <label>Reason Limit</label>
+    <type>Number</type>
+    <precision>2</precision>
+    <scale>0</scale>
+    <required>false</required>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <description>Maximum number of principal reasons to disclose. Reg B mandates no count, but the Official Interpretation treats disclosing more than four as unhelpful. Default 4.</description>
+</CustomField>

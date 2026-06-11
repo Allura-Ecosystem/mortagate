@@ -1,0 +1,14 @@
+{
+  "name": "mortagate",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Veridact mortgage approval engine — LWC + Apex on Salesforce Experience Cloud.",
+  "scripts": {
+    "test:unit": "sfdx-lwc-jest",
+    "test:unit:watch": "sfdx-lwc-jest --watch",
+    "test:unit:coverage": "sfdx-lwc-jest --coverage"
+  },
+  "devDependencies": {
+    "@salesforce/sfdx-lwc-jest": "^7.0.1"
+  }
+}

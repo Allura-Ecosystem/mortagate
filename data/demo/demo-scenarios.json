@@ -1,0 +1,77 @@
+[
+  {
+    "scenario_key": "clean_approval",
+    "persona": "Karim Hassan",
+    "kaggle_customer_id": "CUST100138",
+    "label": "Clean Approval \u2014 Karim Hassan",
+    "narrative": "Strong borrower. All rules pass. Verdict: APPROVED.",
+    "facts": {
+      "credit_score": 727,
+      "dti_ratio": 0.331,
+      "annual_income": 97803.0,
+      "years_employed": 10.5
+    },
+    "app_ref": "app_clean_approval",
+    "facts_ref": "facts_clean_approval"
+  },
+  {
+    "scenario_key": "conditional_short_employment",
+    "persona": "Maria Santos",
+    "kaggle_customer_id": "CUST100039",
+    "label": "Conditional \u2014 Maria Santos",
+    "narrative": "Good credit, low DTI, but under 2 years at current employer. WARNING fires on EMPLOYMENT_TENURE. Verdict: APPROVED_WITH_CONDITIONS.",
+    "facts": {
+      "credit_score": 704,
+      "dti_ratio": 0.086,
+      "annual_income": 55961.0,
+      "years_employed": 1.2
+    },
+    "app_ref": "app_conditional_short_employment",
+    "facts_ref": "facts_conditional_short_employment"
+  },
+  {
+    "scenario_key": "hard_decline_dti",
+    "persona": "James O'Brien",
+    "kaggle_customer_id": "CUST100188",
+    "label": "Hard Decline (DTI) \u2014 James O'Brien",
+    "narrative": "DTI at 48% exceeds 43% threshold. HARD_DECLINE fires. Adverse action notice generated with specific reason.",
+    "facts": {
+      "credit_score": 688,
+      "dti_ratio": 0.517,
+      "annual_income": 80393.0,
+      "years_employed": 1.2
+    },
+    "app_ref": "app_hard_decline_dti",
+    "facts_ref": "facts_hard_decline_dti"
+  },
+  {
+    "scenario_key": "integration_boundary",
+    "persona": "Sabir Asheed Sr.",
+    "kaggle_customer_id": "CUST100312",
+    "label": "Integration Boundary \u2014 Sabir Asheed Sr.",
+    "narrative": "DTI at 44% \u2014 dad's 45% guideline would approve, but system's 43% threshold catches it. This is the integration boundary made visible.",
+    "facts": {
+      "credit_score": 698,
+      "dti_ratio": 0.431,
+      "annual_income": 80023.0,
+      "years_employed": 20.1
+    },
+    "app_ref": "app_integration_boundary",
+    "facts_ref": "facts_integration_boundary"
+  },
+  {
+    "scenario_key": "fico_decline",
+    "persona": "Test Borrower",
+    "kaggle_customer_id": "CUST100005",
+    "label": "FICO Decline \u2014 Test Borrower",
+    "narrative": "Credit score 580, below 620 minimum. HARD_DECLINE fires on FICO_MIN. All other facts are strong.",
+    "facts": {
+      "credit_score": 570,
+      "dti_ratio": 0.035,
+      "annual_income": 32015.0,
+      "years_employed": 13.4
+    },
+    "app_ref": "app_fico_decline",
+    "facts_ref": "facts_fico_decline"
+  }
+]

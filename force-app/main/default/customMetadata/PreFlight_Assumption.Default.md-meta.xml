@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <label>Default</label>
+    <protected>false</protected>
+    <values>
+        <field>Annual_Rate__c</field>
+        <value xsi:type="xsd:double">0.07</value>
+    </values>
+    <values>
+        <field>Term_Months__c</field>
+        <value xsi:type="xsd:double">360</value>
+    </values>
+    <values>
+        <field>Debt_Headroom__c</field>
+        <value xsi:type="xsd:double">0.05</value>
+    </values>
+    <values>
+        <field>Band_Width__c</field>
+        <value xsi:type="xsd:double">0.08</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,170 @@
+<apex:page controller="DecisionReceiptController"
+           renderAs="pdf"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false"
+           applyHtmlTag="true"
+           applyBodyTag="true"
+           title="Decision Receipt">
+<!--
+  Decision Receipt — a printable/emailable rendering of one immutable
+  Decision_Event__c. Pure read: no apex:form, no inputs, no DML. All data is
+  rendered through standard {!} escaping (no escape="false") because this
+  document may travel outside the org. Veridact brand applied for PDF.
+-->
+<head>
+    <style type="text/css">
+        @page { margin: 1.4cm; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #1b2b5e;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        .accent-bar { background-color: #d4920a; height: 5px; width: 100%; }
+        h1 {
+            font-family: "Times New Roman", Georgia, serif;
+            font-size: 22px;
+            margin: 16px 0 2px 0;
+            color: #1b2b5e;
+        }
+        .tagline { font-style: italic; color: #6b7280; margin: 0 0 18px 0; }
+        .verdict-chip {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 3px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        .chip-approved { background-color: #16734a; }
+        .chip-conditions { background-color: #b45309; }
+        .chip-review { background-color: #1b2b5e; }
+        .chip-declined { background-color: #7c2d2d; }
+        .meta { margin: 16px 0; }
+        .meta td { padding: 3px 14px 3px 0; vertical-align: top; }
+        .meta .k { color: #6b7280; width: 160px; }
+        .meta .v { color: #1b2b5e; font-weight: bold; }
+        table.rules { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        table.rules th {
+            text-align: left;
+            border-bottom: 2px solid #1b2b5e;
+            padding: 6px 8px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #1b2b5e;
+        }
+        table.rules td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+        tr.fail td { background-color: #fbeaea; }
+        .o-pass { color: #16734a; font-weight: bold; }
+        .o-fail { color: #7c2d2d; font-weight: bold; }
+        .o-other { color: #6b7280; font-weight: bold; }
+        .footer {
+            margin-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 8px;
+            color: #6b7280;
+            font-size: 9px;
+        }
+        .denied { color: #7c2d2d; font-weight: bold; margin-top: 24px; }
+    </style>
+</head>
+<body>
+    <div class="accent-bar"></div>
+
+    <apex:outputPanel rendered="{!accessDenied}">
+        <h1>Decision Receipt</h1>
+        <p class="tagline">Every decision has a receipt.</p>
+        <p class="denied">{!accessMessage}</p>
+    </apex:outputPanel>
+
+    <apex:outputPanel rendered="{!NOT(accessDenied)}">
+        <h1>Decision Receipt</h1>
+        <p class="tagline">Every decision has a receipt.</p>
+
+        <apex:outputPanel rendered="{!event != null}">
+            <div>
+                <span class="verdict-chip
+                    {!IF(event.Outcome__c == 'APPROVED', 'chip-approved',
+                      IF(event.Outcome__c == 'APPROVED_WITH_CONDITIONS', 'chip-conditions',
+                      IF(event.Outcome__c == 'PENDING_REVIEW', 'chip-review', 'chip-declined')))}">
+                    {!event.Outcome__c}
+                </span>
+            </div>
+
+            <table class="meta">
+                <tr>
+                    <td class="k">Receipt</td>
+                    <td class="v">{!event.Name}</td>
+                </tr>
+                <tr>
+                    <td class="k">Decision time</td>
+                    <td class="v">
+                        <apex:outputText value="{0,date,yyyy-MM-dd HH:mm:ss}">
+                            <apex:param value="{!event.Decision_Timestamp__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="k">Triggered by</td>
+                    <td class="v">{!event.Triggered_By__c}</td>
+                </tr>
+                <tr>
+                    <td class="k">Rules evaluated</td>
+                    <td class="v">{!event.Evaluated_Rule_Count__c}</td>
+                </tr>
+                <tr>
+                    <td class="k">Hard declines</td>
+                    <td class="v">{!event.Hard_Decline_Count__c}</td>
+                </tr>
+                <apex:outputPanel rendered="{!NOT(ISBLANK(event.Decline_Reason__c))}" layout="none">
+                <tr>
+                    <td class="k">Primary reason</td>
+                    <td class="v">{!event.Decline_Reason__c}</td>
+                </tr>
+                </apex:outputPanel>
+            </table>
+
+            <h2 style="font-size:13px; color:#1b2b5e; margin-bottom:0;">Rules applied</h2>
+            <table class="rules">
+                <tr>
+                    <th>Rule</th>
+                    <th>Category</th>
+                    <th>Severity</th>
+                    <th>Result</th>
+                    <th>Value</th>
+                    <th>Threshold</th>
+                    <th>Explanation</th>
+                </tr>
+                <apex:repeat value="{!ruleLines}" var="line">
+                    <tr class="{!IF(line.isFail, 'fail', '')}">
+                        <td>{!line.ruleCode} {!line.version}</td>
+                        <td>{!line.category}</td>
+                        <td>{!line.severity}</td>
+                        <td>
+                            <span class="{!IF(line.outcome == 'PASS', 'o-pass',
+                                          IF(line.outcome == 'FAIL', 'o-fail', 'o-other'))}">
+                                {!line.outcome}
+                            </span>
+                        </td>
+                        <td>{!line.factValue}</td>
+                        <td>{!line.threshold}</td>
+                        <td>{!line.explanation}</td>
+                    </tr>
+                </apex:repeat>
+            </table>
+
+            <div class="footer">
+                This receipt reflects the policy versions in force at the decision time and is an
+                immutable record. Veridact &mdash; every decision has a receipt.
+            </div>
+        </apex:outputPanel>
+    </apex:outputPanel>
+</body>
+</apex:page>

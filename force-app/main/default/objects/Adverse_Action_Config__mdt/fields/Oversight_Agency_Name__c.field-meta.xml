@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Oversight_Agency_Name__c</fullName>
+    <label>Oversight Agency Name</label>
+    <type>Text</type>
+    <length>255</length>
+    <required>false</required>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <description>Name of the federal agency that administers compliance, required by 12 CFR 1002.9(b)(1) and named in the 701(a) notice.</description>
+</CustomField>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Pre-Flight Assumption</label>
+    <pluralLabel>Pre-Flight Assumptions</pluralLabel>
+    <visibility>Public</visibility>
+    <description>Config-as-data for the soft pre-check math (rate, term, debt headroom, display band). Editable without a deployment so the estimated range tracks the market instead of drifting when rates move.</description>
+</CustomObject>

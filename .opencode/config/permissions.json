@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__MCP_DOCKER__notion-fetch",
+      "mcp__MCP_DOCKER__notion-search",
+      "mcp__MCP_DOCKER__notion-create-pages",
+      "mcp__MCP_DOCKER__notion-update-page",
+      "mcp__MCP_DOCKER__notion-query-database-view",
+      "mcp__MCP_DOCKER__notion-create-database",
+      "mcp__MCP_DOCKER__notion-create-comment",
+      "mcp__MCP_DOCKER__notion-get-comments",
+      "mcp__allura-brain__memory_search",
+      "mcp__allura-brain__memory_add",
+      "mcp__allura-brain__memory_get",
+      "mcp__allura-brain__memory_list",
+      "mcp__allura-brain__memory_delete",
+      "mcp__allura-brain__memory_promote",
+      "Bash(git:*)",
+      "Bash(sf *)",
+      "Bash(sfdx *)",
+      "Bash(bun test *)",
+      "Bash(npm test*)"
+    ]
+  }
+}

@@ -1,0 +1,103 @@
+<template>
+    <section class="capture" aria-roledescription="onboarding questions">
+        <!-- Orientation: Inter, white@70%, not amber (amber is for action) -->
+        <p class="orientation" aria-live="polite">{progressLabel}</p>
+
+        <div class="viewport">
+            <div class="track" style={trackStyle}>
+                <!-- Q1: Purpose -->
+                <article class="panel" role="group" aria-label="Are you buying or refinancing?">
+                    <h2 class="headline">Are you buying or refinancing?</h2>
+                    <div class="choices">
+                        <button
+                            type="button"
+                            class="choice"
+                            data-value="buying"
+                            data-autofocus="true"
+                            aria-pressed={buyingSelected}
+                            onclick={handlePurpose}>
+                            <span class="choice-icon" aria-hidden="true">&#9737;</span>
+                            Buying a home
+                        </button>
+                        <button
+                            type="button"
+                            class="choice"
+                            data-value="refinancing"
+                            aria-pressed={refinancingSelected}
+                            onclick={handlePurpose}>
+                            <span class="choice-icon" aria-hidden="true">&#8635;</span>
+                            Refinancing
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Q2: Property value -->
+                <article class="panel" role="group" aria-label="What's the approximate property value?">
+                    <h2 class="headline">What&rsquo;s the approximate property value?</h2>
+                    <p class="value-display" aria-live="polite">{formattedProperty}</p>
+                    <input
+                        type="range"
+                        class="slider"
+                        min="0"
+                        max={maxPropertyValue}
+                        step="5000"
+                        value={propertyValue}
+                        data-autofocus="true"
+                        aria-label="Property value slider"
+                        oninput={handlePropertyInput} />
+                    <input
+                        type="number"
+                        class="number-field"
+                        inputmode="numeric"
+                        value={propertyValue}
+                        placeholder="Enter an amount"
+                        aria-label="Property value exact amount"
+                        oninput={handlePropertyInput} />
+                    <div class="nav">
+                        <button type="button" class="ghost" onclick={handleBack}>Back</button>
+                        <button
+                            type="button"
+                            class="cta"
+                            disabled={propertyIncomplete}
+                            onclick={handlePropertyNext}>Continue</button>
+                    </div>
+                </article>
+
+                <!-- Q3: Income -->
+                <article class="panel" role="group" aria-label="What's your annual income? Ballpark is fine.">
+                    <h2 class="headline">What&rsquo;s your annual income? Ballpark is fine.</h2>
+                    <p class="value-display" aria-live="polite">{formattedIncome}</p>
+                    <input
+                        type="range"
+                        class="slider"
+                        min="0"
+                        max={maxIncome}
+                        step="1000"
+                        value={annualIncome}
+                        data-autofocus="true"
+                        aria-label="Annual income slider"
+                        oninput={handleIncomeInput} />
+                    <input
+                        type="number"
+                        class="number-field"
+                        inputmode="numeric"
+                        value={annualIncome}
+                        placeholder="Enter an amount"
+                        aria-label="Annual income exact amount"
+                        oninput={handleIncomeInput} />
+                    <div class="nav">
+                        <button type="button" class="ghost" onclick={handleBack}>Back</button>
+                        <button
+                            type="button"
+                            class="cta"
+                            disabled={incomeIncomplete}
+                            onclick={handleIncomeNext}>See my range</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- Signature: 4px proof-amber accent bar, hard line, every screen -->
+        <div class="accent-bar" aria-hidden="true"></div>
+    </section>
+</template>

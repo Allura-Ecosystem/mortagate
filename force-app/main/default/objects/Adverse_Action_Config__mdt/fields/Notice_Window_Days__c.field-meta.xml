@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notice_Window_Days__c</fullName>
+    <label>Notice Window Days</label>
+    <type>Number</type>
+    <precision>3</precision>
+    <scale>0</scale>
+    <required>false</required>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <description>Days within which the notice must be sent after a completed application — 30 under 12 CFR 1002.9(a)(1). Used only to compute the displayed response-by date; not a behavioral SLA.</description>
+</CustomField>

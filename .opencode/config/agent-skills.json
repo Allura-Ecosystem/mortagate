@@ -1,0 +1,46 @@
+{
+  "tier": 1,
+  "skills": {
+    "brooks-architect": [
+      "mortgate-orchestrator",
+      "carlos-guidelines",
+      "sf-deploy",
+      "sf-data-model",
+      "allura-memory-skill",
+      "party-mode",
+      "skill-creator"
+    ],
+    "woz-builder": [
+      "lwc-craft",
+      "apex-quality",
+      "sf-deploy",
+      "carlos-guidelines",
+      "allura-memory-skill"
+    ],
+    "knuth-data-architect": [
+      "sf-data-model",
+      "carlos-guidelines",
+      "allura-memory-skill"
+    ],
+    "hightower-devops": [
+      "sf-deploy",
+      "carlos-guidelines",
+      "allura-memory-skill"
+    ],
+    "pike-interface-review": [
+      "lwc-craft",
+      "allura-memory-skill"
+    ],
+    "fowler-refactor-gate": [
+      "apex-quality",
+      "allura-memory-skill"
+    ],
+    "bellard-diagnostics-perf": [
+      "apex-quality",
+      "allura-memory-skill"
+    ],
+    "scout-recon": [
+      "allura-memory-skill"
+    ]
+  }
+}
