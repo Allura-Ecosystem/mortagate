@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auditor__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The user assigned as auditor for this case.</description>
+    <inlineHelpText>The auditor assigned to review this loan. Cannot be the same user as Original Approver.</inlineHelpText>
+    <label>Auditor</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Audit_Cases_As_Auditor</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

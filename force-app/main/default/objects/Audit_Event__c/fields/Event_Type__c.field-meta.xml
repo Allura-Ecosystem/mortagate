@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Type__c</fullName>
+    <description>Classification of the audit event.</description>
+    <inlineHelpText>Select the type of audit action being recorded.</inlineHelpText>
+    <label>Event Type</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Case_Created</fullName>
+                <default>false</default>
+                <label>Case Created</label>
+            </value>
+            <value>
+                <fullName>Case_Assigned</fullName>
+                <default>false</default>
+                <label>Case Assigned</label>
+            </value>
+            <value>
+                <fullName>Evidence_Linked</fullName>
+                <default>false</default>
+                <label>Evidence Linked</label>
+            </value>
+            <value>
+                <fullName>Facts_Reconstructed</fullName>
+                <default>false</default>
+                <label>Facts Reconstructed</label>
+            </value>
+            <value>
+                <fullName>Replay_Executed</fullName>
+                <default>false</default>
+                <label>Replay Executed</label>
+            </value>
+            <value>
+                <fullName>Finding_Created</fullName>
+                <default>false</default>
+                <label>Finding Created</label>
+            </value>
+            <value>
+                <fullName>Remediation_Requested</fullName>
+                <default>false</default>
+                <label>Remediation Requested</label>
+            </value>
+            <value>
+                <fullName>Evidence_Submitted</fullName>
+                <default>false</default>
+                <label>Evidence Submitted</label>
+            </value>
+            <value>
+                <fullName>Signoff_Completed</fullName>
+                <default>false</default>
+                <label>Signoff Completed</label>
+            </value>
+            <value>
+                <fullName>Case_Closed</fullName>
+                <default>false</default>
+                <label>Case Closed</label>
+            </value>
+            <value>
+                <fullName>Correction</fullName>
+                <default>false</default>
+                <label>Correction</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
