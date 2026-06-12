@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sampled_At__c</fullName>
+    <description>Timestamp t0 at which the snapshot fields (e.g. Borrower_Name_Snapshot__c) were captured. Stamps the point-in-time the evidence reflects. See ADR-001.</description>
+    <inlineHelpText>When this case was sampled — the instant the snapshot evidence fields reflect.</inlineHelpText>
+    <label>Sampled At</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

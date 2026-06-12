@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Audit_Case__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>The parent Audit Case this finding belongs to.</description>
+    <inlineHelpText>The Audit Case in which this finding was raised.</inlineHelpText>
+    <label>Audit Case</label>
+    <referenceTo>Audit_Case__c</referenceTo>
+    <relationshipLabel>Findings</relationshipLabel>
+    <relationshipName>Findings</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

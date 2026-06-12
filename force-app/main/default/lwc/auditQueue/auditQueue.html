@@ -1,0 +1,131 @@
+<template>
+    <div class="audit-queue">
+        <!-- Screen Header -->
+        <div class="audit-queue__header">
+            <div class="audit-queue__header-left">
+                <h1 class="audit-queue__title">Audit Queue</h1>
+                <p class="audit-queue__subtitle">Review and triage assigned audit cases</p>
+            </div>
+            <div class="audit-queue__header-right">
+                <lightning-button
+                    label="New audit"
+                    onclick={handleNewAudit}
+                    class="audit-queue__new-btn"
+                ></lightning-button>
+            </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="audit-queue__metrics">
+            <div class="metric-card metric-card--orange">
+                <span class="metric-card__value">{metricsData.assignedToMe}</span>
+                <span class="metric-card__label">Assigned to me</span>
+            </div>
+            <div class="metric-card metric-card--red">
+                <span class="metric-card__value">{metricsData.highRisk}</span>
+                <span class="metric-card__label">High risk</span>
+            </div>
+            <div class="metric-card metric-card--amber">
+                <span class="metric-card__value">{metricsData.evidenceNeeded}</span>
+                <span class="metric-card__label">Evidence needed</span>
+            </div>
+            <div class="metric-card metric-card--green">
+                <span class="metric-card__value">{metricsData.readyForSignoff}</span>
+                <span class="metric-card__label">Ready for sign-off</span>
+            </div>
+            <div class="metric-card metric-card--blue">
+                <span class="metric-card__value">{metricsData.slaAtRisk}</span>
+                <span class="metric-card__label">SLA at risk</span>
+            </div>
+        </div>
+
+        <!-- Filter Rail -->
+        <div class="audit-queue__filters">
+            <lightning-combobox
+                label="Approver"
+                value={filterApprover}
+                options={approverOptions}
+                onchange={handleFilterChange}
+                data-field="approver"
+                variant="label-hidden"
+                placeholder="Approver"
+                class="audit-queue__filter-pill"
+            ></lightning-combobox>
+            <lightning-combobox
+                label="Risk tier"
+                value={filterRiskTier}
+                options={riskTierOptions}
+                onchange={handleFilterChange}
+                data-field="riskTier"
+                variant="label-hidden"
+                placeholder="Risk tier"
+                class="audit-queue__filter-pill"
+            ></lightning-combobox>
+            <lightning-combobox
+                label="Approval date"
+                value={filterApprovalDate}
+                options={approvalDateOptions}
+                onchange={handleFilterChange}
+                data-field="approvalDate"
+                variant="label-hidden"
+                placeholder="Approval date"
+                class="audit-queue__filter-pill"
+            ></lightning-combobox>
+            <lightning-combobox
+                label="Sampling reason"
+                value={filterSamplingReason}
+                options={samplingReasonOptions}
+                onchange={handleFilterChange}
+                data-field="samplingReason"
+                variant="label-hidden"
+                placeholder="Sampling reason"
+                class="audit-queue__filter-pill"
+            ></lightning-combobox>
+            <lightning-combobox
+                label="Auditor"
+                value={filterAuditor}
+                options={auditorOptions}
+                onchange={handleFilterChange}
+                data-field="auditor"
+                variant="label-hidden"
+                placeholder="Auditor"
+                class="audit-queue__filter-pill"
+            ></lightning-combobox>
+            <lightning-input
+                type="date"
+                label="Due before"
+                value={filterDueBefore}
+                onchange={handleFilterChange}
+                data-field="dueBefore"
+                variant="label-hidden"
+                class="audit-queue__filter-pill audit-queue__filter-date"
+            ></lightning-input>
+        </div>
+
+        <!-- Data Table -->
+        <div class="audit-queue__table">
+            <template lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Loading audit queue" size="medium"></lightning-spinner>
+            </template>
+            <template lwc:if={hasError}>
+                <div class="audit-queue__error" role="alert">
+                    <p>{errorMessage}</p>
+                </div>
+            </template>
+            <template lwc:if={hasData}>
+                <lightning-datatable
+                    key-field="id"
+                    data={queueData}
+                    columns={columns}
+                    sorted-by={sortedBy}
+                    sorted-direction={sortDirection}
+                    default-sort-direction="asc"
+                    onsort={handleSort}
+                    onrowaction={handleRowClick}
+                    hide-checkbox-column
+                    show-row-number-column
+                ></lightning-datatable>
+            </template>
+        </div>
+    </div>
+</template>

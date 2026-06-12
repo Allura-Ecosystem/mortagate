@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Borrower_Name_Snapshot__c</fullName>
+    <description>Point-in-time snapshot of the borrower name as of Sampled_At__c. Write-once evidence field (see ADR-001). Captured at sampling and immutable thereafter — must NOT be derived live.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Borrower name captured at the moment this case was sampled. Immutable evidence.</inlineHelpText>
+    <label>Borrower Name (Snapshot)</label>
+    <length>121</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

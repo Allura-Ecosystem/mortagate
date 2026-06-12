@@ -1,0 +1,108 @@
+# V4.3 — Continuous Integration for the Mortgage Audit (audit-queue) project.
+#
+# STATUS: ready-pending-remote. This workflow is complete and correct, but it
+# only runs once the audit-queue source lives in a GitHub repo (see V0.4
+# canonical-landing runbook) AND the DevHub auth secret below is configured.
+# Until then it is a committed, reviewed artifact — not yet a live gate.
+#
+# GATES:
+#   1. quality  — prettier:verify, eslint, and the Jest LWC suite (always runs;
+#                 no org or secret required, so every PR gets a fast signal).
+#   2. apex     — spins a scratch org from the DevHub, pushes source, and runs
+#                 the AuditQueue Apex suite (RunSpecifiedTests over the audit
+#                 classes — the same suite as local + deploy). Runs only when
+#                 the DEVHUB_SFDX_AUTH_URL secret is present, then always tears
+#                 the scratch org down.
+#
+# REQUIRED REPO SECRET:
+#   DEVHUB_SFDX_AUTH_URL — `sf org display --verbose --json` → result.sfdxAuthUrl
+#                          for the Dev Hub, or a JWT-based auth URL. Store via
+#                          repo Settings → Secrets and variables → Actions.
+
+name: CI
+
+on:
+  pull_request:
+    branches: ["**"]
+  push:
+    branches: [main, master]
+
+# Cancel superseded runs on the same ref to save CI minutes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint + LWC Jest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prettier (verify formatting)
+        run: npm run prettier:verify
+
+      - name: ESLint (aura + lwc)
+        run: npm run lint
+
+      - name: Jest (LWC unit tests + coverage)
+        run: npm run test:unit:coverage
+
+  apex:
+    name: Scratch-org Apex suite
+    runs-on: ubuntu-latest
+    needs: quality
+    env:
+      DEVHUB_SFDX_AUTH_URL: ${{ secrets.DEVHUB_SFDX_AUTH_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip notice (no DevHub secret)
+        if: ${{ env.DEVHUB_SFDX_AUTH_URL == '' }}
+        run: |
+          echo "::notice title=Apex gate skipped::DEVHUB_SFDX_AUTH_URL is not set."
+          echo "Configure the secret to enable scratch-org Apex validation (V4.3)."
+
+      - name: Install Salesforce CLI
+        if: ${{ env.DEVHUB_SFDX_AUTH_URL != '' }}
+        run: npm install --global @salesforce/cli
+
+      - name: Authenticate Dev Hub
+        if: ${{ env.DEVHUB_SFDX_AUTH_URL != '' }}
+        run: |
+          echo "$DEVHUB_SFDX_AUTH_URL" > ./DEVHUB_AUTH.txt
+          sf org login sfdx-url --sfdx-url-file ./DEVHUB_AUTH.txt --set-default-dev-hub --alias devhub
+          rm -f ./DEVHUB_AUTH.txt
+
+      - name: Create scratch org
+        if: ${{ env.DEVHUB_SFDX_AUTH_URL != '' }}
+        run: |
+          sf org create scratch --definition-file config/project-scratch-def.json \
+            --alias ci-scratch --set-default --duration-days 1 --wait 10
+
+      - name: Push source
+        if: ${{ env.DEVHUB_SFDX_AUTH_URL != '' }}
+        run: sf project deploy start --target-org ci-scratch --wait 30
+
+      - name: Run AuditQueue Apex suite
+        if: ${{ env.DEVHUB_SFDX_AUTH_URL != '' }}
+        run: |
+          sf apex run test --target-org ci-scratch \
+            --suite-names AuditQueue \
+            --code-coverage --result-format human --wait 20
+
+      - name: Delete scratch org
+        if: ${{ always() && env.DEVHUB_SFDX_AUTH_URL != '' }}
+        run: sf org delete scratch --target-org ci-scratch --no-prompt || true

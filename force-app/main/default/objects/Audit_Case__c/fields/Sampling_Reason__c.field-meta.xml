@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sampling_Reason__c</fullName>
+    <description>Why this loan was selected for post-approval audit.</description>
+    <inlineHelpText>The reason this loan was selected for quality review.</inlineHelpText>
+    <label>Sampling Reason</label>
+    <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Random</fullName>
+                <default>false</default>
+                <label>Random</label>
+            </value>
+            <value>
+                <fullName>Risk_Based</fullName>
+                <default>false</default>
+                <label>Risk Based</label>
+            </value>
+            <value>
+                <fullName>Targeted</fullName>
+                <default>false</default>
+                <label>Targeted</label>
+            </value>
+            <value>
+                <fullName>Ad_Hoc</fullName>
+                <default>false</default>
+                <label>Ad Hoc</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

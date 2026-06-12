@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Snapshot_Write_Once</fullName>
+    <active>true</active>
+    <description>Enforces write-once immutability on snapshot evidence fields (ADR-001). A snapshot field may be set once (blank -&gt; value) but never changed thereafter, so audit evidence cannot mutate after sampling.</description>
+    <errorConditionFormula>AND(
+    ISCHANGED(Borrower_Name_Snapshot__c),
+    NOT(ISBLANK(PRIORVALUE(Borrower_Name_Snapshot__c)))
+)</errorConditionFormula>
+    <errorDisplayField>Borrower_Name_Snapshot__c</errorDisplayField>
+    <errorMessage>Borrower Name (Snapshot) is write-once evidence and cannot be changed after it is first captured.</errorMessage>
+</ValidationRule>
