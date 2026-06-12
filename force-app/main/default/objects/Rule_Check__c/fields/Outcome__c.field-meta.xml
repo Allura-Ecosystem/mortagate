@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outcome__c</fullName>
+    <description>Result of the rule evaluation against reconstructed facts.</description>
+    <inlineHelpText>The outcome of replaying this policy rule: Pass, Exception, Violation, or Unverifiable.</inlineHelpText>
+    <label>Outcome</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pass</fullName>
+                <default>false</default>
+                <label>Pass</label>
+            </value>
+            <value>
+                <fullName>Exception</fullName>
+                <default>false</default>
+                <label>Exception</label>
+            </value>
+            <value>
+                <fullName>Violation</fullName>
+                <default>false</default>
+                <label>Violation</label>
+            </value>
+            <value>
+                <fullName>Unverifiable</fullName>
+                <default>false</default>
+                <label>Unverifiable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
