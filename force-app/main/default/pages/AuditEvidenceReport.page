@@ -1,0 +1,151 @@
+<apex:page controller="AuditEvidenceReportController"
+           renderAs="pdf"
+           readOnly="true"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false"
+           applyHtmlTag="true"
+           applyBodyTag="true"
+           title="Audit Evidence Report">
+    <!--
+      V5.1 — Audit Evidence Report (printable / PDF).
+
+      SECURITY: every value below is rendered through default Visualforce
+      output escaping. There is deliberately NO escape="false" anywhere on
+      this page — audit evidence must never be a stored-XSS / injection vector.
+      All data is sourced from the with-sharing, USER_MODE controller.
+
+      renderAs="pdf" uses the Flying Saucer engine, so the CSS here is kept to
+      the supported subset (no flexbox/grid).
+    -->
+    <head>
+        <style type="text/css">
+            body { font-family: Arial, Helvetica, sans-serif; color: #1F1E1C; font-size: 11px; }
+            .report-title { font-size: 20px; font-weight: bold; color: #1F1E1C; margin: 0 0 2px 0; }
+            .report-sub { font-size: 11px; color: #7F8C8D; margin: 0 0 14px 0; }
+            .accent { border-bottom: 3px solid #E25D22; margin-bottom: 14px; }
+            .section-h { font-size: 13px; font-weight: bold; color: #E25D22; margin: 16px 0 6px 0; }
+            table { width: 100%; border-collapse: collapse; }
+            .meta-tbl td { padding: 3px 6px; vertical-align: top; }
+            .meta-tbl td.k { color: #7F8C8D; width: 32%; }
+            .meta-tbl td.v { color: #1F1E1C; font-weight: bold; }
+            .evt-tbl th { background-color: #faf8f4; color: #1F1E1C; text-align: left;
+                          padding: 5px 6px; border-bottom: 2px solid #d4d0c8; font-size: 10px; }
+            .evt-tbl td { padding: 5px 6px; border-bottom: 1px solid #ece8e1; font-size: 10px; }
+            .footer { margin-top: 22px; padding-top: 8px; border-top: 1px solid #d4d0c8;
+                      color: #7F8C8D; font-size: 9px; }
+            .err { border: 1px solid #C0392B; background-color: #fef2f2; color: #C0392B;
+                   padding: 10px 12px; font-size: 12px; }
+            .empty { color: #7F8C8D; font-style: italic; padding: 6px; }
+        </style>
+    </head>
+    <body>
+        <!-- Fail-closed: no case / no access / not found -->
+        <apex:outputPanel rendered="{!NOT(reportReady)}" layout="block">
+            <div class="report-title">Audit Evidence Report</div>
+            <div class="accent"></div>
+            <div class="err">
+                <apex:outputText value="{!errorMessage}"/>
+            </div>
+            <div class="footer">
+                Generated
+                <apex:outputText value="{0,date,yyyy-MM-dd HH:mm:ss}">
+                    <apex:param value="{!generatedAt}"/>
+                </apex:outputText>
+                &#8226; by <apex:outputText value="{!generatedBy}"/>
+            </div>
+        </apex:outputPanel>
+
+        <!-- Report body -->
+        <apex:outputPanel rendered="{!reportReady}" layout="block">
+            <div class="report-title">Audit Evidence Report</div>
+            <div class="report-sub">
+                Case <apex:outputText value="{!auditCase.Name}"/>
+                &#8226; Borrower
+                <apex:outputText value="{!auditCase.Borrower_Name_Snapshot__c}"/>
+            </div>
+            <div class="accent"></div>
+
+            <div class="section-h">Case Summary</div>
+            <table class="meta-tbl">
+                <tr>
+                    <td class="k">Borrower (snapshot at sampling)</td>
+                    <td class="v"><apex:outputText value="{!auditCase.Borrower_Name_Snapshot__c}"/></td>
+                </tr>
+                <tr>
+                    <td class="k">Loan Application</td>
+                    <td class="v"><apex:outputText value="{!auditCase.Loan_Application__c}"/></td>
+                </tr>
+                <tr>
+                    <td class="k">Status</td>
+                    <td class="v"><apex:outputText value="{!auditCase.Status__c}"/></td>
+                </tr>
+                <tr>
+                    <td class="k">Risk Tier</td>
+                    <td class="v"><apex:outputText value="{!auditCase.Risk_Tier__c}"/></td>
+                </tr>
+                <tr>
+                    <td class="k">Sampling Reason</td>
+                    <td class="v"><apex:outputText value="{!auditCase.Sampling_Reason__c}"/></td>
+                </tr>
+                <tr>
+                    <td class="k">Original Approver</td>
+                    <td class="v"><apex:outputText value="{!auditCase.Original_Approver__r.Name}"/></td>
+                </tr>
+                <tr>
+                    <td class="k">Assigned Auditor</td>
+                    <td class="v"><apex:outputText value="{!auditCase.Auditor__r.Name}"/></td>
+                </tr>
+                <tr>
+                    <td class="k">Approved</td>
+                    <td class="v">
+                        <apex:outputText value="{0,date,yyyy-MM-dd HH:mm:ss}">
+                            <apex:param value="{!auditCase.Approval_Timestamp__c}"/>
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="k">Sampled</td>
+                    <td class="v">
+                        <apex:outputText value="{0,date,yyyy-MM-dd HH:mm:ss}">
+                            <apex:param value="{!auditCase.Sampled_At__c}"/>
+                        </apex:outputText>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="section-h">Chain of Custody — Audit Event Trail</div>
+            <table class="evt-tbl">
+                <tr>
+                    <th>Timestamp (UTC)</th>
+                    <th>Event</th>
+                    <th>Actor</th>
+                </tr>
+                <apex:repeat value="{!events}" var="evt">
+                    <tr>
+                        <td>
+                            <apex:outputText value="{0,date,yyyy-MM-dd HH:mm:ss}">
+                                <apex:param value="{!evt.Timestamp__c}"/>
+                            </apex:outputText>
+                        </td>
+                        <td><apex:outputText value="{!evt.Event_Type__c}"/></td>
+                        <td><apex:outputText value="{!evt.Actor__c}"/></td>
+                    </tr>
+                </apex:repeat>
+            </table>
+            <apex:outputPanel rendered="{!events.size == 0}" layout="block">
+                <div class="empty">No audit events are recorded for this case.</div>
+            </apex:outputPanel>
+
+            <div class="footer">
+                This report is generated from append-only Audit Event records
+                (ordered by event timestamp) and the write-once borrower-name
+                snapshot. Generated
+                <apex:outputText value="{0,date,yyyy-MM-dd HH:mm:ss}">
+                    <apex:param value="{!generatedAt}"/>
+                </apex:outputText>
+                &#8226; by <apex:outputText value="{!generatedBy}"/>.
+            </div>
+        </apex:outputPanel>
+    </body>
+</apex:page>

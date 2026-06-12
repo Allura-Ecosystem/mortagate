@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Edit_After_Creation</fullName>
+    <active>true</active>
+    <description>Enforces the append-only invariant on Audit_Event__c. Records cannot be edited after creation. All corrections must be recorded as new Audit_Event__c records with Event_Type__c = Correction.</description>
+    <errorConditionFormula>NOT(ISNEW())</errorConditionFormula>
+    <errorDisplayField>Event_Type__c</errorDisplayField>
+    <errorMessage>Audit Events are append-only. Records cannot be edited or deleted after creation.</errorMessage>
+</ValidationRule>
