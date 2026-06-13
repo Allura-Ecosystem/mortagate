@@ -305,4 +305,48 @@ public with sharing class AuditCaseService {
 
         return Database.query(query);
     }
+
+    /**
+     * Distinct original approvers across open audit cases — backs the queue's
+     * Approver filter so it can actually narrow by approver (F-01 / audit
+     * finding F1). Returns {id, name} maps ordered by name; an empty list when
+     * no open case carries an approver (the LWC still shows "All approvers").
+     *
+     * Two queries, no SOQL in a loop: an aggregate DISTINCT on the lookup, then
+     * one User name lookup. FLS/CRUD enforced via USER_MODE on both.
+     *
+     * @return List of maps with keys 'id' (User Id) and 'name' (User.Name)
+     */
+    public static List<Map<String, String>> getApprovers() {
+        Set<Id> approverIds = new Set<Id>();
+        for (AggregateResult ar : [
+            SELECT Original_Approver__c approverId
+            FROM Audit_Case__c
+            WHERE Original_Approver__c != null
+              AND Status__c != 'Closed'
+            WITH USER_MODE
+            GROUP BY Original_Approver__c
+        ]) {
+            approverIds.add((Id) ar.get('approverId'));
+        }
+
+        List<Map<String, String>> approvers = new List<Map<String, String>>();
+        if (approverIds.isEmpty()) {
+            return approvers;
+        }
+
+        for (User u : [
+            SELECT Id, Name
+            FROM User
+            WHERE Id IN :approverIds
+            WITH USER_MODE
+            ORDER BY Name
+        ]) {
+            approvers.add(new Map<String, String>{
+                'id'   => String.valueOf(u.Id),
+                'name' => u.Name
+            });
+        }
+        return approvers;
+    }
 }

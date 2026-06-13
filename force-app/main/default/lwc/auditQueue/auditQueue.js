@@ -4,6 +4,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import Id from '@salesforce/user/Id';
 import getQueue from '@salesforce/apex/AuditQueueController.getQueue';
 import getMetrics from '@salesforce/apex/AuditQueueController.getMetrics';
+import getApprovers from '@salesforce/apex/AuditQueueController.getApprovers';
 
 const COLUMNS = [
     { label: 'Loan', fieldName: 'loanNumber', type: 'text', sortable: true },
@@ -58,6 +59,12 @@ export default class AuditQueue extends NavigationMixin(LightningElement) {
     // Wire: metrics
     @wire(getMetrics)
     metricsResult;
+
+    // Wire: distinct approvers, to populate the Approver filter options (F1).
+    // Without this the control only offered "All approvers" and could never
+    // narrow the query — a visible-but-inert filter.
+    @wire(getApprovers)
+    approversResult;
 
     // Wire: queue data (reactive to filters).
     // Every control with a backing Audit_Case__c field is wired here so the
@@ -204,10 +211,18 @@ export default class AuditQueue extends NavigationMixin(LightningElement) {
     }
 
     // --- Filter options ---
+    // Approver options are sourced from the getApprovers wire (the distinct
+    // approvers on open cases). The leading "All approvers" sentinel maps to an
+    // empty value, which the wire treats as "no approver filter" (F1 fix).
     get approverOptions() {
-        return [
-            { label: 'All approvers', value: '' }
-        ];
+        const options = [{ label: 'All approvers', value: '' }];
+        const approvers = this.approversResult?.data;
+        if (approvers) {
+            approvers.forEach((a) => {
+                options.push({ label: a.name, value: a.id });
+            });
+        }
+        return options;
     }
 
     get riskTierOptions() {

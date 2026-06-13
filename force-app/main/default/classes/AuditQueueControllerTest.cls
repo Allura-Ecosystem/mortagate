@@ -180,6 +180,56 @@ private class AuditQueueControllerTest {
     }
 
     // ---------------------------------------------------------------
+    // getApprovers (F1 fix — backs the queue's Approver filter)
+    // ---------------------------------------------------------------
+
+    @IsTest
+    static void test_getApprovers_returnsDistinctApproversOnOpenCases() {
+        // An open case with an approver set (the @TestSetup cases leave it null).
+        Id approverId = UserInfo.getUserId();
+        Audit_Case__c withApprover = new Audit_Case__c(
+            Loan_Application__c = 'a0000000000APPR1',
+            Sampling_Reason__c = 'Risk_Based',
+            Approval_Timestamp__c = Datetime.now().addDays(-3),
+            Status__c = 'In_Review',
+            Original_Approver__c = approverId
+        );
+        insert withApprover;
+
+        Test.startTest();
+        List<Map<String, String>> approvers = AuditQueueController.getApprovers();
+        Test.stopTest();
+
+        System.assert(!approvers.isEmpty(),
+            'Should return the approver on the open case');
+
+        Boolean found = false;
+        for (Map<String, String> a : approvers) {
+            System.assert(a.containsKey('id'), 'Each entry has an id');
+            System.assert(a.containsKey('name'), 'Each entry has a name');
+            if (a.get('id') == String.valueOf(approverId)) {
+                found = true;
+                System.assertEquals(UserInfo.getName(), a.get('name'),
+                    'Approver name should match the User.Name');
+            }
+        }
+        System.assert(found,
+            'The current user should appear as an approver');
+    }
+
+    @IsTest
+    static void test_getApprovers_emptyWhenNoApproverSet() {
+        // The @TestSetup cases never set Original_Approver__c, so with no extra
+        // data the distinct-approver query returns nothing.
+        Test.startTest();
+        List<Map<String, String>> approvers = AuditQueueController.getApprovers();
+        Test.stopTest();
+
+        System.assert(approvers.isEmpty(),
+            'No open case carries an approver, so the list is empty');
+    }
+
+    // ---------------------------------------------------------------
     // createAuditCase
     // ---------------------------------------------------------------
 

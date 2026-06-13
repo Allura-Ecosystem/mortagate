@@ -1,11 +1,25 @@
 import { createElement } from 'lwc';
 import AuditQueue from 'c/auditQueue';
 import getQueue from '@salesforce/apex/AuditQueueController.getQueue';
+import getApprovers from '@salesforce/apex/AuditQueueController.getApprovers';
 import USER_ID from '@salesforce/user/Id';
 
 // Register the @wire(getQueue) Apex method as an emittable test wire adapter.
 jest.mock(
     '@salesforce/apex/AuditQueueController.getQueue',
+    () => {
+        const {
+            createApexTestWireAdapter
+        } = require('@salesforce/sfdx-lwc-jest');
+        return { default: createApexTestWireAdapter(jest.fn()) };
+    },
+    { virtual: true }
+);
+
+// Register the @wire(getApprovers) Apex method as an emittable test wire adapter
+// so the Approver-filter options can be driven in tests (F1 fix).
+jest.mock(
+    '@salesforce/apex/AuditQueueController.getApprovers',
     () => {
         const {
             createApexTestWireAdapter
@@ -142,6 +156,45 @@ describe('c-audit-queue — column/key contract', () => {
         // (wiring an unsupported param would be a silent no-op). Guard the gap.
         expect(config).not.toHaveProperty('filterProduct');
         expect(config).not.toHaveProperty('filterBranch');
+    });
+
+    /**
+     * APPROVER FILTER OPTIONS (F1 fix).
+     *
+     * The Approver combobox was inert: it only ever offered "All approvers"
+     * because the LWC had no source for approver options. The getApprovers wire
+     * now backs it. This guards that emitted approvers actually become options
+     * (id as value, Name as label) on top of the "All approvers" sentinel — so
+     * the control can narrow the query instead of silently doing nothing.
+     */
+    it('populates Approver options from the getApprovers wire (F1)', async () => {
+        const element = createElement('c-audit-queue', { is: AuditQueue });
+        document.body.appendChild(element);
+
+        getApprovers.emit([
+            { id: '005000000000001AAA', name: 'Dana Whitfield' },
+            { id: '005000000000002AAA', name: 'Marcus Reed' }
+        ]);
+        await flush();
+
+        const approver = element.shadowRoot.querySelector(
+            'lightning-combobox[data-field="approver"]'
+        );
+        const values = approver.options.map((o) => o.value);
+        const labels = approver.options.map((o) => o.label);
+
+        // The "All approvers" sentinel is always first with an empty value.
+        expect(approver.options[0]).toEqual({
+            label: 'All approvers',
+            value: ''
+        });
+        // Both emitted approvers appear as selectable options (id -> value).
+        expect(values).toEqual(
+            expect.arrayContaining(['005000000000001AAA', '005000000000002AAA'])
+        );
+        expect(labels).toEqual(
+            expect.arrayContaining(['Dana Whitfield', 'Marcus Reed'])
+        );
     });
 
     it("resolves the 'mine' auditor selection to the current user Id", async () => {

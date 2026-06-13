@@ -104,6 +104,18 @@ public with sharing class AuditQueueController {
     }
 
     /**
+     * Get the distinct original approvers present on open audit cases, used to
+     * populate the queue's Approver filter (audit finding F1 — the control was
+     * inert because the LWC had no source for approver options).
+     *
+     * @return List of {id, name} maps, ordered by name
+     */
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> getApprovers() {
+        return AuditCaseService.getApprovers();
+    }
+
+    /**
      * Create a new audit case from a loan application.
      *
      * @param loanApplicationId   The Loan_Application__c Id (as String)
