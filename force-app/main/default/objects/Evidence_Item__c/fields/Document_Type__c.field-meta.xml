@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <description>Category of the evidence document.</description>
+    <inlineHelpText>The type of document this evidence item represents.</inlineHelpText>
+    <label>Document Type</label>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>W2</fullName>
+                <default>false</default>
+                <label>W2</label>
+            </value>
+            <value>
+                <fullName>Tax_Return</fullName>
+                <default>false</default>
+                <label>Tax Return</label>
+            </value>
+            <value>
+                <fullName>Bank_Statement</fullName>
+                <default>false</default>
+                <label>Bank Statement</label>
+            </value>
+            <value>
+                <fullName>Pay_Stub</fullName>
+                <default>false</default>
+                <label>Pay Stub</label>
+            </value>
+            <value>
+                <fullName>ID</fullName>
+                <default>false</default>
+                <label>ID</label>
+            </value>
+            <value>
+                <fullName>Credit_Report</fullName>
+                <default>false</default>
+                <label>Credit Report</label>
+            </value>
+            <value>
+                <fullName>Appraisal</fullName>
+                <default>false</default>
+                <label>Appraisal</label>
+            </value>
+            <value>
+                <fullName>System_Snapshot</fullName>
+                <default>false</default>
+                <label>System Snapshot</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

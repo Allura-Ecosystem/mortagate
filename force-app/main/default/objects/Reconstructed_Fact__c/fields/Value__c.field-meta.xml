@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Value__c</fullName>
+    <description>The reconstructed fact value as text. Interpretation depends on the Fact Type.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The extracted or reconstructed value for this fact.</inlineHelpText>
+    <label>Value</label>
+    <length>255</length>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

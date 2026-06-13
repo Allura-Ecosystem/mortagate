@@ -1,0 +1,340 @@
+/* ============================================================
+   auditQueue — Brand Tokens
+
+   V3.3 — Dark-mode readiness via SLDS 2 styling hooks with HEX FALLBACKS.
+   Each brand token resolves an SLDS global hook first and falls back to the
+   exact brand hex when the hook is unset: var(--slds-g-..., #HEX). This is
+   strictly additive and safe by construction:
+     • On an org WITHOUT SLDS 2 styling hooks, every token resolves to the
+       same hex as before — byte-for-byte identical rendering, zero risk.
+     • On an org WITH SLDS 2 (incl. a dark theme), the surface chrome
+       (page/card backgrounds, body text) tracks the theme automatically,
+       lifting the "light-theme-only" caveat.
+   The SEMANTIC signal colours (approval/violation/amber/sla/risk) keep their
+   brand hex as the authority — audit risk tiers must read identically in
+   every theme, so they are intentionally NOT themed away.
+   ============================================================ */
+:host {
+    /* Surface chrome — theme-tracking where SLDS 2 is present, hex otherwise */
+    --brand-cream: var(--slds-g-color-surface-container-1, #F5F0E8);
+    --brand-charcoal: var(--slds-g-color-on-surface-1, #1F1E1C);
+    --brand-surface: var(--slds-g-color-surface-1, #fff);
+    /* Brand identity + semantic signals — hex is the authority (theme-stable) */
+    --brand-orange: #E25D22;
+    --brand-approval: #308357;
+    --brand-violation: #C0392B;
+    --brand-amber: #D4920A;
+    /* Text-safe amber for badge LABELS only: brand --brand-amber (#D4920A) is
+       2.65:1 on white and fails WCAG 1.4.3 for text. This darker variant is
+       5.22:1. The brand amber is retained for non-text decoration (accent bars). */
+    --brand-amber-text: #936300;
+    --brand-sla-blue: #2C5282;
+    --brand-gray: #7F8C8D;
+
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --brand-navy: #1B2A4A;
+
+    display: block;
+    background-color: var(--brand-cream);
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--brand-charcoal);
+}
+
+/* ============================================================
+   App Shell — sidebar + main
+   ============================================================ */
+.audit-queue--shell {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+}
+
+.audit-queue__main {
+    flex: 1 1 auto;
+    min-width: 0; /* allow the datatable to shrink instead of overflowing */
+}
+
+/* ============================================================
+   Brand Sidebar (visual chrome)
+   ============================================================ */
+.audit-queue__sidebar {
+    flex: 0 0 220px;
+    width: 220px;
+    background: var(--brand-navy);
+    color: #fff;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.audit-queue__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.audit-queue__brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 6px;
+    background: var(--brand-orange);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.audit-queue__brand-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.0625rem;
+    letter-spacing: 0.01em;
+}
+
+.audit-queue__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.audit-queue__nav-item {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.72);
+    cursor: default;
+}
+
+.audit-queue__nav-item--active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-weight: 600;
+    border-left: 3px solid var(--brand-orange);
+    padding-left: calc(0.75rem - 3px);
+}
+
+@media (max-width: 768px) {
+    .audit-queue--shell { flex-direction: column; }
+    .audit-queue__sidebar {
+        flex-basis: auto;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1.25rem;
+    }
+    .audit-queue__nav { flex-direction: row; }
+}
+
+/* ============================================================
+   Screen Header
+   ============================================================ */
+.audit-queue__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem 1rem;
+}
+
+.audit-queue__title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0;
+    color: var(--brand-charcoal);
+}
+
+.audit-queue__subtitle {
+    font-size: 0.9375rem;
+    color: var(--brand-gray);
+    margin: 0.25rem 0 0;
+}
+
+.audit-queue__header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+/* New audit button — orange primary action */
+.audit-queue__new-btn lightning-button button,
+.audit-queue__new-btn button {
+    background-color: var(--brand-orange);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    padding: 0.625rem 1.5rem;
+    cursor: pointer;
+}
+
+/* Export CSV button — secondary / outline action */
+.audit-queue__export-btn lightning-button button,
+.audit-queue__export-btn button {
+    background-color: transparent;
+    color: var(--brand-charcoal);
+    border: 1px solid #d4d0c8;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    padding: 0.625rem 1.25rem;
+    cursor: pointer;
+}
+
+/* ============================================================
+   Metric Cards
+   ============================================================ */
+.audit-queue__metrics {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    padding: 0 2rem 1.25rem;
+}
+
+.metric-card {
+    background: var(--brand-surface);
+    border-radius: 8px;
+    padding: 1.25rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+/* Colored accent bar at bottom */
+.metric-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+}
+
+.metric-card--orange::after { background-color: var(--brand-orange); }
+.metric-card--red::after    { background-color: var(--brand-violation); }
+.metric-card--amber::after  { background-color: var(--brand-amber); }
+.metric-card--green::after  { background-color: var(--brand-approval); }
+.metric-card--blue::after   { background-color: var(--brand-sla-blue); }
+
+.metric-card__value {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 2.375rem;
+    line-height: 1;
+    color: var(--brand-charcoal);
+}
+
+.metric-card__label {
+    font-size: 0.8125rem;
+    color: var(--brand-gray);
+    margin-top: 0.375rem;
+}
+
+/* ============================================================
+   Filter Rail
+   ============================================================ */
+.audit-queue__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    padding: 0 2rem 1.25rem;
+    align-items: center;
+}
+
+.audit-queue__filter-pill {
+    --slds-c-input-radius-border: 999px;
+    min-width: 140px;
+    max-width: 180px;
+}
+
+/* Override combobox styling for pill appearance */
+.audit-queue__filter-pill lightning-base-combobox .slds-combobox__input,
+.audit-queue__filter-pill input {
+    background-color: var(--brand-cream);
+    border: 1px solid #d4d0c8;
+    border-radius: 999px;
+    color: var(--brand-charcoal);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+}
+
+/* Date input in filter rail — match pill dimensions */
+.audit-queue__filter-date {
+    min-width: 160px;
+    max-width: 190px;
+}
+
+/* ============================================================
+   Data Table
+   ============================================================ */
+.audit-queue__table {
+    padding: 0 2rem 2rem;
+    position: relative;
+    min-height: 200px;
+}
+
+.audit-queue__table lightning-datatable {
+    --slds-c-datatable-color-background: var(--brand-surface);
+    --slds-c-datatable-header-color-background: var(--slds-g-color-surface-container-2, #faf8f4);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================================
+   Empty State (zero-result filter)
+   ============================================================ */
+.audit-queue__empty {
+    background: var(--brand-surface);
+    border: 1px dashed #d4d0c8;
+    border-radius: 8px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+}
+
+.audit-queue__empty-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--brand-charcoal);
+    margin: 0;
+}
+
+.audit-queue__empty-hint {
+    font-size: 0.875rem;
+    color: var(--brand-gray);
+    margin: 0.375rem 0 0;
+}
+
+/* ============================================================
+   Error State
+   ============================================================ */
+.audit-queue__error {
+    /* Error tint tracks the theme's error container where SLDS 2 is present;
+       the violation border + text stay brand-hex so the alert reads in any theme. */
+    background: var(--slds-g-color-error-container-1, #fef2f2);
+    border: 1px solid var(--brand-violation);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    color: var(--brand-violation);
+    font-size: 0.875rem;
+}
+
+/* ============================================================
+   Risk Badges
+   Moved to the riskBadge LWC (force-app/main/default/lwc/riskBadge): the badge
+   renders inside the lightning-datatable shadow DOM via the custom `riskBadge`
+   cell type, so its colour + shape sigil styles MUST live in that component's
+   own stylesheet — rules here could never reach the cell. See riskBadge.css.
+   ============================================================ */

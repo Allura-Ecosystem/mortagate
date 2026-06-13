@@ -1,0 +1,31 @@
+/* ============================================================
+   riskBadge — risk-tier colour + shape sigil
+
+   These rules MUST live in this component's own stylesheet: the badge span is
+   rendered inside this component's shadow root, so the rules apply here even
+   though the cell is nested inside a lightning-datatable shadow tree (the
+   parent auditQueue stylesheet cannot reach this far — that was the original
+   drift). Brand tokens (--brand-*) inherit through the composed tree from the
+   auditQueue :host; hex fallbacks keep the colours correct even in isolation.
+
+   The tier WORD is the primary signal (WCAG 1.4.1 — never colour alone). The
+   ::before sigil is the SOLE non-colour discriminator for High/Med/Low
+   (Critical also carries an underline): Critical ●  High ▲  Medium ◆  Low ■
+   ============================================================ */
+.risk-badge--critical { color: var(--brand-violation, #C0392B); font-weight: 700; text-decoration: underline; }
+.risk-badge--high     { color: var(--brand-violation, #C0392B); font-weight: 600; }
+.risk-badge--medium   { color: var(--brand-amber-text, #936300); font-weight: 600; }
+.risk-badge--low      { color: var(--brand-approval, #308357); font-weight: 600; }
+
+.risk-badge--critical::before { content: '\25CF'; } /* ● BLACK CIRCLE */
+.risk-badge--high::before     { content: '\25B2'; } /* ▲ BLACK UP-POINTING TRIANGLE */
+.risk-badge--medium::before   { content: '\25C6'; } /* ◆ BLACK DIAMOND */
+.risk-badge--low::before      { content: '\25A0'; } /* ■ BLACK SQUARE */
+.risk-badge--critical::before,
+.risk-badge--high::before,
+.risk-badge--medium::before,
+.risk-badge--low::before {
+    margin-right: 0.4em;
+    font-size: 0.85em;
+    line-height: 1;
+}

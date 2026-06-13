@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_Evidence__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The evidence item from which this fact was extracted.</description>
+    <inlineHelpText>The evidence item that sourced this reconstructed fact.</inlineHelpText>
+    <label>Source Evidence</label>
+    <referenceTo>Evidence_Item__c</referenceTo>
+    <relationshipLabel>Reconstructed Facts</relationshipLabel>
+    <relationshipName>Reconstructed_Facts</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Signed_Off_By__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The reviewer who signed off on the completed audit.</description>
+    <inlineHelpText>The person who provided final sign-off on this audit case.</inlineHelpText>
+    <label>Signed Off By</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Audit_Cases_Signed_Off</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

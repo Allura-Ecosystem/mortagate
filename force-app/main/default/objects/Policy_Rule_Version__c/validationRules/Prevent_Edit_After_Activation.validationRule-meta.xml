@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Edit_After_Activation</fullName>
+    <active>true</active>
+    <description>Active policy versions are immutable. The only permitted transition on an Active record is Active to Superseded. All other edits to records that were Active are blocked.</description>
+    <errorConditionFormula>AND(
+    NOT(ISNEW()),
+    ISPICKVAL(PRIORVALUE(Status__c), &apos;Active&apos;),
+    NOT(ISPICKVAL(Status__c, &apos;Superseded&apos;))
+)</errorConditionFormula>
+    <errorMessage>Active policy versions are immutable. To change policy, create a new version and supersede this one.</errorMessage>
+</ValidationRule>

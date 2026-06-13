@@ -1,0 +1,28 @@
+{
+  // V4.4 — Reproducible dev/CI workspace for the Mortgage Audit (audit-queue).
+  // Pins Node + the Salesforce CLI so local, Codespaces, and CI all share one
+  // toolchain. NOTE: this fixes the *toolchain*; the per-command cwd-reset seen
+  // in the agent harness is imposed by the session runtime, not by repo config —
+  // see docs/SESSION-SETUP.md for the durable workspace-root fix.
+  "name": "mortgage-audit",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
+  },
+  // Open the repo root as the workspace so sfdx-project.json is always at cwd.
+  "workspaceFolder": "/workspaces/mortgage-audit",
+  "postCreateCommand": "npm ci && npm install --global @salesforce/cli",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "salesforce.salesforcedx-vscode",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  }
+}
