@@ -34,11 +34,103 @@
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
 
+    --brand-navy: #1B2A4A;
+
     display: block;
     background-color: var(--brand-cream);
     min-height: 100vh;
     font-family: var(--font-body);
     color: var(--brand-charcoal);
+}
+
+/* ============================================================
+   App Shell — sidebar + main
+   ============================================================ */
+.audit-queue--shell {
+    display: flex;
+    align-items: stretch;
+    min-height: 100vh;
+}
+
+.audit-queue__main {
+    flex: 1 1 auto;
+    min-width: 0; /* allow the datatable to shrink instead of overflowing */
+}
+
+/* ============================================================
+   Brand Sidebar (visual chrome)
+   ============================================================ */
+.audit-queue__sidebar {
+    flex: 0 0 220px;
+    width: 220px;
+    background: var(--brand-navy);
+    color: #fff;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.audit-queue__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.audit-queue__brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 6px;
+    background: var(--brand-orange);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.audit-queue__brand-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.0625rem;
+    letter-spacing: 0.01em;
+}
+
+.audit-queue__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.audit-queue__nav-item {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.72);
+    cursor: default;
+}
+
+.audit-queue__nav-item--active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-weight: 600;
+    border-left: 3px solid var(--brand-orange);
+    padding-left: calc(0.75rem - 3px);
+}
+
+@media (max-width: 768px) {
+    .audit-queue--shell { flex-direction: column; }
+    .audit-queue__sidebar {
+        flex-basis: auto;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1.25rem;
+    }
+    .audit-queue__nav { flex-direction: row; }
 }
 
 /* ============================================================

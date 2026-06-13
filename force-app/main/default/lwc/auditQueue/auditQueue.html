@@ -1,5 +1,20 @@
 <template>
-    <div class="audit-queue">
+    <div class="audit-queue audit-queue--shell">
+      <!-- Brand Sidebar (visual chrome; navigation handled by Salesforce app nav) -->
+      <aside class="audit-queue__sidebar" aria-label="Audit navigation">
+        <div class="audit-queue__brand">
+            <span class="audit-queue__brand-mark" aria-hidden="true">&#10003;</span>
+            <span class="audit-queue__brand-name">Audit Queue</span>
+        </div>
+        <nav class="audit-queue__nav">
+            <span class="audit-queue__nav-item audit-queue__nav-item--active">Queue</span>
+            <span class="audit-queue__nav-item">Cases</span>
+            <span class="audit-queue__nav-item">Reports</span>
+        </nav>
+      </aside>
+
+      <!-- Main content -->
+      <div class="audit-queue__main">
         <!-- Screen Header -->
         <div class="audit-queue__header">
             <div class="audit-queue__header-left">
@@ -127,5 +142,6 @@
                 ></lightning-datatable>
             </template>
         </div>
+      </div>
     </div>
 </template>

@@ -59,12 +59,12 @@ Produce the six required artifacts in `planning docs/` (per `.github/copilot-ins
   - [ ] Browser App-Launcher render check (manual — final demo dry-run).
 
 ### Phase 3 — Stat cards (5 aggregates)
-- [ ] P3.1 Add 5 cards: Assigned to Me / High Risk / Evidence Needed / Ready for Signoff / SLA at Risk. Selective WHERE + LIMIT guards (Risk #2 mitigation).
-- **Gate:** card counts match Developer Console SOQL.
+- [x] P3.1 5 cards present (Assigned to Me / High Risk / Evidence Needed / Ready for Signoff / SLA at Risk). `AuditQueueController.getMetrics` runs 5 independent FLS-enforced COUNT() queries with selective WHERE clauses (Risk #2 mitigation; COUNT aggregates return no rows so no LIMIT needed). LWC `metricsData` getter + template cards already wired.
+- **Gate:** card counts match Developer Console SOQL. ✅ MET — getMetrics vs raw SOQL on mortagate-de: assignedToMe 37=37, highRisk 77=77, evidenceNeeded 89=89, readyForSignoff 98=98, slaAtRisk 4=4.
 
 ### Phase 4 — Figma styling pass (no functional changes)
-- [ ] P4.1 Style sidebar, stat cards, filter bar, table, sigils to brand-accurate fidelity. Run Jest + manual end-to-end after every commit (Risk #4 mitigation).
-- **Gate:** sidebar + cards + filter bar + table + sigils all present and recognizable vs the Figma.
+- [x] P4.1 Brand-accurate styling in place. Stat cards (colored accent bars), filter pills, themed datatable, and WCAG risk sigils (●▲◆■ + color) were already styled via brand tokens (Outfit/Inter, cream/charcoal/orange/approval/violation/amber/SLA-blue). Added the missing element: a brand **sidebar** (navy rail, orange logo mark, "Audit Queue" wordmark, Queue/Cases/Reports nav — decorative chrome, no invented brand name) + a flex app-shell (sidebar + main) with a mobile breakpoint. Deployed to mortagate-de.
+- **Gate:** sidebar + cards + filter bar + table + sigils all present and recognizable vs the Figma. ✅ all five present; Jest 12/12 auditQueue (42/42 repo-wide) green after the layout change (Risk #4 — no CSS regression; tests assert datatable/comboboxes/alert, all intact).
 
 ### Phase 5 — Error/empty states + no-op buttons
 - [ ] P5.1 Empty-state row message; `+ New Audit` toast; Export CSV no-op.
