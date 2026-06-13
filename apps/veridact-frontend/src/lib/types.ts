@@ -15,6 +15,26 @@ export type SlaStatus = "On Track" | "At Risk" | "Overdue";
 // A replay check is one lending rule re-run against the original approval.
 export type CheckStatus = "Pass" | "Exception" | "Unverifiable" | "Violation";
 
+// Stable identity for a lending rule. This is the immutable join key that ties a
+// check to its finding — never the display name, which is editable copy. Renaming
+// "DTI threshold" must not silently break the check→finding link, so we join on
+// ruleId and keep the human label separate (ruleName / RULE_LABELS).
+export type RuleId =
+  | "dti-threshold"
+  | "ltv-limit"
+  | "income-verified"
+  | "appraisal-complete"
+  | "exception-approval";
+
+// Single source of truth for a rule's display label, keyed by stable id.
+export const RULE_LABELS: Record<RuleId, string> = {
+  "dti-threshold": "DTI threshold",
+  "ltv-limit": "LTV limit",
+  "income-verified": "Income verified",
+  "appraisal-complete": "Appraisal complete",
+  "exception-approval": "Exception approval",
+};
+
 // How a piece of evidence stands relative to the rule it should support.
 export type EvidenceStatus =
   | "Linked"
@@ -54,7 +74,8 @@ export type AuditCase = {
 export type ReplayCheck = {
   id: string;
   caseId: string;
-  rule: string; // e.g. "DTI threshold"
+  ruleId: RuleId; // stable join key — ties this check to its finding
+  ruleName: string; // editable display label, e.g. "DTI threshold"
   detail: string; // e.g. "Policy cap 43% · actual 47%"
   status: CheckStatus;
   evidenceIds: string[];
@@ -78,7 +99,8 @@ export type EvidenceItem = {
 export type Finding = {
   id: string;
   caseId: string;
-  rule: string;
+  ruleId: RuleId; // stable join key — matches the ReplayCheck it explains
+  ruleName: string; // editable display label
   severity: "Exception" | "Violation";
   summary: string;
   guidelineRef: string; // the lending guideline that was breached

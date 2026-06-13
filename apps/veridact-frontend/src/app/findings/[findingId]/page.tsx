@@ -25,7 +25,7 @@ export default async function FindingDetailPage({
       </Link>
       <div className="mt-2">
         <PageHeader
-          title={finding.rule}
+          title={finding.ruleName}
           subtitle={
             auditCase
               ? `${auditCase.loanNumber} · ${auditCase.borrower} · ${auditCase.branch}`

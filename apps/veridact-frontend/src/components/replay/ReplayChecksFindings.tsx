@@ -79,9 +79,9 @@ export function ReplayChecksFindings({
     { Violation: 0, Exception: 0, Unverifiable: 0, Pass: 0 },
   );
 
-  // Map a check to the finding that wrote it up (matched by rule), so the
-  // inline rationale's "see finding" pointer can jump straight there (Leo).
-  const findingByRule = new Map(findings.map((f) => [f.rule, f]));
+  // Map a check to the finding that wrote it up, matched on the stable ruleId
+  // (not the display name) so renaming a rule never breaks the link (Leo).
+  const findingByRuleId = new Map(findings.map((f) => [f.ruleId, f]));
   return (
     <section className="rounded-[22px] border border-line bg-white p-6">
       <div className="flex items-start justify-between gap-4">
@@ -130,7 +130,7 @@ export function ReplayChecksFindings({
           >
             <div className="min-w-0">
               <h3 className="text-[15px] font-semibold text-ink">
-                <GlossedText>{check.rule}</GlossedText>
+                <GlossedText>{check.ruleName}</GlossedText>
               </h3>
               <p className="mt-1 text-xs text-muted">
                 <GlossedText>{check.detail}</GlossedText>
@@ -143,9 +143,9 @@ export function ReplayChecksFindings({
               {check.rationale ? (
                 <p className="mt-1.5 border-l-2 border-line pl-2 text-xs italic text-ink/70">
                   “<GlossedText>{check.rationale}</GlossedText>”
-                  {findingByRule.has(check.rule) ? (
+                  {findingByRuleId.has(check.ruleId) ? (
                     <Link
-                      href={`/findings/${findingByRule.get(check.rule)!.id}`}
+                      href={`/findings/${findingByRuleId.get(check.ruleId)!.id}`}
                       className="ml-1 not-italic font-medium text-brand-blue hover:underline"
                     >
                       — see full finding →

@@ -161,7 +161,7 @@ export default async function ReceiptDetailPage({
                   href={`/findings/${f.id}`}
                   className="block rounded-[12px] border border-line bg-surface p-3 hover:bg-peach/40"
                 >
-                  <span className="text-[14px] font-semibold text-ink">{f.rule}</span>
+                  <span className="text-[14px] font-semibold text-ink">{f.ruleName}</span>
                   <span className="ml-2 text-[12px] text-muted">{f.severity}</span>
                 </Link>
               ))}

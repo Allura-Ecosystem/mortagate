@@ -12,7 +12,7 @@ import {
 import type { ReplayCheck } from "../types";
 
 function check(status: ReplayCheck["status"]): ReplayCheck {
-  return { id: status, rule: "r", detail: "d", status } as ReplayCheck;
+  return { id: status, ruleId: "dti-threshold", ruleName: "r", detail: "d", status } as ReplayCheck;
 }
 
 describe("command layer (state machine + roles together)", () => {
