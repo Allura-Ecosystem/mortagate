@@ -5,21 +5,15 @@ import Id from '@salesforce/user/Id';
 import getQueue from '@salesforce/apex/AuditQueueController.getQueue';
 import getMetrics from '@salesforce/apex/AuditQueueController.getMetrics';
 
-// Picklist values are Low/Medium/High/Critical — map must match exactly.
-const RISK_CLASS_MAP = {
-    Critical: 'risk-badge risk-badge--critical',
-    High: 'risk-badge risk-badge--high',
-    Medium: 'risk-badge risk-badge--medium',
-    Low: 'risk-badge risk-badge--low'
-};
-
 const COLUMNS = [
     { label: 'Loan', fieldName: 'loanNumber', type: 'text', sortable: true },
     // Borrower bound to the write-once snapshot field (ADR-001 accepted, Option C).
     { label: 'Borrower', fieldName: 'borrowerName', type: 'text', sortable: true },
-    { label: 'Risk', fieldName: 'riskTier', type: 'text', sortable: true,
-        cellAttributes: { class: { fieldName: 'riskClass' } }
-    },
+    // Custom `riskBadge` cell type (auditQueueDatatable) renders the tier word +
+    // colour + shape sigil via the c-risk-badge child, whose own stylesheet
+    // reaches the cell. A plain `text` column with a cellAttributes class could
+    // not be styled — the datatable renders cells in its own shadow DOM.
+    { label: 'Risk', fieldName: 'riskTier', type: 'riskBadge', sortable: true },
     { label: 'Status', fieldName: 'status', type: 'text', sortable: true },
     { label: 'Approver', fieldName: 'approverName', type: 'text', sortable: true },
     { label: 'SLA', fieldName: 'slaRemaining', type: 'text', sortable: true },
@@ -107,7 +101,6 @@ export default class AuditQueue extends NavigationMixin(LightningElement) {
                 loanNumber: row.Loan_Application__c,
                 borrowerName: row.Borrower_Name_Snapshot__c || '',
                 riskTier,
-                riskClass: RISK_CLASS_MAP[riskTier] || 'risk-badge',
                 status: this.humanizeStatus(row.Status__c),
                 approverName: row.Original_Approver__r
                     ? row.Original_Approver__r.Name

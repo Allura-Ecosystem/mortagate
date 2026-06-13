@@ -139,7 +139,7 @@
                 </div>
             </template>
             <template lwc:if={hasRows}>
-                <lightning-datatable
+                <c-audit-queue-datatable
                     key-field="id"
                     data={queueData}
                     columns={columns}
@@ -150,7 +150,7 @@
                     onrowaction={handleRowClick}
                     hide-checkbox-column
                     show-row-number-column
-                ></lightning-datatable>
+                ></c-audit-queue-datatable>
             </template>
         </div>
       </div>

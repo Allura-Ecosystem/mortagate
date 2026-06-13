@@ -332,29 +332,9 @@
 }
 
 /* ============================================================
-   Risk Badges (applied via cellAttributes class)
+   Risk Badges
+   Moved to the riskBadge LWC (force-app/main/default/lwc/riskBadge): the badge
+   renders inside the lightning-datatable shadow DOM via the custom `riskBadge`
+   cell type, so its colour + shape sigil styles MUST live in that component's
+   own stylesheet — rules here could never reach the cell. See riskBadge.css.
    ============================================================ */
-.risk-badge--critical { color: var(--brand-violation); font-weight: 700; text-decoration: underline; }
-.risk-badge--high     { color: var(--brand-violation); font-weight: 600; }
-.risk-badge--medium   { color: var(--brand-amber-text); font-weight: 600; }
-.risk-badge--low      { color: var(--brand-approval); font-weight: 600; }
-
-/* V3.2 — Non-color tier discriminator (WCAG 1.4.1, "use of color").
-   A distinct SHAPE sigil per tier so colour-blind / monochrome users can tell
-   the tiers apart without relying on hue or weight. The tier WORD remains in
-   the text column for assistive tech (the sigil is decorative shape only):
-     Critical ●   High ▲   Medium ◆   Low ■
-   These are the SOLE non-colour discriminator for High/Med/Low (Critical also
-   carries an underline). */
-.risk-badge--critical::before { content: '\25CF'; } /* ● BLACK CIRCLE */
-.risk-badge--high::before     { content: '\25B2'; } /* ▲ BLACK UP-POINTING TRIANGLE */
-.risk-badge--medium::before   { content: '\25C6'; } /* ◆ BLACK DIAMOND */
-.risk-badge--low::before      { content: '\25A0'; } /* ■ BLACK SQUARE */
-.risk-badge--critical::before,
-.risk-badge--high::before,
-.risk-badge--medium::before,
-.risk-badge--low::before {
-    margin-right: 0.4em;
-    font-size: 0.85em;
-    line-height: 1;
-}

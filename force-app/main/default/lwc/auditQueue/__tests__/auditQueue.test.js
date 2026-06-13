@@ -57,7 +57,7 @@ describe('c-audit-queue — column/key contract', () => {
         getQueue.emit([APEX_ROW]);
         await flush();
 
-        const table = element.shadowRoot.querySelector('lightning-datatable');
+        const table = element.shadowRoot.querySelector('c-audit-queue-datatable');
         expect(table).not.toBeNull();
 
         const row = table.data[0];
@@ -66,8 +66,6 @@ describe('c-audit-queue — column/key contract', () => {
         fieldColumns.forEach((c) => {
             expect(row[c.fieldName]).toBeDefined();
         });
-        // Cell-attribute-backed field (risk badge class) must be produced too.
-        expect(row.riskClass).toBeDefined();
     });
 
     it('maps SObject API fields to the correct column property names', async () => {
@@ -77,12 +75,11 @@ describe('c-audit-queue — column/key contract', () => {
         getQueue.emit([APEX_ROW]);
         await flush();
 
-        const row = element.shadowRoot.querySelector('lightning-datatable').data[0];
+        const row = element.shadowRoot.querySelector('c-audit-queue-datatable').data[0];
         expect(row.id).toBe(APEX_ROW.Id); // key-field fix: SObject 'Id' -> 'id'
         expect(row.loanNumber).toBe('LA-558823');
         expect(row.borrowerName).toBe('Dolores Vance'); // ADR-001: write-once snapshot field
-        expect(row.riskTier).toBe('Critical');
-        expect(row.riskClass).toContain('risk-badge--critical');
+        expect(row.riskTier).toBe('Critical'); // c-risk-badge renders the word + sigil
         expect(row.status).toBe('Evidence Needed'); // underscore humanized
         expect(row.approverName).toBe('Dana Whitfield'); // nested __r.Name flattened
         expect(typeof row.slaRemaining).toBe('string'); // computed from Due_At__c
@@ -95,7 +92,7 @@ describe('c-audit-queue — column/key contract', () => {
         getQueue.emit([APEX_ROW]);
         await flush();
 
-        const table = element.shadowRoot.querySelector('lightning-datatable');
+        const table = element.shadowRoot.querySelector('c-audit-queue-datatable');
         // The column exists again now that Borrower_Name_Snapshot__c backs it.
         const hasBorrowerColumn = table.columns.some((c) => c.fieldName === 'borrowerName');
         expect(hasBorrowerColumn).toBe(true);
@@ -111,7 +108,7 @@ describe('c-audit-queue — column/key contract', () => {
         getQueue.emit([noSnapshot]);
         await flush();
 
-        const row = element.shadowRoot.querySelector('lightning-datatable').data[0];
+        const row = element.shadowRoot.querySelector('c-audit-queue-datatable').data[0];
         expect(row.borrowerName).toBe('');
     });
 
@@ -197,7 +194,7 @@ describe('c-audit-queue — column/key contract', () => {
         ]);
         await flush();
 
-        const table = element.shadowRoot.querySelector('lightning-datatable');
+        const table = element.shadowRoot.querySelector('c-audit-queue-datatable');
 
         fireSort(table, 'borrowerName', 'asc');
         await flush();
@@ -230,7 +227,7 @@ describe('c-audit-queue — column/key contract', () => {
         ]);
         await flush();
 
-        const table = element.shadowRoot.querySelector('lightning-datatable');
+        const table = element.shadowRoot.querySelector('c-audit-queue-datatable');
         fireSort(table, 'riskTier', 'asc');
         await flush();
 
@@ -247,7 +244,7 @@ describe('c-audit-queue — column/key contract', () => {
         ]);
         await flush();
 
-        const table = element.shadowRoot.querySelector('lightning-datatable');
+        const table = element.shadowRoot.querySelector('c-audit-queue-datatable');
         const before = table.data.map((r) => r.id);
 
         fireSort(table, 'riskClass', 'asc'); // cellAttributes field, not sortable
@@ -260,10 +257,11 @@ describe('c-audit-queue — column/key contract', () => {
     /**
      * ACCESSIBILITY (WCAG). Two deterministic guards:
      *  - 1.4.1 (use of color): risk must be conveyed by a TEXT value, never by
-     *    color alone. The Risk column is type 'text' and the row carries the
-     *    tier word, independent of the riskClass color hook. (The 1.4.3 contrast
-     *    of those colors is verified separately and recorded in the release note;
-     *    jsdom cannot compute rendered contrast, so it is checked numerically.)
+     *    color alone. The Risk column uses the custom 'riskBadge' cell type,
+     *    which renders the tier WORD (via c-risk-badge) plus a non-color shape
+     *    sigil — so the tier is legible without relying on hue. (The 1.4.3
+     *    contrast of those colors is verified separately and recorded in the
+     *    release note; jsdom cannot compute rendered contrast.)
      *  - 4.1.x / error semantics: the load-error state must expose role="alert"
      *    so assistive tech announces it, not just render colored text.
      */
@@ -274,12 +272,11 @@ describe('c-audit-queue — column/key contract', () => {
         getQueue.emit([rowWith({ Risk_Tier__c: 'Medium' })]);
         await flush();
 
-        const table = element.shadowRoot.querySelector('lightning-datatable');
+        const table = element.shadowRoot.querySelector('c-audit-queue-datatable');
         const riskCol = table.columns.find((c) => c.fieldName === 'riskTier');
-        expect(riskCol.type).toBe('text'); // the word is rendered, not a swatch
-        // The tier word is present independent of the color class.
+        expect(riskCol.type).toBe('riskBadge'); // custom cell renders word + sigil
+        // The tier word is the bound value the badge renders as text.
         expect(table.data[0].riskTier).toBe('Medium');
-        expect(table.data[0].riskClass).toContain('risk-badge--medium');
     });
 
     it('exposes the load-error state with role="alert" for assistive tech', async () => {
