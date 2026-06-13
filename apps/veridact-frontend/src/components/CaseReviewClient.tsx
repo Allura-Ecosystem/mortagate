@@ -167,7 +167,7 @@ export function CaseReviewClient({
                 className="block rounded-[12px] border border-line bg-surface p-4 hover:bg-peach/40"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-[15px] font-semibold text-ink">{f.rule}</span>
+                  <span className="text-[15px] font-semibold text-ink">{f.ruleName}</span>
                   <SeverityBadge severity={f.severity} />
                 </div>
                 <p className="mt-1 text-[13px] text-muted">{f.summary}</p>

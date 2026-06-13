@@ -34,11 +34,11 @@ export async function getReplayChecks(caseId: string): Promise<ReplayCheck[]> {
   if (own.length) return clone(own);
   // Clean default for cases without a hand-authored set.
   return [
-    { id: `${caseId}-d1`, caseId, rule: "DTI threshold", detail: "Within policy cap", status: "Pass", evidenceIds: [], rationaleRequired: false },
-    { id: `${caseId}-d2`, caseId, rule: "LTV limit", detail: "Within policy cap", status: "Pass", evidenceIds: [], rationaleRequired: false },
-    { id: `${caseId}-d3`, caseId, rule: "Income verified", detail: "Documents on file", status: "Pass", evidenceIds: [], rationaleRequired: false },
-    { id: `${caseId}-d4`, caseId, rule: "Appraisal complete", detail: "Report present", status: "Pass", evidenceIds: [], rationaleRequired: false },
-    { id: `${caseId}-d5`, caseId, rule: "Exception approval", detail: "No exceptions on file", status: "Pass", evidenceIds: [], rationaleRequired: false },
+    { id: `${caseId}-d1`, caseId, ruleId: "dti-threshold", ruleName: "DTI threshold", detail: "Within policy cap", status: "Pass", evidenceIds: [], rationaleRequired: false },
+    { id: `${caseId}-d2`, caseId, ruleId: "ltv-limit", ruleName: "LTV limit", detail: "Within policy cap", status: "Pass", evidenceIds: [], rationaleRequired: false },
+    { id: `${caseId}-d3`, caseId, ruleId: "income-verified", ruleName: "Income verified", detail: "Documents on file", status: "Pass", evidenceIds: [], rationaleRequired: false },
+    { id: `${caseId}-d4`, caseId, ruleId: "appraisal-complete", ruleName: "Appraisal complete", detail: "Report present", status: "Pass", evidenceIds: [], rationaleRequired: false },
+    { id: `${caseId}-d5`, caseId, ruleId: "exception-approval", ruleName: "Exception approval", detail: "No exceptions on file", status: "Pass", evidenceIds: [], rationaleRequired: false },
   ];
 }
 

@@ -27,7 +27,7 @@ export default async function FindingsPage() {
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <span className="font-display text-[17px] font-bold text-ink">{f.rule}</span>
+                    <span className="font-display text-[17px] font-bold text-ink">{f.ruleName}</span>
                     <span className="ml-3 text-[13px] text-muted">{c?.loanNumber} · {c?.borrower}</span>
                   </div>
                   <SeverityBadge severity={f.severity} />

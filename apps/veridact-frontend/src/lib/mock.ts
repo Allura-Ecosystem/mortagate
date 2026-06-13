@@ -265,7 +265,8 @@ export const replayChecks: ReplayCheck[] = [
   {
     id: "chk-001-1",
     caseId: "case-001",
-    rule: "DTI threshold",
+    ruleId: "dti-threshold",
+    ruleName: "DTI threshold",
     detail: "Policy cap 45% · actual 47%",
     status: "Exception",
     evidenceIds: ["ev-001-1"],
@@ -276,7 +277,8 @@ export const replayChecks: ReplayCheck[] = [
   {
     id: "chk-001-2",
     caseId: "case-001",
-    rule: "LTV limit",
+    ruleId: "ltv-limit",
+    ruleName: "LTV limit",
     detail: "Policy cap 85% · actual 92%",
     status: "Violation",
     evidenceIds: ["ev-001-2", "ev-001-4"],
@@ -287,7 +289,8 @@ export const replayChecks: ReplayCheck[] = [
   {
     id: "chk-001-3",
     caseId: "case-001",
-    rule: "Income verified",
+    ruleId: "income-verified",
+    ruleName: "Income verified",
     detail: "W-2 + tax return on file",
     status: "Pass",
     evidenceIds: ["ev-001-3", "ev-001-1"],
@@ -296,7 +299,8 @@ export const replayChecks: ReplayCheck[] = [
   {
     id: "chk-001-4",
     caseId: "case-001",
-    rule: "Appraisal complete",
+    ruleId: "appraisal-complete",
+    ruleName: "Appraisal complete",
     detail: "Report present, comps thin",
     status: "Unverifiable",
     evidenceIds: ["ev-001-4"],
@@ -307,7 +311,8 @@ export const replayChecks: ReplayCheck[] = [
   {
     id: "chk-001-5",
     caseId: "case-001",
-    rule: "Exception approval",
+    ruleId: "exception-approval",
+    ruleName: "Exception approval",
     detail: "LTV waiver signed by M. Carter",
     status: "Violation",
     evidenceIds: ["ev-001-5"],
@@ -362,7 +367,8 @@ export const findings: Finding[] = [
   {
     id: "find-001-1",
     caseId: "case-001",
-    rule: "LTV limit",
+    ruleId: "ltv-limit",
+    ruleName: "LTV limit",
     severity: "Violation",
     summary:
       "Loan approved at 92% LTV against an 85% policy cap with no valid waiver basis.",
