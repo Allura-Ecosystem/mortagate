@@ -105,10 +105,16 @@ Produce the six required artifacts in `planning docs/` (per `.github/copilot-ins
 
 All 9 gate items are closed or accepted as documented dry-run residuals. Two conditions must be executed before the demo:
 
-- **Condition A:** Browser dry-run on the demo profile — golden path (App Launcher → queue → filter → AC-0001 detail, zero console errors, brand visual check). Closes items 1, 4, 5-console, 6-Figma.
-- **Condition B:** Three-step reset runbook immediately before demo — clear filters, restore default view, confirm AC-0001 visible.
+- **Condition A:** Browser dry-run on the demo profile — golden path (App Launcher → queue → filter → AC-0001 detail, zero console errors, brand visual check). Closes items 1, 4, 5-console, 6-Figma. ✅ **EXECUTED 2026-06-13** in `mortagate-de` Lightning (Chrome, authenticated as demo user `sasheed72.00f6e389a7e4@agentforce.com`):
+  - Queue page rendered with brand chrome (navy sidebar + orange logo, 5 stat cards 37/77/89/98/4 with colored accent bars, pill filter rail, datatable) — matches Figma intent.
+  - Risk Tier filter set to **Low** demonstrably narrowed the table (Risk column flipped from all-Critical to all-Low; pill showed "Low").
+  - AC-0001 record page Details tab: all header fields populated (Loan LN-1002, Risk Tier Critical, Status In Review, Policy Version DTI_MAX@v3, Sampling Reason Risk Based).
+  - AC-0001 Related tab: **all 5 child lists rendered with real data** — Evidence Items (5: W2/Pay Stub/Credit Report/Bank Statement/Appraisal), Reconstructed Facts (5: DTI 47, Credit Score 712, Annual Income 82000, Loan Amount 410000, LTV 80), Rule Checks (4: Max DTI→**Violation** DTI_MAX@v3, Min Credit Score→Pass, Max LTV→Pass, Income Doc→Pass), Findings (1: FN-0000 Eligibility / High / Open), Audit Events (5: Case Created → Evidence Linked → Facts Reconstructed → Replay Executed → Finding Created).
+  - **Zero browser console errors/exceptions** across the full journey (checked after reload + filter + detail navigation).
+  - ⚠️ Minor note: navigation used an authenticated deep link to the Audit Queue tab (which is present in the app nav bar) rather than a physical App-Launcher grid click; app accessibility was independently confirmed via `AppMenuItem.IsAccessible=true`.
+- **Condition B:** Three-step reset runbook immediately before demo — clear filters, restore default view, confirm AC-0001 visible. ⏳ Demo-day operational step (run live, not pre-closable).
 
-No code changes required. Tag `audit-queue-v1.1-mvp` → commit `7daf55c` stands. The builder's task is done.
+No code changes required. Tag `audit-queue-v1.1-mvp` → commit `7daf55c` stands. The builder's task is done. Condition A closed by live dry-run; Condition B is a demo-day runbook step.
 
 ---
 
