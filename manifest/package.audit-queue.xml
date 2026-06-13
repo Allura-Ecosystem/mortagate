@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Audit Queue — decoupled deployable unit.
+
+  This is the audit-queue bounded context ONLY. It is promoted as its own unit,
+  gated on its OWN test suite (RunSpecifiedTests over the AuditQueue suite), so it
+  is independent of the org-wide RunLocalTests gate that is currently red from
+  policy-engine drift in a DIFFERENT component (goal Decision #2).
+
+  EXCLUDED ON PURPOSE: PolicyRuleEvaluator. It is a shared engine class, co-owned
+  with the Brooks/engine session. The audit-replay path (replayRules) must already
+  be present in the target org via the unified class — see
+  docs/reconciliation/PolicyRuleEvaluator-merge-notes.md. Deploying it here would
+  overwrite a co-owned class; the deploy script asserts its presence instead.
+
+  Deploy with: scripts/deploy-audit-queue.sh <target-org>
+-->
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <!-- Data model (objects deploy with their fields + validation rules from source) -->
+    <types>
+        <members>Audit_Case__c</members>
+        <members>Audit_Event__c</members>
+        <members>Reconstructed_Fact__c</members>
+        <members>Evidence_Item__c</members>
+        <members>Finding__c</members>
+        <members>Rule_Check__c</members>
+        <members>Policy_Rule_Version__c</members>
+        <name>CustomObject</name>
+    </types>
+
+    <!-- Apex (audit-queue classes; PolicyRuleEvaluator intentionally NOT listed) -->
+    <types>
+        <members>AuditCaseService</members>
+        <members>AuditCommitService</members>
+        <members>AuditEventService</members>
+        <members>AuditEvidenceReportController</members>
+        <members>AuditQueueController</members>
+        <members>CaseReviewController</members>
+        <members>FactAssembler</members>
+        <members>FindingService</members>
+        <members>PolicyVersionSelector</members>
+        <members>AuditCaseServiceTest</members>
+        <members>AuditDataIntegrityTest</members>
+        <members>AuditQueueControllerTest</members>
+        <members>AuditEvidenceReportControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+
+    <!-- Append-only enforcement -->
+    <types>
+        <members>AuditEventPreventDelete</members>
+        <name>ApexTrigger</name>
+    </types>
+
+    <!-- Queue UI -->
+    <types>
+        <members>auditQueue</members>
+        <name>LightningComponentBundle</name>
+    </types>
+
+    <!-- Regulator-presentable evidence report -->
+    <types>
+        <members>AuditEvidenceReport</members>
+        <name>ApexPage</name>
+    </types>
+
+    <!-- The gate handle: one stable suite name -->
+    <types>
+        <members>AuditQueue</members>
+        <name>ApexTestSuite</name>
+    </types>
+
+    <version>66.0</version>
+</Package>
