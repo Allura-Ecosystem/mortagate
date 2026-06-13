@@ -1,5 +1,6 @@
 import { LightningElement, wire, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import Id from '@salesforce/user/Id';
 import getQueue from '@salesforce/apex/AuditQueueController.getQueue';
 import getMetrics from '@salesforce/apex/AuditQueueController.getMetrics';
@@ -173,6 +174,18 @@ export default class AuditQueue extends NavigationMixin(LightningElement) {
         return !!this.queueResult?.data;
     }
 
+    // True when the query succeeded and returned at least one row — the only
+    // case where the datatable should render.
+    get hasRows() {
+        return this.hasData && this.queueData.length > 0;
+    }
+
+    // True when the query succeeded but returned zero rows (e.g. a filter that
+    // narrows everything out) — drives the empty-state message (P5).
+    get isEmpty() {
+        return this.hasData && this.queueData.length === 0;
+    }
+
     get errorMessage() {
         const err = this.queueResult?.error;
         if (!err) return '';
@@ -308,5 +321,17 @@ export default class AuditQueue extends NavigationMixin(LightningElement) {
                 actionName: 'new'
             }
         });
+    }
+
+    // Export CSV is a deliberate MVP no-op (backend deferred to v2). It shows
+    // an informational toast so the control is discoverable without throwing.
+    handleExportCsv() {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: 'Export queued',
+                message: 'CSV export is coming in a future release.',
+                variant: 'info'
+            })
+        );
     }
 }

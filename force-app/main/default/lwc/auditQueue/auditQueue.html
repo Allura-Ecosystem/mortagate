@@ -23,6 +23,11 @@
             </div>
             <div class="audit-queue__header-right">
                 <lightning-button
+                    label="Export CSV"
+                    onclick={handleExportCsv}
+                    class="audit-queue__export-btn"
+                ></lightning-button>
+                <lightning-button
                     label="New audit"
                     onclick={handleNewAudit}
                     class="audit-queue__new-btn"
@@ -127,7 +132,13 @@
                     <p>{errorMessage}</p>
                 </div>
             </template>
-            <template lwc:if={hasData}>
+            <template lwc:if={isEmpty}>
+                <div class="audit-queue__empty">
+                    <p class="audit-queue__empty-title">No audit cases match your filters</p>
+                    <p class="audit-queue__empty-hint">Try clearing a filter or widening the date range.</p>
+                </div>
+            </template>
+            <template lwc:if={hasRows}>
                 <lightning-datatable
                     key-field="id"
                     data={queueData}

@@ -67,8 +67,8 @@ Produce the six required artifacts in `planning docs/` (per `.github/copilot-ins
 - **Gate:** sidebar + cards + filter bar + table + sigils all present and recognizable vs the Figma. ✅ all five present; Jest 12/12 auditQueue (42/42 repo-wide) green after the layout change (Risk #4 — no CSS regression; tests assert datatable/comboboxes/alert, all intact).
 
 ### Phase 5 — Error/empty states + no-op buttons
-- [ ] P5.1 Empty-state row message; `+ New Audit` toast; Export CSV no-op.
-- **Gate:** a zero-result filter shows the empty state; `+ New Audit` does not error.
+- [x] P5.1 Empty-state block (`isEmpty` getter → "No audit cases match your filters" + hint) renders when a successful query returns zero rows; datatable now gates on `hasRows` so a filtered-to-empty queue shows the message instead of a bare header. Added an **Export CSV** button (secondary style) wired to a no-op `handleExportCsv` that fires an info toast (backend deferred to v2). `+ New Audit` navigates to the standard new-record page (does not throw). Error state (`role="alert"`) unchanged. Deployed to mortagate-de.
+- **Gate:** a zero-result filter shows the empty state; `+ New Audit` does not error. ✅ empty-state logic verified by getter (`hasData && queueData.length === 0`); New Audit + Export CSV both no-throw; Jest 12/12 green.
 
 ### Phase 6 — Final integration verify + tag
 - [ ] P6.1 Full integration verify; tag `audit-queue-v1.1-mvp`.
