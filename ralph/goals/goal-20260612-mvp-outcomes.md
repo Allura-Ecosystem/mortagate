@@ -48,8 +48,11 @@ Produce the six required artifacts in `planning docs/` (per `.github/copilot-ins
 - [x] P1.2 Applied Fix B defensively to `CaseReviewController.getCaseReview`: all 5 section queries now dynamic SOQL via `Database.query(soql, AccessLevel.USER_MODE)` with full→minimal fallback, named `System.debug` logging, and a `fieldWarnings` channel feeding a future "some fields unavailable" inline notice (Risk #1). Marked the class header `POST-MVP: caseReview LWC consumer` (idiom from `FactAssembler.queryLoanValues`).
 - **Gate (Brooks amended):** Apex **37/37** pass on mortagate-de AND the **AC-0001 record page renders all five related lists with zero console errors and zero Apex exceptions on the demo profile**.
   - [x] 37/37 Apex pass on mortagate-de (run 707gL00000wdUJk, 85% org-wide). ✅
-  - [x] AC-0001 (`a05gL00000JbEfOQAV`) has populated children in every list — Evidence 5 / Facts 5 / Rule Checks 4 / Findings 1 / Events 5. ✅ (data layer verified)
-  - [ ] Browser render check on the demo profile (manual — pending Phase 2 app/profile assignment).
+  - [x] AC-0001 (`a05gL00000JbEfOQAV`) has populated children in every list — Evidence 5 / Facts 5 / Rule Checks 4 / Findings 1 / Events 5. ✅
+  - [x] `getCaseReview(AC-0001)` returns all 5 sections with **zero exceptions, zero field warnings** (verified in Phase 6 after fixing two latent bugs — see note). ✅
+  - [ ] Browser render check on the demo profile (manual — final demo dry-run).
+
+> **Phase 6 correction (schema reconciliation):** Final verification revealed the live `mortagate-de` schema is **leaner** than the `/tmp/mortagate-landing` reference metadata. Two bugs were fixed: (1) the hardened `safeQuery` ran `Database.query` in a scope where the `:caseId` bind didn't exist → switched to `Database.queryWithBinds` with an explicit bind map; (2) layout related lists + the Findings query referenced fields absent in this org (`Required__c`, `Received_Timestamp__c`, `Confidence__c`, `Verified__c`, `Remediation_Due_At__c`, `Rationale__c`) → trimmed to the real org fields. Authoritative org field sets per child object: Evidence_Item__c {Document_Type__c, Status__c}; Reconstructed_Fact__c {Fact_Type__c, Value__c}; Rule_Check__c {Rule_Name__c, Outcome__c, Policy_Rule_Version__c}; Finding__c {Category__c, Disposition__c, Severity__c}; Audit_Event__c {Event_Type__c, Actor__c, Timestamp__c}.
 
 ### Phase 2 — Host on a Lightning App Page
 - [x] P2.1 Created `Audit_Queue_Page` (FlexiPage AppPage hosting `auditQueue`) + `Audit_Queue_App` (Lightning app) + 2 tabs (Audit Queue page tab + Audit_Case__c object tab); deployed to mortagate-de. Granted the demo profile (System Administrator / "Admin") app + tab visibility via a minimal additive profile deploy (Risk #3 mitigation).

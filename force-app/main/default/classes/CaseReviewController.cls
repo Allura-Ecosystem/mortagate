@@ -51,17 +51,18 @@ public with sharing class CaseReviewController {
         String fullSoql,
         String fallbackSoql,
         String sectionLabel,
+        Map<String, Object> binds,
         List<String> warnings
     ) {
         try {
-            return Database.query(fullSoql, AccessLevel.USER_MODE);
+            return Database.queryWithBinds(fullSoql, binds, AccessLevel.USER_MODE);
         } catch (Exception e) {
             System.debug(LoggingLevel.WARN,
                 'CaseReviewController.safeQuery: ' + sectionLabel
                 + ' full query failed (' + e.getMessage() + '); falling back.');
             warnings.add(sectionLabel + ': some fields are unavailable to you and were hidden.');
             try {
-                return Database.query(fallbackSoql, AccessLevel.USER_MODE);
+                return Database.queryWithBinds(fallbackSoql, binds, AccessLevel.USER_MODE);
             } catch (Exception e2) {
                 System.debug(LoggingLevel.ERROR,
                     'CaseReviewController.safeQuery: ' + sectionLabel
@@ -82,8 +83,10 @@ public with sharing class CaseReviewController {
     public static CaseReviewData getCaseReview(Id auditCaseId) {
         CaseReviewData data = new CaseReviewData();
 
-        // Bind the case Id for the dynamic queries below.
-        Id caseId = auditCaseId;
+        // Bind map for the dynamic queries below. Database.queryWithBinds
+        // resolves :caseId from this map (not local scope), so the bind works
+        // regardless of which method the query string is executed in.
+        Map<String, Object> binds = new Map<String, Object>{ 'caseId' => auditCaseId };
 
         // Case record — full detail query degrades to Id+Name+Status if any
         // optional field is FLS-blocked, so the header still renders.
@@ -97,7 +100,7 @@ public with sharing class CaseReviewController {
                 + 'CreatedDate '
                 + 'FROM Audit_Case__c WHERE Id = :caseId LIMIT 1',
             'SELECT Id, Name, Status__c FROM Audit_Case__c WHERE Id = :caseId LIMIT 1',
-            'Case detail', data.fieldWarnings
+            'Case detail', binds, data.fieldWarnings
         );
         data.caseRecord = cases.isEmpty() ? null : (Audit_Case__c) cases[0];
 
@@ -107,7 +110,7 @@ public with sharing class CaseReviewController {
                 + 'FROM Evidence_Item__c WHERE Audit_Case__c = :caseId '
                 + 'ORDER BY Document_Type__c ASC',
             'SELECT Id, Name FROM Evidence_Item__c WHERE Audit_Case__c = :caseId',
-            'Evidence', data.fieldWarnings
+            'Evidence', binds, data.fieldWarnings
         );
 
         // Reconstructed facts
@@ -116,7 +119,7 @@ public with sharing class CaseReviewController {
                 + 'FROM Reconstructed_Fact__c WHERE Audit_Case__c = :caseId '
                 + 'ORDER BY Fact_Type__c ASC',
             'SELECT Id, Name FROM Reconstructed_Fact__c WHERE Audit_Case__c = :caseId',
-            'Facts', data.fieldWarnings
+            'Facts', binds, data.fieldWarnings
         );
 
         // Rule checks
@@ -126,17 +129,19 @@ public with sharing class CaseReviewController {
                 + 'FROM Rule_Check__c WHERE Audit_Case__c = :caseId '
                 + 'ORDER BY Rule_Name__c ASC',
             'SELECT Id, Name FROM Rule_Check__c WHERE Audit_Case__c = :caseId',
-            'Rule checks', data.fieldWarnings
+            'Rule checks', binds, data.fieldWarnings
         );
 
-        // Findings
+        // Findings — field set matches the mortagate-de schema (Category/
+        // Severity/Disposition). The safeQuery fallback still guards any
+        // org where an optional field is absent or FLS-blocked.
         data.findings = (List<Finding__c>) safeQuery(
             'SELECT Id, Name, Category__c, Severity__c, Disposition__c, '
-                + 'Rationale__c, Remediation_Due_At__c, CreatedDate '
+                + 'CreatedDate '
                 + 'FROM Finding__c WHERE Audit_Case__c = :caseId '
                 + 'ORDER BY Severity__c ASC',
             'SELECT Id, Name FROM Finding__c WHERE Audit_Case__c = :caseId',
-            'Findings', data.fieldWarnings
+            'Findings', binds, data.fieldWarnings
         );
 
         // Timeline

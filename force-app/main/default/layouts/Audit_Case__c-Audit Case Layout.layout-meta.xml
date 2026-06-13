@@ -128,16 +128,12 @@
         <fields>NAME</fields>
         <fields>Document_Type__c</fields>
         <fields>Status__c</fields>
-        <fields>Required__c</fields>
-        <fields>Received_Timestamp__c</fields>
         <relatedList>Evidence_Item__c.Audit_Case__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <fields>Fact_Type__c</fields>
         <fields>Value__c</fields>
-        <fields>Confidence__c</fields>
-        <fields>Verified__c</fields>
         <relatedList>Reconstructed_Fact__c.Audit_Case__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -152,7 +148,6 @@
         <fields>Category__c</fields>
         <fields>Severity__c</fields>
         <fields>Disposition__c</fields>
-        <fields>Remediation_Due_At__c</fields>
         <relatedList>Finding__c.Audit_Case__c</relatedList>
     </relatedLists>
     <relatedLists>
