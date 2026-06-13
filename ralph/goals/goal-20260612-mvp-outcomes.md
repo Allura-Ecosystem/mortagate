@@ -99,6 +99,19 @@ Produce the six required artifacts in `planning docs/` (per `.github/copilot-ins
 - [x] Export CSV and `+ New Audit` buttons present and do not throw — both present; Export CSV fires info toast (no-op v2 deferral), New Audit navigates to standard new-record page; Jest green.
 - [x] `git status` clean; `git tag -l` shows `audit-queue-v1.1-mvp`; no `git add -A` used — tag `audit-queue-v1.1-mvp` → commit 7daf55c exists; all Audit-Queue files committed via specific-file staging (no `git add -A`). ⚠️ **Caveat:** working tree is NOT globally empty — the user's unrelated uncommitted work (`.opencode/`, `.agents/`, `.codex/`, `demo/`, `README.md`, onboarding files) was intentionally left untouched.
 
+## Brooks PM Approval Gate — Final Ruling (2026-06-13)
+
+**Decision: APPROVE-WITH-CONDITIONS**
+
+All 9 gate items are closed or accepted as documented dry-run residuals. Two conditions must be executed before the demo:
+
+- **Condition A:** Browser dry-run on the demo profile — golden path (App Launcher → queue → filter → AC-0001 detail, zero console errors, brand visual check). Closes items 1, 4, 5-console, 6-Figma.
+- **Condition B:** Three-step reset runbook immediately before demo — clear filters, restore default view, confirm AC-0001 visible.
+
+No code changes required. Tag `audit-queue-v1.1-mvp` → commit `7daf55c` stands. The builder's task is done.
+
+---
+
 ## Verification commands
 ```bash
 # Apex (must stay 37/37)
