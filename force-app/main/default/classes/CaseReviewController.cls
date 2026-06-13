@@ -9,12 +9,22 @@
  * @see PolicyRuleEvaluator
  * @see AuditCommitService
  * @see AuditEventService
+ *
+ * POST-MVP: caseReview LWC consumer. As of v1.1-mvp the queue row-click
+ * navigates to the standard Audit_Case__c record page, so getCaseReview/
+ * runReplay have no LWC caller yet. Kept and hardened (Fix B / AD-01) so the
+ * post-MVP caseReview component can wire to it without a rewrite.
  */
 public with sharing class CaseReviewController {
 
     /**
      * Wrapper class returned to the LWC with all case-related data
      * in a single wire call.
+     *
+     * fieldWarnings carries human-readable notices when an optional field or
+     * section could not be read (FLS-blocked or object not deployed). The LWC
+     * surfaces these as an inline "some fields unavailable" banner (Risk #1)
+     * instead of letting the whole screen error out.
      */
     public class CaseReviewData {
         @AuraEnabled public Audit_Case__c caseRecord;
@@ -23,6 +33,43 @@ public with sharing class CaseReviewController {
         @AuraEnabled public List<Rule_Check__c> ruleChecks;
         @AuraEnabled public List<Finding__c> findings;
         @AuraEnabled public List<Audit_Event__c> timeline;
+        @AuraEnabled public List<String> fieldWarnings = new List<String>();
+    }
+
+    /**
+     * Run a dynamic SOQL query under USER_MODE (FLS enforced). If the full
+     * field list is blocked or the object is not deployed, log a named debug
+     * line, record a user-facing warning, and fall back to the minimal safe
+     * query so the section still renders (Fix B / AD-01 graceful degradation).
+     *
+     * @param fullSoql     preferred query (all detail fields)
+     * @param fallbackSoql minimal query guaranteed to be readable
+     * @param sectionLabel section name for the warning + debug log
+     * @param warnings     accumulator for user-facing notices
+     */
+    private static List<SObject> safeQuery(
+        String fullSoql,
+        String fallbackSoql,
+        String sectionLabel,
+        List<String> warnings
+    ) {
+        try {
+            return Database.query(fullSoql, AccessLevel.USER_MODE);
+        } catch (Exception e) {
+            System.debug(LoggingLevel.WARN,
+                'CaseReviewController.safeQuery: ' + sectionLabel
+                + ' full query failed (' + e.getMessage() + '); falling back.');
+            warnings.add(sectionLabel + ': some fields are unavailable to you and were hidden.');
+            try {
+                return Database.query(fallbackSoql, AccessLevel.USER_MODE);
+            } catch (Exception e2) {
+                System.debug(LoggingLevel.ERROR,
+                    'CaseReviewController.safeQuery: ' + sectionLabel
+                    + ' fallback query failed (' + e2.getMessage() + ').');
+                warnings.add(sectionLabel + ': this section could not be loaded.');
+                return new List<SObject>();
+            }
+        }
     }
 
     /**
@@ -35,64 +82,62 @@ public with sharing class CaseReviewController {
     public static CaseReviewData getCaseReview(Id auditCaseId) {
         CaseReviewData data = new CaseReviewData();
 
-        // Case record
-        List<Audit_Case__c> cases = [
-            SELECT Id, Name, Loan_Application__c, Status__c,
-                   Auditor__c, Auditor__r.Name,
-                   Original_Approver__c, Original_Approver__r.Name,
-                   Sampling_Reason__c, Risk_Tier__c, Scope__c,
-                   Approval_Timestamp__c, Assigned_At__c, Due_At__c,
-                   Policy_Version__c,
-                   Signed_Off_At__c, Signed_Off_By__c,
-                   CreatedDate
-            FROM Audit_Case__c
-            WHERE Id = :auditCaseId
-            WITH USER_MODE
-            LIMIT 1
-        ];
-        data.caseRecord = cases.isEmpty() ? null : cases[0];
+        // Bind the case Id for the dynamic queries below.
+        Id caseId = auditCaseId;
+
+        // Case record — full detail query degrades to Id+Name+Status if any
+        // optional field is FLS-blocked, so the header still renders.
+        List<SObject> cases = safeQuery(
+            'SELECT Id, Name, Loan_Application__c, Status__c, '
+                + 'Auditor__c, Auditor__r.Name, '
+                + 'Original_Approver__c, Original_Approver__r.Name, '
+                + 'Sampling_Reason__c, Risk_Tier__c, Scope__c, '
+                + 'Approval_Timestamp__c, Assigned_At__c, Due_At__c, '
+                + 'Policy_Version__c, Signed_Off_At__c, Signed_Off_By__c, '
+                + 'CreatedDate '
+                + 'FROM Audit_Case__c WHERE Id = :caseId LIMIT 1',
+            'SELECT Id, Name, Status__c FROM Audit_Case__c WHERE Id = :caseId LIMIT 1',
+            'Case detail', data.fieldWarnings
+        );
+        data.caseRecord = cases.isEmpty() ? null : (Audit_Case__c) cases[0];
 
         // Evidence items
-        data.evidenceItems = [
-            SELECT Id, Name, Document_Type__c, Status__c,
-                   CreatedDate
-            FROM Evidence_Item__c
-            WHERE Audit_Case__c = :auditCaseId
-            WITH USER_MODE
-            ORDER BY Document_Type__c ASC
-        ];
+        data.evidenceItems = (List<Evidence_Item__c>) safeQuery(
+            'SELECT Id, Name, Document_Type__c, Status__c, CreatedDate '
+                + 'FROM Evidence_Item__c WHERE Audit_Case__c = :caseId '
+                + 'ORDER BY Document_Type__c ASC',
+            'SELECT Id, Name FROM Evidence_Item__c WHERE Audit_Case__c = :caseId',
+            'Evidence', data.fieldWarnings
+        );
 
         // Reconstructed facts
-        data.facts = [
-            SELECT Id, Name, Fact_Type__c, Value__c,
-                   CreatedDate
-            FROM Reconstructed_Fact__c
-            WHERE Audit_Case__c = :auditCaseId
-            WITH USER_MODE
-            ORDER BY Fact_Type__c ASC
-        ];
+        data.facts = (List<Reconstructed_Fact__c>) safeQuery(
+            'SELECT Id, Name, Fact_Type__c, Value__c, CreatedDate '
+                + 'FROM Reconstructed_Fact__c WHERE Audit_Case__c = :caseId '
+                + 'ORDER BY Fact_Type__c ASC',
+            'SELECT Id, Name FROM Reconstructed_Fact__c WHERE Audit_Case__c = :caseId',
+            'Facts', data.fieldWarnings
+        );
 
         // Rule checks
-        data.ruleChecks = [
-            SELECT Id, Name, Rule_Name__c, Outcome__c,
-                   Policy_Rule_Version__c,
-                   CreatedDate
-            FROM Rule_Check__c
-            WHERE Audit_Case__c = :auditCaseId
-            WITH USER_MODE
-            ORDER BY Rule_Name__c ASC
-        ];
+        data.ruleChecks = (List<Rule_Check__c>) safeQuery(
+            'SELECT Id, Name, Rule_Name__c, Outcome__c, '
+                + 'Policy_Rule_Version__c, CreatedDate '
+                + 'FROM Rule_Check__c WHERE Audit_Case__c = :caseId '
+                + 'ORDER BY Rule_Name__c ASC',
+            'SELECT Id, Name FROM Rule_Check__c WHERE Audit_Case__c = :caseId',
+            'Rule checks', data.fieldWarnings
+        );
 
         // Findings
-        data.findings = [
-            SELECT Id, Name, Category__c, Severity__c, Disposition__c,
-                   Rationale__c, Remediation_Due_At__c,
-                   CreatedDate
-            FROM Finding__c
-            WHERE Audit_Case__c = :auditCaseId
-            WITH USER_MODE
-            ORDER BY Severity__c ASC
-        ];
+        data.findings = (List<Finding__c>) safeQuery(
+            'SELECT Id, Name, Category__c, Severity__c, Disposition__c, '
+                + 'Rationale__c, Remediation_Due_At__c, CreatedDate '
+                + 'FROM Finding__c WHERE Audit_Case__c = :caseId '
+                + 'ORDER BY Severity__c ASC',
+            'SELECT Id, Name FROM Finding__c WHERE Audit_Case__c = :caseId',
+            'Findings', data.fieldWarnings
+        );
 
         // Timeline
         data.timeline = AuditEventService.getEventsForCase(auditCaseId);

@@ -42,9 +42,14 @@ Produce the six required artifacts in `planning docs/` (per `.github/copilot-ins
 - **Gate:** ✅ MET — all six files exist in `planning docs/`, render, carry the AI-disclosure notice, cross-link (4-5 links each), field names validate against authoritative schema. Honest TBDs recorded (Product/Branch filter has no backing field; some status transitions + test classes absent from this worktree) — not faked.
 - **Guardrail (per guideline §8):** any schema/API change in Phases 1–6 updates `REQUIREMENTS-MATRIX.md` + `DATA-DICTIONARY.md` in the SAME commit.
 
-### Phase 1 — Fix B: close the FLS gap (click-in must not error)
-- [ ] P1.1 Make `CaseReviewController` (runReplay/getCaseReview), `PolicyVersionSelector` (loadPolicyVersion), `FindingService` (allExceptionsApproved) degrade gracefully on FLS-blocked optional fields via dynamic SOQL + try/catch (idiom from `FactAssembler.queryLoanValues` / `PolicyRuleEvaluator.setRationale`). Add named debug logging + a visible "some fields unavailable" inline notice (Risk #1 mitigation).
-- **Gate:** Apex **37/37** pass on mortagate-de AND opening AC-0001 produces **no exception**.
+### Phase 1 — Click-in must not error (Brooks amendment: Option 3 — standard record page + related lists)
+> **Brooks (PM) ruling, 2026-06-12:** Row-click navigates to the **standard `Audit_Case__c` record page**, not `getCaseReview` — that wrapper is dead code (no LWC consumer). The standard Lightning record page hides FLS-blocked fields natively (no Apex exception) and renders child detail from the **page layout's related lists**. So Phase 1 = enrich the page layout (detail fields + 5 child related lists) AND harden the dead `CaseReviewController` defensively so the post-MVP `caseReview` LWC can wire to it without a rewrite.
+- [x] P1.1 Enriched `Audit Case Layout`: Information section detail fields (Risk_Tier__c, Auditor__c, Original_Approver__c, Scope__c, Assigned_At__c, Due_At__c, Policy_Version__c, Signed_Off_At__c/By__c read-only) + 5 child related lists (Evidence_Item__c, Reconstructed_Fact__c, Rule_Check__c, Finding__c, Audit_Event__c — all on `Audit_Case__c` lookup). Deployed to mortagate-de.
+- [x] P1.2 Applied Fix B defensively to `CaseReviewController.getCaseReview`: all 5 section queries now dynamic SOQL via `Database.query(soql, AccessLevel.USER_MODE)` with full→minimal fallback, named `System.debug` logging, and a `fieldWarnings` channel feeding a future "some fields unavailable" inline notice (Risk #1). Marked the class header `POST-MVP: caseReview LWC consumer` (idiom from `FactAssembler.queryLoanValues`).
+- **Gate (Brooks amended):** Apex **37/37** pass on mortagate-de AND the **AC-0001 record page renders all five related lists with zero console errors and zero Apex exceptions on the demo profile**.
+  - [x] 37/37 Apex pass on mortagate-de (run 707gL00000wdUJk, 85% org-wide). ✅
+  - [x] AC-0001 (`a05gL00000JbEfOQAV`) has populated children in every list — Evidence 5 / Facts 5 / Rule Checks 4 / Findings 1 / Events 5. ✅ (data layer verified)
+  - [ ] Browser render check on the demo profile (manual — pending Phase 2 app/profile assignment).
 
 ### Phase 2 — Host on a Lightning App Page
 - [ ] P2.1 Create `Audit_Queue_Page` (FlexiPage app page hosting `auditQueue`) + `Audit_Queue_App` (Lightning app) + tab; deploy; assign app to the exact demo user profile and verify AS that user (Risk #3 mitigation).
