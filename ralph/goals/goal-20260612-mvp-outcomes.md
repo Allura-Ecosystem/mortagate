@@ -52,8 +52,11 @@ Produce the six required artifacts in `planning docs/` (per `.github/copilot-ins
   - [ ] Browser render check on the demo profile (manual — pending Phase 2 app/profile assignment).
 
 ### Phase 2 — Host on a Lightning App Page
-- [ ] P2.1 Create `Audit_Queue_Page` (FlexiPage app page hosting `auditQueue`) + `Audit_Queue_App` (Lightning app) + tab; deploy; assign app to the exact demo user profile and verify AS that user (Risk #3 mitigation).
+- [x] P2.1 Created `Audit_Queue_Page` (FlexiPage AppPage hosting `auditQueue`) + `Audit_Queue_App` (Lightning app) + 2 tabs (Audit Queue page tab + Audit_Case__c object tab); deployed to mortagate-de. Granted the demo profile (System Administrator / "Admin") app + tab visibility via a minimal additive profile deploy (Risk #3 mitigation).
 - **Gate:** demo user opens **Audit Queue from the App Launcher** (no Setup navigation) and sees the queue with live seed data.
+  - [x] App accessible to demo user (Tiberius Jones, System Administrator): `AppMenuItem.IsAccessible=true, IsVisible=true`. ✅
+  - [x] Live seed data present: 624 `Audit_Case__c` rows across 6 statuses (In_Review 204, Assigned 106, Ready_For_Signoff 98, Evidence_Needed 89, Created 79, Closed 48). ✅
+  - [ ] Browser App-Launcher render check (manual — final demo dry-run).
 
 ### Phase 3 — Stat cards (5 aggregates)
 - [ ] P3.1 Add 5 cards: Assigned to Me / High Risk / Evidence Needed / Ready for Signoff / SLA at Risk. Selective WHERE + LIMIT guards (Risk #2 mitigation).
