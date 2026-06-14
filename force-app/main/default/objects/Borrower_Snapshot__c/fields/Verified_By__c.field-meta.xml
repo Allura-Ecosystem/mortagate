@@ -7,5 +7,6 @@
     <relationshipName>Verified_Snapshots</relationshipName>
     <relationshipLabel>Verified Snapshots</relationshipLabel>
     <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Who verified</description>
 </CustomField>

@@ -7,5 +7,6 @@
     <relationshipName>Findings</relationshipName>
     <relationshipLabel>Findings</relationshipLabel>
     <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Source replay check (null for manual findings)</description>
 </CustomField>

@@ -7,5 +7,6 @@
     <relationshipName>Audit_Cases</relationshipName>
     <relationshipLabel>Audit Cases</relationshipLabel>
     <required>true</required>
+    <deleteConstraint>Restrict</deleteConstraint>
     <description>The loan under audit</description>
 </CustomField>

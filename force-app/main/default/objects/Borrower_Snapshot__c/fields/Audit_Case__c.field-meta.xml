@@ -7,5 +7,6 @@
     <relationshipName>Borrower_Snapshots</relationshipName>
     <relationshipLabel>Borrower Snapshots</relationshipLabel>
     <required>true</required>
+    <deleteConstraint>Restrict</deleteConstraint>
     <description>Parent audit case</description>
 </CustomField>

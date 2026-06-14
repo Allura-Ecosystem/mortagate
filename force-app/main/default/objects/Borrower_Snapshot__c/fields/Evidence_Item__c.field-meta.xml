@@ -7,5 +7,6 @@
     <relationshipName>Borrower_Snapshots</relationshipName>
     <relationshipLabel>Borrower Snapshots</relationshipLabel>
     <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Source evidence document</description>
 </CustomField>

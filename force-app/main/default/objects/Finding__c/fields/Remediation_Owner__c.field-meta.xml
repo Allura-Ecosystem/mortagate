@@ -7,5 +7,6 @@
     <relationshipName>Owned_Remediations</relationshipName>
     <relationshipLabel>Owned Remediations</relationshipLabel>
     <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Person responsible for remediation</description>
 </CustomField>

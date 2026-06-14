@@ -7,5 +7,6 @@
     <relationshipName>Audit_Receipts</relationshipName>
     <relationshipLabel>Audit Receipts</relationshipLabel>
     <required>true</required>
+    <deleteConstraint>Restrict</deleteConstraint>
     <description>The audit case being signed off</description>
 </CustomField>

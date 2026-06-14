@@ -7,5 +7,6 @@
     <relationshipName>Loans</relationshipName>
     <relationshipLabel>Loans</relationshipLabel>
     <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Link back to origination record if available</description>
 </CustomField>

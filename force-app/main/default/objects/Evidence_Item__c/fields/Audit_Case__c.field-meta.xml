@@ -7,5 +7,6 @@
     <relationshipName>Evidence_Items</relationshipName>
     <relationshipLabel>Evidence Items</relationshipLabel>
     <required>true</required>
+    <deleteConstraint>Restrict</deleteConstraint>
     <description>Parent audit case</description>
 </CustomField>

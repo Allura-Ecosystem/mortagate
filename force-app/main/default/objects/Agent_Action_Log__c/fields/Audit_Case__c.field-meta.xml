@@ -7,5 +7,6 @@
     <relationshipName>Agent_Action_Logs</relationshipName>
     <relationshipLabel>Agent Action Logs</relationshipLabel>
     <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Related audit case (null for system-level actions)</description>
 </CustomField>

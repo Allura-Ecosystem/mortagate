@@ -7,5 +7,6 @@
     <relationshipName>Superseded_By</relationshipName>
     <relationshipLabel>Superseded By</relationshipLabel>
     <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Previous version this replaces (self-lookup for version chain)</description>
 </CustomField>

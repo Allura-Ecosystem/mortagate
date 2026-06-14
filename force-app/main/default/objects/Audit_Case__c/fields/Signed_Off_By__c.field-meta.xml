@@ -7,5 +7,6 @@
     <relationshipName>Signed_Off_Cases</relationshipName>
     <relationshipLabel>Signed Off Cases</relationshipLabel>
     <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>Manager who signed off</description>
 </CustomField>
