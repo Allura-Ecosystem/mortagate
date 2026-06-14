@@ -39,10 +39,12 @@ private class SabirSrSmokeTest {
 
         // ── Audit Case ──
         Audit_Case__c ac = new Audit_Case__c(
-            Loan__c      = loan.Id,
-            Status__c    = 'In_Review',
-            Risk_Tier__c = 'High',
-            Scope__c     = 'Full'
+            Loan__c             = loan.Id,
+            Loan_Application__c = 'a0000000000TEST1',
+            Status__c           = 'In_Review',
+            Risk_Tier__c        = 'High',
+            Due_At__c           = Datetime.now().addDays(30),
+            Scope__c            = 'Full'
         );
         insert ac;
 
@@ -287,18 +289,21 @@ private class SabirSrSmokeTest {
         // Create a bare loan + case with no borrower snapshots.
         // The approval date must fall in the Q1 2025 policy window.
         Loan__c loan = new Loan__c(
-            Borrower_Name__c = 'Ghost Borrower',
-            Loan_Amount__c   = 200000,
-            Loan_Type__c     = 'Conventional',
-            Purpose__c       = 'Purchase',
-            Approval_Date__c = Date.newInstance(2025, 3, 15)
+            Borrower_Name__c  = 'Ghost Borrower',
+            Loan_Amount__c    = 200000,
+            Property_Value__c = 250000,
+            Loan_Type__c      = 'Conventional',
+            Purpose__c        = 'Purchase',
+            Approval_Date__c  = Date.newInstance(2025, 3, 15)
         );
         insert loan;
 
         Audit_Case__c emptyCase = new Audit_Case__c(
-            Loan__c      = loan.Id,
-            Status__c    = 'In_Review',
-            Risk_Tier__c = 'Medium'
+            Loan__c             = loan.Id,
+            Loan_Application__c = 'a0000000000TEST2',
+            Status__c           = 'In_Review',
+            Risk_Tier__c        = 'Medium',
+            Due_At__c           = Datetime.now().addDays(30)
         );
         insert emptyCase;
 

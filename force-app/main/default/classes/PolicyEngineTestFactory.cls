@@ -19,7 +19,9 @@ public class PolicyEngineTestFactory {
             Rule_Explanation__c = code + ' explanation',
             Effective_Date__c = Date.today().addDays(-30),
             Version_Number__c = 1,
-            Is_Active__c = true
+            Is_Active__c = true,
+            DTI_Threshold__c = 43,
+            Min_Credit_Score__c = 620
         );
     }
 

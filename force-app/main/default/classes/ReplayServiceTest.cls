@@ -39,10 +39,12 @@ private class ReplayServiceTest {
 
         // Audit Case
         Audit_Case__c ac = new Audit_Case__c(
-            Loan__c      = loan.Id,
-            Status__c    = 'In_Review',
-            Risk_Tier__c = 'High',
-            Scope__c     = 'Full'
+            Loan__c             = loan.Id,
+            Loan_Application__c = 'a0000000000TEST1',
+            Status__c           = 'In_Review',
+            Risk_Tier__c        = 'High',
+            Due_At__c           = Datetime.now().addDays(30),
+            Scope__c            = 'Full'
         );
         insert ac;
 
@@ -93,23 +95,23 @@ private class ReplayServiceTest {
         // 10 Policy Rules
         List<Policy_Rule__c> rules = new List<Policy_Rule__c>();
         // Rule 0: DTI_MAX — Sabir fails this (44.8 > 43)
-        rules.add(buildRule(pv.Id, 'DTI_MAX', 'Max DTI Ratio', 'Income', 'LTE', 43, null, 'DTI_Ratio__c', 'Violation', 0));
+        rules.add(buildRule(pv.Id, 'DTI_MAX', 'Max DTI Ratio', 'Income', 'LTE', 43, null, 'DTI_Ratio__c', 'Hard_Decline', 0));
         // Rule 1: FICO_MIN — Sabir passes (710 >= 620)
-        rules.add(buildRule(pv.Id, 'FICO_MIN', 'Min FICO Score', 'Credit', 'GTE', 620, null, 'FICO_Score__c', 'Violation', 1));
+        rules.add(buildRule(pv.Id, 'FICO_MIN', 'Min FICO Score', 'Credit', 'GTE', 620, null, 'FICO_Score__c', 'Hard_Decline', 1));
         // Rule 2: LTV_MAX — Sabir passes (80 <= 80)
-        rules.add(buildRule(pv.Id, 'LTV_MAX', 'Max LTV Ratio', 'Collateral', 'LTE', 80, null, 'LTV_Ratio__c', 'Violation', 2));
+        rules.add(buildRule(pv.Id, 'LTV_MAX', 'Max LTV Ratio', 'Collateral', 'LTE', 80, null, 'LTV_Ratio__c', 'Hard_Decline', 2));
         // Rule 3: INCOME_MIN — Sabir passes (95000 >= 30000)
         rules.add(buildRule(pv.Id, 'INCOME_MIN', 'Min Annual Income', 'Income', 'GTE', 30000, null, 'Annual_Income__c', 'Warning', 3));
         // Rule 4: EMPLOY_MIN — Sabir passes (36 >= 12)
         rules.add(buildRule(pv.Id, 'EMPLOY_MIN', 'Min Employment Months', 'Income', 'GTE', 12, null, 'Employment_Months__c', 'Warning', 4));
         // Rule 5: ASSET_MIN — Sabir passes (475000 >= 100000)
-        rules.add(buildRule(pv.Id, 'ASSET_MIN', 'Min Asset Value', 'Collateral', 'GTE', 100000, null, 'Asset_Value__c', 'Advisory', 5));
-        // Rule 6: DTI_WARNING — Sabir fails this too (44.8 > 40) but advisory
-        rules.add(buildRule(pv.Id, 'DTI_WARN', 'DTI Warning Threshold', 'Income', 'LTE', 40, null, 'DTI_Ratio__c', 'Advisory', 6));
+        rules.add(buildRule(pv.Id, 'ASSET_MIN', 'Min Asset Value', 'Collateral', 'GTE', 100000, null, 'Asset_Value__c', 'Info', 5));
+        // Rule 6: DTI_WARNING — Sabir fails this too (44.8 > 40) but info
+        rules.add(buildRule(pv.Id, 'DTI_WARN', 'DTI Warning Threshold', 'Income', 'LTE', 40, null, 'DTI_Ratio__c', 'Info', 6));
         // Rule 7: FICO_PREFERRED — Sabir passes (710 >= 680)
-        rules.add(buildRule(pv.Id, 'FICO_PREF', 'Preferred FICO Score', 'Credit', 'GTE', 680, null, 'FICO_Score__c', 'Advisory', 7));
+        rules.add(buildRule(pv.Id, 'FICO_PREF', 'Preferred FICO Score', 'Credit', 'GTE', 680, null, 'FICO_Score__c', 'Info', 7));
         // Rule 8: LTV_PREFERRED — Sabir passes (80 <= 90)
-        rules.add(buildRule(pv.Id, 'LTV_PREF', 'Preferred LTV', 'Collateral', 'LTE', 90, null, 'LTV_Ratio__c', 'Advisory', 8));
+        rules.add(buildRule(pv.Id, 'LTV_PREF', 'Preferred LTV', 'Collateral', 'LTE', 90, null, 'LTV_Ratio__c', 'Info', 8));
         // Rule 9: DEBT_MAX — Sabir passes (3546.67 <= 5000)
         rules.add(buildRule(pv.Id, 'DEBT_MAX', 'Max Monthly Debt', 'Income', 'LTE', 5000, null, 'Monthly_Debt__c', 'Warning', 9));
         insert rules;
@@ -190,6 +192,7 @@ private class ReplayServiceTest {
         Loan__c loan = new Loan__c(
             Borrower_Name__c  = 'Empty Case Borrower',
             Loan_Amount__c    = 200000,
+            Property_Value__c = 250000,
             Loan_Type__c      = 'Conventional',
             Purpose__c        = 'Purchase',
             Approval_Date__c  = Date.newInstance(2025, 3, 15)
@@ -197,8 +200,11 @@ private class ReplayServiceTest {
         insert loan;
 
         Audit_Case__c emptyCase = new Audit_Case__c(
-            Loan__c   = loan.Id,
-            Status__c = 'Open'
+            Loan__c             = loan.Id,
+            Loan_Application__c = 'a0000000000TEST2',
+            Status__c           = 'In_Review',
+            Risk_Tier__c        = 'Medium',
+            Due_At__c           = Datetime.now().addDays(30)
         );
         insert emptyCase;
 

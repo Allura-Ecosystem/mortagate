@@ -12,9 +12,27 @@ private class ReplayCommitServiceTest {
 
     // ─── Test Data Helpers ─────────────────────────────────────────────
 
+    private static Loan__c createLoan() {
+        Loan__c loan = new Loan__c(
+            Borrower_Name__c  = 'Test Borrower',
+            Loan_Amount__c    = 250000,
+            Property_Value__c = 312500,
+            Loan_Type__c      = 'Conventional',
+            Purpose__c        = 'Purchase',
+            Approval_Date__c  = Date.today()
+        );
+        insert loan;
+        return loan;
+    }
+
     private static Audit_Case__c createCase(String name) {
+        Loan__c loan = createLoan();
         Audit_Case__c ac = new Audit_Case__c(
-            Status__c = 'Open'
+            Loan__c              = loan.Id,
+            Loan_Application__c  = 'a0000000000TEST1',
+            Status__c            = 'In_Review',
+            Risk_Tier__c         = 'High',
+            Due_At__c            = Datetime.now().addDays(30)
         );
         insert ac;
         return ac;
@@ -43,7 +61,7 @@ private class ReplayCommitServiceTest {
                 Operator__c       = 'LTE',
                 Threshold_Value__c = 43,
                 Fact_Field__c     = 'DTI_Ratio__c',
-                Severity__c       = 'Violation',
+                Severity__c       = 'Hard_Decline',
                 Sort_Order__c     = i
             ));
         }
@@ -156,10 +174,29 @@ private class ReplayCommitServiceTest {
         Policy_Version__c pv = createPolicyVersion();
         List<Policy_Rule__c> rules = createRules(pv.Id, 5);
 
-        // Create 200 audit cases
+        // Create 200 loans in bulk, then 200 audit cases
+        List<Loan__c> loans = new List<Loan__c>();
+        for (Integer i = 0; i < 200; i++) {
+            loans.add(new Loan__c(
+                Borrower_Name__c  = 'Bulk Borrower ' + i,
+                Loan_Amount__c    = 250000,
+                Property_Value__c = 312500,
+                Loan_Type__c      = 'Conventional',
+                Purpose__c        = 'Purchase',
+                Approval_Date__c  = Date.today()
+            ));
+        }
+        insert loans;
+
         List<Audit_Case__c> cases = new List<Audit_Case__c>();
         for (Integer i = 0; i < 200; i++) {
-            cases.add(new Audit_Case__c(Status__c = 'Open'));
+            cases.add(new Audit_Case__c(
+                Loan__c              = loans[i].Id,
+                Loan_Application__c  = 'a0000000000TEST1',
+                Status__c            = 'In_Review',
+                Risk_Tier__c         = 'Medium',
+                Due_At__c            = Datetime.now().addDays(30)
+            ));
         }
         insert cases;
 

@@ -4,7 +4,7 @@
     <label>DTI at Approval</label>
     <type>Percent</type>
     <precision>5</precision>
-    <scale>4</scale>
+    <scale>2</scale>
     <required>false</required>
     <description>DTI ratio at time of approval</description>
 </CustomField>

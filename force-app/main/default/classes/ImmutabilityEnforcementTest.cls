@@ -23,14 +23,21 @@ private class ImmutabilityEnforcementTest {
     static void setup() {
         // Loan -> Audit Case chain
         Loan__c loan = new Loan__c(
-            Borrower_Name__c = 'Test Borrower',
-            Loan_Amount__c = 250000
+            Borrower_Name__c  = 'Test Borrower',
+            Loan_Amount__c    = 250000,
+            Property_Value__c = 312500,
+            Loan_Type__c      = 'Conventional',
+            Purpose__c        = 'Purchase',
+            Approval_Date__c  = Date.today()
         );
         insert loan;
 
         Audit_Case__c auditCase = new Audit_Case__c(
-            Loan__c = loan.Id,
-            Status__c = 'In_Review'
+            Loan__c              = loan.Id,
+            Loan_Application__c  = 'a0000000000TEST1',
+            Status__c            = 'In_Review',
+            Risk_Tier__c         = 'High',
+            Due_At__c            = Datetime.now().addDays(30)
         );
         insert auditCase;
 
@@ -50,7 +57,12 @@ private class ImmutabilityEnforcementTest {
         List<Audit_Receipt__c> receipts = new List<Audit_Receipt__c>();
         for (Integer i = 0; i < BULK_SIZE; i++) {
             receipts.add(new Audit_Receipt__c(
-                Audit_Case__c = auditCase.Id
+                Audit_Case__c       = auditCase.Id,
+                Pass_Count__c       = 8,
+                Exception_Count__c  = 1,
+                Violation_Count__c  = 1,
+                Total_Findings__c   = 10,
+                Signed_Off_At__c    = Datetime.now()
             ));
         }
         insert receipts;
@@ -61,6 +73,7 @@ private class ImmutabilityEnforcementTest {
             logs.add(new Agent_Action_Log__c(
                 Audit_Case__c = auditCase.Id,
                 Action_Name__c = 'Log_Agent_Action',
+                Subagent__c = 'Auditor_Assistant',
                 Status__c = 'Success',
                 Actor__c = 'TestAgent',
                 Timestamp__c = Datetime.now()
