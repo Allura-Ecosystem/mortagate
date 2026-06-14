@@ -265,4 +265,241 @@ describe('c-onboarding-orchestrator', () => {
         expect(outcome.outcome).toBe('APPROVED');
         expect(outcome.decisionEventId).toBe('a0BMOCK000000001');
     });
+
+    it('passes declineReason to outcome-view on denial', async () => {
+        createLoanApplication.mockResolvedValue('001MOCK000000001');
+        runDecision.mockResolvedValue({
+            outcome: 'DENIED',
+            decisionEventId: 'a0BMOCK000000002',
+            declineReason: 'DTI ratio exceeds threshold'
+        });
+        document.body.appendChild(element);
+
+        // Navigate to evidence
+        element.shadowRoot.querySelector('c-welcome-gate')
+            .dispatchEvent(new CustomEvent('start', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-intent-capture')
+            .dispatchEvent(new CustomEvent('intentcaptured', {
+                bubbles: true, composed: true,
+                detail: { loanPurpose: 'buying', propertyValue: 400000, annualIncome: 90000 }
+            }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-pre-check-result')
+            .dispatchEvent(new CustomEvent('emailcaptured', {
+                bubbles: true, composed: true,
+                detail: { email: 'test@example.com' }
+            }));
+        await Promise.resolve();
+        await Promise.resolve();
+
+        element.shadowRoot.querySelector('c-evidence-queue')
+            .dispatchEvent(new CustomEvent('queuecomplete', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        await Promise.resolve();
+        await Promise.resolve();
+
+        const outcome = element.shadowRoot.querySelector('c-outcome-view');
+        expect(outcome.declineReason).toBe('DTI ratio exceeds threshold');
+    });
+
+    it('shows error when runDecision fails', async () => {
+        createLoanApplication.mockResolvedValue('001MOCK000000001');
+        runDecision.mockRejectedValue({ body: { message: 'Underwriting engine unavailable' } });
+        document.body.appendChild(element);
+
+        // Navigate to evidence
+        element.shadowRoot.querySelector('c-welcome-gate')
+            .dispatchEvent(new CustomEvent('start', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-intent-capture')
+            .dispatchEvent(new CustomEvent('intentcaptured', {
+                bubbles: true, composed: true,
+                detail: { loanPurpose: 'buying', propertyValue: 400000, annualIncome: 90000 }
+            }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-pre-check-result')
+            .dispatchEvent(new CustomEvent('emailcaptured', {
+                bubbles: true, composed: true,
+                detail: { email: 'test@example.com' }
+            }));
+        await Promise.resolve();
+        await Promise.resolve();
+
+        element.shadowRoot.querySelector('c-evidence-queue')
+            .dispatchEvent(new CustomEvent('queuecomplete', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        await Promise.resolve();
+        await Promise.resolve();
+
+        const errorBanner = element.shadowRoot.querySelector('.error-banner');
+        expect(errorBanner).not.toBeNull();
+        expect(errorBanner.textContent).toContain('Underwriting engine unavailable');
+    });
+
+    it('uses fallback error message when error.body is missing', async () => {
+        createLoanApplication.mockRejectedValue(new Error('network'));
+        document.body.appendChild(element);
+
+        // Navigate to precheck
+        element.shadowRoot.querySelector('c-welcome-gate')
+            .dispatchEvent(new CustomEvent('start', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-intent-capture')
+            .dispatchEvent(new CustomEvent('intentcaptured', {
+                bubbles: true, composed: true,
+                detail: { loanPurpose: 'buying', propertyValue: 400000, annualIncome: 90000 }
+            }));
+        await Promise.resolve();
+
+        element.shadowRoot.querySelector('c-pre-check-result')
+            .dispatchEvent(new CustomEvent('emailcaptured', {
+                bubbles: true, composed: true,
+                detail: { email: 'test@example.com' }
+            }));
+        await Promise.resolve();
+        await Promise.resolve();
+
+        const errorBanner = element.shadowRoot.querySelector('.error-banner');
+        expect(errorBanner).not.toBeNull();
+        expect(errorBanner.textContent).toContain(
+            'Unable to start your application. Please try again.'
+        );
+    });
+
+    // --- Error dismiss ---
+
+    it('dismisses error banner when dismiss button is clicked', async () => {
+        createLoanApplication.mockRejectedValue({ body: { message: 'Some error' } });
+        document.body.appendChild(element);
+
+        // Navigate to precheck
+        element.shadowRoot.querySelector('c-welcome-gate')
+            .dispatchEvent(new CustomEvent('start', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-intent-capture')
+            .dispatchEvent(new CustomEvent('intentcaptured', {
+                bubbles: true, composed: true,
+                detail: { loanPurpose: 'buying', propertyValue: 400000, annualIncome: 90000 }
+            }));
+        await Promise.resolve();
+
+        element.shadowRoot.querySelector('c-pre-check-result')
+            .dispatchEvent(new CustomEvent('emailcaptured', {
+                bubbles: true, composed: true,
+                detail: { email: 'test@example.com' }
+            }));
+        await Promise.resolve();
+        await Promise.resolve();
+
+        // Error banner should be visible
+        expect(element.shadowRoot.querySelector('.error-banner')).not.toBeNull();
+
+        // Click dismiss
+        element.shadowRoot.querySelector('.error-dismiss').click();
+        await Promise.resolve();
+
+        // Error banner should be gone
+        expect(element.shadowRoot.querySelector('.error-banner')).toBeNull();
+    });
+
+    // --- Accessibility ---
+
+    it('error banner has role="alert" for screen readers', async () => {
+        createLoanApplication.mockRejectedValue({ body: { message: 'Error' } });
+        document.body.appendChild(element);
+
+        element.shadowRoot.querySelector('c-welcome-gate')
+            .dispatchEvent(new CustomEvent('start', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-intent-capture')
+            .dispatchEvent(new CustomEvent('intentcaptured', {
+                bubbles: true, composed: true,
+                detail: { loanPurpose: 'buying', propertyValue: 400000, annualIncome: 90000 }
+            }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-pre-check-result')
+            .dispatchEvent(new CustomEvent('emailcaptured', {
+                bubbles: true, composed: true,
+                detail: { email: 'test@example.com' }
+            }));
+        await Promise.resolve();
+        await Promise.resolve();
+
+        const banner = element.shadowRoot.querySelector('.error-banner');
+        expect(banner.getAttribute('role')).toBe('alert');
+    });
+
+    it('dismiss button has aria-label="Dismiss error"', async () => {
+        createLoanApplication.mockRejectedValue({ body: { message: 'Error' } });
+        document.body.appendChild(element);
+
+        element.shadowRoot.querySelector('c-welcome-gate')
+            .dispatchEvent(new CustomEvent('start', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-intent-capture')
+            .dispatchEvent(new CustomEvent('intentcaptured', {
+                bubbles: true, composed: true,
+                detail: { loanPurpose: 'buying', propertyValue: 400000, annualIncome: 90000 }
+            }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-pre-check-result')
+            .dispatchEvent(new CustomEvent('emailcaptured', {
+                bubbles: true, composed: true,
+                detail: { email: 'test@example.com' }
+            }));
+        await Promise.resolve();
+        await Promise.resolve();
+
+        const dismiss = element.shadowRoot.querySelector('.error-dismiss');
+        expect(dismiss.getAttribute('aria-label')).toBe('Dismiss error');
+    });
+
+    it('back button has aria-label="Go back"', async () => {
+        document.body.appendChild(element);
+        element.shadowRoot.querySelector('c-welcome-gate')
+            .dispatchEvent(new CustomEvent('start', { bubbles: true, composed: true }));
+        await Promise.resolve();
+
+        const backBtn = element.shadowRoot.querySelector('.back-btn');
+        expect(backBtn.getAttribute('aria-label')).toBe('Go back');
+    });
+
+    it('does not show loading overlay on initial render', () => {
+        document.body.appendChild(element);
+        const overlay = element.shadowRoot.querySelector('.loading-overlay');
+        expect(overlay).toBeNull();
+    });
+
+    it('clears error on back navigation', async () => {
+        createLoanApplication.mockRejectedValue({ body: { message: 'Fail' } });
+        document.body.appendChild(element);
+
+        // Navigate to precheck
+        element.shadowRoot.querySelector('c-welcome-gate')
+            .dispatchEvent(new CustomEvent('start', { bubbles: true, composed: true }));
+        await Promise.resolve();
+        element.shadowRoot.querySelector('c-intent-capture')
+            .dispatchEvent(new CustomEvent('intentcaptured', {
+                bubbles: true, composed: true,
+                detail: { loanPurpose: 'buying', propertyValue: 400000, annualIncome: 90000 }
+            }));
+        await Promise.resolve();
+
+        // Trigger error
+        element.shadowRoot.querySelector('c-pre-check-result')
+            .dispatchEvent(new CustomEvent('emailcaptured', {
+                bubbles: true, composed: true,
+                detail: { email: 'test@example.com' }
+            }));
+        await Promise.resolve();
+        await Promise.resolve();
+        expect(element.shadowRoot.querySelector('.error-banner')).not.toBeNull();
+
+        // Go back — should clear error
+        element.shadowRoot.querySelector('.back-btn').click();
+        await Promise.resolve();
+
+        expect(element.shadowRoot.querySelector('.error-banner')).toBeNull();
+    });
 });
