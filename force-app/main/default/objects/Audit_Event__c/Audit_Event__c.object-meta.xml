@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Audit Event</label>
+    <pluralLabel>Audit Events</pluralLabel>
+    <nameField>
+        <label>Event Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>AE-{000000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Immutable log entry in the case chain of custody. Every material action appends a record. Never updated, never deleted. APPEND-ONLY.</description>
+</CustomObject>

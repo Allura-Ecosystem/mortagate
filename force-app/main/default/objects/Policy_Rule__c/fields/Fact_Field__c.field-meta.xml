@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fact_Field__c</fullName>
+    <label>Fact Field</label>
+    <type>Text</type>
+    <length>100</length>
+    <required>true</required>
+    <description>API name of the Borrower_Snapshot__c field to evaluate (e.g., DTI_Ratio__c, FICO_Score__c)</description>
+</CustomField>

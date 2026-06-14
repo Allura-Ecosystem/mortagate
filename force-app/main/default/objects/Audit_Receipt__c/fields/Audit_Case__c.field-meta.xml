@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Audit_Case__c</fullName>
+    <label>Audit Case</label>
+    <type>Lookup</type>
+    <referenceTo>Audit_Case__c</referenceTo>
+    <relationshipName>Audit_Receipts</relationshipName>
+    <relationshipLabel>Audit Receipts</relationshipLabel>
+    <required>true</required>
+    <description>The audit case being signed off</description>
+</CustomField>

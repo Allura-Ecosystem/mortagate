@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AI_Draft_Accepted__c</fullName>
+    <label>AI Draft Accepted</label>
+    <type>Checkbox</type>
+    <defaultValue>false</defaultValue>
+    <required>false</required>
+    <description>Whether auditor accepted AI draft without edits (SM-C2 counter-metric)</description>
+</CustomField>

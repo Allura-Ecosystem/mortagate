@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Actor__c</fullName>
+    <label>Actor</label>
+    <type>Text</type>
+    <length>255</length>
+    <required>true</required>
+    <description>The user who invoked the action</description>
+</CustomField>

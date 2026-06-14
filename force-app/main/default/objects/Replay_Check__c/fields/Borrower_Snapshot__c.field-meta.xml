@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Borrower_Snapshot__c</fullName>
+    <label>Borrower Snapshot</label>
+    <type>Lookup</type>
+    <referenceTo>Borrower_Snapshot__c</referenceTo>
+    <relationshipName>Replay_Checks</relationshipName>
+    <relationshipLabel>Replay Checks</relationshipLabel>
+    <required>false</required>
+    <description>Fact snapshot used for evaluation</description>
+</CustomField>

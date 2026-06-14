@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Snapshot_Write_Once</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISCHANGED(Borrower_Name_Snapshot__c) &amp;&amp; NOT(ISBLANK(PRIORVALUE(Borrower_Name_Snapshot__c)))</errorConditionFormula>
+    <errorMessage>Borrower Name Snapshot cannot be changed after initial set.</errorMessage>
+    <errorDisplayField>Borrower_Name_Snapshot__c</errorDisplayField>
+    <description>Enforces write-once semantics on the borrower name snapshot field.</description>
+</ValidationRule>

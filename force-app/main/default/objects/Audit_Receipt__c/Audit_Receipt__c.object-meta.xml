@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Audit Receipt</label>
+    <pluralLabel>Audit Receipts</pluralLabel>
+    <nameField>
+        <label>Receipt Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>AR-{000000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Immutable sign-off record created when a manager approves a completed audit case. Once created, it cannot be updated or deleted. APPEND-ONLY.</description>
+</CustomObject>

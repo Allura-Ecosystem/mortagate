@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Supersedes__c</fullName>
+    <label>Supersedes</label>
+    <type>Lookup</type>
+    <referenceTo>Policy_Version__c</referenceTo>
+    <relationshipName>Superseded_By</relationshipName>
+    <relationshipLabel>Superseded By</relationshipLabel>
+    <required>false</required>
+    <description>Previous version this replaces (self-lookup for version chain)</description>
+</CustomField>

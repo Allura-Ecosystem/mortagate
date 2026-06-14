@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Agent Action Log</label>
+    <pluralLabel>Agent Action Logs</pluralLabel>
+    <nameField>
+        <label>Log Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>AL-{000000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Record of every Agentforce action taken, for auditing the AI assistant. Append-only. APPEND-ONLY.</description>
+</CustomObject>

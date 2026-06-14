@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sampling_Reason__c</fullName>
+    <label>Sampling Reason</label>
+    <type>Text</type>
+    <length>255</length>
+    <required>false</required>
+    <description>Why this loan was selected for audit</description>
+</CustomField>
