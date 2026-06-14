@@ -26,7 +26,8 @@ The system runs on four layers. Each layer does one job.
             ┌─────────────────▼──────────────────────┐
             │   LAYER 2: SALESFORCE                   │
             │   mortagate-de (Developer Edition)       │
-            │   11 SObjects, Apex kernel, LWC, Flows  │
+            │   18 SObjects (11 new + 7 retained),    │
+            │   Apex kernel, LWC, Flows               │
             │   Audit workflow, evidence, findings     │
             └────────┬───────────────┬───────────────┘
                      |               |
@@ -70,7 +71,7 @@ The system runs on four layers. Each layer does one job.
 | Attribute | Value |
 |-----------|-------|
 | **Org** | mortagate-de (Developer Edition) |
-| **Objects** | 11 custom SObjects (see BLUEPRINT B4) |
+| **Objects** | 18 total: 11 Veridact SObjects + 5 retained origination + 2 custom metadata types (see §2.2) |
 | **Apex** | Policy replay kernel, invocable actions, controllers |
 | **LWC** | Internal-facing components (admin, policy management) |
 | **Flows** | Audit workflow automation, notification triggers |
@@ -86,21 +87,40 @@ The system runs on four layers. Each layer does one job.
 | **Rule Evaluation** | `PolicyRuleEvaluator` | Pure evaluation: facts in, results out | Zero SOQL, zero DML |
 | **Decision Commit** | `ReplayCommitService` | Write `Replay_Check__c` records and `Audit_Event__c` | Write only (1 DML) |
 
-#### Object Breakdown (11 SObjects)
+#### Object Breakdown (18 total)
+
+**Veridact v1 Objects (11 new)**
 
 | # | Object | Layer Role |
 |---|--------|-----------|
 | 1 | `Audit_Case__c` | Central entity -- loan under review |
-| 2 | `Evidence_Item__c` | Documents linked to a case |
-| 3 | `Policy_Version__c` | Versioned policy with effective dates |
-| 4 | `Policy_Rule__c` | Rule within a policy version |
-| 5 | `Replay_Check__c` | Result of one rule applied to one case |
-| 6 | `Finding__c` | Auditor's documented judgment |
-| 7 | `Audit_Receipt__c` | Immutable sign-off record (append-only) |
-| 8 | `Audit_Event__c` | Chain of custody log (append-only) |
-| 9 | `Agent_Action_Log__c` | Agentforce action audit trail (append-only) |
-| 10 | `Loan_Application__c` | Original loan data (imported, read-only) |
-| 11 | `Extracted_Facts__c` | Structured facts from loan evidence |
+| 2 | `Loan__c` | Audit-side loan snapshot (renamed from origination `Loan_Application__c` concept) |
+| 3 | `Borrower_Snapshot__c` | Point-in-time borrower data per fact category |
+| 4 | `Evidence_Item__c` | Documents linked to a case |
+| 5 | `Policy_Version__c` | Versioned policy container with effective dates |
+| 6 | `Policy_Rule__c` | Rule within a policy version (child of `Policy_Version__c`) |
+| 7 | `Replay_Check__c` | Result of one rule applied to one case |
+| 8 | `Finding__c` | Auditor's documented judgment |
+| 9 | `Audit_Receipt__c` | Immutable sign-off record (append-only) |
+| 10 | `Audit_Event__c` | Chain of custody log (append-only) |
+| 11 | `Agent_Action_Log__c` | Agentforce action audit trail (append-only) |
+
+**Retained Origination Objects (5)**
+
+| # | Object | Layer Role |
+|---|--------|-----------|
+| 12 | `Loan_Application__c` | Borrower mortgage application (origination-side, read-only in audit) |
+| 13 | `Evidence__c` | Origination-side uploaded documents (distinct from `Evidence_Item__c`) |
+| 14 | `Extracted_Facts__c` | Origination-side fact extraction output |
+| 15 | `Decision_Event__c` | Origination-side decision log (append-only, separate from `Audit_Event__c`) |
+| 16 | `Policy_Rule_Version__c` | Retired -- split into `Policy_Version__c` + `Policy_Rule__c`; retained for backward compatibility |
+
+**Custom Metadata Types (2)**
+
+| # | Object | Layer Role |
+|---|--------|-----------|
+| 17 | `Adverse_Action_Config__mdt` | ECOA/Reg B adverse action notice configuration |
+| 18 | `PreFlight_Assumption__mdt` | Pre-flight calculation assumptions |
 
 ### Layer 3: Agentforce (ADR-16)
 
@@ -342,6 +362,7 @@ After replay execution completes:
 | Vercel preview | React cockpit preview deploys | Vercel free tier |
 | Vercel production | React cockpit production | Vercel free tier |
 | Local dev | Apex + LWC + React development | sf CLI + npm |
+| `demo/` | Standalone Next.js demo app for stakeholder walkthroughs. Contains a self-contained replay engine, scenario personas, and Veridact-branded screens. Not connected to Salesforce -- uses mock data. | Vercel preview or `bun dev` |
 
 ---
 
