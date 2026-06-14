@@ -153,7 +153,7 @@ public with sharing class ReplayService {
             commitResults.add(rcr);
         }
 
-        return ReplayCommitService.commit(commitResults);  // 2 DML
+        return ReplayCommitService.commitReplayChecks(commitResults);  // 2 DML
     }
 
     private static void putIfPresent(Map<String, Object> m, String key, Object val) {

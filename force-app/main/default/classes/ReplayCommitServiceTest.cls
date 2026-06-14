@@ -94,7 +94,7 @@ private class ReplayCommitServiceTest {
         }
 
         Test.startTest();
-        List<Replay_Check__c> checks = ReplayCommitService.commit(results);
+        List<Replay_Check__c> checks = ReplayCommitService.commitReplayChecks(results);
         Test.stopTest();
 
         // Verify 10 Replay_Check__c records inserted
@@ -128,7 +128,7 @@ private class ReplayCommitServiceTest {
     @IsTest
     static void negative_emptyResults_returnsEmptyNoDml() {
         Test.startTest();
-        List<Replay_Check__c> checks = ReplayCommitService.commit(
+        List<Replay_Check__c> checks = ReplayCommitService.commitReplayChecks(
             new List<ReplayCommitService.ReplayCheckResult>()
         );
         Test.stopTest();
@@ -143,7 +143,7 @@ private class ReplayCommitServiceTest {
     @IsTest
     static void negative_nullResults_returnsEmptyNoDml() {
         Test.startTest();
-        List<Replay_Check__c> checks = ReplayCommitService.commit(null);
+        List<Replay_Check__c> checks = ReplayCommitService.commitReplayChecks(null);
         Test.stopTest();
 
         System.assertEquals(0, checks.size(), 'Null input should return empty list');
@@ -177,7 +177,7 @@ private class ReplayCommitServiceTest {
 
         Test.startTest();
         Integer dmlBefore = Limits.getDmlStatements();
-        List<Replay_Check__c> checks = ReplayCommitService.commit(results);
+        List<Replay_Check__c> checks = ReplayCommitService.commitReplayChecks(results);
         Integer dmlUsed = Limits.getDmlStatements() - dmlBefore;
         Test.stopTest();
 

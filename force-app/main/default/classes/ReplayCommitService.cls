@@ -1,5 +1,5 @@
 /**
- * ReplayCommitService — Layer 3 of the audit replay kernel.
+ * ReplayCommitService -Layer 3 of the audit replay kernel.
  *
  * The ONLY class that writes replay results. Takes in-memory
  * ReplayCheckResults (already evaluated, zero DB dependency) and persists
@@ -37,10 +37,10 @@ public with sharing class ReplayCommitService {
     /**
      * Persist replay check results and log the replay event.
      *
-     * @param results List of ReplayCheckResult — one per rule evaluated per case
+     * @param results List of ReplayCheckResult -one per rule evaluated per case
      * @return The inserted Replay_Check__c records (with Ids populated)
      */
-    public static List<Replay_Check__c> commit(List<ReplayCheckResult> results) {
+    public static List<Replay_Check__c> commitReplayChecks(List<ReplayCheckResult> results) {
         if (results == null || results.isEmpty()) {
             return new List<Replay_Check__c>();
         }
