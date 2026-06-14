@@ -7,12 +7,11 @@ category: Core Subagents
 type: utility
 status: active
 model: ollama-cloud/deepseek-v4-pro
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - Skill
+permission:
+  edit: allow
+  bash: allow
+  skill:
+    "*": allow
 skills:
   - allura-memory-skill
 ---

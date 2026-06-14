@@ -7,17 +7,12 @@ category: Core
 type: primary
 status: active
 model: ollama-cloud/deepseek-v4-pro
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - Edit
-  - Write
-  - Skill
-  - Task
-  - WebFetch
-  - TodoWrite
+permission:
+  edit: allow
+  bash: allow
+  webfetch: allow
+  skill:
+    "*": allow
 skills:
   - mortgate-orchestrator
   - carlos-guidelines

@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  /* Core Palette — Veridact Brand Kit v1.0.1 */
+  --veridact-bg: #F5F0E8;
+  --veridact-fg: #1F1E1C;
+  --veridact-fg-muted: #645D53;
+  --veridact-accent: #E25D22;
+  --veridact-card: #ffffff;
+  --veridact-border: #D7CCBB;
+
+  /* Semantic Decision Colors (chip backgrounds) */
+  --veridact-approved: #16734a;
+  --veridact-approved-on: #ffffff;
+  --veridact-conditions: #E25D22;
+  --veridact-conditions-on: #1F1E1C;
+  --veridact-review: #345182;
+  --veridact-review-on: #ffffff;
+  --veridact-declined: #8a3324;
+  --veridact-declined-on: #ffffff;
+
+  /* Spacing (8px base) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-8: 64px;
+}
+
+@theme inline {
+  --color-veridact-bg: var(--veridact-bg);
+  --color-veridact-fg: var(--veridact-fg);
+  --color-veridact-fg-muted: var(--veridact-fg-muted);
+  --color-veridact-accent: var(--veridact-accent);
+  --color-veridact-card: var(--veridact-card);
+  --color-veridact-border: var(--veridact-border);
+  --color-veridact-approved: var(--veridact-approved);
+  --color-veridact-approved-on: var(--veridact-approved-on);
+  --color-veridact-conditions: var(--veridact-conditions);
+  --color-veridact-conditions-on: var(--veridact-conditions-on);
+  --color-veridact-review: var(--veridact-review);
+  --color-veridact-review-on: var(--veridact-review-on);
+  --color-veridact-declined: var(--veridact-declined);
+  --color-veridact-declined-on: var(--veridact-declined-on);
+  --font-display: 'Outfit', 'Inter', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+  background: var(--veridact-bg);
+  color: var(--veridact-fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accent bar signature */
+.accent-bar {
+  height: 4px;
+  background: var(--veridact-accent);
+  width: 100%;
+}
+
+/* Heartbeat pulse animation */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.45; }
+}
+
+.pulse {
+  animation: heartbeat 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse { animation: none; }
+}

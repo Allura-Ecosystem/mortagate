@@ -7,17 +7,12 @@ category: Code
 type: subagent
 status: active
 model: ollama-cloud/deepseek-v4-pro
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - Edit
-  - Write
-  - Task
-  - Skill
-  - WebFetch
-  - TodoWrite
+permission:
+  edit: allow
+  bash: allow
+  webfetch: allow
+  skill:
+    "*": allow
 skills:
   - apex-quality
   - allura-memory-skill

@@ -1,0 +1,106 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background: var(--veridact-bg, #F5F0E8);
+    font-family: var(--veridact-font-body, 'Inter', sans-serif);
+    color: var(--veridact-fg, #1F1E1C);
+    position: relative;
+}
+
+.orchestrator {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 1rem;
+    position: relative;
+}
+
+/* Back button */
+.back-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: none;
+    border: none;
+    font-family: var(--veridact-font-body, 'Inter', sans-serif);
+    font-size: 0.875rem;
+    color: var(--veridact-fg-muted, rgba(31, 30, 28, 0.5));
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 10;
+}
+
+.back-btn:hover {
+    color: var(--veridact-fg, #1F1E1C);
+}
+
+.back-btn:focus-visible {
+    outline: 2px solid var(--veridact-accent, #E25D22);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Error banner */
+.error-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--veridact-declined, #8a3324);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.error-text {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.error-dismiss {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0 0.25rem;
+    line-height: 1;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(245, 240, 232, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid var(--veridact-fg-muted, rgba(31, 30, 28, 0.2));
+    border-top-color: var(--veridact-accent, #E25D22);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spinner {
+        animation: none;
+        border-top-color: var(--veridact-fg, #1F1E1C);
+    }
+}
+
+/* Mobile-first: already at 480px max. Desktop just centers. */
+@media (min-width: 768px) {
+    .orchestrator {
+        padding: 2rem;
+    }
+}
