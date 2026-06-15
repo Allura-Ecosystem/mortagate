@@ -67,7 +67,7 @@ private class ReplayServiceTest {
         // Borrower Snapshot — collateral facts
         Borrower_Snapshot__c bsCollateral = new Borrower_Snapshot__c(
             Audit_Case__c       = ac.Id,
-            Fact_Category__c    = 'Collateral',
+            Fact_Category__c    = 'Asset',
             LTV_Ratio__c        = 80.0,
             Asset_Value__c      = 475000
         );
@@ -129,10 +129,8 @@ private class ReplayServiceTest {
             Rule_Category__c   = category,
             Operator__c        = op,
             Threshold_Value__c = threshold,
-            Threshold_High__c  = thresholdHigh,
             Fact_Field__c      = factField,
-            Severity__c        = severity,
-            Sort_Order__c      = sortOrder
+            Severity__c        = severity
         );
     }
 
@@ -163,16 +161,21 @@ private class ReplayServiceTest {
         ];
         System.assertEquals(10, dbChecks.size());
 
+        // ADR-6: rules queried ORDER BY Rule_Code__c ASC, so Sort_Order__c is
+        // alphabetical — assert by rule name (order-independent), mapped values.
+        Map<String, String> resultByRule = new Map<String, String>();
+        Map<String, String> expectedByRule = new Map<String, String>();
+        for (Replay_Check__c rc : dbChecks) {
+            resultByRule.put(rc.Rule_Name__c, rc.Result__c);
+            expectedByRule.put(rc.Rule_Name__c, rc.Expected_Value__c);
+        }
+
         // DTI_MAX should Fail (44.8 vs 43 LTE)
-        Replay_Check__c dti = dbChecks[0];
-        System.assertEquals('DTI_MAX', dti.Rule_Name__c);
-        System.assertEquals('FAIL', dti.Result__c);
-        System.assertEquals('43', dti.Expected_Value__c);
+        System.assertEquals('Fail', resultByRule.get('DTI_MAX'));
+        System.assertEquals(43, Decimal.valueOf(expectedByRule.get('DTI_MAX')));
 
         // FICO_MIN should Pass (710 vs 620 GTE)
-        Replay_Check__c fico = dbChecks[1];
-        System.assertEquals('FICO_MIN', fico.Rule_Name__c);
-        System.assertEquals('PASS', fico.Result__c);
+        System.assertEquals('Pass', resultByRule.get('FICO_MIN'));
 
         // Verify Audit_Event__c
         List<Audit_Event__c> events = [
@@ -217,8 +220,8 @@ private class ReplayServiceTest {
         for (Replay_Check__c rc : [
             SELECT Result__c FROM Replay_Check__c WHERE Audit_Case__c = :emptyCase.Id
         ]) {
-            System.assertEquals('INDETERMINATE', rc.Result__c,
-                'Missing facts should produce INDETERMINATE');
+            System.assertEquals('Unverifiable', rc.Result__c,
+                'Missing facts should produce Unverifiable');
         }
     }
 

@@ -1,39 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>Veridact Mortgage Engine Access</label>
-    <description>Grants object CRUD and field-level security for the Mortgage Approval Engine custom objects. Required because fields deployed via the Metadata API receive no FLS by default.</description>
+    <description>Grants object CRUD and field-level security for the Mortgage Approval Engine custom objects. Fields deployed via the Metadata API receive no FLS by default. Required and Master-Detail fields are omitted (FLS is implicit).</description>
     <hasActivationRequired>false</hasActivationRequired>
 
     <!-- ================= Object Permissions ================= -->
     <objectPermissions>
-        <object>Loan_Application__c</object>
+        <object>Agent_Action_Log__c</object>
         <allowRead>true</allowRead>
         <allowCreate>true</allowCreate>
         <allowEdit>true</allowEdit>
         <allowDelete>true</allowDelete>
-        <viewAllRecords>true</viewAllRecords>
-        <modifyAllRecords>true</modifyAllRecords>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <object>Policy_Rule_Version__c</object>
+        <object>Audit_Case__c</object>
         <allowRead>true</allowRead>
         <allowCreate>true</allowCreate>
         <allowEdit>true</allowEdit>
         <allowDelete>true</allowDelete>
-        <viewAllRecords>true</viewAllRecords>
-        <modifyAllRecords>true</modifyAllRecords>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <object>Extracted_Facts__c</object>
+        <object>Audit_Event__c</object>
         <allowRead>true</allowRead>
         <allowCreate>true</allowCreate>
         <allowEdit>true</allowEdit>
         <allowDelete>true</allowDelete>
-        <viewAllRecords>true</viewAllRecords>
-        <modifyAllRecords>true</modifyAllRecords>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Audit_Receipt__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Borrower_Snapshot__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
     </objectPermissions>
     <objectPermissions>
         <object>Decision_Event__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Evidence_Item__c</object>
         <allowRead>true</allowRead>
         <allowCreate>true</allowCreate>
         <allowEdit>true</allowEdit>
@@ -50,221 +77,307 @@
         <viewAllRecords>false</viewAllRecords>
         <modifyAllRecords>false</modifyAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <object>Extracted_Facts__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Finding__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Loan_Application__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Loan__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Policy_Rule_Version__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Policy_Rule__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Policy_Version__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Replay_Check__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>true</allowEdit>
+        <allowDelete>true</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
 
-    <!-- ================= Loan_Application__c fields ================= -->
+    <!-- ================= Field Permissions ================= -->
     <fieldPermissions>
-        <field>Loan_Application__c.Borrower__c</field>
+        <field>Agent_Action_Log__c.Audit_Case__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Loan_Application__c.Property_Value__c</field>
+        <field>Agent_Action_Log__c.Duration_Ms__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Loan_Application__c.Requested_Amount__c</field>
+        <field>Agent_Action_Log__c.Error_Message__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Loan_Application__c.Annual_Income__c</field>
+        <field>Agent_Action_Log__c.Input_Summary__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Loan_Application__c.Submission_Date__c</field>
+        <field>Agent_Action_Log__c.Output_Summary__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Loan_Application__c.Current_Stage__c</field>
+        <field>Agent_Action_Log__c.Prompt_Template__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Loan_Application__c.Loan_Type__c</field>
+        <field>Audit_Case__c.Approval_Timestamp__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Loan_Application__c.Purpose__c</field>
+        <field>Audit_Case__c.Assigned_At__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Loan_Application__c.Status__c</field>
-        <readable>true</readable>
-        <editable>true</editable>
-    </fieldPermissions>
-
-    <!-- ================= Policy_Rule_Version__c fields ================= -->
-    <fieldPermissions>
-        <field>Policy_Rule_Version__c.Threshold_Value__c</field>
+        <field>Audit_Case__c.Auditor__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Threshold_High__c</field>
+        <field>Audit_Case__c.Borrower_Name_Snapshot__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Allowed_Values__c</field>
+        <field>Audit_Case__c.Branch__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Rule_Explanation__c</field>
+        <field>Audit_Case__c.Loan_Amount__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Expiration_Date__c</field>
+        <field>Audit_Case__c.Original_Approver__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Is_Active__c</field>
+        <field>Audit_Case__c.Policy_Version__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Override_Permitted__c</field>
+        <field>Audit_Case__c.Product_Type__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Override_Justification_Required__c</field>
+        <field>Audit_Case__c.Sampled_At__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Regulatory_Citation__c</field>
+        <field>Audit_Case__c.Sampling_Reason__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Change_Justification__c</field>
+        <field>Audit_Case__c.Scope__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Supersedes__c</field>
+        <field>Audit_Case__c.Signed_Off_At__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Operator__c</field>
+        <field>Audit_Case__c.Signed_Off_By__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Rule_Category__c</field>
+        <field>Audit_Event__c.Payload__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Policy_Rule_Version__c.Severity__c</field>
-        <readable>true</readable>
-        <editable>true</editable>
-    </fieldPermissions>
-
-    <!-- ================= Extracted_Facts__c fields ================= -->
-    <fieldPermissions>
-        <field>Extracted_Facts__c.Application__c</field>
+        <field>Audit_Event__c.Related_Record_Id__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Evidence__c</field>
+        <field>Audit_Receipt__c.Evidence_Snapshot__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Annual_Income__c</field>
+        <field>Audit_Receipt__c.Findings_Snapshot__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Monthly_Income__c</field>
+        <field>Audit_Receipt__c.Receipt_Hash__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.DTI_Ratio__c</field>
+        <field>Audit_Receipt__c.Replay_Snapshot__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.FICO_Score__c</field>
+        <field>Audit_Receipt__c.Reviewer__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.LTV_Ratio__c</field>
+        <field>Borrower_Snapshot__c.Address_Tenure_Months__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Employment_Months__c</field>
+        <field>Borrower_Snapshot__c.Annual_Income__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Employer_Name__c</field>
+        <field>Borrower_Snapshot__c.Asset_Value__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Asset_Value__c</field>
+        <field>Borrower_Snapshot__c.Confidence__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Extraction_Confidence__c</field>
+        <field>Borrower_Snapshot__c.DTI_At_Approval__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Extracted_Date__c</field>
+        <field>Borrower_Snapshot__c.DTI_Ratio__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Verified__c</field>
+        <field>Borrower_Snapshot__c.Employer_Name__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Extracted_Facts__c.Fact_Type__c</field>
-        <readable>true</readable>
-        <editable>true</editable>
-    </fieldPermissions>
-
-    <!-- ================= Decision_Event__c fields ================= -->
-    <fieldPermissions>
-        <field>Decision_Event__c.Rule_Version__c</field>
+        <field>Borrower_Snapshot__c.Employment_Months__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Decision_Event__c.Evaluated_Facts__c</field>
+        <field>Borrower_Snapshot__c.Evidence_Item__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Decision_Event__c.Rule_Results_JSON__c</field>
+        <field>Borrower_Snapshot__c.Extractor_Version__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Decision_Event__c.Evaluated_Rule_Count__c</field>
+        <field>Borrower_Snapshot__c.FICO_Score__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Decision_Event__c.Hard_Decline_Count__c</field>
+        <field>Borrower_Snapshot__c.Is_Unverifiable__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Borrower_Snapshot__c.LTV_Ratio__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Borrower_Snapshot__c.Monthly_Debt__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Borrower_Snapshot__c.Monthly_Income__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Borrower_Snapshot__c.Unverifiable_Reason__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Borrower_Snapshot__c.Verified_At__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Borrower_Snapshot__c.Verified_By__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Borrower_Snapshot__c.Verified__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
@@ -279,7 +392,32 @@
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
+        <field>Decision_Event__c.Evaluated_Facts__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Decision_Event__c.Evaluated_Rule_Count__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Decision_Event__c.Hard_Decline_Count__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
         <field>Decision_Event__c.Outcome__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Decision_Event__c.Rule_Results_JSON__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Decision_Event__c.Rule_Version__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
@@ -288,15 +426,33 @@
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
-
-    <!-- ================= Evidence__c fields ================= -->
     <fieldPermissions>
-        <field>Evidence__c.Content_Version_Id__c</field>
+        <field>Evidence_Item__c.ContentDocument_Id__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
     <fieldPermissions>
-        <field>Evidence__c.Upload_Date__c</field>
+        <field>Evidence_Item__c.Notes__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Evidence_Item__c.Received_Timestamp__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Evidence_Item__c.Required__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Evidence_Item__c.SHA256_Hash__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Evidence__c.Content_Version_Id__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
@@ -307,6 +463,356 @@
     </fieldPermissions>
     <fieldPermissions>
         <field>Evidence__c.Extraction_Status__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Evidence__c.Upload_Date__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Address_Tenure_Months__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Annual_Income__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Application__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Asset_Value__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.DTI_Ratio__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Employer_Name__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Employment_Months__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Evidence__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Extracted_Date__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Extraction_Confidence__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.FICO_Score__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Fact_Type__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.LTV_Ratio__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Monthly_Income__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Extracted_Facts__c.Verified__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.AI_Draft_Accepted__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.AI_Drafted__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Category__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Closed_Reason__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Description__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Disposition__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Exception_Approver__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Exception_Reason__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Remediation_Due_At__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Remediation_Notes__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Remediation_Owner__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Finding__c.Replay_Check__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Annual_Income__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Borrower__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Current_Stage__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Loan_Type__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Property_Value__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Purpose__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Requested_Amount__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Status__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan_Application__c.Submission_Date__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.Annual_Income__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.Approver_Name__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.DTI_At_Approval__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.FICO_At_Approval__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.LOS_Loan_Id__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.LTV_At_Approval__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.Originating_Branch__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.Source_Application__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Allowed_Values__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Change_Justification__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Expiration_Date__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Is_Active__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Operator__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Override_Justification_Required__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Override_Permitted__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Regulatory_Citation__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Rule_Category__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Rule_Explanation__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Severity__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Supersedes__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Threshold_High__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Rule_Version__c.Threshold_Value__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Version__c.Approved_By__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Version__c.Approved_Date__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Version__c.Change_Justification__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Version__c.Expiration_Date__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Version__c.Is_Active__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Policy_Version__c.Supersedes__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Replay_Check__c.Actual_Value__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Replay_Check__c.Borrower_Snapshot__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Replay_Check__c.Evidence_Item__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Replay_Check__c.Rationale__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Replay_Check__c.Sort_Order__c</field>
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>

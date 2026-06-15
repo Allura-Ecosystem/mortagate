@@ -7,6 +7,7 @@
         <type>AutoNumber</type>
         <displayFormat>AC-{000000}</displayFormat>
     </nameField>
+    <enableHistory>true</enableHistory>
     <deploymentStatus>Deployed</deploymentStatus>
     <sharingModel>ReadWrite</sharingModel>
     <description>A single loan under review -- the central hub that links evidence, findings, replay checks, events, and the final receipt.</description>

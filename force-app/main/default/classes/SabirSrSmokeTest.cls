@@ -133,10 +133,8 @@ private class SabirSrSmokeTest {
             Rule_Category__c   = category,
             Operator__c        = op,
             Threshold_Value__c = threshold,
-            Threshold_High__c  = thresholdHigh,
             Fact_Field__c      = factField,
-            Severity__c        = severity,
-            Sort_Order__c      = sortOrder
+            Severity__c        = severity
         );
     }
 
@@ -166,7 +164,9 @@ private class SabirSrSmokeTest {
         System.assertEquals(10, checks.size(),
             'Expected 10 replay checks for Sabir Sr. demo case');
 
-        // Verify persisted checks ordered by Sort_Order
+        // Verify persisted checks. ADR-6: rules are queried ORDER BY Rule_Code__c
+        // ASC, so Sort_Order__c reflects alphabetical order — NOT insertion order.
+        // Assert by Rule_Name__c to stay order-independent.
         List<Replay_Check__c> dbChecks = [
             SELECT Rule_Name__c, Result__c, Expected_Value__c, Actual_Value__c, Sort_Order__c
             FROM Replay_Check__c
@@ -176,23 +176,27 @@ private class SabirSrSmokeTest {
         System.assertEquals(10, dbChecks.size(),
             'Expected 10 persisted replay checks in database');
 
-        // ── Assert: DTI_MAX check fails ──
-        Replay_Check__c dtiCheck = dbChecks[0];
-        System.assertEquals('DTI_MAX', dtiCheck.Rule_Name__c,
-            'First check should be DTI_MAX (sort order 0)');
-        System.assertEquals('FAIL', dtiCheck.Result__c,
+        // Build a rule-name → result map for order-independent assertions
+        Map<String, String> resultByRule = new Map<String, String>();
+        Map<String, String> expectedByRule = new Map<String, String>();
+        for (Replay_Check__c rc : dbChecks) {
+            resultByRule.put(rc.Rule_Name__c, rc.Result__c);
+            expectedByRule.put(rc.Rule_Name__c, rc.Expected_Value__c);
+        }
+
+        // ── Assert: DTI_MAX check fails ── (mapped picklist value)
+        System.assertEquals('Fail', resultByRule.get('DTI_MAX'),
             'DTI_MAX must fail: Sabir DTI 44.8 > threshold 43');
-        System.assertEquals('43', dtiCheck.Expected_Value__c,
+        System.assertEquals(43, Decimal.valueOf(expectedByRule.get('DTI_MAX')),
             'DTI_MAX threshold should be 43');
 
-        // ── Assert: 9 other checks pass ──
-        // DTI_WARN (index 6) also fails evaluation but we count all non-DTI_MAX
+        // ── Assert: 2 fails / 8 passes (mapped picklist values) ──
         Integer passCount = 0;
         Integer failCount = 0;
         for (Replay_Check__c rc : dbChecks) {
-            if (rc.Result__c == 'PASS') {
+            if (rc.Result__c == 'Pass') {
                 passCount++;
-            } else if (rc.Result__c == 'FAIL') {
+            } else if (rc.Result__c == 'Fail') {
                 failCount++;
             }
         }
@@ -202,13 +206,12 @@ private class SabirSrSmokeTest {
         System.assertEquals(8, passCount,
             'Expected 8 passes for all other rules');
 
-        // Verify specific passing checks
-        System.assertEquals('FICO_MIN', dbChecks[1].Rule_Name__c);
-        System.assertEquals('PASS', dbChecks[1].Result__c,
+        // Verify specific results by rule name (mapped values)
+        System.assertEquals('Fail', resultByRule.get('DTI_WARN'),
+            'DTI_WARN must fail: 44.8 > 40');
+        System.assertEquals('Pass', resultByRule.get('FICO_MIN'),
             'FICO_MIN must pass: 710 >= 620');
-
-        System.assertEquals('LTV_MAX', dbChecks[2].Rule_Name__c);
-        System.assertEquals('PASS', dbChecks[2].Result__c,
+        System.assertEquals('Pass', resultByRule.get('LTV_MAX'),
             'LTV_MAX must pass: 80 <= 80');
 
         // ── Assert: 1 Audit_Event__c with Replay_Executed ──
@@ -238,9 +241,16 @@ private class SabirSrSmokeTest {
         ReplayService.replay(ac.Id);
         Test.stopTest();
 
-        // Insert a receipt linked to the case
+        // Insert a receipt linked to the case. All required fields must be
+        // populated (Exception/Pass/Total/Violation counts + Signed_Off_At).
+        // Mirror the 2-fail / 8-pass Sabir Sr. demo outcome.
         Audit_Receipt__c receipt = new Audit_Receipt__c(
-            Audit_Case__c = ac.Id
+            Audit_Case__c     = ac.Id,
+            Pass_Count__c     = 8,
+            Violation_Count__c = 2,
+            Total_Findings__c = 2,
+            Exception_Count__c = 0,
+            Signed_Off_At__c  = Datetime.now()
         );
         insert receipt;
 
@@ -322,8 +332,8 @@ private class SabirSrSmokeTest {
         ];
 
         for (Replay_Check__c rc : dbChecks) {
-            System.assertEquals('INDETERMINATE', rc.Result__c,
-                'Missing facts must produce INDETERMINATE for rule: ' + rc.Rule_Name__c);
+            System.assertEquals('Unverifiable', rc.Result__c,
+                'Missing facts must produce Unverifiable for rule: ' + rc.Rule_Name__c);
         }
     }
 }

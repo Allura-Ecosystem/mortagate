@@ -61,8 +61,7 @@ private class ReplayCommitServiceTest {
                 Operator__c       = 'LTE',
                 Threshold_Value__c = 43,
                 Fact_Field__c     = 'DTI_Ratio__c',
-                Severity__c       = 'Hard_Decline',
-                Sort_Order__c     = i
+                Severity__c       = 'Hard_Decline'
             ));
         }
         insert rules;

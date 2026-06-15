@@ -76,11 +76,10 @@ public with sharing class ReplayService {
         Policy_Version__c policyVersion = [
             SELECT Id, Version_Number__c,
                 (SELECT Id, Rule_Code__c, Rule_Label__c, Rule_Category__c,
-                        Operator__c, Threshold_Value__c, Threshold_High__c,
-                        Fact_Field__c, Severity__c, Rule_Explanation__c,
-                        Allowed_Values__c, Override_Permitted__c, Sort_Order__c
+                        Operator__c, Threshold_Value__c,
+                        Fact_Field__c, Severity__c
                  FROM Policy_Rules__r
-                 ORDER BY Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC)
+                 ORDER BY Rule_Code__c ASC)
             FROM Policy_Version__c
             WHERE Is_Active__c = true
               AND Effective_Date__c <= :approvalDate
@@ -98,7 +97,10 @@ public with sharing class ReplayService {
         // ── Step 2: ADAPT ───────────────────────────────────────────────
 
         // Map Policy_Rule__c → Policy_Rule_Version__c (in-memory) so the
-        // existing pure evaluator works unchanged. Fields are 1:1 by name.
+        // existing pure evaluator works unchanged.
+        // Note: Threshold_High, Rule_Explanation, Allowed_Values, Override_Permitted
+        // and Sort_Order exist only on Policy_Rule_Version__c, not Policy_Rule__c.
+        // They default to null in the adaptation since Policy_Rule__c doesn't carry them.
         Map<Id, Id> adaptedIdToRuleId = new Map<Id, Id>();
         List<Policy_Rule_Version__c> adaptedRules = new List<Policy_Rule_Version__c>();
         for (Policy_Rule__c pr : rules) {
@@ -108,12 +110,8 @@ public with sharing class ReplayService {
                 Rule_Category__c       = pr.Rule_Category__c,
                 Operator__c            = pr.Operator__c,
                 Threshold_Value__c     = pr.Threshold_Value__c,
-                Threshold_High__c      = pr.Threshold_High__c,
                 Fact_Field__c          = pr.Fact_Field__c,
                 Severity__c            = pr.Severity__c,
-                Rule_Explanation__c    = pr.Rule_Explanation__c,
-                Allowed_Values__c      = pr.Allowed_Values__c,
-                Override_Permitted__c  = pr.Override_Permitted__c,
                 Version_Number__c      = policyVersion.Version_Number__c
             );
             adaptedRules.add(adapted);
@@ -144,7 +142,7 @@ public with sharing class ReplayService {
             rcr.auditCaseId      = auditCaseId;
             rcr.policyRuleId     = rules[i].Id;  // original Policy_Rule__c Id
             rcr.ruleName         = ro.ruleCode;
-            rcr.result           = ro.outcome;    // PASS, FAIL, INDETERMINATE
+            rcr.result           = mapOutcome(ro.outcome);  // engine PASS/FAIL/INDETERMINATE → picklist Pass/Fail/Unverifiable
             rcr.expectedValue    = ro.threshold != null ? String.valueOf(ro.threshold) : null;
             rcr.actualValue      = ro.factValue != null ? String.valueOf(ro.factValue) : null;
             rcr.borrowerSnapshotId = snapshotId;
@@ -158,5 +156,21 @@ public with sharing class ReplayService {
 
     private static void putIfPresent(Map<String, Object> m, String key, Object val) {
         if (val != null) { m.put(key, val); }
+    }
+
+    /**
+     * Map the engine outcome vocabulary (PASS / FAIL / INDETERMINATE) to the
+     * restricted Replay_Check__c.Result__c picklist (Pass / Fail / Unverifiable).
+     * Boundary translation keeps the pure kernel vocabulary intact while
+     * respecting the persisted schema's allowed values.
+     */
+    private static String mapOutcome(String engineOutcome) {
+        if (engineOutcome == null) { return null; }
+        switch on engineOutcome.toUpperCase() {
+            when 'PASS'          { return 'Pass'; }
+            when 'FAIL'          { return 'Fail'; }
+            when 'INDETERMINATE' { return 'Unverifiable'; }
+            when else            { return engineOutcome; }
+        }
     }
 }

@@ -176,8 +176,7 @@ public with sharing class SeedDataLoader {
             Operator__c          = op,
             Rule_Category__c     = category,
             Severity__c          = severity,
-            Fact_Field__c        = factField,
-            Sort_Order__c        = sortOrder
+            Fact_Field__c        = factField
         );
     }
 
