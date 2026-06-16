@@ -101,7 +101,13 @@ public with sharing class ReplayService {
         // Note: Threshold_High, Rule_Explanation, Allowed_Values, Override_Permitted
         // and Sort_Order exist only on Policy_Rule_Version__c, not Policy_Rule__c.
         // They default to null in the adaptation since Policy_Rule__c doesn't carry them.
-        Map<Id, Id> adaptedIdToRuleId = new Map<Id, Id>();
+        //
+        // Key the back-mapping on Rule_Code__c (a stable business key), NOT list
+        // position. The evaluator returns RuleOutcome.ruleCode for every result,
+        // so we can re-link each outcome to its originating Policy_Rule__c by code
+        // even if the query order and the evaluator's output order ever diverge.
+        // (Rule_Code__c is unique within an active Policy_Version__c.)
+        Map<String, Id> ruleIdByCode = new Map<String, Id>();
         List<Policy_Rule_Version__c> adaptedRules = new List<Policy_Rule_Version__c>();
         for (Policy_Rule__c pr : rules) {
             Policy_Rule_Version__c adapted = new Policy_Rule_Version__c(
@@ -115,8 +121,7 @@ public with sharing class ReplayService {
                 Version_Number__c      = policyVersion.Version_Number__c
             );
             adaptedRules.add(adapted);
-            // Track mapping from adapted list index → original Policy_Rule__c Id
-            adaptedIdToRuleId.put(adapted.Id, pr.Id);
+            ruleIdByCode.put(pr.Rule_Code__c, pr.Id);
         }
 
         PolicyEvaluationContext ctx = new PolicyEvaluationContext(
@@ -140,7 +145,9 @@ public with sharing class ReplayService {
 
             ReplayCommitService.ReplayCheckResult rcr = new ReplayCommitService.ReplayCheckResult();
             rcr.auditCaseId      = auditCaseId;
-            rcr.policyRuleId     = rules[i].Id;  // original Policy_Rule__c Id
+            // Link by business key (Rule_Code__c), not list index — robust to any
+            // ordering difference between the rule query and the evaluator output.
+            rcr.policyRuleId     = ruleIdByCode.get(ro.ruleCode);
             rcr.ruleName         = ro.ruleCode;
             rcr.result           = mapOutcome(ro.outcome);  // engine PASS/FAIL/INDETERMINATE → picklist Pass/Fail/Unverifiable
             rcr.expectedValue    = ro.threshold != null ? String.valueOf(ro.threshold) : null;

@@ -3,18 +3,19 @@
  * (the c-audit-queue LWC). Surfaces the auditor work queue and the five
  * dashboard metric counts from Audit_Case__c.
  *
- * FLS/sharing: `with sharing` + AccessLevel.USER_MODE on every query, so the
- * queue can never show an auditor a case (or field) they cannot see.
+ * FLS/sharing: `with sharing` + AccessLevel.USER_MODE on every query (via the
+ * shared AuditSoql helper), so the queue can never show an auditor a case (or
+ * field) they cannot see.
  *
  * SOQL safety: bound bind variables only (no string-concatenated values),
- * a sort allowlist, and a hard row cap (MAX_LIMIT).
+ * a sort allowlist, and a hard row cap (MAX_LIMIT) — all enforced through
+ * AuditSoql so the posture matches every other audit-UI controller.
  *
  * @group Audit Queue
  */
 public with sharing class AuditQueueController {
 
     @TestVisible private static final Integer DEFAULT_LIMIT = 100;
-    @TestVisible private static final Integer MAX_LIMIT = 200;
 
     // Allowlist: external sort key -> SObject field. Anything else is rejected.
     private static final Map<String, String> SORT_ALLOWLIST = new Map<String, String>{
@@ -67,15 +68,11 @@ public with sharing class AuditQueueController {
             binds.put('currentUserId', currentUserId);
         }
 
-        String orderField = SORT_ALLOWLIST.containsKey(f.sortBy)
-            ? SORT_ALLOWLIST.get(f.sortBy)
-            : 'Due_At__c';
-        String direction = (f.sortDirection == 'desc') ? 'DESC' : 'ASC';
+        String orderField = AuditSoql.resolveSortField(SORT_ALLOWLIST, f.sortBy, 'Due_At__c');
+        String direction = AuditSoql.resolveDirection(f.sortDirection);
 
         // Sanitized Integer — safe to inline (no injection surface).
-        Integer rowLimit = (f.pageSize != null && f.pageSize > 0)
-            ? Math.min(f.pageSize, MAX_LIMIT)
-            : DEFAULT_LIMIT;
+        Integer rowLimit = AuditSoql.resolveLimit(f.pageSize, DEFAULT_LIMIT);
 
         String soql =
             'SELECT Id, Name, Status__c, Risk_Tier__c, Product_Type__c, Branch__c, ' +
@@ -90,7 +87,7 @@ public with sharing class AuditQueueController {
         }
         soql += 'ORDER BY ' + orderField + ' ' + direction + ' NULLS LAST LIMIT ' + rowLimit;
 
-        List<Audit_Case__c> cases = Database.queryWithBinds(soql, binds, AccessLevel.USER_MODE);
+        List<Audit_Case__c> cases = (List<Audit_Case__c>) AuditSoql.query(soql, binds);
 
         List<AuditCaseRow> rows = new List<AuditCaseRow>();
         for (Audit_Case__c ac : cases) {
@@ -130,7 +127,7 @@ public with sharing class AuditQueueController {
     // ── Helpers ─────────────────────────────────────────────────────────
 
     private static Integer countOf(String soql, Map<String, Object> binds) {
-        return Database.countQueryWithBinds(soql, binds, AccessLevel.USER_MODE);
+        return AuditSoql.count(soql, binds);
     }
 
     private static AuditCaseRow toRow(Audit_Case__c ac, Id currentUserId) {
