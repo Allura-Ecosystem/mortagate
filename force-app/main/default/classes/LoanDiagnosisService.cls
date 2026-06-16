@@ -67,14 +67,11 @@ public with sharing class LoanDiagnosisService {
         }
         Audit_Case__c ac = cases[0];
 
-        List<Replay_Check__c> checks = [
-            SELECT Rule_Name__c, Result__c, Expected_Value__c, Actual_Value__c,
-                   Rationale__c, Replay_Timestamp__c, Sort_Order__c
-            FROM Replay_Check__c
-            WHERE Audit_Case__c = :auditCaseId
-            WITH USER_MODE
-            ORDER BY Sort_Order__c ASC
-        ];
+        // R-11: Replay_Check__c is append-only — a re-run stacks a new batch on
+        // the old one. Diagnose the LATEST batch only (via the shared
+        // AuditSoql.latestChecksFor selector) so a duplicate run never
+        // double-counts violations (Sabir replayed twice => 2 fails, not 4).
+        List<Replay_Check__c> checks = AuditSoql.latestChecksFor(auditCaseId);
 
         if (checks.isEmpty()) {
             res.summary = 'Replay has not been run for this case yet, so there are no '

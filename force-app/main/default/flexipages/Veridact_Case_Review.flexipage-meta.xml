@@ -7,6 +7,12 @@
                 <identifier>caseReviewComponent</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>c:signoffReceipt</componentName>
+                <identifier>signoffReceiptComponent</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>

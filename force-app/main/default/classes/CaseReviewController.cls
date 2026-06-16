@@ -32,13 +32,15 @@ public with sharing class CaseReviewController {
             return null;
         }
 
+        // NOTE: replay checks are NOT pulled via a child subquery here. Replay_Check__c
+        // is an append-only trail — re-running a case stacks a new batch on top of the
+        // old one. A naive subquery would return every batch (Sabir replayed twice =>
+        // 20 rows). We resolve the LATEST batch only through AuditSoql.latestChecksFor
+        // (R-11 supersede-by-query) so Case Review always shows the current checks.
         String soql =
             'SELECT Id, Name, Status__c, Risk_Tier__c, Borrower_Name_Snapshot__c, ' +
             'Original_Approver__r.Name, ' +
             'Loan__r.LOS_Loan_Id__c, Loan__r.Approver_Name__c, Loan__r.LastModifiedDate, ' +
-            '(SELECT Id, Rule_Name__c, Result__c, Expected_Value__c, Actual_Value__c, ' +
-            'Rationale__c, Sort_Order__c, Replay_Timestamp__c ' +
-            'FROM Replay_Checks__r ORDER BY Sort_Order__c ASC NULLS LAST), ' +
             '(SELECT Id, Document_Type__c, Status__c FROM Evidence_Items__r ORDER BY Document_Type__c ASC) ' +
             'FROM Audit_Case__c WHERE Id = :auditCaseId LIMIT 1';
 
@@ -48,7 +50,9 @@ public with sharing class CaseReviewController {
         if (cases.isEmpty()) {
             return null;
         }
-        return toDetail(cases[0]);
+        // Latest-batch checks only (current view of an append-only trail).
+        List<Replay_Check__c> latestChecks = AuditSoql.latestChecksFor(auditCaseId);
+        return toDetail(cases[0], latestChecks);
     }
 
     /**
@@ -74,7 +78,7 @@ public with sharing class CaseReviewController {
 
     // ── Helpers ─────────────────────────────────────────────────────────
 
-    private static CaseDetail toDetail(Audit_Case__c ac) {
+    private static CaseDetail toDetail(Audit_Case__c ac, List<Replay_Check__c> latestChecks) {
         CaseDetail d = new CaseDetail();
 
         // ── Header ──
@@ -91,10 +95,11 @@ public with sharing class CaseReviewController {
             : (ac.Loan__r != null ? ac.Loan__r.Approver_Name__c : null);
         d.header = h;
 
-        // ── Replay checks (RIGHT pane) ──
+        // ── Replay checks (RIGHT pane) — LATEST batch only (R-11) ──
+        if (latestChecks == null) { latestChecks = new List<Replay_Check__c>(); }
         Datetime latestReplay = null;
         Integer failCount = 0;
-        for (Replay_Check__c rc : ac.Replay_Checks__r) {
+        for (Replay_Check__c rc : latestChecks) {
             ReplayCheckRow row = new ReplayCheckRow();
             row.recordId      = rc.Id;
             row.ruleName      = rc.Rule_Name__c;

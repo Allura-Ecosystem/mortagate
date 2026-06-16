@@ -94,4 +94,84 @@ public with sharing class AuditSoql {
         }
         return defaultLimit;
     }
+
+    // ── Replay-check supersede-by-query (R-11) ───────────────────────────
+
+    /**
+     * Replay_Check__c is part of the append-only audit trail — every replay run
+     * INSERTS a fresh batch and prior batches are NEVER deleted. So a case that
+     * has been replayed twice carries two stacked batches of checks. For any
+     * *display* of "current" checks we must show only the LATEST batch, keyed by
+     * the maximum Replay_Timestamp__c for that Audit_Case__c.
+     *
+     * This is the single, reusable definition of "current checks" so Case
+     * Review, the sign-off receipt, and the diagnosis agent all agree on what a
+     * re-run case currently looks like (Sabir replayed twice => 10 checks /
+     * 2 fails, never 20 / 4).
+     *
+     * Bulk-safe: 2 SOQL total regardless of case count (1 aggregate to find the
+     * per-case max timestamp, 1 to fetch that batch's rows), USER_MODE on both.
+     *
+     * @param caseIds the Audit_Case__c ids to resolve current checks for.
+     * @return caseId -> the latest batch's Replay_Check__c rows
+     *         (ordered by Sort_Order__c ASC). Cases with no checks are absent.
+     */
+    public static Map<Id, List<Replay_Check__c>> latestChecksFor(Set<Id> caseIds) {
+        Map<Id, List<Replay_Check__c>> result = new Map<Id, List<Replay_Check__c>>();
+        if (caseIds == null || caseIds.isEmpty()) {
+            return result;
+        }
+
+        // 1) Per-case latest replay timestamp (the "current" batch marker).
+        Map<Id, Datetime> latestByCase = new Map<Id, Datetime>();
+        for (AggregateResult ar : [
+            SELECT Audit_Case__c caseId, MAX(Replay_Timestamp__c) maxTs
+            FROM Replay_Check__c
+            WHERE Audit_Case__c IN :caseIds
+            WITH USER_MODE
+            GROUP BY Audit_Case__c
+        ]) {
+            latestByCase.put((Id) ar.get('caseId'), (Datetime) ar.get('maxTs'));
+        }
+        if (latestByCase.isEmpty()) {
+            return result;
+        }
+
+        // 2) Fetch every check, then keep only those whose timestamp matches the
+        //    per-case max. (A single bound query; the per-case timestamp equality
+        //    is applied in-memory so we never issue a query per case.)
+        Set<Datetime> latestStamps = new Set<Datetime>(latestByCase.values());
+        for (Replay_Check__c rc : [
+            SELECT Id, Audit_Case__c, Rule_Name__c, Result__c,
+                   Expected_Value__c, Actual_Value__c, Rationale__c,
+                   Sort_Order__c, Replay_Timestamp__c
+            FROM Replay_Check__c
+            WHERE Audit_Case__c IN :caseIds
+              AND Replay_Timestamp__c IN :latestStamps
+            WITH USER_MODE
+            ORDER BY Sort_Order__c ASC NULLS LAST
+        ]) {
+            // Guard against the rare case where two different cases share a stamp:
+            // only accept a row if it equals THIS case's max.
+            if (rc.Replay_Timestamp__c == latestByCase.get(rc.Audit_Case__c)) {
+                if (!result.containsKey(rc.Audit_Case__c)) {
+                    result.put(rc.Audit_Case__c, new List<Replay_Check__c>());
+                }
+                result.get(rc.Audit_Case__c).add(rc);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Convenience single-case overload — returns the latest batch's checks for
+     * one Audit_Case__c (empty list if none).
+     */
+    public static List<Replay_Check__c> latestChecksFor(Id caseId) {
+        if (caseId == null) {
+            return new List<Replay_Check__c>();
+        }
+        List<Replay_Check__c> checks = latestChecksFor(new Set<Id>{ caseId }).get(caseId);
+        return (checks == null) ? new List<Replay_Check__c>() : checks;
+    }
 }

@@ -97,6 +97,33 @@ private class LoanDiagnosisServiceTest {
             'Even the no-replay path is logged');
     }
 
+    // ── R-11: diagnosing a TWICE-replayed case counts the latest batch only ──
+
+    @IsTest
+    static void diagnose_doubleReplay_doesNotDoubleCountViolations() {
+        Id caseId = sabirCaseId();
+
+        // First (superseded) batch, backdated so it is provably older.
+        List<Replay_Check__c> firstBatch = ReplayService.replay(caseId);
+        Datetime backdated = Datetime.now().addHours(-1);
+        for (Replay_Check__c rc : firstBatch) { rc.Replay_Timestamp__c = backdated; }
+        update firstBatch;
+
+        // Second (current) batch.
+        ReplayService.replay(caseId);
+
+        Test.startTest();
+        LoanDiagnosisService.Response r = LoanDiagnosisService.diagnoseCase(caseId);
+        Test.stopTest();
+
+        // This 2-rule fixture has exactly 1 violation (DTI_MAX). Two stacked
+        // batches must NOT report 2 — only the latest batch is diagnosed.
+        System.assertEquals(1, r.violationCount,
+            'Duplicate replays must not double-count violations');
+        System.assertEquals(2, r.findings.size(),
+            'Findings reflect ONE batch (2 rules), not the stacked 4');
+    }
+
     @IsTest
     static void diagnose_invocableEntryPoint_returnsResponsePerRequest() {
         Id caseId = sabirCaseId();

@@ -834,6 +834,10 @@
         <apexClass>LoanDiagnosisService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>SignoffController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 
     <!-- ================= Tab Visibility ================= -->
     <tabSettings>

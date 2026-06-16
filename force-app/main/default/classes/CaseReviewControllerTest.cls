@@ -160,6 +160,48 @@ private class CaseReviewControllerTest {
 
     // ── Checks are ordered by Sort_Order__c ──
 
+    // ── R-11: a case replayed TWICE shows ONE batch through getCaseDetail ──
+    // Replay_Check__c is append-only, so two runs leave 20 rows in the DB; the
+    // controller must surface only the latest batch (10 checks / 2 fails).
+
+    @IsTest
+    static void getCaseDetail_doubleReplay_showsOnlyLatestBatch() {
+        Id caseId = sabirCaseId();
+
+        // First batch — backdate its timestamp so the two batches are provably
+        // distinct even within a single test transaction.
+        List<Replay_Check__c> firstBatch = ReplayService.replay(caseId);
+        Datetime backdated = Datetime.now().addHours(-1);
+        for (Replay_Check__c rc : firstBatch) { rc.Replay_Timestamp__c = backdated; }
+        update firstBatch;
+
+        // Second batch — the current "now" batch.
+        ReplayService.replay(caseId);
+
+        // The append-only trail now holds 20 rows total...
+        System.assertEquals(20,
+            [SELECT COUNT() FROM Replay_Check__c WHERE Audit_Case__c = :caseId],
+            'Both batches persist (append-only trail not deleted)');
+
+        Test.startTest();
+        CaseReviewController.CaseDetail d = CaseReviewController.getCaseDetail(caseId);
+        Test.stopTest();
+
+        // ...but the view shows exactly the latest batch: 10 checks / 2 fails.
+        System.assertEquals(10, d.checks.size(),
+            'getCaseDetail must show ONE batch (10 checks), not 20');
+        System.assertEquals(2, d.failCount,
+            'Latest batch has exactly 2 fails (DTI_MAX + DTI_WARN), not 4');
+
+        // Every surfaced row must belong to the latest (non-backdated) batch.
+        Set<Id> shownIds = new Set<Id>();
+        for (CaseReviewController.ReplayCheckRow r : d.checks) { shownIds.add(r.recordId); }
+        for (Replay_Check__c old : firstBatch) {
+            System.assert(!shownIds.contains(old.Id),
+                'No row from the superseded first batch may appear');
+        }
+    }
+
     @IsTest
     static void getCaseDetail_checksOrderedBySortOrder() {
         Id caseId = sabirCaseId();

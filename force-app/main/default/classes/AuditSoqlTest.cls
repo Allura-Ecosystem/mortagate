@@ -97,4 +97,68 @@ private class AuditSoqlTest {
         System.assertEquals(AuditSoql.MAX_LIMIT, AuditSoql.resolveLimit(9999, 100),
             'Over-max clamps to MAX_LIMIT');
     }
+
+    // ── latestChecksFor (R-11 supersede-by-query) ────────────────────────
+
+    @IsTest
+    static void latestChecksFor_nullAndEmpty_returnEmpty() {
+        System.assertEquals(0, AuditSoql.latestChecksFor((Set<Id>) null).size(),
+            'Null set => empty map');
+        System.assertEquals(0, AuditSoql.latestChecksFor(new Set<Id>()).size(),
+            'Empty set => empty map');
+        System.assertEquals(0, AuditSoql.latestChecksFor((Id) null).size(),
+            'Null id => empty list');
+    }
+
+    @IsTest
+    static void latestChecksFor_returnsLatestBatchOnly() {
+        Id caseId = [SELECT Id FROM Audit_Case__c WHERE Status__c = 'In_Review' LIMIT 1].Id;
+
+        // Replay_Check__c requires Policy_Rule__c + Expected_Value__c — seed a
+        // minimal policy + rule so direct inserts satisfy the schema.
+        Policy_Version__c pv = new Policy_Version__c(
+            Version_Label__c = 'Test Policy', Version_Number__c = 1,
+            Effective_Date__c = Date.newInstance(2025, 1, 1), Is_Active__c = true,
+            Policy_Type__c = 'Conventional');
+        insert pv;
+        Policy_Rule__c pr = new Policy_Rule__c(
+            Policy_Version__c = pv.Id, Rule_Code__c = 'DTI_MAX', Rule_Label__c = 'Max DTI',
+            Rule_Category__c = 'Income', Operator__c = 'LTE', Threshold_Value__c = 43,
+            Fact_Field__c = 'DTI_Ratio__c', Severity__c = 'Hard_Decline');
+        insert pr;
+
+        // Two stacked batches: an older 3-check batch + a newer 2-check batch.
+        Datetime older = Datetime.now().addHours(-2);
+        Datetime newer = Datetime.now();
+        List<Replay_Check__c> oldBatch = new List<Replay_Check__c>{
+            newCheck(caseId, pr.Id, 'OLD_A', 'Fail', older, 0),
+            newCheck(caseId, pr.Id, 'OLD_B', 'Fail', older, 1),
+            newCheck(caseId, pr.Id, 'OLD_C', 'Pass', older, 2)
+        };
+        insert oldBatch;
+        insert new List<Replay_Check__c>{
+            newCheck(caseId, pr.Id, 'NEW_A', 'Pass', newer, 0),
+            newCheck(caseId, pr.Id, 'NEW_B', 'Pass', newer, 1)
+        };
+
+        Test.startTest();
+        List<Replay_Check__c> latest = AuditSoql.latestChecksFor(caseId);
+        Test.stopTest();
+
+        System.assertEquals(2, latest.size(), 'Only the newer 2-check batch is current');
+        Set<String> names = new Set<String>();
+        for (Replay_Check__c rc : latest) { names.add(rc.Rule_Name__c); }
+        System.assert(names.contains('NEW_A') && names.contains('NEW_B'),
+            'Latest batch rules surfaced');
+        System.assert(!names.contains('OLD_A'),
+            'Superseded batch rules excluded');
+    }
+
+    private static Replay_Check__c newCheck(Id caseId, Id ruleId, String name,
+                                            String result, Datetime ts, Integer sortOrder) {
+        return new Replay_Check__c(
+            Audit_Case__c = caseId, Policy_Rule__c = ruleId, Rule_Name__c = name,
+            Result__c = result, Expected_Value__c = '43',
+            Replay_Timestamp__c = ts, Sort_Order__c = sortOrder);
+    }
 }
