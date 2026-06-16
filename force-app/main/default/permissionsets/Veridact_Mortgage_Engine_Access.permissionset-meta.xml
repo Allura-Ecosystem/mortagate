@@ -816,4 +816,20 @@
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
+
+    <!-- ================= Apex Class Access ================= -->
+    <classAccesses>
+        <apexClass>AuditQueueController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LoanDiagnosisService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+
+    <!-- ================= Tab Visibility ================= -->
+    <tabSettings>
+        <tab>Veridact_Audit_Queue</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

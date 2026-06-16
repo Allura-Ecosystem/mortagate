@@ -1,0 +1,94 @@
+:host {
+    /* Risk-badge tokens consumed by the nested c-risk-badge (composed tree).
+       NOTE: palette reconciliation (Figma blue kit vs Veridact orange) is a
+       pending brand decision — see plan risk #3. */
+    --brand-violation: #b23a22;
+    --brand-amber-text: #8a5a00;
+    --brand-approval: #157a4a;
+
+    display: block;
+    background: #fbf9f3;
+    padding: 24px 28px 40px 28px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.queue-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 24px;
+}
+
+.queue-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #18212e;
+    margin: 0;
+}
+
+.queue-subtitle {
+    font-size: 14px;
+    color: #6a7281;
+    margin: 6px 0 0 0;
+}
+
+.queue-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.search-box {
+    width: 300px;
+}
+
+.new-audit-btn {
+    height: 42px;
+    padding: 0 18px;
+    background: #ffffff;
+    border: 1px solid #1d4ed8;
+    color: #1d4ed8;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.new-audit-btn:hover { background: #1d4ed8; color: #ffffff; }
+
+.queue-table-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px -4px rgba(20, 35, 41, 0.08);
+    padding: 18px 4px 8px 4px;
+}
+
+.table-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 12px 20px;
+}
+
+.table-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-right: 10px;
+}
+
+.table-count {
+    font-size: 13px;
+    color: #737373;
+}
+
+.loan-cell { font-family: 'JetBrains Mono', monospace; color: #1d4ed8; }
+
+.empty-state {
+    padding: 48px 20px;
+    text-align: center;
+    color: #8a909c;
+    font-size: 14px;
+}

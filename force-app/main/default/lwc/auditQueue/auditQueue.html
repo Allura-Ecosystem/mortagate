@@ -1,0 +1,50 @@
+<template>
+    <div class="queue-shell">
+        <header class="queue-header">
+            <div class="queue-heading">
+                <h1 class="queue-title">Audit Queue</h1>
+                <p class="queue-subtitle">Loan QC audit workload — review, evidence, and sign-off</p>
+            </div>
+            <div class="queue-actions">
+                <div class="search-box">
+                    <lightning-input
+                        type="search"
+                        variant="label-hidden"
+                        placeholder="Search loan, borrower, approver…"
+                        value={searchTerm}
+                        onchange={handleSearch}>
+                    </lightning-input>
+                </div>
+                <button class="new-audit-btn" type="button" onclick={newAudit}>+ New Audit</button>
+            </div>
+        </header>
+
+        <c-audit-metric-cards metrics={metrics}></c-audit-metric-cards>
+
+        <c-audit-queue-filters onfilterchange={handleFilterChange}></c-audit-queue-filters>
+
+        <section class="queue-table-card">
+            <div class="table-head">
+                <div class="table-head-left">
+                    <span class="table-title">Open audits</span>
+                    <span class="table-count">{resultLabel}</span>
+                </div>
+            </div>
+
+            <template lwc:if={hasRows}>
+                <c-audit-queue-datatable
+                    key-field="recordId"
+                    data={rows}
+                    columns={columns}
+                    hide-checkbox-column
+                    onrowaction={handleRowAction}>
+                </c-audit-queue-datatable>
+            </template>
+            <template lwc:else>
+                <div class="empty-state">
+                    <p>No audit cases match the current filters.</p>
+                </div>
+            </template>
+        </section>
+    </div>
+</template>

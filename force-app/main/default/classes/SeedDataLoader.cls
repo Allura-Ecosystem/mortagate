@@ -53,8 +53,12 @@ public with sharing class SeedDataLoader {
             loanByBorrower.put(l.Borrower_Name__c, l);
         }
 
-        // 4. Audit Cases (all 5)
+        // 4. Audit Cases (all 5). Loan_Application__c is a required field —
+        // assign a unique per-case value before insert.
         List<Audit_Case__c> cases = buildAuditCases(loanByBorrower, pv.Id);
+        for (Integer i = 0; i < cases.size(); i++) {
+            cases[i].Loan_Application__c = 'APP-' + (1000 + i);
+        }
         insert cases;
         System.debug('Inserted ' + cases.size() + ' Audit_Case__c records');
 
@@ -186,6 +190,7 @@ public with sharing class SeedDataLoader {
         // Sabir Asheed Sr. — primary demo case
         loans.add(new Loan__c(
             Borrower_Name__c       = 'Sabir Asheed Sr.',
+            LOS_Loan_Id__c         = 'LA-558823',
             Loan_Amount__c         = 380000,
             Loan_Type__c           = 'Conventional',
             Purpose__c             = 'Purchase',
@@ -202,6 +207,7 @@ public with sharing class SeedDataLoader {
         // Maria Rodriguez — FHA
         loans.add(new Loan__c(
             Borrower_Name__c       = 'Maria Rodriguez',
+            LOS_Loan_Id__c         = 'LA-560815',
             Loan_Amount__c         = 275000,
             Loan_Type__c           = 'FHA',
             Purpose__c             = 'Purchase',
@@ -218,6 +224,7 @@ public with sharing class SeedDataLoader {
         // James Chen — Jumbo (stored as Conventional; Jumbo is not a picklist value)
         loans.add(new Loan__c(
             Borrower_Name__c       = 'James Chen',
+            LOS_Loan_Id__c         = 'LA-559184',
             Loan_Amount__c         = 520000,
             Loan_Type__c           = 'Conventional',
             Purpose__c             = 'Purchase',
@@ -234,6 +241,7 @@ public with sharing class SeedDataLoader {
         // Priya Patel — Conventional
         loans.add(new Loan__c(
             Borrower_Name__c       = 'Priya Patel',
+            LOS_Loan_Id__c         = 'LA-557218',
             Loan_Amount__c         = 190000,
             Loan_Type__c           = 'Conventional',
             Purpose__c             = 'Refinance',
@@ -250,6 +258,7 @@ public with sharing class SeedDataLoader {
         // Robert Williams — VA
         loans.add(new Loan__c(
             Borrower_Name__c       = 'Robert Williams',
+            LOS_Loan_Id__c         = 'LA-560337',
             Loan_Amount__c         = 310000,
             Loan_Type__c           = 'VA',
             Purpose__c             = 'Purchase',
@@ -268,8 +277,12 @@ public with sharing class SeedDataLoader {
 
     private static List<Audit_Case__c> buildAuditCases(Map<String, Loan__c> loanByBorrower, Id pvId) {
         List<Audit_Case__c> cases = new List<Audit_Case__c>();
+        // Assign a couple of cases to the seeding user so the "Assigned to me"
+        // card and the All/My toggle are demonstrable out of the box.
+        Id me = UserInfo.getUserId();
+        Datetime now = Datetime.now();
 
-        // Sabir Sr. — In_Review, High, Full
+        // Sabir Sr. — In_Review, High, assigned to me, OVERDUE (SLA at risk + hero).
         Loan__c sabirLoan = loanByBorrower.get('Sabir Asheed Sr.');
         cases.add(new Audit_Case__c(
             Loan__c                  = sabirLoan.Id,
@@ -279,30 +292,32 @@ public with sharing class SeedDataLoader {
             Borrower_Name_Snapshot__c = 'Sabir Asheed Sr.',
             Loan_Amount__c           = 380000,
             Branch__c                = 'Durham Main',
-            Original_Approver__c     = 'Janet Chen',
             Product_Type__c          = 'Conventional',
             Sampling_Reason__c       = 'DTI exceeds 43% threshold',
             Policy_Version__c        = pvId,
-            Sampled_At__c            = Datetime.now()
+            Auditor__c               = me,
+            Due_At__c                = now.addDays(-2),
+            Sampled_At__c            = now
         ));
 
-        // Maria Rodriguez — In_Review (closest to "Open"), Medium
+        // Maria Rodriguez — EVIDENCE NEEDED, Medium, assigned to me.
         Loan__c mariaLoan = loanByBorrower.get('Maria Rodriguez');
         cases.add(new Audit_Case__c(
             Loan__c                  = mariaLoan.Id,
-            Status__c                = 'In_Review',
+            Status__c                = 'Evidence_Needed',
             Risk_Tier__c             = 'Medium',
             Scope__c                 = 'Full',
             Borrower_Name_Snapshot__c = 'Maria Rodriguez',
             Loan_Amount__c           = 275000,
             Branch__c                = 'Raleigh South',
-            Original_Approver__c     = 'Tom Park',
             Product_Type__c          = 'FHA',
             Sampling_Reason__c       = 'Random FHA sample',
-            Sampled_At__c            = Datetime.now()
+            Auditor__c               = me,
+            Due_At__c                = now.addDays(5),
+            Sampled_At__c            = now
         ));
 
-        // James Chen — In_Review, Low
+        // James Chen — In_Review, Low, clean, unassigned, comfortable SLA.
         Loan__c jamesLoan = loanByBorrower.get('James Chen');
         cases.add(new Audit_Case__c(
             Loan__c                  = jamesLoan.Id,
@@ -312,13 +327,13 @@ public with sharing class SeedDataLoader {
             Borrower_Name_Snapshot__c = 'James Chen',
             Loan_Amount__c           = 520000,
             Branch__c                = 'Chapel Hill',
-            Original_Approver__c     = 'Lisa Huang',
             Product_Type__c          = 'Conventional',
             Sampling_Reason__c       = 'Jumbo threshold exceeded',
-            Sampled_At__c            = Datetime.now()
+            Due_At__c                = now.addDays(7),
+            Sampled_At__c            = now
         ));
 
-        // Priya Patel — In_Review, High
+        // Priya Patel — In_Review, High, unassigned, OVERDUE (SLA at risk).
         Loan__c priyaLoan = loanByBorrower.get('Priya Patel');
         cases.add(new Audit_Case__c(
             Loan__c                  = priyaLoan.Id,
@@ -328,13 +343,13 @@ public with sharing class SeedDataLoader {
             Borrower_Name_Snapshot__c = 'Priya Patel',
             Loan_Amount__c           = 190000,
             Branch__c                = 'Durham Main',
-            Original_Approver__c     = 'Janet Chen',
             Product_Type__c          = 'Conventional',
             Sampling_Reason__c       = 'Low FICO with elevated DTI',
-            Sampled_At__c            = Datetime.now()
+            Due_At__c                = now.addDays(-1),
+            Sampled_At__c            = now
         ));
 
-        // Robert Williams — Ready_for_Signoff, Medium
+        // Robert Williams — Ready_for_Signoff, Medium, due tomorrow.
         Loan__c robertLoan = loanByBorrower.get('Robert Williams');
         cases.add(new Audit_Case__c(
             Loan__c                  = robertLoan.Id,
@@ -344,10 +359,10 @@ public with sharing class SeedDataLoader {
             Borrower_Name_Snapshot__c = 'Robert Williams',
             Loan_Amount__c           = 310000,
             Branch__c                = 'Fayetteville',
-            Original_Approver__c     = 'Mark Davis',
             Product_Type__c          = 'VA',
             Sampling_Reason__c       = 'VA 100% LTV review',
-            Sampled_At__c            = Datetime.now()
+            Due_At__c                = now.addDays(1),
+            Sampled_At__c            = now
         ));
 
         return cases;

@@ -1,0 +1,11 @@
+<template>
+    <div class="metric-row" role="list" aria-label="Audit queue metrics">
+        <template for:each={cards} for:item="card">
+            <div key={card.key} class={card.cssClass} role="listitem">
+                <span class="metric-rail" aria-hidden="true"></span>
+                <p class="metric-value">{card.value}</p>
+                <p class="metric-label">{card.label}</p>
+            </div>
+        </template>
+    </div>
+</template>
