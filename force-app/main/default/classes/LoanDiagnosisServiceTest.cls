@@ -90,8 +90,8 @@ private class LoanDiagnosisServiceTest {
         Test.stopTest();
 
         System.assertEquals(false, r.hasViolations);
-        System.assert(r.summary.contains('Replay has not been run'),
-            'Without replay checks, prompt to run replay first');
+        System.assert(r.summary.contains('Run the check first'),
+            'Without replay checks, prompt (in plain language) to run the check first');
         System.assertEquals(1,
             [SELECT COUNT() FROM Agent_Action_Log__c WHERE Audit_Case__c = :caseId],
             'Even the no-replay path is logged');

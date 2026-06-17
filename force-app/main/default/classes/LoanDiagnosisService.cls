@@ -20,8 +20,9 @@
  */
 public with sharing class LoanDiagnosisService {
 
+    // Plain language, about a 6th-grade reading level (the "Leo" rule).
     private static final String FINAL_AUTHORITY =
-        'A human auditor must make the final determination.';
+        'A human auditor must make the final call on this loan.';
 
     // ── Invocable entry point (Agentforce GenAiFunction / Flow) ─────────
 
@@ -74,8 +75,8 @@ public with sharing class LoanDiagnosisService {
         List<Replay_Check__c> checks = AuditSoql.latestChecksFor(auditCaseId);
 
         if (checks.isEmpty()) {
-            res.summary = 'Replay has not been run for this case yet, so there are no '
-                + 'checks to diagnose. Run the audit replay first. ' + FINAL_AUTHORITY;
+            res.summary = 'We have not run the check on this loan yet, so there is '
+                + 'nothing to explain. Run the check first, then ask again. ' + FINAL_AUTHORITY;
             res.hasViolations = false;
             res.violationCount = 0;
             res.passCount = 0;
@@ -98,16 +99,16 @@ public with sharing class LoanDiagnosisService {
             && ac.Loan__r.LastModifiedDate > newestReplay);
 
         Integer fails = 0, passes = 0, unver = 0;
-        List<String> violationLines = new List<String>();
+        List<String> brokenRuleLines = new List<String>();
         for (Replay_Check__c rc : checks) {
-            String line = rc.Rule_Name__c + ': ' + rc.Result__c
-                + ' — expected ' + safe(rc.Expected_Value__c)
-                + ', actual ' + safe(rc.Actual_Value__c)
-                + (String.isBlank(rc.Rationale__c) ? '' : ' (' + rc.Rationale__c + ')');
+            // Plain-language line: name the rule, show both numbers, add the reason.
+            String line = rc.Rule_Name__c + ' — rule value ' + prettyNum(rc.Expected_Value__c)
+                + ', loan value ' + prettyNum(rc.Actual_Value__c)
+                + (String.isBlank(rc.Rationale__c) ? '' : '. ' + rc.Rationale__c);
             res.findings.add(line);
             if (rc.Result__c == 'Fail') {
                 fails++;
-                violationLines.add(line);
+                brokenRuleLines.add(line);
             } else if (rc.Result__c == 'Pass') {
                 passes++;
             } else {
@@ -119,24 +120,25 @@ public with sharing class LoanDiagnosisService {
         res.unverifiableCount = unver;
         res.hasViolations = (fails > 0);
 
-        // Build the guardrailed natural-language summary.
+        // Plain-language summary (~6th-grade reading level, the "Leo" rule) that
+        // still keeps the guardrails: name the rule, give the numbers, and leave
+        // the final call to a person. Short words, short sentences.
         List<String> parts = new List<String>();
         if (res.stale) {
-            parts.add('Replay results may be stale — the loan was modified after the '
-                + 'last replay; re-run replay before final sign-off.');
+            parts.add('Note: this loan changed after the last check. '
+                + 'Run the check again before sign-off.');
         }
         if (fails > 0) {
-            parts.add('This loan has ' + fails + ' rule violation'
+            parts.add('This loan did not pass ' + fails + ' rule'
                 + (fails == 1 ? '' : 's') + ':');
-            parts.addAll(violationLines);
+            parts.addAll(brokenRuleLines);
         } else {
-            parts.add('No rule violations were found in the stored replay checks ('
-                + passes + ' passed'
-                + (unver > 0 ? ', ' + unver + ' unverifiable' : '') + ').');
+            parts.add('Good news: this loan passed all ' + passes
+                + ' of the checks we could run.');
         }
         if (unver > 0 && fails == 0) {
-            parts.add(unver + ' check'
-                + (unver == 1 ? ' is' : 's are') + ' unverifiable due to missing evidence.');
+            parts.add('We could not check ' + unver + ' item'
+                + (unver == 1 ? '' : 's') + ' because some papers are missing.');
         }
         parts.add(FINAL_AUTHORITY);
         res.summary = String.join(parts, ' ');
@@ -147,6 +149,19 @@ public with sharing class LoanDiagnosisService {
 
     private static String safe(String v) {
         return String.isBlank(v) ? 'n/a' : v;
+    }
+
+    /**
+     * Format a stored numeric string for plain reading: drop trailing zeros so
+     * "43.0000" reads as "43" and "44.80" as "44.8". Non-numeric falls back.
+     */
+    private static String prettyNum(String v) {
+        if (String.isBlank(v)) { return 'n/a'; }
+        try {
+            return Decimal.valueOf(v).stripTrailingZeros().toPlainString();
+        } catch (Exception e) {
+            return v;
+        }
     }
 
     private static void logAction(Id auditCaseId, String output, String status) {
