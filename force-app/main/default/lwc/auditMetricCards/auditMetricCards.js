@@ -1,9 +1,16 @@
 import { LightningElement, api } from 'lwc';
 
 /**
- * auditMetricCards — the five Audit Queue dashboard cards. Presentational:
- * the parent passes an AuditQueueController.AuditMetrics object; this only
- * renders. Each card has a coloured left accent bar (the Figma "rail").
+ * auditMetricCards — presentational dashboard cards with a coloured left accent
+ * bar (the Figma "rail"). Two ways to feed it, both supported:
+ *
+ *   • metrics  — an AuditQueueController.AuditMetrics object; renders the five
+ *                fixed Audit Queue cards (assigned to me / high risk / …). This
+ *                is the original Audit Queue contract, unchanged.
+ *   • cards    — an explicit [{ key, label, value, tone }] array, so other
+ *                screens (e.g. c-audit-analytics) can reuse the exact card
+ *                visual with their own headline numbers. When `cards` is set it
+ *                takes precedence over `metrics`.
  */
 export default class AuditMetricCards extends LightningElement {
     @api
@@ -15,7 +22,14 @@ export default class AuditMetricCards extends LightningElement {
     }
     _metrics = {};
 
+    @api
     get cards() {
+        if (this._cards && this._cards.length) {
+            return this._cards.map((c) => ({
+                ...c,
+                cssClass: `metric-card ${c.tone || 'rail-blue'}`
+            }));
+        }
         const m = this._metrics;
         return [
             { key: 'assignedToMe', label: 'Assigned to me', value: m.assignedToMe ?? 0, tone: 'rail-blue' },
@@ -25,4 +39,8 @@ export default class AuditMetricCards extends LightningElement {
             { key: 'slaAtRisk', label: 'SLA at risk', value: m.slaAtRisk ?? 0, tone: 'rail-red' }
         ].map((c) => ({ ...c, cssClass: `metric-card ${c.tone}` }));
     }
+    set cards(value) {
+        this._cards = value || null;
+    }
+    _cards = null;
 }

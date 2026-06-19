@@ -1,0 +1,138 @@
+<template>
+    <div class="finding-shell">
+        <!-- ── Rule context (from the source replay check) ── -->
+        <template if:true={hasRuleContext}>
+            <section class="rule-context">
+                <header class="ctx-head">
+                    <span class="ctx-rule">{draft.ruleName}</span>
+                    <span class="ctx-result" data-result={draft.ruleResult}>{draft.ruleResult}</span>
+                </header>
+                <div class="ctx-kv">
+                    <span class="ctx-cell">Expected <b>{draft.expectedValue}</b></span>
+                    <span class="ctx-cell">Actual <b>{draft.actualValue}</b></span>
+                </div>
+                <template if:true={draft.ruleRationale}>
+                    <p class="ctx-rationale">{draft.ruleRationale}</p>
+                </template>
+            </section>
+        </template>
+
+        <!-- ── AI draft banner ── -->
+        <template if:true={showAiBanner}>
+            <div class="ai-banner" role="status">
+                <span class="ai-dot"></span>
+                This finding was AI-drafted. Review it, edit if needed, then
+                accept &mdash; saving records your acceptance.
+            </div>
+        </template>
+
+        <!-- ── Editor ── -->
+        <section class="editor">
+            <header class="editor-head">
+                <h2 class="editor-title">{editorTitle}</h2>
+                <template if:true={isEditing}>
+                    <button class="link-btn" onclick={handleNew}>+ New finding</button>
+                </template>
+            </header>
+
+            <div class="field-grid">
+                <lightning-combobox
+                    label="Severity"
+                    data-field="severity"
+                    value={draft.severity}
+                    options={severityOptions}
+                    onchange={handleField}
+                    required
+                ></lightning-combobox>
+
+                <lightning-combobox
+                    label="Category"
+                    data-field="category"
+                    value={draft.category}
+                    options={categoryOptions}
+                    onchange={handleField}
+                ></lightning-combobox>
+
+                <lightning-combobox
+                    label="Disposition"
+                    data-field="disposition"
+                    value={draft.disposition}
+                    options={dispositionOptions}
+                    onchange={handleField}
+                ></lightning-combobox>
+            </div>
+
+            <lightning-textarea
+                label="Description"
+                data-field="description"
+                value={draft.description}
+                onchange={handleField}
+                placeholder="What did the auditor find?"
+            ></lightning-textarea>
+
+            <!-- Exception-only fields -->
+            <template if:true={isException}>
+                <div class="exception-block">
+                    <lightning-textarea
+                        label="Exception reason"
+                        data-field="exceptionReason"
+                        value={draft.exceptionReason}
+                        onchange={handleField}
+                        placeholder="Documented basis for the exception."
+                    ></lightning-textarea>
+                    <lightning-input
+                        label="Exception approver"
+                        data-field="exceptionApprover"
+                        value={draft.exceptionApprover}
+                        onchange={handleField}
+                        placeholder="Who approved the exception at origination?"
+                    ></lightning-input>
+                </div>
+            </template>
+
+            <lightning-textarea
+                label="Remediation notes"
+                data-field="remediationNotes"
+                value={draft.remediationNotes}
+                onchange={handleField}
+                placeholder="Recommended remediation (optional)."
+            ></lightning-textarea>
+
+            <div class="editor-actions">
+                <button class="save-btn" onclick={handleSave} disabled={saving}>
+                    {saveLabel}
+                </button>
+            </div>
+        </section>
+
+        <!-- ── Existing findings for the case ── -->
+        <section class="finding-list-wrap">
+            <header class="list-head">
+                <h2 class="list-title">Findings on this case</h2>
+                <span class="list-count">{findings.length}</span>
+            </header>
+            <template if:true={hasFindings}>
+                <ul class="finding-list">
+                    <template for:each={findings} for:item="f">
+                        <li key={f.recordId} class="finding-item">
+                            <div class="finding-main">
+                                <span class={f.severityClass}>{f.severity}</span>
+                                <span class="finding-cat">{f.category}</span>
+                                <template if:true={f.aiDrafted}>
+                                    <span class="ai-tag">AI</span>
+                                </template>
+                            </div>
+                            <p class="finding-desc">{f.description}</p>
+                            <button class="link-btn" data-id={f.recordId} onclick={handleEdit}>
+                                Edit
+                            </button>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <template if:false={hasFindings}>
+                <p class="empty-state">No findings recorded yet for this case.</p>
+            </template>
+        </section>
+    </div>
+</template>
