@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Borrower-facing decision-engine deprecation (product is now auditor-only).
+  Removes the borrower onboarding UI and its soft pre-check Apex.
+  Shared kernel (LoanDecisionService, FactAssemblerService, PolicyRuleEvaluator,
+  ReplayService, etc.) and auditor screens are intentionally NOT listed.
+-->
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>OnboardingController</members>
+        <members>PreFlightController</members>
+        <members>PreFlightControllerTest</members>
+        <members>PreFlightEvaluator</members>
+        <members>PreFlightEvaluatorTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>welcomeGate</members>
+        <members>intentCapture</members>
+        <members>onboardingOrchestrator</members>
+        <members>preCheckResult</members>
+        <members>decisionRoom</members>
+        <members>outcomeView</members>
+        <members>evidenceQueue</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>66.0</version>
+</Package>
