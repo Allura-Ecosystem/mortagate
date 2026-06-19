@@ -114,6 +114,11 @@ This is the decision log. Undocumented decisions are decisions waiting to be mad
 **Rejected:** Assuming Agentforce requires a licensed (non-scratch) org; relying on a single full-source deploy.
 **Why:** Retires the prior assumption (plan risk #1) that Agentforce couldn't run on Dev-edition scratch — `veridact-af` provisioned the platform cleanly. Classes reference VF page `AdverseActionNotice`, so pages must deploy with/before classes; a `CustomApplication` cannot reference `standard-<CustomObject>__c` tabs.
 
+### ADR-23 — Agentforce agents are not cleanly org-portable; migration requires manual re-binding
+**Decision (2026-06-19):** The migration runbook MUST treat Agentforce agents as *partially* source-deployable and add a manual post-deploy re-binding step in the **target** org. After `force-app` deploys green, an operator must: (a) create/assign an Agentforce Service Agent User in the target org, (b) re-point the agent's `<botUser>` binding via Agent Builder, (c) re-pull the agent metadata, and (d) re-activate the agent. The org-bound `<botUser>` on the Bot metadata and the org-specific `genAiPlugin` `developerName` prefix (e.g. `p_16jAq…`) are explicitly excluded from the "deploy and done" path.
+**Rejected:** Treating agent (Bot) and `genAiPlugin` metadata as fully source-deployable like Apex/LWC — i.e., assuming a green `force-app` deploy yields a live agent in the target org.
+**Why:** During the `veridact-af` (scratch) → `mortagate-de` (permanent Dev) migration, all base + CMDT + Agentforce components deployed green, yet the agent `Veridact_Auditor_Copilot_v4` could **not** activate: its `<botUser>` pointed at the source scratch org's user hash, a user absent in `mortagate-de`. Licensing was *not* the cause — 200 free Agentforce Service Agent User seats (PSLs) were available. Salesforce reported "This Agent Type should have a user assigned." This proves the agent identity binding is provisioned **per-org in Setup**, not in source control, so it cannot survive cross-org migration as pure source. (Raised by Hightower during R-10 runtime verification; see Risk Register R-10.)
+
 ---
 
 ## Risk Register
