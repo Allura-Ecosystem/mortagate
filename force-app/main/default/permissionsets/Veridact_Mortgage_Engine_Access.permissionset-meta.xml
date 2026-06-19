@@ -4,6 +4,12 @@
     <description>Grants object CRUD and field-level security for the Mortgage Approval Engine custom objects. Fields deployed via the Metadata API receive no FLS by default. Required and Master-Detail fields are omitted (FLS is implicit).</description>
     <hasActivationRequired>false</hasActivationRequired>
 
+    <!-- ================= App Visibility ================= -->
+    <applicationVisibilities>
+        <application>Veridact_Audit</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+
     <!-- ================= Object Permissions ================= -->
     <objectPermissions>
         <object>Agent_Action_Log__c</object>
@@ -823,11 +829,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AnalyticsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AuditSoql</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>CaseReviewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FindingController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -842,6 +856,18 @@
     <!-- ================= Tab Visibility ================= -->
     <tabSettings>
         <tab>Veridact_Audit_Queue</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Audit_Case__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Evidence_Item__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Policy_Version__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>
