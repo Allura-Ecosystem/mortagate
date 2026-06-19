@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>This topic is used when auditors need a summary of rule violations identified in replay results for a mortgage loan. It focuses on listing and explaining the violations found during the audit.</description>
+    <developerName>p_16jAq000000HTgj_Summarize_Rule_Violations</developerName>
+    <genAiFunctions>
+        <functionName>EmployeeCopilot__SummarizeRecord</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>EmployeeCopilot__AnswerQuestionsWithKnowledge</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>If the query is about summarizing rule violations, use EmployeeCopilot__SummarizeRecord.</description>
+        <developerName>instruction_0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <localDeveloperName>p_16jAq000000HTgj_Summarize_Rule_Violations</localDeveloperName>
+    <masterLabel>Summarize Rule Violations</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to only provide a summary of the rule violations identified in replay results. This includes outlining the rules violated and providing relevant details, without making any determinations about the severity or resolution of the violations.</scope>
+</GenAiPlugin>
