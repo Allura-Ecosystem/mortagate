@@ -1,5 +1,9 @@
 # Data Dictionary -- Veridact v1
 
+> **AI-Assisted Documentation**
+> Portions of this document were drafted with the assistance of an AI language model.
+> Content has been reviewed against the PRD, product brief, and codebase but requires stakeholder sign-off.
+
 > **Canonical schema for the 11-object Veridact Mortgage Audit Replay & QC data model.**
 > Reconciles the Notion canonical plan with the existing codebase (feat/audit-queue-mvp).
 > PRD reference: `prd-Mortagate-2026-06-14/prd.md`. Glossary terms from `product-brief.md`.
