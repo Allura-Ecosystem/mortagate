@@ -16,7 +16,7 @@ testCases:
       loan's actual value in plain words, deferring the final call to the human
       auditor.
     contextVariables:
-      - variableName: RoutableId
+      - variableName: auditCaseId
         variableValue: a05gL00000JtZ74QAF
   - utterance: >-
       Which rules did this loan break? Audit case a05gL00000JtZ74QAF.
@@ -27,5 +27,5 @@ testCases:
       The agent invokes the Diagnose_Loan_Audit action and lists each broken
       rule with the expected value and the loan's actual value in plain words.
     contextVariables:
-      - variableName: RoutableId
+      - variableName: auditCaseId
         variableValue: a05gL00000JtZ74QAF

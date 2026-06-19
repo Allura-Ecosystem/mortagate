@@ -10,6 +10,13 @@
     <botSource>None</botSource>
     <botUser>veridact_auditor_copilot_v4@00daq00000fkh8d595003427.ext</botUser>
     <contextVariables>
+        <dataType>Text</dataType>
+        <description>Id of the Audit_Case__c record the auditor is asking about. Bound to the Diagnose_Loan_Audit (LoanDiagnosisService) Apex input auditCaseId so the planner can run the replay-check diagnosis.</description>
+        <developerName>auditCaseId</developerName>
+        <includeInPrompt>true</includeInPrompt>
+        <label>Audit Case Id</label>
+    </contextVariables>
+    <contextVariables>
         <dataType>Id</dataType>
         <description>This variable may also be referred to as VoiceCall Id</description>
         <developerName>VoiceCallId</developerName>
