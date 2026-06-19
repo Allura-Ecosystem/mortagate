@@ -70,7 +70,9 @@
                         <template for:each={checks} for:item="ck">
                             <li key={ck.recordId} class={ck.rowClass}>
                                 <div class="check-main">
-                                    <span class="check-rule">{ck.ruleName}</span>
+                                    <span class="check-rule">
+                                        <c-glossary-term code={ck.ruleName}></c-glossary-term>
+                                    </span>
                                     <span class={ck.pillClass}>{ck.result}</span>
                                 </div>
                                 <div class="check-detail">

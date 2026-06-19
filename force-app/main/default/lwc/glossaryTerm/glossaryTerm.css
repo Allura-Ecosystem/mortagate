@@ -1,0 +1,22 @@
+/* Brand tokens mirror c-audit-queue / c-case-review (Figma blue kit). */
+:host {
+    --ink: #18212e;
+    --muted: #6a7281;
+    display: inline;
+}
+
+.glossary-term {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.glossary-label {
+    color: inherit;
+}
+
+/* Nudge the help icon to match the surrounding muted text. */
+.glossary-help {
+    --slds-c-icon-color-foreground: var(--muted);
+    line-height: 1;
+}

@@ -97,6 +97,17 @@ describe('c-case-review', () => {
         expect(borrower.textContent).toBe('Sabir Asheed Sr.');
     });
 
+    it('wraps each rule name in a c-glossary-term with the rule code', async () => {
+        const el = setup();
+        getCaseDetail.emit(DETAIL);
+        await flush();
+
+        const terms = el.shadowRoot.querySelectorAll('c-glossary-term');
+        expect(terms.length).toBe(2);
+        const codes = Array.from(terms).map((t) => t.code);
+        expect(codes).toEqual(['DTI_MAX', 'FICO_MIN']);
+    });
+
     it('shows the staleness banner when replayStale is true', async () => {
         const el = setup();
         getCaseDetail.emit(DETAIL);

@@ -1,0 +1,11 @@
+<template>
+    <span class="glossary-term">
+        <span class="glossary-label">{label}</span>
+        <template if:true={hasExplanation}>
+            <lightning-helptext
+                class="glossary-help"
+                content={explanation}
+            ></lightning-helptext>
+        </template>
+    </span>
+</template>

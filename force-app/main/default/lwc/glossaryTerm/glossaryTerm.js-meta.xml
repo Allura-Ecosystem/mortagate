@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>false</isExposed>
+    <masterLabel>Glossary Term</masterLabel>
+    <description>Presentational plain-language helper — shows a jargon term or rule code with a 6th-grade tooltip (the Leo rule).</description>
+</LightningComponentBundle>
