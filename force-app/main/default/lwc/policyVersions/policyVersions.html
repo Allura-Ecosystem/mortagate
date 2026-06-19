@@ -1,0 +1,83 @@
+<template>
+    <div class="pv-page">
+        <header class="pv-header">
+            <h1 class="pv-title">Policy versions</h1>
+            <p class="pv-subtitle">
+                These are the rule books we check loans against. Pick one to see its rules.
+            </p>
+        </header>
+
+        <div class="pv-grid">
+            <!-- LEFT: the list of policy versions -->
+            <section class="pv-card pv-list-card">
+                <h2 class="pv-card-title">All versions</h2>
+
+                <template lwc:if={hasVersions}>
+                    <ul class="version-list">
+                        <template for:each={versionRows} for:item="v">
+                            <li
+                                key={v.recordId}
+                                class={v.rowClass}
+                                data-id={v.recordId}
+                                onclick={handleSelect}
+                                tabindex="0"
+                                role="button"
+                            >
+                                <div class="version-row__top">
+                                    <span class="version-row__label">{v.versionLabel}</span>
+                                    <span class={v.statusClass}>{v.statusLabel}</span>
+                                </div>
+                                <div class="version-row__meta">
+                                    <span>{v.policyType}</span>
+                                    <span class="dot">&middot;</span>
+                                    <span>{v.ruleCountLabel}</span>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+
+                <template lwc:else>
+                    <p class="empty-state">No policy versions yet.</p>
+                </template>
+            </section>
+
+            <!-- RIGHT: the selected version's rules -->
+            <section class="pv-card pv-rules-card">
+                <h2 class="pv-card-title">{rulesHeading}</h2>
+
+                <template lwc:if={hasRules}>
+                    <table class="rules-table">
+                        <thead>
+                            <tr>
+                                <th>Rule</th>
+                                <th>Checks</th>
+                                <th>Limit</th>
+                                <th>What happens</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={rules} for:item="r">
+                                <tr key={r.recordId} class="rule-row">
+                                    <td>
+                                        <div class="rule-label">{r.ruleLabel}</div>
+                                        <div class="rule-code">{r.ruleCode}</div>
+                                    </td>
+                                    <td>{r.category}</td>
+                                    <td class="rule-threshold">{r.operator} {r.threshold}</td>
+                                    <td>
+                                        <span class={r.severityClass}>{r.severity}</span>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+
+                <template lwc:else>
+                    <p class="empty-state">This version has no rules.</p>
+                </template>
+            </section>
+        </div>
+    </div>
+</template>

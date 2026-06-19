@@ -1,0 +1,121 @@
+:host {
+    display: block;
+    background: #fbf9f3;
+    padding: 24px 28px 40px 28px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.admin-header {
+    margin-bottom: 24px;
+}
+
+.admin-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #18212e;
+    margin: 0;
+}
+
+.admin-subtitle {
+    font-size: 14px;
+    color: #6a7281;
+    margin: 6px 0 0 0;
+}
+
+.admin-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px -4px rgba(20, 35, 41, 0.08);
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    max-width: 720px;
+}
+
+.admin-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #18212e;
+    margin: 0 0 12px 0;
+}
+
+.admin-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #4a515e;
+    margin: 0;
+}
+
+/* ── Governance rules ── */
+.rule-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f1ea;
+}
+.rule-item:last-child {
+    border-bottom: none;
+}
+
+.rule-check {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: #e3f3ea;
+    color: #157a4a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.rule-item__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #18212e;
+}
+.rule-item__body {
+    font-size: 13px;
+    color: #6a7281;
+    margin-top: 2px;
+}
+
+/* ── Counts ── */
+.count-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.count-tile {
+    border: 1px solid #eceae3;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+}
+
+.count-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1d4ed8;
+}
+
+.count-label {
+    font-size: 12px;
+    color: #6a7281;
+    margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+    .count-grid {
+        grid-template-columns: 1fr;
+    }
+}

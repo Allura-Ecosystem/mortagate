@@ -825,7 +825,15 @@
 
     <!-- ================= Apex Class Access ================= -->
     <classAccesses>
+        <apexClass>AdminController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AuditQueueController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PolicyVersionsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

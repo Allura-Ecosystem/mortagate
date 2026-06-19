@@ -1,0 +1,55 @@
+<template>
+    <div class="admin-page">
+        <header class="admin-header">
+            <h1 class="admin-title">Admin</h1>
+            <p class="admin-subtitle">
+                What this app is, and the rules it always follows.
+            </p>
+        </header>
+
+        <!-- App info -->
+        <section class="admin-card">
+            <h2 class="admin-card-title">About Veridact</h2>
+            <p class="admin-body">
+                Veridact checks finished mortgage loans against the rules that were in
+                place when they were approved. It shows what passed, what failed, and
+                keeps a receipt of every step.
+            </p>
+        </section>
+
+        <!-- The three governance rules in plain words -->
+        <section class="admin-card">
+            <h2 class="admin-card-title">How we keep things fair</h2>
+            <ul class="rule-list">
+                <template for:each={rules} for:item="r">
+                    <li key={r.id} class="rule-item">
+                        <span class="rule-check">&#10003;</span>
+                        <div>
+                            <div class="rule-item__title">{r.title}</div>
+                            <div class="rule-item__body">{r.body}</div>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+        </section>
+
+        <!-- At-a-glance counts -->
+        <section class="admin-card">
+            <h2 class="admin-card-title">What's in the rule book</h2>
+            <div class="count-grid">
+                <div class="count-tile">
+                    <div class="count-number">{policyVersionCount}</div>
+                    <div class="count-label">Policy versions</div>
+                </div>
+                <div class="count-tile">
+                    <div class="count-number">{activeVersionCount}</div>
+                    <div class="count-label">In use now</div>
+                </div>
+                <div class="count-tile">
+                    <div class="count-number">{policyRuleCount}</div>
+                    <div class="count-label">Rules in total</div>
+                </div>
+            </div>
+        </section>
+    </div>
+</template>
