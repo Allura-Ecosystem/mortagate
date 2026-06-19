@@ -4,7 +4,9 @@
         <template if:true={hasRuleContext}>
             <section class="rule-context">
                 <header class="ctx-head">
-                    <span class="ctx-rule">{draft.ruleName}</span>
+                    <span class="ctx-rule">
+                        <c-glossary-term code={draft.ruleName}></c-glossary-term>
+                    </span>
                     <span class="ctx-result" data-result={draft.ruleResult}>{draft.ruleResult}</span>
                 </header>
                 <div class="ctx-kv">
@@ -37,7 +39,7 @@
 
             <div class="field-grid">
                 <lightning-combobox
-                    label="Severity"
+                    label="How serious is it? (Severity)"
                     data-field="severity"
                     value={draft.severity}
                     options={severityOptions}
@@ -46,7 +48,7 @@
                 ></lightning-combobox>
 
                 <lightning-combobox
-                    label="Category"
+                    label="What kind of problem? (Category)"
                     data-field="category"
                     value={draft.category}
                     options={categoryOptions}
@@ -54,7 +56,7 @@
                 ></lightning-combobox>
 
                 <lightning-combobox
-                    label="Disposition"
+                    label="What should happen next? (Disposition)"
                     data-field="disposition"
                     value={draft.disposition}
                     options={dispositionOptions}
@@ -63,7 +65,7 @@
             </div>
 
             <lightning-textarea
-                label="Description"
+                label="What did the auditor find? (Description)"
                 data-field="description"
                 value={draft.description}
                 onchange={handleField}
@@ -74,14 +76,14 @@
             <template if:true={isException}>
                 <div class="exception-block">
                     <lightning-textarea
-                        label="Exception reason"
+                        label="Why was the rule bent? (Exception reason)"
                         data-field="exceptionReason"
                         value={draft.exceptionReason}
                         onchange={handleField}
                         placeholder="Documented basis for the exception."
                     ></lightning-textarea>
                     <lightning-input
-                        label="Exception approver"
+                        label="Who approved bending the rule? (Exception approver)"
                         data-field="exceptionApprover"
                         value={draft.exceptionApprover}
                         onchange={handleField}
@@ -91,7 +93,7 @@
             </template>
 
             <lightning-textarea
-                label="Remediation notes"
+                label="How to fix it (Remediation notes)"
                 data-field="remediationNotes"
                 value={draft.remediationNotes}
                 onchange={handleField}
@@ -116,8 +118,8 @@
                     <template for:each={findings} for:item="f">
                         <li key={f.recordId} class="finding-item">
                             <div class="finding-main">
-                                <span class={f.severityClass}>{f.severity}</span>
-                                <span class="finding-cat">{f.category}</span>
+                                <span class={f.severityClass}>{f.severityPlain}</span>
+                                <span class="finding-cat">{f.categoryPlain}</span>
                                 <template if:true={f.aiDrafted}>
                                     <span class="ai-tag">AI</span>
                                 </template>

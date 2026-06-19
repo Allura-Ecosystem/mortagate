@@ -71,7 +71,9 @@ describe('c-finding-detail', () => {
         const items = el.shadowRoot.querySelectorAll('.finding-item');
         expect(items.length).toBe(2);
         const pills = el.shadowRoot.querySelectorAll('.sev-pill');
-        expect(pills[0].textContent).toBe('Violation');
+        // Plain-language read-back (the "Leo rule"): the saved value shows in
+        // plain words while still keeping the canonical token in parentheses.
+        expect(pills[0].textContent).toBe('Rule broken (Violation)');
     });
 
     it('shows the empty state when there are no findings', async () => {

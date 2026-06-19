@@ -18,25 +18,38 @@ import saveFinding from '@salesforce/apex/FindingController.saveFinding';
  * The editor uses a single saveFinding Apex write (NOT cacheable). The list of
  * findings for the case is a cacheable read, refreshed after each save.
  */
+// Plain-language display labels (the "Leo rule"); stored `value` is unchanged
+// so the Finding__c picklist values stay exactly the same.
 const SEVERITY_OPTIONS = [
-    { label: 'Pass', value: 'Pass' },
-    { label: 'Exception', value: 'Exception' },
-    { label: 'Violation', value: 'Violation' }
+    { label: 'No problem (Pass)', value: 'Pass' },
+    { label: 'Rule bent, with sign-off (Exception)', value: 'Exception' },
+    { label: 'Rule broken (Violation)', value: 'Violation' }
 ];
 const CATEGORY_OPTIONS = [
     { label: 'Income', value: 'Income' },
     { label: 'Credit', value: 'Credit' },
-    { label: 'Collateral', value: 'Collateral' },
-    { label: 'Employment', value: 'Employment' },
-    { label: 'Documentation', value: 'Documentation' },
+    { label: 'The home (Collateral)', value: 'Collateral' },
+    { label: 'Job (Employment)', value: 'Employment' },
+    { label: 'Paperwork (Documentation)', value: 'Documentation' },
     { label: 'Other', value: 'Other' }
 ];
 const DISPOSITION_OPTIONS = [
-    { label: 'Open', value: 'Open' },
-    { label: 'Acknowledged', value: 'Acknowledged' },
-    { label: 'Remediated', value: 'Remediated' },
-    { label: 'Closed', value: 'Closed' }
+    { label: 'Still open (Open)', value: 'Open' },
+    { label: 'Seen, not fixed yet (Acknowledged)', value: 'Acknowledged' },
+    { label: 'Fixed (Remediated)', value: 'Remediated' },
+    { label: 'Done (Closed)', value: 'Closed' }
 ];
+
+// Stored picklist value → plain label for read-back (the saved-findings list).
+// Mirrors the dropdown display copy above so reading a finding matches writing it.
+const PLAIN_LABEL = {
+    Pass: 'No problem (Pass)',
+    Exception: 'Rule bent, with sign-off (Exception)',
+    Violation: 'Rule broken (Violation)',
+    Collateral: 'The home (Collateral)',
+    Employment: 'Job (Employment)',
+    Documentation: 'Paperwork (Documentation)'
+};
 
 export default class FindingDetail extends LightningElement {
     @api recordId;
@@ -56,7 +69,11 @@ export default class FindingDetail extends LightningElement {
         if (result.data) {
             this.findings = result.data.map((f) => ({
                 ...f,
-                severityClass: this.severityClass(f.severity)
+                severityClass: this.severityClass(f.severity),
+                // Plain-language read-back (the "Leo rule"): show the saved value
+                // in plain words; fall back to the raw stored value if unmapped.
+                severityPlain: PLAIN_LABEL[f.severity] || f.severity,
+                categoryPlain: PLAIN_LABEL[f.category] || f.category
             }));
         }
     }
