@@ -878,4 +878,16 @@
         <tab>Policy_Version__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Veridact_Analytics</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Veridact_Policy_Versions</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Veridact_Admin</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

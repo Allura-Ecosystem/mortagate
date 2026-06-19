@@ -8,6 +8,7 @@
     <tabs>Veridact_Audit_Queue</tabs>
     <tabs>Audit_Case__c</tabs>
     <tabs>Evidence_Item__c</tabs>
-    <tabs>Policy_Version__c</tabs>
-    <tabs>standard-report</tabs>
+    <tabs>Veridact_Policy_Versions</tabs>
+    <tabs>Veridact_Analytics</tabs>
+    <tabs>Veridact_Admin</tabs>
 </CustomApplication>

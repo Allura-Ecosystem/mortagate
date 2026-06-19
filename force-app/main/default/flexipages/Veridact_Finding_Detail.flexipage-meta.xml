@@ -11,7 +11,7 @@
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>Veridact Finding Detail</masterLabel>
-    <sobjectType>Audit_Case__c</sobjectType>
+    <sobjectType>Finding__c</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
