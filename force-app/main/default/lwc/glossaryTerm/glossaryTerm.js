@@ -16,10 +16,30 @@ import { LightningElement, api } from 'lwc';
  *   <c-glossary-term term="DTI"></c-glossary-term>      // looks up a term word
  *   <c-glossary-term code="DTI_MAX"></c-glossary-term>  // looks up a rule code
  *
- * `code` wins if both are supplied. The displayed label is the raw term/code
- * (engineers and auditors still see the canonical token); the explanation is in
- * the tooltip so the screen stays compact.
+ * `code` wins if both are supplied.
+ *
+ * THE LEO FLIP (UX panel, all 4 personas): the PLAIN NAME is now the primary
+ * on-screen label; the raw code is demoted to a small muted mono badge beside
+ * it (auditors/engineers still see the canonical token). The longer jargon
+ * sentence stays in the "?" tooltip. An UNKNOWN code shows the code as-is
+ * (no badge, no tooltip) so nothing ever silently disappears.
  */
+
+// code/term → short plain NAME shown as the primary label (the Leo flip).
+const PLAIN_NAME = {
+    DTI_MAX: 'Debt vs. income too high',
+    DTI_WARN: 'Debt vs. income is getting high',
+    FICO_MIN: 'Credit score too low',
+    LTV_MAX: 'Loan too big vs. home value',
+    INCOME_MIN: 'Income is below the minimum needed',
+    EMPLOY_MIN: 'Has not worked at the job long enough',
+    ASSET_MIN: 'Not enough savings in the bank',
+    DEBT_MAX: 'Total debt is over the limit',
+    FICO_PREF: 'Credit score is below the preferred level',
+    LTV_PREF: 'Loan is bigger than the preferred level vs. home value'
+};
+
+// code/term → longer jargon sentence kept in the "?" tooltip.
 const DICTIONARY = {
     // ── Common jargon (terms) ──
     DTI: 'Debt-to-income: how much of monthly pay goes to debt.',
@@ -47,15 +67,37 @@ export default class GlossaryTerm extends LightningElement {
     /** A rule code, e.g. "DTI_MAX". Takes priority over `term`. */
     @api code;
 
-    /** The raw token shown on screen (canonical for auditors/engineers). */
-    get label() {
+    /** The raw token (canonical for auditors/engineers). */
+    get token() {
         return this.code || this.term || '';
     }
 
-    /** Look up the plain-language explanation; empty when unknown. */
+    /** Is the token one we have a plain NAME for? */
+    get hasPlainName() {
+        return PLAIN_NAME[this.token.toUpperCase()] !== undefined;
+    }
+
+    /**
+     * PRIMARY visible label. Known token → its plain name; unknown → the raw
+     * token itself (never blank, never silently dropped).
+     */
+    get label() {
+        return PLAIN_NAME[this.token.toUpperCase()] || this.token;
+    }
+
+    /** The raw code shown as a small secondary badge — only when we flipped. */
+    get codeBadge() {
+        return this.hasPlainName ? this.token : '';
+    }
+
+    /** Render the badge only when the primary label is the plain name. */
+    get hasCodeBadge() {
+        return this.codeBadge.length > 0;
+    }
+
+    /** Look up the longer jargon explanation for the tooltip; empty when none. */
     get explanation() {
-        const key = (this.code || this.term || '').toUpperCase();
-        return DICTIONARY[key] || '';
+        return DICTIONARY[this.token.toUpperCase()] || '';
     }
 
     /** Only render the help icon when we actually have an explanation. */

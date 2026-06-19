@@ -1,6 +1,9 @@
 <template>
     <span class="glossary-term">
         <span class="glossary-label">{label}</span>
+        <template if:true={hasCodeBadge}>
+            <span class="code-badge">{codeBadge}</span>
+        </template>
         <template if:true={hasExplanation}>
             <lightning-helptext
                 class="glossary-help"

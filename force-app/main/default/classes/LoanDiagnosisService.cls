@@ -24,6 +24,22 @@ public with sharing class LoanDiagnosisService {
     private static final String FINAL_AUTHORITY =
         'A human auditor must make the final call on this loan.';
 
+    // THE LEO FLIP (mirrors lwc/glossaryTerm): each per-rule line now LEADS WITH
+    // the plain NAME and keeps the raw code as a parenthetical badge. Code → plain
+    // name. Unknown codes fall back to the raw code itself (never blank).
+    private static final Map<String, String> PLAIN_NAME = new Map<String, String>{
+        'DTI_MAX'    => 'Debt vs. income too high',
+        'DTI_WARN'   => 'Debt vs. income is getting high',
+        'FICO_MIN'   => 'Credit score too low',
+        'LTV_MAX'    => 'Loan too big vs. home value',
+        'INCOME_MIN' => 'Income is below the minimum needed',
+        'EMPLOY_MIN' => 'Has not worked at the job long enough',
+        'ASSET_MIN'  => 'Not enough savings in the bank',
+        'DEBT_MAX'   => 'Total debt is over the limit',
+        'FICO_PREF'  => 'Credit score is below the preferred level',
+        'LTV_PREF'   => 'Loan is bigger than the preferred level vs. home value'
+    };
+
     // ── Invocable entry point (Agentforce GenAiFunction / Flow) ─────────
 
     @InvocableMethod(
@@ -101,10 +117,16 @@ public with sharing class LoanDiagnosisService {
         Integer fails = 0, passes = 0, unver = 0;
         List<String> brokenRuleLines = new List<String>();
         for (Replay_Check__c rc : checks) {
-            // Plain-language line: name the rule, show both numbers, add the reason.
-            String line = rc.Rule_Name__c + ' — rule value ' + prettyNum(rc.Expected_Value__c)
-                + ', loan value ' + prettyNum(rc.Actual_Value__c)
-                + (String.isBlank(rc.Rationale__c) ? '' : '. ' + rc.Rationale__c);
+            // THE LEO FLIP: lead with the plain NAME, keep the CODE as a small
+            // parenthetical badge, then give clearer numbers with a direction
+            // phrase ("the most allowed is" / "the lowest allowed is"). Still
+            // names the rule and shows BOTH numbers (guardrail intact).
+            //   <PlainName> (<CODE>): <directionPhrase> <expected>, but this loan is <actual>.
+            String code = rc.Rule_Name__c;        // Rule_Name__c carries the rule CODE
+            String line = plainName(code) + ' (' + code + '): '
+                + directionPhrase(code) + ' ' + prettyNum(rc.Expected_Value__c)
+                + ', but this loan is ' + prettyNum(rc.Actual_Value__c) + '.'
+                + (String.isBlank(rc.Rationale__c) ? '' : ' ' + rc.Rationale__c);
             res.findings.add(line);
             if (rc.Result__c == 'Fail') {
                 fails++;
@@ -149,6 +171,33 @@ public with sharing class LoanDiagnosisService {
 
     private static String safe(String v) {
         return String.isBlank(v) ? 'n/a' : v;
+    }
+
+    /** Plain NAME for a rule code; unknown code falls back to the raw code. */
+    private static String plainName(String code) {
+        if (String.isBlank(code)) { return 'A rule'; }
+        String key = code.toUpperCase();
+        return PLAIN_NAME.containsKey(key) ? PLAIN_NAME.get(key) : code;
+    }
+
+    /**
+     * Direction phrase derived from the code SUFFIX, so the numbers read
+     * clearly to a non-expert (Leo):
+     *   *_MAX / *_WARN / DEBT_MAX / DTI_*  → "the most allowed is"   (ceiling)
+     *   *_MIN / *_PREF                     → "the lowest allowed is" (floor)
+     *   anything else                      → "the limit is"
+     */
+    private static String directionPhrase(String code) {
+        if (String.isBlank(code)) { return 'the limit is'; }
+        String key = code.toUpperCase();
+        if (key.endsWith('_MAX') || key.endsWith('_WARN')
+            || key == 'DEBT_MAX' || key.startsWith('DTI_')) {
+            return 'the most allowed is';
+        }
+        if (key.endsWith('_MIN') || key.endsWith('_PREF')) {
+            return 'the lowest allowed is';
+        }
+        return 'the limit is';
     }
 
     /**

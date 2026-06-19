@@ -64,7 +64,19 @@ private class LoanDiagnosisServiceTest {
 
         System.assert(r.hasViolations, 'DTI_MAX must be reported as a violation');
         System.assertEquals(1, r.violationCount, 'Exactly DTI_MAX fails (44.8 > 43)');
-        System.assert(r.summary.contains('DTI_MAX'), 'Summary names the violated rule');
+        // THE LEO FLIP: summary now LEADS WITH the plain name; the raw code lives
+        // on as a parenthetical badge.
+        System.assert(r.summary.contains('Debt vs. income too high'),
+            'Summary leads with the plain-language name (the Leo flip)');
+        System.assert(r.summary.contains('DTI_MAX'),
+            'Summary keeps the raw code as a parenthetical badge');
+        System.assert(r.summary.contains('(DTI_MAX)'),
+            'Code appears specifically as the (CODE) badge after the plain name');
+        // Clearer numbers: direction phrase + both values.
+        System.assert(r.summary.contains('the most allowed is 43'),
+            'Ceiling rule (DTI_MAX) phrased as "the most allowed is" with the threshold');
+        System.assert(r.summary.contains('but this loan is 44.8'),
+            'Summary still shows the actual loan value in plain numbers');
         System.assert(r.summary.contains('human auditor'),
             'Summary must defer final determination to the human auditor');
         System.assert(!r.summary.toLowerCase().contains('denied'),

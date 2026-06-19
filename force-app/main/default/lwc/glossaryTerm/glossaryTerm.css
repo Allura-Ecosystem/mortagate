@@ -15,6 +15,19 @@
     color: inherit;
 }
 
+/* The Leo flip: the raw code is now a small, muted, monospace secondary badge
+   that sits beside the plain-language primary label. */
+.code-badge {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.72em;
+    line-height: 1;
+    color: var(--muted);
+    background: rgba(106, 114, 129, 0.1);
+    border-radius: 4px;
+    padding: 1px 5px;
+    white-space: nowrap;
+}
+
 /* Nudge the help icon to match the surrounding muted text. */
 .glossary-help {
     --slds-c-icon-color-foreground: var(--muted);
