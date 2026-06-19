@@ -4,6 +4,9 @@
     <description>Use this when an auditor asks what rules a loan broke. It lists each broken rule and explains it in plain words.</description>
     <developerName>p_16jAq000000HTgj_Summarize_Rule_Violations</developerName>
     <genAiFunctions>
+        <functionName>Diagnose_Loan_Audit</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
         <functionName>EmployeeCopilot__SummarizeRecord</functionName>
     </genAiFunctions>
     <genAiFunctions>
