@@ -6,3 +6,5 @@ data/kaggle/
 .opencode/mcp.json
 .opencode/oh-my-opencode.json
 _bmad/
+.worktrees/
+temp/
