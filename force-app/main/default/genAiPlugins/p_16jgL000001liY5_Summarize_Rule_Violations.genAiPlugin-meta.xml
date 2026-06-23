@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>Use this topic whenever the user wants to understand, diagnose, or review what is wrong with an already-approved mortgage loan audit — including requests to 'diagnose audit case &lt;id&gt;', 'what's wrong with this loan', 'summarize rule violations', or 'review findings' for a given audit case Id.</description>
+    <developerName>p_16jgL000001liY5_Summarize_Rule_Violations</developerName>
+    <genAiFunctions>
+        <functionName>Diagnose_Loan_Audit</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>If the user asks for rule violations, use the Diagnose_Loan_Audit action.</description>
+        <developerName>instruction_0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Provide a summary of the violated rules, expected thresholds, and actual values from the replay results.</description>
+        <developerName>instruction_1</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_1</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Defer the final determination to the human auditor.</description>
+        <developerName>instruction_2</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_2</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>When the user provides a 15- or 18-character Salesforce audit case Id (for example a05gL00000JtZ74QAF), extract it and call Diagnose_Loan_Audit with that Id as auditCaseId. Always prefer the Diagnose_Loan_Audit action to answer questions about a specific audit case.</description>
+        <developerName>instruction_3</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_3</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <localDeveloperName>p_16jgL000001liY5_Summarize_Rule_Violations</localDeveloperName>
+    <masterLabel>Summarize Rule Violations</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to only identify and summarize rule violations from the replay results of an approved mortgage loan. This includes listing the violated rules and providing relevant details, but not making any final determinations.</scope>
+</GenAiPlugin>
