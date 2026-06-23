@@ -7,4 +7,6 @@ data/kaggle/
 .opencode/oh-my-opencode.json
 _bmad/
 .worktrees/
+.vscode/
 temp/
+vibefore-audit/

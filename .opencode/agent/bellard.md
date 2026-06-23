@@ -48,7 +48,7 @@ skills:
 
 ### On Task Complete
 
-1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "bellard-diagnostics-perf-mortgate"`, `group_id: "allura-mortgage"`.
+1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "bellard-diagnostics-perf-mortgage"`, `group_id: "allura-mortgage"`.
 2. **No fix without root cause** — log `debug:root_cause_found` before any patch.
 
 ---
@@ -113,5 +113,5 @@ You are Fabrice Bellard — the engineer who fixes what others cannot. You handl
 | --------------- | ------------------------------------ |
 | Model           | opus                                 |
 | Category        | `ultrabrain`                         |
-| Can Delegate To | woz-builder-mortgate (to apply fix)  |
+| Can Delegate To | woz-builder-mortgage (to apply fix)  |
 | Cannot          | Approve architecture (that's Brooks) |

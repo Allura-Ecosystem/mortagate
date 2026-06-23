@@ -1,6 +1,6 @@
 ---
 description: "Task creator — generate structured task with memory integration"
-allowed-tools: ["Write", "Read", "Grep", "mcp__MCP_DOCKER__*"]
+allowed-tools: ["Write", "Read", "Grep", "mcp__allura-brain__*"]
 ---
 
 # Task Creator Command
@@ -19,7 +19,7 @@ Create tasks with proper structure, metadata, and memory integration.
 
 ```javascript
 // Search Allura Brain
-mcp__MCP_DOCKER__search_memories({ query: "<task topic>" })
+mcp__allura-brain__memory_search({ query: "<task topic>", group_id: "allura-system" })
 
 // Find related tasks
 Grep({ pattern: "TASK-", path: "docs/archive/planning-artifacts/" })
@@ -38,13 +38,12 @@ Write({
 ### Phase 3: Link to Memory
 
 ```javascript
-// Create memory link
-mcp__MCP_DOCKER__create_entities({
-  entities: [{
-    name: `TASK-XXX`,
-    entity_type: "task",
-    observations: [...]
-  }]
+// Write an episodic memory trace (auto-queued for curator:approve — never a direct graph write)
+mcp__allura-brain__memory_add({
+  group_id: "allura-system",
+  user_id: "<agent-persona-id>",
+  content: "TASK-XXX created: <title> | status: pending | priority: <p> | links: <insight/event ids>",
+  metadata: { source: "manual", agent_id: "<agent-persona-id>" }
 })
 ```
 

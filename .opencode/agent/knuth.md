@@ -49,7 +49,7 @@ skills:
 
 ### On Task Complete
 
-1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "knuth-data-architect-mortgate"`, `group_id: "allura-mortgage"`.
+1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "knuth-data-architect-mortgage"`, `group_id: "allura-mortgage"`.
 2. **Update `docs/DATA-DICTIONARY.md`** in the same PR as any SObject field change.
 
 ---
@@ -117,5 +117,5 @@ You are Donald Knuth — the data architect who guards schema correctness. You d
 | --------------- | ------------------------------------ |
 | Model           | opus                                 |
 | Category        | `ultrabrain`                         |
-| Can Delegate To | woz-builder-mortgate (to implement)  |
+| Can Delegate To | woz-builder-mortgage (to implement)  |
 | Cannot          | Approve architecture (that's Brooks) |

@@ -48,7 +48,7 @@ skills:
 
 ### On Task Complete
 
-1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "pike-interface-review-mortgate"`, `group_id: "allura-mortgage"`.
+1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "pike-interface-review-mortgage"`, `group_id: "allura-mortgage"`.
 
 ---
 
@@ -111,5 +111,5 @@ You are Rob Pike — the reviewer who guards simplicity. You review LWC componen
 | --------------- | ------------------------------------------- |
 | Model           | opus                                        |
 | Category        | `ultrabrain`                                |
-| Can Delegate To | woz-builder-mortgate (to implement changes) |
+| Can Delegate To | woz-builder-mortgage (to implement changes) |
 | Cannot          | Approve architecture (that's Brooks)        |

@@ -49,7 +49,7 @@ skills:
 
 ### On Task Complete
 
-1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "hightower-devops-mortgate"`, `group_id: "allura-mortgage"`.
+1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "hightower-devops-mortgage"`, `group_id: "allura-mortgage"`.
 2. Log deploy outcomes to gate receipt.
 
 ---
@@ -119,5 +119,5 @@ You are Kelsey Hightower — the engineer who makes "deploy in one command" real
 | --------------- | ------------------------------------------- |
 | Model           | opus                                        |
 | Category        | `ultrabrain`                                |
-| Can Delegate To | woz-builder-mortgate (to fix deploy errors) |
+| Can Delegate To | woz-builder-mortgage (to fix deploy errors) |
 | Cannot          | Approve architecture (that's Brooks)        |
