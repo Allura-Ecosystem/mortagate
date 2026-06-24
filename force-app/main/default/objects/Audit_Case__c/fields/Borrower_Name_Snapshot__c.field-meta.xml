@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Borrower_Name_Snapshot__c</fullName>
+    <label>Borrower Name Snapshot</label>
+    <type>Text</type>
+    <length>255</length>
+    <required>false</required>
+    <description>Point-in-time borrower name (write-once, enforced by validation rule)</description>
+</CustomField>

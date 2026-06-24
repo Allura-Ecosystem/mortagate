@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <label>Status</label>
+    <type>Picklist</type>
+    <required>true</required>
+    <description>Current case status</description>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>In_Review</fullName><default>true</default><label>In Review</label></value>
+            <value><fullName>Evidence_Needed</fullName><default>false</default><label>Evidence Needed</label></value>
+            <value><fullName>Ready_for_Signoff</fullName><default>false</default><label>Ready for Signoff</label></value>
+            <value><fullName>Closed</fullName><default>false</default><label>Closed</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

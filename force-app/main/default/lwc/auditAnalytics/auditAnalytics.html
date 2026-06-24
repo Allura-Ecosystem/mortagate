@@ -1,0 +1,55 @@
+<template>
+    <div class="analytics-shell">
+        <header class="analytics-header">
+            <h1 class="analytics-title">Portfolio analytics</h1>
+            <p class="analytics-sub">
+                Across all open cases &mdash; current replay batch only.
+            </p>
+        </header>
+
+        <template if:true={error}>
+            <div class="error-banner" role="alert">{error}</div>
+        </template>
+
+        <template if:true={hasData}>
+            <!-- Headline numbers (reused metric-cards visual) -->
+            <c-audit-metric-cards cards={headlineCards}></c-audit-metric-cards>
+
+            <!-- Approver drift -->
+            <section class="drift-card">
+                <header class="drift-head">
+                    <h2 class="drift-title">Approver drift</h2>
+                    <span class="drift-hint">Fail rate of current checks by original approver</span>
+                </header>
+
+                <template if:true={hasDrift}>
+                    <table class="drift-table">
+                        <thead>
+                            <tr>
+                                <th class="col-name">Original approver</th>
+                                <th class="col-num">Checks</th>
+                                <th class="col-num">Fails</th>
+                                <th class="col-rate">Fail rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={driftRows} for:item="row">
+                                <tr key={row.approverName}>
+                                    <td class="col-name">{row.approverName}</td>
+                                    <td class="col-num">{row.totalChecks}</td>
+                                    <td class="col-num">{row.failCount}</td>
+                                    <td class="col-rate">
+                                        <span class={row.toneClass}>{row.failRateLabel}</span>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+                <template if:false={hasDrift}>
+                    <p class="empty-state">No replayed checks across open cases yet.</p>
+                </template>
+            </section>
+        </template>
+    </div>
+</template>

@@ -7,17 +7,12 @@ category: Core
 type: primary
 status: active
 model: ollama-cloud/deepseek-v4-pro
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - Edit
-  - Write
-  - Skill
-  - Task
-  - WebFetch
-  - TodoWrite
+permission:
+  edit: allow
+  bash: allow
+  webfetch: allow
+  skill:
+    "*": allow
 skills:
   - mortgate-orchestrator
   - carlos-guidelines
@@ -312,7 +307,7 @@ Follow `copilot-instructions.md` for all documentation. Brooks enforces:
 ## Invariants (Never Violate)
 
 - ✅ `group_id = 'allura-mortgage'` on every DB operation
-- ✅ `agent_id = 'brooks-architect-mortgate'` for architectural decisions
+- ✅ `agent_id = 'brooks-architect-mortgage'` for architectural decisions
 - ✅ Salesforce `mortgate.gates.json` must pass before claiming done
 - ✅ Carlos Guidelines six docs must exist before code lands
 - ✅ Apex bulk-safety rules: no DML in loops, no Get Records in loops
@@ -330,7 +325,7 @@ Follow `copilot-instructions.md` for all documentation. Brooks enforces:
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Model**           | opus                                                                                                                                                                             |
 | **Category**        | `ultrabrain` — Hard logic, architecture decisions                                                                                                                                |
-| **Can Delegate To** | woz-builder-mortgage, knuth-data-architect-mortgage, hightower-devops-mortgate, pike-interface-review-mortgate, fowler-refactor-gate-mortgate, bellard-diagnostics-perf-mortgate |
+| **Can Delegate To** | woz-builder-mortgage, knuth-data-architect-mortgage, hightower-devops-mortgage, pike-interface-review-mortgage, fowler-refactor-gate-mortgage, bellard-diagnostics-perf-mortgage |
 | **Cannot**          | Execute tools directly (orchestrates only)                                                                                                                                       |
 
 ---

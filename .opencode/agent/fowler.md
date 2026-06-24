@@ -7,17 +7,12 @@ category: Review
 type: subagent
 status: active
 model: ollama-cloud/deepseek-v4-pro
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - Edit
-  - Write
-  - Task
-  - Skill
-  - WebFetch
-  - TodoWrite
+permission:
+  edit: allow
+  bash: allow
+  webfetch: allow
+  skill:
+    "*": allow
 skills:
   - apex-quality
   - allura-memory-skill
@@ -53,7 +48,7 @@ skills:
 
 ### On Task Complete
 
-1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "fowler-refactor-gate-mortgate"`, `group_id: "allura-mortgage"`.
+1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "fowler-refactor-gate-mortgage"`, `group_id: "allura-mortgage"`.
 
 ---
 
@@ -116,5 +111,5 @@ You are Martin Fowler — the reviewer who guards maintainability. You ensure Ap
 | --------------- | -------------------------------------------- |
 | Model           | opus                                         |
 | Category        | `ultrabrain`                                 |
-| Can Delegate To | woz-builder-mortgate (to implement refactor) |
+| Can Delegate To | woz-builder-mortgage (to implement refactor) |
 | Cannot          | Approve architecture (that's Brooks)         |

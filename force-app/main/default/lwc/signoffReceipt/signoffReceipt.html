@@ -1,0 +1,111 @@
+<template>
+    <div class="signoff-shell">
+        <template if:true={hasView}>
+            <!-- ── Header ── -->
+            <div class="signoff-header">
+                <div class="header-main">
+                    <p class="case-number">{header.caseNumber}</p>
+                    <h1 class="borrower-name">{header.borrowerName}</h1>
+                    <p class="header-sub">
+                        Loan <span class="loan-cell">{header.loanNumber}</span>
+                        &middot; {header.status}
+                    </p>
+                </div>
+                <div class="header-badges">
+                    <span class="risk-chip" data-tier={header.riskTier}>{header.riskTier} risk</span>
+                    <span class="demo-badge" title="Demonstration data — not a production sign-off">Demo</span>
+                </div>
+            </div>
+
+            <!-- ── Summary card: what will be / was signed ── -->
+            <section class="summary-card">
+                <header class="summary-head">
+                    <h2 class="summary-title">
+                        <template if:true={isSigned}>Audit receipt</template>
+                        <template if:false={isSigned}>Sign-off summary</template>
+                    </h2>
+                    <span class={summaryChipClass}>{summaryChipLabel}</span>
+                </header>
+
+                <div class="count-grid">
+                    <div class="count-cell">
+                        <span class="count-value count-value--pass">{passCount}</span>
+                        <span class="count-label">Passed</span>
+                    </div>
+                    <div class="count-cell">
+                        <span class="count-value count-value--violation">{violationCount}</span>
+                        <span class="count-label">Violations</span>
+                    </div>
+                    <div class="count-cell">
+                        <span class="count-value count-value--exception">{exceptionCount}</span>
+                        <span class="count-label">Unverifiable</span>
+                    </div>
+                    <div class="count-cell">
+                        <span class="count-value">{totalFindings}</span>
+                        <span class="count-label">Findings</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── Signed: immutable receipt (read-only) ── -->
+            <template if:true={isSigned}>
+                <section class="receipt-card" role="status">
+                    <p class="receipt-status">
+                        <span class="receipt-dot"></span>
+                        Signed off &mdash; this receipt is immutable and cannot be changed.
+                    </p>
+                    <template if:true={receipt.reviewerName}>
+                        <p class="receipt-line">Reviewer: <b>{receipt.reviewerName}</b></p>
+                    </template>
+                    <template if:true={receipt.signedOffAt}>
+                        <p class="receipt-line">
+                            Signed at:
+                            <lightning-formatted-date-time
+                                value={receipt.signedOffAt}
+                                year="numeric" month="short" day="2-digit"
+                                hour="2-digit" minute="2-digit"
+                            ></lightning-formatted-date-time>
+                        </p>
+                    </template>
+                    <template if:true={receiptHash}>
+                        <div class="hash-block">
+                            <span class="hash-label">Receipt hash</span>
+                            <code class="hash-value">{receiptHash}</code>
+                            <p class="hash-disclosure">Illustrative hash, not a cryptographic seal.</p>
+                        </div>
+                    </template>
+                </section>
+            </template>
+
+            <!-- ── Not signed yet: action or guidance ── -->
+            <template if:false={isSigned}>
+                <template if:true={canSignOff}>
+                    <div class="action-row">
+                        <button
+                            class="signoff-btn"
+                            onclick={handleSignOff}
+                            disabled={signing}
+                            title="Record an immutable sign-off receipt for this case"
+                        >
+                            <template if:true={signing}>Signing off&hellip;</template>
+                            <template if:false={signing}>Sign off</template>
+                        </button>
+                        <p class="action-note">
+                            Signing records a permanent receipt of these counts and closes the case.
+                        </p>
+                    </div>
+                </template>
+                <template if:true={showNotReady}>
+                    <p class="empty-state">
+                        This case is not ready for sign-off yet. Complete the review and mark it
+                        Ready for Signoff to record the receipt.
+                    </p>
+                </template>
+            </template>
+
+            <!-- The amber accent bar is present in every state (the receipt
+                 exists regardless of the answer). -->
+            <div class="accent-bar" aria-hidden="true"></div>
+        </template>
+    </div>
+</template>

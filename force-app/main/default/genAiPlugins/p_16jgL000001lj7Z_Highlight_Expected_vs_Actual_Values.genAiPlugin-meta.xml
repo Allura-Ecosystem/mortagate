@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>Use this topic when the user asks to compare expected and actual values in a mortgage loan replay. Focus on highlighting discrepancies between these values.</description>
+    <developerName>p_16jgL000001lj7Z_Highlight_Expected_vs_Actual_Values</developerName>
+    <genAiFunctions>
+        <functionName>Diagnose_Loan_Audit</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>EmployeeCopilot__AnswerQuestionsWithKnowledge</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>If the query is about comparing expected and actual values, use Diagnose_Loan_Audit.</description>
+        <developerName>instruction_0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <localDeveloperName>p_16jgL000001lj7Z_Highlight_Expected_vs_Actual_Values</localDeveloperName>
+    <masterLabel>Highlight Expected vs Actual Values</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to only highlight discrepancies between expected and actual values in approved mortgage loans. You cannot make final determinations or provide explanations beyond the identified discrepancies.</scope>
+</GenAiPlugin>

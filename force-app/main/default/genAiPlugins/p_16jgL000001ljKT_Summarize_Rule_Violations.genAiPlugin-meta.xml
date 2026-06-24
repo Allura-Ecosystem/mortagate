@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>This topic is selected when the user requests a summary of rule violations identified in mortgage loan replay checks. It focuses on identifying and listing the broken rules for a given loan.</description>
+    <developerName>p_16jgL000001ljKT_Summarize_Rule_Violations</developerName>
+    <genAiFunctions>
+        <functionName>Diagnose_Loan_Audit</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>EmployeeCopilot__AnswerQuestionsWithKnowledge</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>If the user requests a summary of rule violations for a particular loan, use the Diagnose_Loan_Audit action.</description>
+        <developerName>instruction_0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Ensure that the output includes the names of the broken rules, the expected thresholds, and the actual values for the loan.</description>
+        <developerName>instruction_1</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_1</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Do not provide any recommendations or final determinations about the loan&apos;s validity.</description>
+        <developerName>instruction_2</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_2</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <localDeveloperName>p_16jgL000001ljKT_Summarize_Rule_Violations</localDeveloperName>
+    <masterLabel>Summarize Rule Violations</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to only summarize rule violations for approved mortgage loans by identifying broken rules from replay-check results and listing them in a clear manner. You are not responsible for making final determinations or providing resolutions.</scope>
+</GenAiPlugin>

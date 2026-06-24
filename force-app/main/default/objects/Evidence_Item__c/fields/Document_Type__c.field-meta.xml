@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <label>Document Type</label>
+    <type>Picklist</type>
+    <required>true</required>
+    <description>Type of document</description>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Pay_Stub</fullName><default>false</default><label>Pay Stub</label></value>
+            <value><fullName>W2</fullName><default>false</default><label>W-2</label></value>
+            <value><fullName>Bank_Statement</fullName><default>false</default><label>Bank Statement</label></value>
+            <value><fullName>Tax_Return</fullName><default>false</default><label>Tax Return</label></value>
+            <value><fullName>Appraisal</fullName><default>false</default><label>Appraisal</label></value>
+            <value><fullName>Credit_Report</fullName><default>false</default><label>Credit Report</label></value>
+            <value><fullName>Purchase_Agreement</fullName><default>false</default><label>Purchase Agreement</label></value>
+            <value><fullName>Photo_ID</fullName><default>false</default><label>Photo ID</label></value>
+            <value><fullName>Employment_Verification</fullName><default>false</default><label>Employment Verification</label></value>
+            <value><fullName>Other</fullName><default>false</default><label>Other</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

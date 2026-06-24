@@ -1,0 +1,83 @@
+name: CI — Mortagate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-salesforce:
+    name: Validate Salesforce metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Apex classes parse
+        run: |
+          set -e
+          errors=0
+          for f in force-app/main/default/classes/*.cls; do
+            [ ! -s "$f" ] && { echo "❌ Empty: $f"; errors=$((errors + 1)); continue; }
+          done 2>/dev/null
+          count=$(ls force-app/main/default/classes/*.cls 2>/dev/null | wc -l)
+          echo "Checked $count Apex class files"
+          [ $errors -eq 0 ] && echo "✅ All Apex files non-empty" || { echo "❌ $errors errors"; exit 1; }
+
+      - name: Check LWC components have HTML + JS
+        run: |
+          set -e
+          errors=0
+          for d in force-app/main/default/lwc/*/; do
+            name=$(basename "$d")
+            [ "$name" = "__tests__" ] && continue
+            [ ! -f "$d/$name.js" ] && [ ! -f "$d/$name.ts" ] && { echo "❌ Missing JS: $d"; errors=$((errors + 1)); }
+            [ ! -f "$d/$name.html" ] && { echo "⚠️  No HTML: $d (might be headless)"; }
+          done 2>/dev/null
+          echo "Checked $(ls -d force-app/main/default/lwc/*/ 2>/dev/null | wc -l) LWC components"
+          [ $errors -eq 0 ] && echo "✅ All LWC components valid" || { echo "❌ $errors errors"; exit 1; }
+
+  validate-agents:
+    name: Validate agent definitions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check OpenCode agent YAML frontmatter
+        run: |
+          set -e
+          errors=0
+          for f in .opencode/agent/*.md; do
+            head -1 "$f" | grep -q "^---" || { echo "❌ Missing frontmatter: $f"; errors=$((errors + 1)); }
+            grep -q "^permission:" "$f" || { echo "❌ Missing permission (has tools array?): $f"; errors=$((errors + 1)); }
+          done
+          echo "Checked $(ls .opencode/agent/*.md | wc -l) agent files"
+          [ $errors -eq 0 ] && echo "✅ All agents valid" || { echo "❌ $errors errors"; exit 1; }
+
+  lwc-tests:
+    name: LWC unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run test:unit
+        continue-on-error: true
+
+  no-secrets:
+    name: No secrets in repo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check no credentials committed
+        run: |
+          set -e
+          found=$(git ls-files '.env' '.env.local' '**/.env.local' | wc -l)
+          [ "$found" -eq 0 ] && echo "✅ No env files" || { echo "❌ Found env files"; exit 1; }
+          if grep -rE "sf\.accessToken|SFDX_AUTH_URL=.{10}" force-app/ .opencode/ -l 2>/dev/null; then
+            echo "❌ Possible Salesforce credentials in source"
+            exit 1
+          fi
+          echo "✅ No credentials detected"

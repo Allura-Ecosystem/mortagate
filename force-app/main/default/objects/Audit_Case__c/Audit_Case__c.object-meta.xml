@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Audit Case</label>
+    <pluralLabel>Audit Cases</pluralLabel>
+    <nameField>
+        <label>Audit Case Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>AC-{000000}</displayFormat>
+    </nameField>
+    <enableHistory>true</enableHistory>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>A single loan under review -- the central hub that links evidence, findings, replay checks, events, and the final receipt.</description>
+</CustomObject>

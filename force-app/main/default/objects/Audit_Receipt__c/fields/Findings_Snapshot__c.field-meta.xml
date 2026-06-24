@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Findings_Snapshot__c</fullName>
+    <label>Findings Snapshot</label>
+    <type>LongTextArea</type>
+    <length>131072</length>
+    <visibleLines>5</visibleLines>
+    <required>false</required>
+    <description>JSON snapshot of all findings at sign-off time</description>
+</CustomField>

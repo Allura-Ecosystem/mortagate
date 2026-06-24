@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Replay_Check__c</fullName>
+    <label>Replay Check</label>
+    <type>Lookup</type>
+    <referenceTo>Replay_Check__c</referenceTo>
+    <relationshipName>Findings</relationshipName>
+    <relationshipLabel>Findings</relationshipLabel>
+    <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Source replay check (null for manual findings)</description>
+</CustomField>

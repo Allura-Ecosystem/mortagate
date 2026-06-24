@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subagent__c</fullName>
+    <label>Subagent</label>
+    <type>Picklist</type>
+    <required>true</required>
+    <description>Which Agentforce subagent executed</description>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Auditor_Assistant</fullName><default>false</default><label>Auditor Assistant</label></value>
+            <value><fullName>Evidence_Request</fullName><default>false</default><label>Evidence Request</label></value>
+            <value><fullName>Manager_Review</fullName><default>false</default><label>Manager Review</label></value>
+            <value><fullName>Compliance_Analytics</fullName><default>false</default><label>Compliance Analytics</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -24,7 +24,9 @@ private class PolicyRuleVersionHandlerTest {
             Severity__c = 'HARD_DECLINE',
             Rule_Explanation__c = code + ' explanation',
             Effective_Date__c = Date.today(),
-            Is_Active__c = true
+            Is_Active__c = true,
+            DTI_Threshold__c = 43,
+            Min_Credit_Score__c = 620
             // Version_Number__c intentionally omitted — the trigger assigns it.
         );
     }

@@ -1,0 +1,35 @@
+<template>
+    <div class="filters-card">
+        <div class="filters-head">
+            <span class="filters-title">FILTERS</span>
+            <button class="clear-btn" type="button" onclick={clear}>&#10005;&nbsp;Clear</button>
+        </div>
+        <div class="filters-grid">
+            <lightning-combobox
+                label="Status"
+                value={filters.status}
+                options={statusOptions}
+                onchange={handleStatus}
+                variant="label-stacked">
+            </lightning-combobox>
+            <lightning-combobox
+                label="Product"
+                value={filters.productType}
+                options={productOptions}
+                onchange={handleProduct}
+                variant="label-stacked">
+            </lightning-combobox>
+            <lightning-combobox
+                label="Risk Tier"
+                value={filters.riskTier}
+                options={riskOptions}
+                onchange={handleRisk}
+                variant="label-stacked">
+            </lightning-combobox>
+            <div class="toggle-group" role="group" aria-label="Assignment filter">
+                <button class={allToggleClass} type="button" onclick={selectAll}>All</button>
+                <button class={myToggleClass} type="button" onclick={selectMine}>My cases</button>
+            </div>
+        </div>
+    </div>
+</template>

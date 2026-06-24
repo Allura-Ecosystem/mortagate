@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* Veridact brand tokens — locked palette from the Figma source of truth. */
+@theme {
+  --color-canvas: #f5f0e8;
+  --color-ink: #1f1e1c;
+  --color-primary: #e25d22;
+  --color-peach: #fee6d4;
+  --color-brand-green: #308357;
+  --color-brand-red: #be3232;
+  --color-brand-amber: #d39826;
+  --color-brand-blue: #2b5c83;
+  --color-muted: #645d53;
+  --color-line: #d7ccbb;
+
+  /* Warm surface tints — the repeated off-white panel/rail/table shades, named
+     once so components stop scattering raw hex (#fbf8f3 etc.) and the palette
+     stays coherent. */
+  --color-surface: #fbf8f3; /* sunk panels inside white cards */
+  --color-surface-rail: #efe7da; /* sidebar / nav rail */
+  --color-surface-head: #faf6ef; /* table header row */
+
+  /* Soft status chips — backgrounds + foregrounds tokenized together.
+     Foregrounds darkened from the raw brand hues to clear 4.5:1 contrast
+     on their pale backgrounds. */
+  --color-chip-green-bg: #dff0e6;
+  --color-chip-green-fg: #1f6b43;
+  --color-chip-amber-bg: #fdf0c9;
+  --color-chip-amber-fg: #7a5610;
+  --color-chip-red-bg: #fbe2dd;
+  --color-chip-red-fg: #a52828;
+  --color-chip-blue-bg: #dde8f0;
+  --color-chip-blue-fg: #234d6e;
+  --color-chip-neutral-bg: #eae2d5;
+  --color-chip-neutral-fg: #564f46;
+
+  --font-display: var(--font-outfit);
+  --font-sans: var(--font-inter);
+}
+
+html,
+body {
+  background: #f5f0e8;
+  color: #1f1e1c;
+}
+
+body {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}

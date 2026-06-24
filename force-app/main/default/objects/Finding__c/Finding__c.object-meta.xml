@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Finding</label>
+    <pluralLabel>Findings</pluralLabel>
+    <nameField>
+        <label>Finding Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>FN-{000000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>An auditor's documented judgment on a replay check result -- pass, exception, or violation.</description>
+</CustomObject>

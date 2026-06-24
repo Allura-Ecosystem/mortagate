@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>Use this when an auditor asks what rules a loan broke. It lists each broken rule and explains it in plain words.</description>
+    <developerName>p_16jAq000000HTgj_Summarize_Rule_Violations</developerName>
+    <genAiFunctions>
+        <functionName>Diagnose_Loan_Audit</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>EmployeeCopilot__SummarizeRecord</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>EmployeeCopilot__AnswerQuestionsWithKnowledge</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>If the auditor asks which rules the loan broke, list each broken rule and explain it in plain words.</description>
+        <developerName>instruction_0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <localDeveloperName>p_16jAq000000HTgj_Summarize_Rule_Violations</localDeveloperName>
+    <masterLabel>Summarize Rule Violations</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to list the rules this loan broke and explain each one in simple words. Give the rule name, what the rule asked for, and what the loan had. Do not say if it is big or small, and do not say how to fix it. A human auditor makes the final call.</scope>
+</GenAiPlugin>

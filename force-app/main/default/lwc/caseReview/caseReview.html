@@ -1,0 +1,98 @@
+<template>
+    <div class="review-shell">
+        <!-- ── Header ── -->
+        <template if:true={header}>
+            <div class="review-header">
+                <div class="header-main">
+                    <p class="case-number">{header.caseNumber}</p>
+                    <h1 class="borrower-name">{header.borrowerName}</h1>
+                    <p class="header-sub">
+                        Loan <span class="loan-cell">{header.loanNumber}</span>
+                        &middot; Approved by {header.approverName}
+                        &middot; {header.status}
+                    </p>
+                </div>
+                <div class="header-actions">
+                    <span class="risk-chip" data-tier={header.riskTier}>{header.riskTier} risk</span>
+                    <button
+                        class="rerun-btn"
+                        onclick={handleRerun}
+                        disabled={rerunning}
+                        title="Re-run the historical policy replay for this case"
+                    >
+                        <template if:true={rerunning}>Re-running&hellip;</template>
+                        <template if:false={rerunning}>Re-run replay</template>
+                    </button>
+                </div>
+            </div>
+        </template>
+
+        <!-- ── Staleness banner ── -->
+        <template if:true={isStale}>
+            <div class="stale-banner" role="status">
+                <span class="stale-dot"></span>
+                This replay is stale &mdash; the loan changed after the last replay.
+                Re-run the replay to refresh the findings.
+            </div>
+        </template>
+
+        <!-- ── Two-pane body ── -->
+        <div class="panes">
+            <!-- LEFT: Evidence pack -->
+            <section class="pane pane--evidence">
+                <header class="pane-head">
+                    <h2 class="pane-title">Evidence pack</h2>
+                    <span class="pane-count">{evidence.length}</span>
+                </header>
+                <template if:true={hasEvidence}>
+                    <ul class="evidence-list">
+                        <template for:each={evidence} for:item="ev">
+                            <li key={ev.recordId} class="evidence-item">
+                                <span class="evidence-doc">{ev.documentType}</span>
+                                <span class="evidence-status" data-status={ev.status}>{ev.status}</span>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template if:false={hasEvidence}>
+                    <p class="empty-state">No evidence items linked to this case.</p>
+                </template>
+            </section>
+
+            <!-- RIGHT: Replay checks / findings -->
+            <section class="pane pane--checks">
+                <header class="pane-head">
+                    <h2 class="pane-title">Replay checks</h2>
+                    <span class="findings-count">{findingsLabel}</span>
+                </header>
+                <template if:true={hasChecks}>
+                    <ul class="check-list">
+                        <template for:each={checks} for:item="ck">
+                            <li key={ck.recordId} class={ck.rowClass}>
+                                <div class="check-main">
+                                    <span class="check-rule">
+                                        <c-glossary-term code={ck.ruleName}></c-glossary-term>
+                                    </span>
+                                    <span class={ck.pillClass}>{ck.result}</span>
+                                </div>
+                                <div class="check-detail">
+                                    <span class="check-kv">Expected <b>{ck.expectedValue}</b></span>
+                                    <span class="check-kv">Actual <b>{ck.actualValue}</b></span>
+                                </div>
+                                <template if:true={ck.rationale}>
+                                    <p class="check-rationale">{ck.rationale}</p>
+                                </template>
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <template if:false={hasChecks}>
+                    <p class="empty-state">
+                        No replay has been run yet. Click &ldquo;Re-run replay&rdquo; to
+                        evaluate the historical policy against this case.
+                    </p>
+                </template>
+            </section>
+        </div>
+    </div>
+</template>

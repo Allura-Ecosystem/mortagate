@@ -1,0 +1,31 @@
+name: Veridact_Auditor_Copilot_v4_RuntimeSelection
+description: >-
+  Proves runtime planner selection of Diagnose_Loan_Audit under the Summarize
+  Rule Violations topic when an auditor asks why a loan failed.
+subjectType: AGENT
+subjectName: Veridact_Auditor_Copilot_v4
+testCases:
+  - utterance: >-
+      Why did this loan fail? Audit case a05gL00000JtZ74QAF.
+    expectedTopic: p_16jAq000000HTgj_Summarize_Rule_Violations
+    expectedActions:
+      - Diagnose_Loan_Audit
+    expectedOutcome: >-
+      The agent invokes the Diagnose_Loan_Audit action and lists the broken
+      rules for the loan, naming each rule, its expected threshold, and the
+      loan's actual value in plain words, deferring the final call to the human
+      auditor.
+    contextVariables:
+      - variableName: auditCaseId
+        variableValue: a05gL00000JtZ74QAF
+  - utterance: >-
+      Which rules did this loan break? Audit case a05gL00000JtZ74QAF.
+    expectedTopic: p_16jAq000000HTgj_Summarize_Rule_Violations
+    expectedActions:
+      - Diagnose_Loan_Audit
+    expectedOutcome: >-
+      The agent invokes the Diagnose_Loan_Audit action and lists each broken
+      rule with the expected value and the loan's actual value in plain words.
+    contextVariables:
+      - variableName: auditCaseId
+        variableValue: a05gL00000JtZ74QAF

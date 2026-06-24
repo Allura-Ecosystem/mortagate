@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Edit_After_Creation</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(ISNEW())</errorConditionFormula>
+    <errorMessage>This record is immutable and cannot be edited after creation.</errorMessage>
+    <description>Agent Action Log is append-only. Blocks all updates after initial insert (FR-25).</description>
+</ValidationRule>

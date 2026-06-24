@@ -8,6 +8,7 @@
         <displayFormat>PRV-{000000}</displayFormat>
         <startingNumber>1</startingNumber>
     </nameField>
+    <enableHistory>true</enableHistory>
     <deploymentStatus>Deployed</deploymentStatus>
     <sharingModel>ReadWrite</sharingModel>
     <description>Versioned business rules — data, not code. Maintained by analysts. Compound key (Rule_Code__c, Version_Number__c). Immutable once referenced by any Decision_Event__c. The governing set is resolved by effective date + active flag at evaluation time.</description>

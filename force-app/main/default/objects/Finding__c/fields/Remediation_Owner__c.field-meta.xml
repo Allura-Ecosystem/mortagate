@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remediation_Owner__c</fullName>
+    <label>Remediation Owner</label>
+    <type>Lookup</type>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Owned_Remediations</relationshipName>
+    <relationshipLabel>Owned Remediations</relationshipLabel>
+    <required>false</required>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Person responsible for remediation</description>
+</CustomField>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AiEvaluationDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Proves planner selection of Diagnose_Loan_Audit (LoanDiagnosisService) under Summarize Rule Violations. Required Apex input auditCaseId is supplied at runtime via the agent contextVariable auditCaseId. Seeded case a05gL00000JtZ74QAF returns 2 violations.</description>
+    <name>Veridact_Auditor_Copilot_v4_RuntimeSelection</name>
+    <subjectName>Veridact_Auditor_Copilot_v4</subjectName>
+    <subjectType>AGENT</subjectType>
+    <subjectVersion>v1</subjectVersion>
+    <testCase>
+        <expectation>
+            <expectedValue>p_16jAq000000HTgj_Summarize_Rule_Violations</expectedValue>
+            <name>topic_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>[&apos;Diagnose_Loan_Audit&apos;]</expectedValue>
+            <name>action_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>The agent invokes the Diagnose_Loan_Audit action and lists the broken rules for the loan, naming each rule, its expected threshold, and the loan&apos;s actual value in plain words, deferring the final call to the human auditor.</expectedValue>
+            <name>bot_response_rating</name>
+        </expectation>
+        <inputs>
+            <contextVariable/>
+            <utterance>Why did this loan fail? Audit case a05gL00000JtZ74QAF.</utterance>
+        </inputs>
+        <number>1</number>
+    </testCase>
+    <testCase>
+        <expectation>
+            <expectedValue>p_16jAq000000HTgj_Summarize_Rule_Violations</expectedValue>
+            <name>topic_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>[&apos;Diagnose_Loan_Audit&apos;]</expectedValue>
+            <name>action_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>The agent invokes the Diagnose_Loan_Audit action and lists each broken rule with the expected value and the loan&apos;s actual value in plain words.</expectedValue>
+            <name>bot_response_rating</name>
+        </expectation>
+        <inputs>
+            <contextVariable/>
+            <utterance>Which rules did this loan break? Audit case a05gL00000JtZ74QAF.</utterance>
+        </inputs>
+        <number>2</number>
+    </testCase>
+</AiEvaluationDefinition>

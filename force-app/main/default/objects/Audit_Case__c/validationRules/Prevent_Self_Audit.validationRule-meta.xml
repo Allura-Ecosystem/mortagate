@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Self_Audit</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(ISBLANK(Signed_Off_By__c)) &amp;&amp; Signed_Off_By__c = Auditor__c</errorConditionFormula>
+    <errorMessage>The sign-off reviewer cannot be the same person as the auditor (FR-12).</errorMessage>
+    <errorDisplayField>Signed_Off_By__c</errorDisplayField>
+    <description>Prevents the auditor from signing off their own case.</description>
+</ValidationRule>

@@ -49,10 +49,11 @@ Invoke **Scout** (Grace Hopper persona) to search Allura Brain memory. Scout ret
 
 ## Tool Access
 
-Scout uses read-only tools:
-- `mcp__MCP_DOCKER__query_database` — Natural language SQL
-- `mcp__MCP_DOCKER__execute_sql` — Raw SQL queries
-- `mcp__MCP_DOCKER__read_neo4j_cypher` — Neo4j graph queries
+Scout uses read-only tools. Prefer the governed Allura Brain surface; fall back to raw DB query only for shapes the Brain API can't express:
+- `mcp__allura-brain__memory_search` — federated semantic search (PostgreSQL + Neo4j), scored
+- `mcp__allura-brain__memory_list` — list/scan memories by tenant + user
+- `mcp__allura-brain__audit_query_events` — read append-only event/trace rows
+- Fallback (read-only, sanctioned MCP — never `docker exec`): `mcp__MCP_DOCKER__execute_sql`, `mcp__MCP_DOCKER__read_neo4j_cypher`
 
 ## Limitations
 

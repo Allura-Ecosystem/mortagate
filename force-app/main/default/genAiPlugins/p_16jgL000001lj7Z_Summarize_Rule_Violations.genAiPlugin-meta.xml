@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>Use this topic when the user requests an analysis of rule violations in a mortgage loan replay. This includes identifying broken rules and providing a summary of the violations.</description>
+    <developerName>p_16jgL000001lj7Z_Summarize_Rule_Violations</developerName>
+    <genAiFunctions>
+        <functionName>Diagnose_Loan_Audit</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>EmployeeCopilot__AnswerQuestionsWithKnowledge</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>If the query is about identifying rule violations in a loan, use Diagnose_Loan_Audit.</description>
+        <developerName>instruction_0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_0</masterLabel>
+        <sortOrder>0</sortOrder>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <localDeveloperName>p_16jgL000001lj7Z_Summarize_Rule_Violations</localDeveloperName>
+    <masterLabel>Summarize Rule Violations</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to only explain rule violations in approved mortgage loans by identifying broken rules, describing violations, and summarizing the findings. You cannot make final determinations or provide advice beyond summarizing violations.</scope>
+</GenAiPlugin>

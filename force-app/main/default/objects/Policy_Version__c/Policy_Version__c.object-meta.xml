@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Policy Version</label>
+    <pluralLabel>Policy Versions</pluralLabel>
+    <nameField>
+        <label>Policy Version Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>PV-{000000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>A versioned container for a set of lending policy rules with effective date range. Split from the old Policy_Rule_Version__c.</description>
+</CustomObject>

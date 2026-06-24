@@ -1,0 +1,243 @@
+:host {
+    /* Figma blue tokens (shared with c-audit-queue) + Veridact semantics. */
+    --blue: #1d4ed8;
+    --ink: #18212e;
+    --muted: #6a7281;
+    --surface: #ffffff;
+    --shell: #fbf9f3;
+    --pass: #157a4a;
+    --violation: #b23a22;
+    --exception: #8a5a00;
+    --amber: #e25d22;
+    --radius: 12px;
+    display: block;
+    background: var(--shell);
+    padding: 24px 28px 0 28px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.signoff-shell {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+/* ── Header ── */
+.signoff-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+.case-number {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 4px 0;
+    letter-spacing: 0.02em;
+}
+.borrower-name {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+}
+.header-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 6px 0 0 0;
+}
+.loan-cell {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    font-weight: 600;
+}
+.header-badges {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.risk-chip {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #eef2ff;
+    color: var(--blue);
+    white-space: nowrap;
+}
+.risk-chip[data-tier='High'] { background: #fbe9e6; color: var(--violation); }
+.demo-badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--amber);
+    color: #ffffff;
+}
+
+/* ── Summary card ── */
+.summary-card {
+    background: var(--surface);
+    border: 1px solid #e7e2d6;
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 18px;
+}
+.summary-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+.summary-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+}
+.chip {
+    padding: 5px 13px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.chip--clear { background: #e6f4ec; color: var(--pass); }
+.chip--findings { background: #fbe9e6; color: var(--violation); }
+
+.count-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+.count-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 8px;
+    background: var(--shell);
+    border-radius: 10px;
+}
+.count-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+.count-value--pass { color: var(--pass); }
+.count-value--violation { color: var(--violation); }
+.count-value--exception { color: var(--exception); }
+.count-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+/* ── Signed receipt card ── */
+.receipt-card {
+    background: var(--surface);
+    border: 1px solid #cfe6da;
+    border-left: 4px solid var(--pass);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 18px;
+}
+.receipt-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--pass);
+    margin: 0 0 12px 0;
+}
+.receipt-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--pass);
+    flex-shrink: 0;
+}
+.receipt-line {
+    font-size: 14px;
+    color: var(--ink);
+    margin: 4px 0;
+}
+.hash-block {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #eee8da;
+}
+.hash-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+.hash-value {
+    display: block;
+    font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--ink);
+    word-break: break-all;
+    background: var(--shell);
+    padding: 8px 10px;
+    border-radius: 8px;
+}
+.hash-disclosure {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--muted);
+    margin: 6px 0 0 0;
+}
+
+/* ── Action row ── */
+.action-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+.signoff-btn {
+    align-self: flex-start;
+    height: 44px;
+    padding: 0 26px;
+    background: var(--blue);
+    border: none;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.signoff-btn:hover { background: #1741b6; }
+.signoff-btn:disabled { opacity: 0.6; cursor: default; }
+.signoff-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.action-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+}
+
+.empty-state {
+    font-size: 14px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px dashed #d9d3c4;
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 18px;
+}
+
+/* The amber accent bar is present in every state. */
+.accent-bar {
+    height: 4px;
+    background: var(--amber);
+    border-radius: 2px;
+    margin-top: 4px;
+}

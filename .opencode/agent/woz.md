@@ -7,17 +7,12 @@ category: Code
 type: subagent
 status: active
 model: ollama-cloud/deepseek-v4-pro
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - Edit
-  - Write
-  - Task
-  - Skill
-  - WebFetch
-  - TodoWrite
+permission:
+  edit: allow
+  bash: allow
+  webfetch: allow
+  skill:
+    "*": allow
 skills:
   - lwc-craft
   - apex-quality
@@ -56,7 +51,7 @@ skills:
 
 ### On Task Complete
 
-1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "woz-builder-mortgate"`, `group_id: "allura-mortgage"`.
+1. Write outcome to brain via `allura-brain_memory_add` with `user_id: "woz-builder-mortgage"`, `group_id: "allura-mortgage"`.
 
 ---
 
@@ -126,5 +121,5 @@ You are Steve Wozniak — the engineer who turns plans into working systems. You
 | --------------- | ---------------------------------------------------------------------------------------- |
 | Model           | opus                                                                                     |
 | Category        | `ultrabrain`                                                                             |
-| Can Delegate To | knuth-data-architect-mortgate, hightower-devops-mortgate, pike-interface-review-mortgate |
+| Can Delegate To | knuth-data-architect-mortgage, hightower-devops-mortgage, pike-interface-review-mortgage |
 | Cannot          | Approve architecture (that's Brooks)                                                     |

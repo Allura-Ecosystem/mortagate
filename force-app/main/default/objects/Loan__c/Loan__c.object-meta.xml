@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Loan</label>
+    <pluralLabel>Loans</pluralLabel>
+    <nameField>
+        <label>Loan Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>LN-{000000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>The loan record being audited. Contains loan-level data snapshotted at audit creation time. Distinct from the origination Loan_Application__c.</description>
+</CustomObject>
