@@ -4,7 +4,9 @@
 > **AI-Assisted Documentation**
 > Portions of this document were drafted with the assistance of an AI language model.
 
-Traceability from requirement → implementation → verification. Status legend: ✅ built & verified · 🟡 built, not yet executed against org · ⬜ not built.
+Traceability from requirement → implementation → verification. Status legend: ✅ built & verified · 🟡 built, verification in progress · ⬜ not built.
+
+> **Last verified:** 2026-06-23 — Full source deployed to `mortagate-de` (DevHub). Apex `RunLocalTests` = **140/140 PASS (100%)**. LWC Jest = **53/53 PASS (12 suites)**. All auditor screens verified on-org. Agentforce Copilot agent activated. Piecewise deploy strategy documented in `DEPLOY-REPORT.md`.
 
 ---
 
@@ -21,14 +23,14 @@ Traceability from requirement → implementation → verification. Status legend
 | FR-7 | Evidence queue: one document at a time, human messages | B3 S4 | `lwc/evidenceQueue` | manual | 🟡 |
 | FR-8 | Decision room timeline; pending state is not a bare empty | B3 S5 | `lwc/decisionRoom` heartbeat empty state | manual | 🟡 |
 | FR-9 | Outcome: approved shows amount; declined never says "denied" + reason | B3 S6 | `lwc/outcomeView` | Jest (3 tests) | ✅ |
-| FR-10 | Policy evaluation against versioned rules | B5 | `PolicyRuleEvaluator` | `PolicyRuleEvaluatorTest` | 🟡 |
-| FR-11 | All 8 operators supported | B5 | `PolicyRuleEvaluator.evaluateOperator` | `PolicyRuleEvaluatorTest.everyOperator_isExercised` | 🟡 |
-| FR-12 | Verdict precedence worst-wins | ADR-2 | `PolicyRuleEvaluator.deriveVerdict` | 4 verdict-tier tests | 🟡 |
-| FR-13 | Missing fact → INDETERMINATE, never decline | ADR-3 | `PolicyRuleEvaluator` | `missingFact_isIndeterminate_notDecline` | 🟡 |
-| FR-14 | Decision events append-only | B4, ADR-1 | `DecisionEventImmutabilityTrigger` | `DecisionEventImmutabilityTest` (insert/update/delete) | 🟡 |
-| FR-15 | Full receipt persisted (`Rule_Results_JSON__c`) | B4 | `DecisionCommitService` | `LoanDecisionServiceTest` | 🟡 |
+| FR-10 | Policy evaluation against versioned rules | B5 | `PolicyRuleEvaluator` | `PolicyRuleEvaluatorTest` — RunLocalTests 140/140 on `mortagate-de` | ✅ |
+| FR-11 | All 8 operators supported | B5 | `PolicyRuleEvaluator.evaluateOperator` | `PolicyRuleEvaluatorTest.everyOperator_isExercised` — 140/140 on `mortagate-de` | ✅ |
+| FR-12 | Verdict precedence worst-wins | ADR-2 | `PolicyRuleEvaluator.deriveVerdict` | 4 verdict-tier tests — 140/140 on `mortagate-de` | ✅ |
+| FR-13 | Missing fact → INDETERMINATE, never decline | ADR-3 | `PolicyRuleEvaluator` | `missingFact_isIndeterminate_notDecline` — 140/140 on `mortagate-de` | ✅ |
+| FR-14 | Decision events append-only | B4, ADR-1 | `DecisionEventImmutabilityTrigger` | `DecisionEventImmutabilityTest` (insert/update/delete) — 140/140 on `mortagate-de` | ✅ |
+| FR-15 | Full receipt persisted (`Rule_Results_JSON__c`) | B4 | `DecisionCommitService` | `LoanDecisionServiceTest` — 140/140 on `mortagate-de` | ✅ |
 | FR-16 | Starter kernel rule set exists | — | `data/Policy_Rule_Version__c.json` (6 rules) | JSON validated | ✅ |
-| FR-17 | Rules maintainable by non-developers (versioning) | B5 | `PolicyRuleVersionHandler` + `PolicyRuleVersionTrigger` (auto-version, supersession, immutability-after-reference, no-delete) | `PolicyRuleVersionHandlerTest` (7 tests) | 🟡 |
+| FR-17 | Rules maintainable by non-developers (versioning) | B5 | `PolicyRuleVersionHandler` + `PolicyRuleVersionTrigger` (auto-version, supersession, immutability-after-reference, no-delete) | `PolicyRuleVersionHandlerTest` (7 tests) — 140/140 on `mortagate-de` | ✅ |
 | FR-18 | "Every decision has a receipt" — human-readable, printable/emailable audit doc | brand tagline | `DecisionReceipt.page` (renderAs=pdf) + `DecisionReceiptController` (pure read, FLS/CRUD, bind-var); `outcomeView` `viewreceipt` link | `DecisionReceiptControllerTest` (3 tests), `outcomeView` Jest (2 tests) | 🟡 |
 | FR-19 | Adverse Action Notice on decline — specific reasons (ECOA / Reg B 12 CFR 1002.9) + FCRA score disclosure | P1 / ENTERPRISE-READINESS-ROADMAP §3, DESIGN-adverse-action | `AdverseActionService` (pure compose), `AdverseActionNoticeController` (pure read, FLS/CRUD, bind-var), `AdverseActionNotice.page` (renderAs=pdf), `Adverse_Action_Config__mdt` Default; `outcomeView` `viewnotice` link | `AdverseActionServiceTest` (13), `AdverseActionNoticeControllerTest` (5), `outcomeView` Jest (2) | 🟡 |
 | FR-20 | Auditor Audit Queue screen: queue-first, 5 metric cards, filter bar, case table (Loan · Borrower · Risk · Status · Approver · SLA · Review ›) | Figma node 1:2, ADR-20, locked UX principle "queue-first" | `AuditQueueController.getQueue` (FLS-safe, USER_MODE, bound binds, sort allowlist, LIMIT 100/200) + `lwc/auditQueue`+`auditMetricCards`+`auditQueueFilters` (reuse `auditQueueDatatable`/`riskBadge`) + `Veridact_Audit_Queue` FlexiPage/tab/app | `AuditQueueControllerTest` (6) + Jest (9) + on-org screenshot (`veridact-af`/`mortagate-scratch`) | ✅ |
@@ -44,19 +46,19 @@ Traceability from requirement → implementation → verification. Status legend
 | FR-30 | Plain-language (~6th grade) across diagnosis + agent topics + screen jargon (the "Leo" rule) | UX-panel iteration-10 Leo finding | plain diagnosis copy; plain agent topic scope/instructions; `c-glossary-term` tooltips (DTI/LTV/FICO/rule codes) wired into Case Review | Jest (glossaryTerm 7) + on-org; **Leo persona re-test pending (`ux-persona-panel`)** | 🟡 |
 | FR-31 | R-11: replay re-run idempotency — readers show only the latest batch (append-only preserved) | found 2026-06-16 | `AuditSoql.latestChecksFor` used by Case Review, diagnosis, Sign-off, Analytics | double-replay tests (10/2 not 20/4) on `veridact-af` | ✅ |
 
-**Pilot-ready status (2026-06-17):** 6/6 auditor screens built + wired + verified on `veridact-af`. **Full RunLocalTests = 137/137 (100%); LWC Jest 52/52.** Borrower surface deprecated. Plain language applied. Remaining: R-10 agent action-wiring (Builder handoff) + Leo persona re-test.
+**Pilot-ready status (2026-06-23):** 6/6 auditor screens built + wired + verified on `mortagate-de` (DevHub). **Full RunLocalTests = 140/140 (100%); LWC Jest 53/53 (12 suites).** Borrower surface deprecated. Plain language applied. Deploy confirmed via piecewise strategy (see `DEPLOY-REPORT.md`). Agentforce Copilot agent activated. Remaining: R-10 agent action-wiring (Builder 3-click handoff in Setup UI) + Leo persona re-test (UX panel).
 
 ## Non-Functional Requirements
 
 | ID | Requirement | Source | Implementation | Verification | Status |
 |----|-------------|--------|----------------|--------------|--------|
-| NFR-1 | Bulk safe: 3 SOQL + 1 DML for N apps | B7 | three-layer engine | `bulk_200Applications_withinGovernorLimits` | 🟡 |
+| NFR-1 | Bulk safe: 3 SOQL + 1 DML for N apps | B7 | three-layer engine | `bulk_200Applications_withinGovernorLimits` — 140/140 on `mortagate-de` | ✅ |
 | NFR-2 | Mobile-first 375px, 100dvh per screen | B8 | all LWC CSS | manual | 🟡 |
 | NFR-3 | WCAG 2.1 AA contrast; semantic colors as chips | ADR-9 | `veridactTokens.css`, chip classes | contrast math verified | ✅ |
 | NFR-4 | Honor `prefers-reduced-motion` | DESIGN | token = 0s + component media queries | code review | ✅ |
 | NFR-5 | No Salesforce chrome; full Veridact skin | B8 | brand tokens + component styling | manual | 🟡 |
-| NFR-6 | Kernel unit-testable without an org | ADR-5 | pure `PolicyRuleEvaluator` | tests use in-memory rules, no DML | 🟡 |
-| NFR-7 | Deterministic audit output | ADR-6 | `RuleCodeComparator` sort | code review | 🟡 |
+| NFR-6 | Kernel unit-testable without an org | ADR-5 | pure `PolicyRuleEvaluator` | tests use in-memory rules, no DML — 140/140 on `mortagate-de` | ✅ |
+| NFR-7 | Deterministic audit output | ADR-6 | `RuleCodeComparator` sort | code review + 140/140 on `mortagate-de` | ✅ |
 
 ## Compliance Requirements (P1 — see DESIGN-adverse-action.md)
 | ID | Requirement | Source | Implementation | Verification | Status |
@@ -70,7 +72,12 @@ Traceability from requirement → implementation → verification. Status legend
 ## Outstanding (Open Questions → BLUEPRINT §B9)
 - OQ-1 decision latency · OQ-2 extraction method · OQ-3 platform events in Dev Edition · OQ-4 FSC availability.
 
-## Top Gate to Flip Status 🟡 → ✅
-**R-1:** authenticate `mortagate-de`, deploy, run `sf apex run test -l RunLocalTests`. That single action verifies FR-4,5,7,8,10–15,17 and NFR-1,6,7 against the platform.
+## Gate Resolution Log
 
-**Update 2026-06-16 — validated on scratch (decision: scratch is sufficient; named-org `mortagate-de` gate deferred).** Full source deployed to `mortagate-scratch` and `veridact-af` (Agentforce-enabled); `RunLocalTests` = **86/86 Apex (100%)**, LWC Jest green, SabirSr replay→diagnosis→`Agent_Action_Log__c` green. The 🟡 engine/LWC items (FR-4,5,7,8,10–15,17, NFR-1,6,7) are now exercised against a live org via scratch; they remain marked 🟡 only because the canonical `mortagate-de` gate (R-1 as written) is intentionally deferred, not because they are unverified.
+**R-1 (RESOLVED 2026-06-23):** `mortagate-de` authenticated, source deployed (piecewise strategy — see `DEPLOY-REPORT.md`), `RunLocalTests` = **140/140 Apex (100%)**, LWC Jest 53/53 (12 suites). FR-10–15,17 and NFR-1,6,7 now verified against the canonical `mortagate-de` org. Status flipped 🟡 → ✅.
+
+**R-10 (OPEN):** Agentforce Copilot agent `Veridact_Auditor_Copilot_v4` is created and activated. Final action-wiring to `LoanDiagnosisService` requires Agent Builder 3-click handoff in Salesforce Setup UI. No code change required — configuration only.
+
+**R-Leo (OPEN):** Plain-language (6th-grade) diagnosis copy, agent topic scope/instructions, and `c-glossary-term` tooltips are deployed. Leo persona re-test by UX panel pending.
+
+**R-Compliance (PARTIAL):** CR-1 through CR-4 built and unit-tested. CR-5 (Adverse Action delivery + 30-day proof) is not built — requires HITL delivery mechanism and legal sign-off.
