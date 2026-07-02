@@ -271,11 +271,11 @@ public with sharing class FindingDraftService {
     // ── DTOs ─────────────────────────────────────────────────────────────
 
     public class Request {
-        @InvocableVariable(required=true label='Audit Case Id')
+        @InvocableVariable(required=true label='Audit Case Id' description='The 15- or 18-character Salesforce record Id of the Audit_Case__c the auditor is asking about (Audit Case Ids start with a05). Extract it directly from the user request, e.g. "summarize audit case a05gL00000JtZ74QAF".')
         public Id auditCaseId;
-        @InvocableVariable(label='Replay Check Id (optional)')
+        @InvocableVariable(label='Replay Check Id (optional)' description='Optional Id of the specific Replay_Check__c to draft from')
         public Id replayCheckId;
-        @InvocableVariable(label='Rule code (optional, resolved against latest batch)')
+        @InvocableVariable(label='Rule code (optional, resolved against latest batch)' description='Optional rule code such as DTI_MAX naming the failed rule to draft a finding for')
         public String ruleCode;
     }
 

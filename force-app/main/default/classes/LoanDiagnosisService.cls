@@ -328,7 +328,7 @@ public with sharing class LoanDiagnosisService {
     // ── DTOs ────────────────────────────────────────────────────────────
 
     public class Request {
-        @InvocableVariable(required=true label='Audit Case Id')
+        @InvocableVariable(required=true label='Audit Case Id' description='The 15- or 18-character Salesforce record Id of the Audit_Case__c the auditor is asking about (Audit Case Ids start with a05). Extract it directly from the user request, e.g. "summarize audit case a05gL00000JtZ74QAF".')
         public Id auditCaseId;
     }
 

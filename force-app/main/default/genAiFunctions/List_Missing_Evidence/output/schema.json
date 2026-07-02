@@ -1,0 +1,50 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "summary" : {
+      "title" : "Missing-evidence summary",
+      "description" : "Plain-language list of what is still needed to clear the audit case, required documents first.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "missingEvidenceCount" : {
+      "title" : "Missing evidence count",
+      "description" : "Total number of tracked documents that are not yet linked.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "requiredMissingCount" : {
+      "title" : "Required missing count",
+      "description" : "Number of required documents that are still missing.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "unverifiableCount" : {
+      "title" : "Unverifiable check count",
+      "description" : "Number of replay checks that could not be verified because supporting papers are missing.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "items" : {
+      "title" : "Outstanding items (ranked)",
+      "description" : "Ranked list of outstanding items, required documents first, then optional, then unverifiable checks.",
+      "items" : {
+        "lightning:type" : "lightning__textType"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}
