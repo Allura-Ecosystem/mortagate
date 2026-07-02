@@ -1,6 +1,6 @@
 :host {
     display: block;
-    background: #fbf9f3;
+    background: var(--veridact-surface, #F5F0E8);
     padding: 24px 28px 40px 28px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
@@ -12,13 +12,13 @@
 .pv-title {
     font-size: 28px;
     font-weight: 700;
-    color: #18212e;
+    color: var(--veridact-ink, #1F1E1C);
     margin: 0;
 }
 
 .pv-subtitle {
     font-size: 14px;
-    color: #6a7281;
+    color: var(--veridact-ink-muted, #645D53);
     margin: 6px 0 0 0;
 }
 
@@ -39,7 +39,7 @@
 .pv-card-title {
     font-size: 16px;
     font-weight: 600;
-    color: #18212e;
+    color: var(--veridact-ink, #1F1E1C);
     margin: 0 0 14px 0;
 }
 
@@ -58,15 +58,15 @@
     cursor: pointer;
 }
 .version-row:hover {
-    border-color: #1d4ed8;
+    border-color: var(--veridact-accent-strong, #B8441A);
 }
 .version-row:focus {
-    outline: 2px solid #1d4ed8;
+    outline: 2px solid var(--veridact-accent-strong, #B8441A);
     outline-offset: 1px;
 }
 .version-row--selected {
-    border-color: #1d4ed8;
-    background: #f3f6ff;
+    border-color: var(--veridact-accent-strong, #B8441A);
+    background: var(--veridact-warn-tint, #fdf0d9);
 }
 
 .version-row__top {
@@ -79,13 +79,13 @@
 .version-row__label {
     font-size: 14px;
     font-weight: 600;
-    color: #18212e;
+    color: var(--veridact-ink, #1F1E1C);
 }
 
 .version-row__meta {
     margin-top: 6px;
     font-size: 12px;
-    color: #6a7281;
+    color: var(--veridact-ink-muted, #645D53);
 }
 .version-row__meta .dot {
     margin: 0 6px;
@@ -97,12 +97,12 @@
     padding: 2px 8px;
     border-radius: 999px;
     background: #eceae3;
-    color: #6a7281;
+    color: var(--veridact-ink-muted, #645D53);
     white-space: nowrap;
 }
 .status-chip--active {
-    background: #e3f3ea;
-    color: #157a4a;
+    background: var(--veridact-approved-tint, #e3f3ea);
+    color: var(--veridact-approved, #16734a);
 }
 
 /* ── RIGHT: rules table ── */
@@ -123,7 +123,7 @@
     padding: 12px 10px;
     border-bottom: 1px solid #f3f1ea;
     vertical-align: top;
-    color: #18212e;
+    color: var(--veridact-ink, #1F1E1C);
 }
 
 .rule-label {
@@ -137,7 +137,7 @@
 }
 .rule-threshold {
     font-family: 'JetBrains Mono', monospace;
-    color: #1d4ed8;
+    color: var(--veridact-accent-strong, #B8441A);
 }
 
 .severity-pill {
@@ -146,24 +146,24 @@
     padding: 2px 8px;
     border-radius: 999px;
     background: #eceae3;
-    color: #6a7281;
+    color: var(--veridact-ink-muted, #645D53);
     white-space: nowrap;
 }
 .severity-pill--hard {
-    background: #fbe6e1;
-    color: #b23a22;
+    background: var(--veridact-declined-tint, #fbe6e1);
+    color: var(--veridact-declined, #8a3324);
 }
 .severity-pill--soft {
-    background: #fbe6e1;
-    color: #b23a22;
+    background: var(--veridact-declined-tint, #fbe6e1);
+    color: var(--veridact-declined, #8a3324);
 }
 .severity-pill--warning {
-    background: #fdf0d9;
-    color: #8a5a00;
+    background: var(--veridact-warn-tint, #fdf0d9);
+    color: var(--veridact-warn, #8a5a00);
 }
 .severity-pill--info {
-    background: #e8eefb;
-    color: #1d4ed8;
+    background: var(--veridact-warn-tint, #fdf0d9);
+    color: var(--veridact-accent-strong, #B8441A);
 }
 
 .empty-state {

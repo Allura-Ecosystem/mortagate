@@ -1,7 +1,8 @@
-/* Brand tokens mirror c-audit-queue / c-case-review (Figma blue kit). */
+/* Veridact brand tokens (v2.0.0 cream+orange). Fall back to brand hex when the
+   static resource is unwired. */
 :host {
-    --ink: #18212e;
-    --muted: #6a7281;
+    --ink: var(--veridact-ink, #1F1E1C);
+    --muted: var(--veridact-ink-muted, #645D53);
     display: inline;
 }
 

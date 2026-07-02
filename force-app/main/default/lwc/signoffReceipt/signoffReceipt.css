@@ -1,14 +1,16 @@
 :host {
-    /* Figma blue tokens (shared with c-audit-queue) + Veridact semantics. */
-    --blue: #1d4ed8;
-    --ink: #18212e;
-    --muted: #6a7281;
-    --surface: #ffffff;
-    --shell: #fbf9f3;
-    --pass: #157a4a;
-    --violation: #b23a22;
-    --exception: #8a5a00;
-    --amber: #e25d22;
+    /* Veridact brand tokens (v2.0.0 cream+orange, R-3 resolved → orange).
+       Resolve to the wired static resource when present, else fall back to the
+       exact brand hex so the component renders on-brand in isolation. */
+    --blue: var(--veridact-accent-strong, #B8441A);
+    --ink: var(--veridact-ink, #1F1E1C);
+    --muted: var(--veridact-ink-muted, #645D53);
+    --surface: var(--veridact-card, #ffffff);
+    --shell: var(--veridact-surface, #F5F0E8);
+    --pass: var(--veridact-approved, #16734a);
+    --violation: var(--veridact-declined, #8a3324);
+    --exception: var(--veridact-warn, #8a5a00);
+    --amber: var(--veridact-proof-amber, #E25D22);
     --radius: 12px;
     display: block;
     background: var(--shell);
@@ -62,11 +64,11 @@
     border-radius: 999px;
     font-size: 13px;
     font-weight: 600;
-    background: #eef2ff;
+    background: var(--veridact-warn-tint, #fdf0d9);
     color: var(--blue);
     white-space: nowrap;
 }
-.risk-chip[data-tier='High'] { background: #fbe9e6; color: var(--violation); }
+.risk-chip[data-tier='High'] { background: var(--veridact-declined-tint, #fbe6e1); color: var(--violation); }
 .demo-badge {
     padding: 4px 12px;
     border-radius: 999px;
@@ -104,8 +106,8 @@
     font-size: 13px;
     font-weight: 600;
 }
-.chip--clear { background: #e6f4ec; color: var(--pass); }
-.chip--findings { background: #fbe9e6; color: var(--violation); }
+.chip--clear { background: var(--veridact-approved-tint, #e3f3ea); color: var(--pass); }
+.chip--findings { background: var(--veridact-declined-tint, #fbe6e1); color: var(--violation); }
 
 .count-grid {
     display: grid;
@@ -215,7 +217,7 @@
     border-radius: 10px;
     cursor: pointer;
 }
-.signoff-btn:hover { background: #1741b6; }
+.signoff-btn:hover { background: #8f3413; } /* darker deep-orange — white text 7.9:1 ✅ */
 .signoff-btn:disabled { opacity: 0.6; cursor: default; }
 .signoff-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .action-note {

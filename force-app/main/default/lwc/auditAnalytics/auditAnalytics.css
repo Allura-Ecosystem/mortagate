@@ -1,14 +1,16 @@
 :host {
-    /* Figma blue kit tokens — shared with c-audit-queue. */
-    --canvas: #fbf9f3;
-    --ink: #18212e;
-    --muted: #6a7281;
-    --accent: #1d4ed8;
-    --card: #ffffff;
-    --card-shadow: 0 6px 20px -4px rgba(20, 35, 41, 0.08);
-    --fail: #b23a22;
-    --pass: #157a4a;
-    --warn: #8a5a00;
+    /* Veridact brand tokens (v2.0.0 cream+orange, R-3 resolved → orange).
+       Resolve to the wired static resource when present, else fall back to the
+       exact brand hex so the component renders on-brand in isolation. */
+    --canvas: var(--veridact-surface, #F5F0E8);
+    --ink: var(--veridact-ink, #1F1E1C);
+    --muted: var(--veridact-ink-muted, #645D53);
+    --accent: var(--veridact-accent-strong, #B8441A);
+    --card: var(--veridact-card, #ffffff);
+    --card-shadow: 0 6px 20px -4px rgba(31, 30, 28, 0.10);
+    --fail: var(--veridact-declined, #8a3324);
+    --pass: var(--veridact-approved, #16734a);
+    --warn: var(--veridact-warn, #8a5a00);
 
     display: block;
     background: var(--canvas);

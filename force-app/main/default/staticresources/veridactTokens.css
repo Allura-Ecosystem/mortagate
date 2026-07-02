@@ -22,9 +22,16 @@
 :root {
     /* --- Core Palette (v2.0.0: light palette) --- */
     --veridact-indigo-depth: #F5F0E8;   /* Cream — primary background (was indigo) */
-    --veridact-proof-amber: #E25D22;    /* Orange — accent, CTAs (was amber) */
+    --veridact-proof-amber: #E25D22;    /* Orange — accent for SURFACES/large-text only (3.18:1 on cream — NOT for normal body text or white labels) */
+    --veridact-accent-strong: #B8441A;  /* Deep orange — use whenever orange must carry TEXT meaning: orange text on cream 4.77:1 ✅, white label on this bg 5.41:1 ✅ (WCAG AA fix, ADR-UX-01) */
     --veridact-white: #1F1E1C;          /* Charcoal — primary text (was white) */
-    --veridact-white-60: rgba(31, 30, 28, 0.5);  /* Charcoal muted — secondary text (was white-60) */
+    --veridact-white-60: rgba(31, 30, 28, 0.5);  /* DECORATIVE ONLY — composited 3.15:1 on cream, FAILS AA for text. For muted TEXT use --veridact-ink-muted (#645D53, 5.73:1) */
+
+    /* --- Extended semantic colors (ADR-UX-02, 2026-07-01) ---
+       Added to eliminate out-of-palette hexes hardcoded across 11 LWCs.
+       WCAG AA verified on Cream #F5F0E8 (normal text ≥4.5:1). */
+    --veridact-link: #1d4ed8;           /* Links / primary blue text — 5.91:1 on cream ✅, white-on-link 6.70:1 ✅ */
+    --veridact-warn: #8a5a00;           /* Warning / caution text — 5.22:1 on cream ✅, white-on-warn 5.93:1 ✅ */
 
     /* --- Semantic decision colors (CHIP/BADGE backgrounds, NOT text) ---
        WCAG ratios verified on Cream #F5F0E8 background.
@@ -40,6 +47,13 @@
     --veridact-review-on: #ffffff;
     --veridact-declined: #8a3324;       /* chip bg — white text 8.14:1 ✅ (unchanged) */
     --veridact-declined-on: #ffffff;
+
+    /* --- Semantic tint fills (soft status backgrounds, ADR-UX-02) ---
+       Very light fills for banners/rows. Charcoal #1F1E1C text on each ≥13.8:1 ✅. */
+    --veridact-approved-tint: #e3f3ea;  /* soft green fill */
+    --veridact-declined-tint: #fbe6e1;  /* soft red fill */
+    --veridact-review-tint: #eef2ff;    /* soft blue fill */
+    --veridact-warn-tint: #fdf0d9;      /* soft amber fill */
 
     /* --- Surfaces (light mode borrower portal — v2.0.0) --- */
     --veridact-surface: #F5F0E8;        /* Page background — Cream */
