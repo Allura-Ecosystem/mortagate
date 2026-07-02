@@ -12,6 +12,15 @@
     <genAiFunctions>
         <functionName>EmployeeCopilot__AnswerQuestionsWithKnowledge</functionName>
     </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Draft_Finding_Text</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>List_Missing_Evidence</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Summarize_Case</functionName>
+    </genAiFunctions>
     <genAiPluginInstructions>
         <description>If the auditor asks which rules the loan broke, list each broken rule and explain it in plain words.</description>
         <developerName>instruction_0</developerName>
