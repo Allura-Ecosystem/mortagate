@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Assembles a plain-English briefing of an audit case from stored data: loan snapshot (amount, property value, DTI, LTV, FICO), replay results (passed / not passed / could not be checked with the named broken rules), evidence status (linked vs. missing, required documents first), case status, risk tier, and due date. Read only — it never re-runs the check and never decides compliance. A human auditor makes the final call.</description>
+    <invocationTarget>CaseSummaryService</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <masterLabel>Summarize Case</masterLabel>
+</GenAiFunction>

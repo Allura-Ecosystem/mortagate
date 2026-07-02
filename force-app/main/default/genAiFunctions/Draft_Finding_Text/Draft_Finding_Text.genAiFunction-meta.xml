@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Drafts finding narrative text from a failing replay check (given an audit case plus a replay check id or a rule code): the plain rule name and code, what the rule expects versus what the loan shows, why it matters, and the linked evidence. The text is a starting point suitable for the Finding Description field. Draft only — it never creates or edits a Finding record; the human auditor accepts or edits it and makes the final determination.</description>
+    <invocationTarget>FindingDraftService</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <masterLabel>Draft Finding Text</masterLabel>
+</GenAiFunction>
