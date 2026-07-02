@@ -1,0 +1,3 @@
+# AC-0001 "Priya Nair" repair — replay evidence (2026-07-02, Knuth)
+
+Additive fix via `scripts/fix-ac-0001.apex` on `mortagate-de`. Inserted Loan `a0EgL000009btOXUAY` (linked to AC-0001 `a05gL00000JbEfOQAV`), 2 Borrower_Snapshot (Credit DTI 52.0 / FICO 600; Asset LTV 85 / Asset 45000), 2 required-Missing Evidence (Employment_Verification, Tax_Return). `ReplayService.replay('a05gL00000JbEfOQAV')` produced 10 Replay_Check rows: 6 Fail (HARD_DECLINE DTI_MAX/FICO_MIN/LTV_MAX + DTI_WARN/FICO_PREF/ASSET_MIN), 3 Pass (DEBT_MAX/INCOME_MIN/LTV_PREF), 1 Unverifiable (EMPLOY_MIN). Risk_Tier__c unchanged = Critical; Status__c unchanged = In_Review. Ledger objects untouched.
