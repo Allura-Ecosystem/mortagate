@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Creates an internal follow-up task for the assigned auditor about the rule violations found on an audit case; never emails or contacts anyone externally. If the case's latest replay has no violations, no task is created. It reads the deterministic replay result and raises a task for a human — it never decides compliance, never closes a case, and never contacts a borrower. Idempotent: it will not create a duplicate task if an open alert already exists for the case.</description>
+    <invocationTarget>ViolationAlertService</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <masterLabel>Send Violation Alert</masterLabel>
+</GenAiFunction>
