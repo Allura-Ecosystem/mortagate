@@ -1,0 +1,39 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "draftText" : {
+      "title" : "Draft evidence-request text",
+      "description" : "The drafted, professional request message listing the documents still needed to complete the audit case, required documents first. Draft only — not sent.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "caseName" : {
+      "title" : "Case name",
+      "description" : "The name of the audit case the request was drafted for.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "missingCount" : {
+      "title" : "Missing document count",
+      "description" : "Total number of tracked documents that are not yet linked and were included in the request.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "requiredMissingCount" : {
+      "title" : "Required missing count",
+      "description" : "Number of required documents that are still missing and were requested.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}
