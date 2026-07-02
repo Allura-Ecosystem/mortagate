@@ -24,21 +24,11 @@ public with sharing class LoanDiagnosisService {
     private static final String FINAL_AUTHORITY =
         'A human auditor must make the final call on this loan.';
 
-    // THE LEO FLIP (mirrors lwc/glossaryTerm): each per-rule line now LEADS WITH
-    // the plain NAME and keeps the raw code as a parenthetical badge. Code → plain
-    // name. Unknown codes fall back to the raw code itself (never blank).
-    private static final Map<String, String> PLAIN_NAME = new Map<String, String>{
-        'DTI_MAX'    => 'Debt vs. income too high',
-        'DTI_WARN'   => 'Debt vs. income is getting high',
-        'FICO_MIN'   => 'Credit score too low',
-        'LTV_MAX'    => 'Loan too big vs. home value',
-        'INCOME_MIN' => 'Income is below the minimum needed',
-        'EMPLOY_MIN' => 'Has not worked at the job long enough',
-        'ASSET_MIN'  => 'Not enough savings in the bank',
-        'DEBT_MAX'   => 'Total debt is over the limit',
-        'FICO_PREF'  => 'Credit score is below the preferred level',
-        'LTV_PREF'   => 'Loan is bigger than the preferred level vs. home value'
-    };
+    // THE LEO FLIP (mirrors lwc/glossaryTerm): each per-rule line LEADS WITH the
+    // plain NAME and keeps the raw code as a parenthetical badge. The rule-code →
+    // plain-name vocabulary and the number formatting now live in the shared
+    // RuleNarration helper (ADR-26), so every governed action narrates a replay
+    // check the same way. This service delegates to it (see narrate()).
 
     // ── Invocable entry point (Agentforce GenAiFunction / Flow) ─────────
 
@@ -183,9 +173,9 @@ public with sharing class LoanDiagnosisService {
             // names the rule and shows BOTH numbers (guardrail intact).
             //   <PlainName> (<CODE>): <directionPhrase> <expected>, but this loan is <actual>.
             String code = rc.Rule_Name__c;        // Rule_Name__c carries the rule CODE
-            String line = plainName(code) + ' (' + code + '): '
-                + directionPhrase(code) + ' ' + prettyNum(rc.Expected_Value__c)
-                + ', but this loan is ' + prettyNum(rc.Actual_Value__c) + '.'
+            String line = RuleNarration.plainName(code) + ' (' + code + '): '
+                + RuleNarration.directionPhrase(code) + ' ' + RuleNarration.prettyNum(rc.Expected_Value__c)
+                + ', but this loan is ' + RuleNarration.prettyNum(rc.Actual_Value__c) + '.'
                 + (String.isBlank(rc.Rationale__c) ? '' : ' ' + rc.Rationale__c);
             res.findings.add(line);
             if (rc.Result__c == 'Fail') {
@@ -238,46 +228,6 @@ public with sharing class LoanDiagnosisService {
         res.actionStatus = 'Failed';
         res.actionError = (e == null) ? null : e.getMessage();
         return res;
-    }
-
-    /** Plain NAME for a rule code; unknown code falls back to the raw code. */
-    private static String plainName(String code) {
-        if (String.isBlank(code)) { return 'A rule'; }
-        String key = code.toUpperCase();
-        return PLAIN_NAME.containsKey(key) ? PLAIN_NAME.get(key) : code;
-    }
-
-    /**
-     * Direction phrase derived from the code SUFFIX, so the numbers read
-     * clearly to a non-expert (Leo):
-     *   *_MAX / *_WARN / DEBT_MAX / DTI_*  → "the most allowed is"   (ceiling)
-     *   *_MIN / *_PREF                     → "the lowest allowed is" (floor)
-     *   anything else                      → "the limit is"
-     */
-    private static String directionPhrase(String code) {
-        if (String.isBlank(code)) { return 'the limit is'; }
-        String key = code.toUpperCase();
-        if (key.endsWith('_MAX') || key.endsWith('_WARN')
-            || key == 'DEBT_MAX' || key.startsWith('DTI_')) {
-            return 'the most allowed is';
-        }
-        if (key.endsWith('_MIN') || key.endsWith('_PREF')) {
-            return 'the lowest allowed is';
-        }
-        return 'the limit is';
-    }
-
-    /**
-     * Format a stored numeric string for plain reading: drop trailing zeros so
-     * "43.0000" reads as "43" and "44.80" as "44.8". Non-numeric falls back.
-     */
-    private static String prettyNum(String v) {
-        if (String.isBlank(v)) { return 'n/a'; }
-        try {
-            return Decimal.valueOf(v).stripTrailingZeros().toPlainString();
-        } catch (Exception e) {
-            return v;
-        }
     }
 
     /**

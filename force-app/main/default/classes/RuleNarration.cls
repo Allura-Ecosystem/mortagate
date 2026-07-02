@@ -6,10 +6,8 @@
  *
  * Pure: no SOQL, no DML — safe to call inside Phase-2 compute.
  *
- * NOTE (known debt): LoanDiagnosisService predates this helper and keeps its own
- * private copy of the same vocabulary. New actions funnel through here so there
- * is one source of truth for everything built after ADR-26; folding the
- * diagnosis service onto this helper is a follow-up refactor (Fowler).
+ * LoanDiagnosisService folded in 2026-07-02 — this helper is now the single
+ * source of truth for the rule-code vocabulary and number formatting.
  *
  * @group Agentforce
  */
