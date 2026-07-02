@@ -99,4 +99,73 @@ private class PreventDeleteTriggerTest {
             'Agent_Action_Log__c record must survive the blocked delete'
         );
     }
+
+    // ── Append-only: UPDATE is blocked in code (ADR-1), not just by the
+    //    Prevent_Edit_After_Creation validation rule. Mirrors
+    //    DecisionEventImmutabilityTest.update_isBlocked. ─────────────────────
+
+    @IsTest
+    static void agentActionLogUpdate_isBlocked() {
+        Agent_Action_Log__c log =
+            [SELECT Id, Status__c FROM Agent_Action_Log__c LIMIT 1];
+        log.Status__c = 'Failed';
+
+        Test.startTest();
+        Boolean blocked = false;
+        try {
+            update log;
+        } catch (DmlException e) {
+            blocked = true;
+            System.assert(
+                e.getMessage().contains('append-only'),
+                'Expected append-only block message, got: ' + e.getMessage()
+            );
+        }
+        Test.stopTest();
+
+        System.assert(blocked, 'Updating an Agent_Action_Log__c must throw a DmlException');
+        System.assertEquals(
+            1,
+            [SELECT COUNT() FROM Agent_Action_Log__c WHERE Status__c = 'Success'],
+            'The record must be unchanged after the blocked update'
+        );
+    }
+
+    @IsTest
+    static void agentActionLogBulkUpdate_isBlocked() {
+        Audit_Case__c auditCase = [SELECT Id FROM Audit_Case__c LIMIT 1];
+
+        List<Agent_Action_Log__c> logs = new List<Agent_Action_Log__c>();
+        for (Integer i = 0; i < 200; i++) {
+            logs.add(new Agent_Action_Log__c(
+                Audit_Case__c  = auditCase.Id,
+                Action_Name__c = 'Log_Agent_Action',
+                Subagent__c    = 'Auditor_Assistant',
+                Status__c      = 'Success',
+                Actor__c       = 'BulkGuardAgent',
+                Timestamp__c   = Datetime.now()
+            ));
+        }
+        insert logs; // insert is allowed
+
+        for (Agent_Action_Log__c log : logs) { log.Status__c = 'Failed'; }
+
+        Test.startTest();
+        Database.SaveResult[] results = Database.update(logs, false);
+        Test.stopTest();
+
+        for (Database.SaveResult sr : results) {
+            System.assert(!sr.isSuccess(), 'Bulk update must be rejected');
+            System.assert(
+                sr.getErrors()[0].getMessage().contains('append-only'),
+                'Expected append-only block message'
+            );
+        }
+        System.assertEquals(
+            200,
+            [SELECT COUNT() FROM Agent_Action_Log__c
+             WHERE Actor__c = 'BulkGuardAgent' AND Status__c = 'Success'],
+            'All 200 records must survive the blocked bulk update unchanged'
+        );
+    }
 }

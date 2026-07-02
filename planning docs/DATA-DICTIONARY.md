@@ -529,7 +529,7 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Output_Summary__c` | LongTextArea(32000) | No | Summary of output returned by the agent | -- |
 | `Prompt_Template__c` | Text(255) | No | Which prompt template was used | -- |
 | `Duration_Ms__c` | Number(8,0) | No | Execution duration in milliseconds | -- |
-| `Status__c` | Picklist | Yes | Action outcome | `Success`, `Failed`, `Partial` |
+| `Status__c` | Picklist | Yes | Action state/outcome | `Initiated`, `Success`, `Failed`, `Partial` |
 | `Error_Message__c` | Text(255) | No | Error details if failed | -- |
 
 **Action Names (picklist values):**
@@ -547,9 +547,9 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 
 **Immutability enforcement:**
 - Validation rule `Prevent_Edit_After_Creation`: blocks UPDATE on all fields after insert
-- Before-delete trigger `AgentActionLogPreventDelete`: blocks DELETE
+- Trigger `AgentActionLogPreventDelete` (before update + before delete): blocks UPDATE and DELETE in code (ADR-1 — enforcement lives in code so it cannot be bypassed by Flow/API/other triggers; the validation rule stays as defense in depth)
 
-**Notes:** Every Agentforce action MUST call `logAgentAction` before executing (FR-23). A corresponding `Audit_Event__c` with `Event_Type = Agent_Action` is also created for each action, creating dual-write traceability.
+**Notes:** Every Agentforce action MUST call the governed log-before-execute path (FR-23): BEFORE the action executes it inserts the `Agent_Action_Log__c` intent row with `Status = Initiated` and dual-writes an `Audit_Event__c` (`Event_Type = Agent_Action`, payload `phase = initiated`). Because both objects are append-only, the intent row is never updated with the result; instead the outcome is APPENDED as a second `Audit_Event__c` (`Event_Type = Agent_Action`, payload `phase = outcome`, `status = Success|Partial|Failed`, plus the narrated summary), whose `Related_Record_Id__c` back-links to the intent log. This yields dual-write traceability that brackets every action while honouring the append-only invariant (ADR-1: a changed state is a new appended record, never an edit). Reference implementation: `LoanDiagnosisService.runDiagnoses`.
 
 ---
 

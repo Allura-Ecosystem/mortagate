@@ -9,6 +9,7 @@
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
+            <value><fullName>Initiated</fullName><default>false</default><label>Initiated</label></value>
             <value><fullName>Success</fullName><default>false</default><label>Success</label></value>
             <value><fullName>Failed</fullName><default>false</default><label>Failed</label></value>
             <value><fullName>Partial</fullName><default>false</default><label>Partial</label></value>
