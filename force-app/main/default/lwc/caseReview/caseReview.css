@@ -2,15 +2,15 @@
     /* Veridact brand tokens (v2.0.0 cream+orange, R-3 resolved → orange).
        Resolve to the wired static resource when present, else fall back to the
        exact brand hex so the component renders on-brand in isolation. */
-    --canvas: var(--veridact-surface, #F5F0E8);
-    --ink: var(--veridact-ink, #1F1E1C);
-    --muted: var(--veridact-ink-muted, #645D53);
-    --accent: var(--veridact-accent-strong, #B8441A);
-    --card: var(--veridact-card, #ffffff);
+    --canvas: var(--veridact-surface);
+    --ink: var(--veridact-ink);
+    --muted: var(--veridact-ink-muted);
+    --accent: var(--veridact-accent-strong);
+    --card: var(--veridact-card);
     --card-shadow: 0 6px 20px -4px rgba(31, 30, 28, 0.10);
-    --fail: var(--veridact-declined, #8a3324);
-    --pass: var(--veridact-approved, #16734a);
-    --warn: var(--veridact-warn, #8a5a00);
+    --fail: var(--veridact-declined);
+    --pass: var(--veridact-approved);
+    --warn: var(--veridact-warn);
 
     display: block;
     background: var(--canvas);
@@ -67,13 +67,13 @@
     font-weight: 700;
     padding: 4px 12px;
     border-radius: 999px;
-    background: var(--veridact-warn-tint, #fdf0d9);
+    background: var(--veridact-warn-tint);
     color: var(--accent);
     white-space: nowrap;
 }
 .risk-chip[data-tier='High'],
 .risk-chip[data-tier='Critical'] {
-    background: var(--veridact-declined-tint, #fbe6e1);
+    background: var(--veridact-declined-tint);
     color: var(--fail);
 }
 
@@ -82,7 +82,7 @@
     padding: 0 18px;
     background: var(--accent);
     border: 1px solid var(--accent);
-    color: #ffffff;
+    color: var(--veridact-on-accent);
     font-size: 14px;
     font-weight: 600;
     border-radius: 10px;
@@ -102,8 +102,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #fff7e6;
-    border: 1px solid #f0c674;
+    background: var(--veridact-warn-tint);
+    border: 1px solid var(--veridact-warn-border);
     color: var(--warn);
     font-size: 13px;
     font-weight: 500;
@@ -164,7 +164,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 0;
-    border-bottom: 1px solid #f0eee8;
+    border-bottom: 1px solid var(--veridact-border-subtle);
     font-size: 14px;
 }
 .evidence-item:last-child {
@@ -179,11 +179,11 @@
     font-weight: 600;
     padding: 3px 10px;
     border-radius: 999px;
-    background: #eef6f0;
+    background: var(--veridact-approved-tint);
     color: var(--pass);
 }
 .evidence-status[data-status='Missing'] {
-    background: #fbeae6;
+    background: var(--veridact-declined-tint);
     color: var(--fail);
 }
 
@@ -191,15 +191,15 @@
 .check-row {
     padding: 14px 14px;
     border-radius: 12px;
-    border: 1px solid #f0eee8;
+    border: 1px solid var(--veridact-border-subtle);
     margin-bottom: 10px;
 }
 .check-row:last-child {
     margin-bottom: 0;
 }
 .check-row--fail {
-    border-color: #e9b6a8;
-    background: #fdf3f0;
+    border-color: var(--veridact-declined-border);
+    background: var(--veridact-declined-tint);
 }
 .check-main {
     display: flex;
@@ -241,21 +241,21 @@
 }
 .status-pill--fail {
     background: var(--fail);
-    color: #ffffff;
+    color: var(--veridact-on-accent);
 }
 .status-pill--pass {
-    background: #eef6f0;
+    background: var(--veridact-approved-tint);
     color: var(--pass);
 }
 .status-pill--unverifiable {
-    background: #f3f0ea;
+    background: var(--veridact-surface);
     color: var(--muted);
 }
 
 .empty-state {
     padding: 28px 8px;
     text-align: center;
-    color: #8a909c;
+    color: var(--veridact-ink-muted);
     font-size: 14px;
 }
 

@@ -2,15 +2,15 @@
     /* Veridact brand tokens (v2.0.0 cream+orange, R-3 resolved → orange).
        Resolve to the wired static resource when present, else fall back to the
        exact brand hex so the component renders on-brand in isolation. */
-    --blue: var(--veridact-accent-strong, #B8441A);
-    --ink: var(--veridact-ink, #1F1E1C);
-    --muted: var(--veridact-ink-muted, #645D53);
-    --surface: var(--veridact-card, #ffffff);
-    --shell: var(--veridact-surface, #F5F0E8);
-    --pass: var(--veridact-approved, #16734a);
-    --violation: var(--veridact-declined, #8a3324);
-    --exception: var(--veridact-warn, #8a5a00);
-    --amber: var(--veridact-proof-amber, #E25D22);
+    --blue: var(--veridact-accent-strong);
+    --ink: var(--veridact-ink);
+    --muted: var(--veridact-ink-muted);
+    --surface: var(--veridact-card);
+    --shell: var(--veridact-surface);
+    --pass: var(--veridact-approved);
+    --violation: var(--veridact-declined);
+    --exception: var(--veridact-warn);
+    --amber: var(--veridact-proof-amber);
     --radius: 12px;
     display: block;
     background: var(--shell);
@@ -64,11 +64,11 @@
     border-radius: 999px;
     font-size: 13px;
     font-weight: 600;
-    background: var(--veridact-warn-tint, #fdf0d9);
+    background: var(--veridact-warn-tint);
     color: var(--blue);
     white-space: nowrap;
 }
-.risk-chip[data-tier='High'] { background: var(--veridact-declined-tint, #fbe6e1); color: var(--violation); }
+.risk-chip[data-tier='High'] { background: var(--veridact-declined-tint); color: var(--violation); }
 .demo-badge {
     padding: 4px 12px;
     border-radius: 999px;
@@ -77,13 +77,13 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     background: var(--amber);
-    color: #ffffff;
+    color: var(--veridact-on-accent);
 }
 
 /* ── Summary card ── */
 .summary-card {
     background: var(--surface);
-    border: 1px solid #e7e2d6;
+    border: 1px solid var(--veridact-border-subtle);
     border-radius: var(--radius);
     padding: 20px 22px;
     margin-bottom: 18px;
@@ -106,8 +106,8 @@
     font-size: 13px;
     font-weight: 600;
 }
-.chip--clear { background: var(--veridact-approved-tint, #e3f3ea); color: var(--pass); }
-.chip--findings { background: var(--veridact-declined-tint, #fbe6e1); color: var(--violation); }
+.chip--clear { background: var(--veridact-approved-tint); color: var(--pass); }
+.chip--findings { background: var(--veridact-declined-tint); color: var(--violation); }
 
 .count-grid {
     display: grid;
@@ -142,7 +142,7 @@
 /* ── Signed receipt card ── */
 .receipt-card {
     background: var(--surface);
-    border: 1px solid #cfe6da;
+    border: 1px solid var(--veridact-approved-border);
     border-left: 4px solid var(--pass);
     border-radius: var(--radius);
     padding: 18px 20px;
@@ -172,7 +172,7 @@
 .hash-block {
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 1px solid #eee8da;
+    border-top: 1px solid var(--veridact-border-subtle);
 }
 .hash-label {
     display: block;
@@ -211,13 +211,13 @@
     padding: 0 26px;
     background: var(--blue);
     border: none;
-    color: #ffffff;
+    color: var(--veridact-on-accent);
     font-size: 15px;
     font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
 }
-.signoff-btn:hover { background: #8f3413; } /* darker deep-orange — white text 7.9:1 ✅ */
+.signoff-btn:hover { background: var(--veridact-accent-strong-hover); } /* darker deep-orange — white text 7.9:1 ✅ */
 .signoff-btn:disabled { opacity: 0.6; cursor: default; }
 .signoff-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .action-note {
@@ -230,7 +230,7 @@
     font-size: 14px;
     color: var(--muted);
     background: var(--surface);
-    border: 1px dashed #d9d3c4;
+    border: 1px dashed var(--veridact-border);
     border-radius: var(--radius);
     padding: 18px 20px;
     margin-bottom: 18px;

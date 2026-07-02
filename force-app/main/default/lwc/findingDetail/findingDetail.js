@@ -1,6 +1,8 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import VERIDACT_TOKENS from '@salesforce/resourceUrl/veridactTokens';
 import getFindings from '@salesforce/apex/FindingController.getFindings';
 import saveFinding from '@salesforce/apex/FindingController.saveFinding';
 
@@ -53,6 +55,16 @@ const PLAIN_LABEL = {
 
 export default class FindingDetail extends LightningElement {
     @api recordId;
+
+    // ADR-UX-02 stage 5: load the Veridact brand tokens document-wide so every
+    // var(--veridact-*) reference in this bundle (and its children) resolves.
+    connectedCallback() {
+        loadStyle(this, VERIDACT_TOKENS).catch((e) => {
+            // tokens missing → degrade to unstyled dark-on-light, still legible
+            // eslint-disable-next-line no-console
+            console.warn('veridactTokens failed to load — rendering unbranded', e);
+        });
+    }
 
     @track findings = [];
     @track draft = this.emptyDraft();

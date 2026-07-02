@@ -5,10 +5,19 @@
  * because CSS-variable colors from the static resource are not computed at test time.
  *
  * Fails the build (exit 1) if any LWC stylesheet:
- *   1. hardcodes a hex color        -> must reference a --veridact-* token
+ *   1. contains ANY hex color literal -> must reference a --veridact-* token.
+ *      Post ADR-UX-02 stage 5 the brand tokens are wired document-wide via
+ *      loadStyle(veridactTokens) from each root component, so components carry
+ *      NO hex at all — not even a var(--token, #fallback) safety net. The guard
+ *      reports raw hex and tokenized-fallback hex with distinct messages so the
+ *      fix is unambiguous (Fowler finding).
  *   2. uses --veridact-white-60 as a `color:` (text)  -> decorative only, 3.15:1
  *   3. uses --veridact-proof-amber (#E25D22) as a `color:` (normal text) -> 3.18:1;
  *      normal-size orange text / white-on-orange must use --veridact-accent-strong (#B8441A)
+ *
+ * SCOPE: only force-app/main/default/lwc is scanned. The static resource
+ * force-app/main/default/staticresources/veridactTokens.css is the SOLE
+ * sanctioned home for hex literals and is deliberately outside this walk.
  *
  * Usage:  node scripts/check-brand-tokens.mjs   (wired as `npm run test:tokens`)
  */
@@ -20,6 +29,8 @@ const IGNORE = ['.worktrees', '.claude', 'vibefore-audit', 'node_modules'];
 
 // Hex allowed only inside the token source of truth, not in components.
 const HEX = /#[0-9a-fA-F]{3,8}\b/;
+// A hex sitting inside a var() fallback, e.g. `var(--veridact-ink, #1F1E1C)`.
+const FALLBACK_HEX = /var\(\s*--[a-zA-Z0-9-]+\s*,\s*#[0-9a-fA-F]{3,8}\s*\)/;
 const WHITE60_AS_TEXT = /color\s*:\s*[^;]*--veridact-white-60/i;
 const AMBER_AS_TEXT = /(?<!background[^;:]{0,40})\bcolor\s*:\s*[^;]*--veridact-proof-amber/i;
 
@@ -49,8 +60,12 @@ for (const file of files) {
         const n = i + 1;
         const code = line.replace(/\/\*.*?\*\//g, '').trim();
         if (!code) return;
-        if (HEX.test(code))
-            violations.push(`${file}:${n}  hardcoded hex — use a --veridact-* token  » ${code}`);
+        if (HEX.test(code)) {
+            const msg = FALLBACK_HEX.test(code)
+                ? 'tokenized-fallback hex — drop the fallback; tokens are wired document-wide (ADR-UX-02 stage 5)'
+                : 'raw hex — replace with a --veridact-* token (sanctioned home: staticresources/veridactTokens.css)';
+            violations.push(`${file}:${n}  ${msg}  » ${code}`);
+        }
         if (WHITE60_AS_TEXT.test(code))
             violations.push(`${file}:${n}  --veridact-white-60 as text (3.15:1 FAIL) — use --veridact-ink-muted  » ${code}`);
         if (AMBER_AS_TEXT.test(code))

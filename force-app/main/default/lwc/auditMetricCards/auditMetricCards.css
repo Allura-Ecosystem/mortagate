@@ -7,7 +7,7 @@
 
 .metric-card {
     position: relative;
-    background: #ffffff;
+    background: var(--veridact-card);
     border-radius: 16px;
     padding: 28px 20px 20px 24px;
     box-shadow: 0 6px 20px -4px rgba(20, 35, 41, 0.08);
@@ -25,24 +25,24 @@
 }
 
 /* Categorical KPI rails — tokenized to the Veridact palette (R-3 → orange). */
-.rail-blue .metric-rail { background: var(--veridact-link, #1d4ed8); }
-.rail-orange .metric-rail { background: var(--veridact-proof-amber, #E25D22); }
-.rail-amber .metric-rail { background: var(--veridact-warn, #8a5a00); }
-.rail-green .metric-rail { background: var(--veridact-approved, #16734a); }
-.rail-red .metric-rail { background: var(--veridact-declined, #8a3324); }
+.rail-blue .metric-rail { background: var(--veridact-link); }
+.rail-orange .metric-rail { background: var(--veridact-proof-amber); }
+.rail-amber .metric-rail { background: var(--veridact-warn); }
+.rail-green .metric-rail { background: var(--veridact-approved); }
+.rail-red .metric-rail { background: var(--veridact-declined); }
 
 .metric-value {
     font-size: 30px;
     font-weight: 800;
     line-height: 1;
-    color: var(--veridact-ink, #1F1E1C);
+    color: var(--veridact-ink);
     margin: 0 0 14px 0;
 }
 
 .metric-label {
     font-size: 13px;
     font-weight: 500;
-    color: var(--veridact-ink-muted, #645D53);
+    color: var(--veridact-ink-muted);
     margin: 0;
 }
 

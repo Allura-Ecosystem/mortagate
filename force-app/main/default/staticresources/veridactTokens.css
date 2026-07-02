@@ -17,9 +17,22 @@
    components referencing --veridact-white receive charcoal.
    Per copilot-instructions: never hardcode hex in components —
    reference these variables.
+   ------------------------------------------------------------
+   WIRING (ADR-UX-02 stage 5): this file is loaded into every
+   Veridact LWC via loadStyle(this, veridactTokens) from each
+   exposed root component. loadStyle injects the sheet at the
+   document level, so the ':root' selector sets the custom
+   properties globally; they then INHERIT down the composed tree
+   into every component (custom-property inheritance is the one
+   thing that crosses shadow-DOM boundaries, so nested base
+   components — e.g. c-risk-badge inside lightning-datatable —
+   receive them too). The ':host' selector is a mirror so the
+   same sheet still resolves if it is ever injected directly into
+   a shadow root (native shadow mode). This is the SOLE home for
+   hex literals — components reference these vars with no fallback.
    ============================================================ */
 
-:root {
+:root, :host {
     /* --- Core Palette (v2.0.0: light palette) --- */
     --veridact-indigo-depth: #F5F0E8;   /* Cream — primary background (was indigo) */
     --veridact-proof-amber: #E25D22;    /* Orange — accent for SURFACES/large-text only (3.18:1 on cream — NOT for normal body text or white labels) */
@@ -54,6 +67,18 @@
     --veridact-declined-tint: #fbe6e1;  /* soft red fill */
     --veridact-review-tint: #eef2ff;    /* soft blue fill */
     --veridact-warn-tint: #fdf0d9;      /* soft amber fill */
+
+    /* --- Semantic tint borders (pair with the tint fills above, ADR-UX-02 stage 5) ---
+       1px hairlines for the soft status banners/cards. Consolidated from the
+       per-component near-duplicate borders that stage 5 detokenized. */
+    --veridact-approved-border: #cfe6da; /* green banner hairline */
+    --veridact-declined-border: #e9b6a8; /* red banner hairline */
+    --veridact-warn-border: #f0c674;     /* amber banner hairline */
+
+    /* --- Neutral / interaction tokens (ADR-UX-02 stage 5) --- */
+    --veridact-on-accent: #ffffff;          /* white text/icon on a filled accent/status surface */
+    --veridact-accent-strong-hover: #8f3413; /* darker deep-orange — button :hover, white text 7.9:1 ✅ */
+    --veridact-border-subtle: #eceae3;      /* light warm hairline (rows, chips) — softer than --veridact-border */
 
     /* --- Surfaces (light mode borrower portal — v2.0.0) --- */
     --veridact-surface: #F5F0E8;        /* Page background — Cream */
@@ -92,7 +117,7 @@
 
 /* Honor reduced-motion preference — disable slide animations */
 @media (prefers-reduced-motion: reduce) {
-    :root {
+    :root, :host {
         --veridact-transition: 0s;
     }
 }

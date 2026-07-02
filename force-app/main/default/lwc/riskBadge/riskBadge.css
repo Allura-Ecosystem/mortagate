@@ -12,10 +12,10 @@
    ::before sigil is the SOLE non-colour discriminator for High/Med/Low
    (Critical also carries an underline): Critical ●  High ▲  Medium ◆  Low ■
    ============================================================ */
-.risk-badge--critical { color: var(--brand-violation, #8a3324); font-weight: 700; text-decoration: underline; }
-.risk-badge--high     { color: var(--brand-violation, #8a3324); font-weight: 600; }
-.risk-badge--medium   { color: var(--brand-amber-text, #8a5a00); font-weight: 600; }
-.risk-badge--low      { color: var(--brand-approval, #16734a); font-weight: 600; }
+.risk-badge--critical { color: var(--brand-violation); font-weight: 700; text-decoration: underline; }
+.risk-badge--high     { color: var(--brand-violation); font-weight: 600; }
+.risk-badge--medium   { color: var(--brand-amber-text); font-weight: 600; }
+.risk-badge--low      { color: var(--brand-approval); font-weight: 600; }
 
 .risk-badge--critical::before { content: '\25CF'; } /* ● BLACK CIRCLE */
 .risk-badge--high::before     { content: '\25B2'; } /* ▲ BLACK UP-POINTING TRIANGLE */

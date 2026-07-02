@@ -1,6 +1,8 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import VERIDACT_TOKENS from '@salesforce/resourceUrl/veridactTokens';
 import getReceipt from '@salesforce/apex/SignoffController.getReceipt';
 import signOff from '@salesforce/apex/SignoffController.signOff';
 
@@ -19,6 +21,16 @@ import signOff from '@salesforce/apex/SignoffController.signOff';
  */
 export default class SignoffReceipt extends LightningElement {
     @api recordId;
+
+    // ADR-UX-02 stage 5: load the Veridact brand tokens document-wide so every
+    // var(--veridact-*) reference in this bundle (and its children) resolves.
+    connectedCallback() {
+        loadStyle(this, VERIDACT_TOKENS).catch((e) => {
+            // tokens missing → degrade to unstyled dark-on-light, still legible
+            // eslint-disable-next-line no-console
+            console.warn('veridactTokens failed to load — rendering unbranded', e);
+        });
+    }
 
     @track view;
     _wired;

@@ -1,4 +1,6 @@
 import { LightningElement, wire } from 'lwc';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import VERIDACT_TOKENS from '@salesforce/resourceUrl/veridactTokens';
 import getOrgSummary from '@salesforce/apex/AdminController.getOrgSummary';
 
 /**
@@ -10,6 +12,16 @@ import getOrgSummary from '@salesforce/apex/AdminController.getOrgSummary';
  * One thing per screen, plain ~6th-grade language (the "Leo" rule).
  */
 export default class AuditAdmin extends LightningElement {
+    // ADR-UX-02 stage 5: load the Veridact brand tokens document-wide so every
+    // var(--veridact-*) reference in this bundle (and its children) resolves.
+    connectedCallback() {
+        loadStyle(this, VERIDACT_TOKENS).catch((e) => {
+            // tokens missing → degrade to unstyled dark-on-light, still legible
+            // eslint-disable-next-line no-console
+            console.warn('veridactTokens failed to load — rendering unbranded', e);
+        });
+    }
+
     summary = {};
 
     // The governance promises, in plain words. Static content.

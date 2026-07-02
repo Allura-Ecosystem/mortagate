@@ -1,5 +1,7 @@
 import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import VERIDACT_TOKENS from '@salesforce/resourceUrl/veridactTokens';
 import { refreshApex } from '@salesforce/apex';
 import getQueue from '@salesforce/apex/AuditQueueController.getQueue';
 import getMetrics from '@salesforce/apex/AuditQueueController.getMetrics';
@@ -24,6 +26,17 @@ const COLUMNS = [
  * data. Row action / Review button navigate to the Audit_Case__c record.
  */
 export default class AuditQueue extends NavigationMixin(LightningElement) {
+    // ADR-UX-02 stage 5: load the Veridact brand tokens document-wide so every
+    // var(--veridact-*) reference in this bundle (and its children — including
+    // c-risk-badge inside the datatable) resolves.
+    connectedCallback() {
+        loadStyle(this, VERIDACT_TOKENS).catch((e) => {
+            // tokens missing → degrade to unstyled dark-on-light, still legible
+            // eslint-disable-next-line no-console
+            console.warn('veridactTokens failed to load — rendering unbranded', e);
+        });
+    }
+
     columns = COLUMNS;
     @track filters = {};
     searchTerm = '';

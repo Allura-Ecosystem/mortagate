@@ -2,15 +2,15 @@
     /* Veridact brand tokens (v2.0.0 cream+orange, R-3 resolved → orange).
        Resolve to the wired static resource when present, else fall back to the
        exact brand hex so the component renders on-brand in isolation. */
-    --canvas: var(--veridact-surface, #F5F0E8);
-    --ink: var(--veridact-ink, #1F1E1C);
-    --muted: var(--veridact-ink-muted, #645D53);
-    --accent: var(--veridact-accent-strong, #B8441A);
-    --card: var(--veridact-card, #ffffff);
+    --canvas: var(--veridact-surface);
+    --ink: var(--veridact-ink);
+    --muted: var(--veridact-ink-muted);
+    --accent: var(--veridact-accent-strong);
+    --card: var(--veridact-card);
     --card-shadow: 0 6px 20px -4px rgba(31, 30, 28, 0.10);
-    --fail: var(--veridact-declined, #8a3324);
-    --pass: var(--veridact-approved, #16734a);
-    --warn: var(--veridact-warn, #8a5a00);
+    --fail: var(--veridact-declined);
+    --pass: var(--veridact-approved);
+    --warn: var(--veridact-warn);
 
     display: block;
     background: var(--canvas);
@@ -84,7 +84,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: var(--veridact-warn-tint, #fdf0d9);
+    background: var(--veridact-warn-tint);
     border: 1px solid rgba(226, 93, 34, 0.28);
     border-radius: 12px;
     padding: 12px 16px;
@@ -145,7 +145,7 @@
 
 .save-btn {
     background: var(--accent);
-    color: #fff;
+    color: var(--veridact-on-accent);
     border: none;
     border-radius: 10px;
     padding: 10px 22px;

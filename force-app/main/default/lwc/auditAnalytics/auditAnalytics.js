@@ -1,4 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import VERIDACT_TOKENS from '@salesforce/resourceUrl/veridactTokens';
 import getAnalytics from '@salesforce/apex/AnalyticsController.getAnalytics';
 
 /**
@@ -11,6 +13,16 @@ import getAnalytics from '@salesforce/apex/AnalyticsController.getAnalytics';
  * Read-only: a single cacheable getAnalytics wire, no writes.
  */
 export default class AuditAnalytics extends LightningElement {
+    // ADR-UX-02 stage 5: load the Veridact brand tokens document-wide so every
+    // var(--veridact-*) reference in this bundle (and its children) resolves.
+    connectedCallback() {
+        loadStyle(this, VERIDACT_TOKENS).catch((e) => {
+            // tokens missing → degrade to unstyled dark-on-light, still legible
+            // eslint-disable-next-line no-console
+            console.warn('veridactTokens failed to load — rendering unbranded', e);
+        });
+    }
+
     @track view;
     error;
 
