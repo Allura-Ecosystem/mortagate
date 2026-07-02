@@ -18,6 +18,8 @@
             <value><fullName>Purchase_Agreement</fullName><default>false</default><label>Purchase Agreement</label></value>
             <value><fullName>Photo_ID</fullName><default>false</default><label>Photo ID</label></value>
             <value><fullName>Employment_Verification</fullName><default>false</default><label>Employment Verification</label></value>
+            <value><fullName>Recorded_Mortgage</fullName><default>false</default><label>Recorded Mortgage</label></value>
+            <value><fullName>Final_Title_Policy</fullName><default>false</default><label>Final Title Policy</label></value>
             <value><fullName>Other</fullName><default>false</default><label>Other</label></value>
         </valueSetDefinition>
     </valueSet>

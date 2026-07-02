@@ -220,9 +220,9 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Originating_Branch__c` | Text(100) | No | Branch that originated the loan | -- |
 | `Approver_Name__c` | Text(255) | No | Loan officer who approved | -- |
 | `LOS_Loan_Id__c` | Text(50) | No | External loan ID from LOS (future integration) | -- |
-| `DTI_At_Approval__c` | Percent(5,4) | No | DTI ratio at time of approval | -- |
+| `DTI_At_Approval__c` | Percent(5,2) | No | DTI ratio at approval, whole-number percentage points | -- |
 | `FICO_At_Approval__c` | Number(3,0) | No | FICO score at time of approval | -- |
-| `LTV_At_Approval__c` | Percent(5,4) | No | LTV ratio at time of approval | -- |
+| `LTV_At_Approval__c` | Percent(5,2) | No | LTV ratio at approval, whole-number percentage points | -- |
 | `Source_Application__c` | Lookup(`Loan_Application__c`) | No | Link back to origination record if available | -- |
 
 **Relationships:**
@@ -248,9 +248,9 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Fact_Category__c` | Picklist | Yes | Category of fact | `Income`, `Employment`, `Asset`, `Credit`, `Identity`, `Residency`, `Debt` |
 | `Annual_Income__c` | Currency(18,2) | No | Verified annual income | -- |
 | `Monthly_Income__c` | Currency(18,2) | No | Verified monthly income | -- |
-| `DTI_Ratio__c` | Percent(5,4) | No | Debt-to-income ratio | -- |
+| `DTI_Ratio__c` | Percent(5,2) | No | Debt-to-income ratio, whole-number percentage points (e.g. `44.8` = 44.8%) | -- |
 | `FICO_Score__c` | Number(3,0) | No | Credit score (300-850) | -- |
-| `LTV_Ratio__c` | Percent(5,4) | No | Loan-to-value ratio | -- |
+| `LTV_Ratio__c` | Percent(5,2) | No | Loan-to-value ratio, whole-number percentage points (e.g. `80` = 80%) | -- |
 | `Employment_Months__c` | Number(4,0) | No | Months at current employer | -- |
 | `Employer_Name__c` | Text(255) | No | Current employer name | -- |
 | `Address_Tenure_Months__c` | Number(4,0) | No | Months at current address | -- |
@@ -338,6 +338,10 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 
 **Notes:** Rules are data, not code (Philosophy #3). The `Fact_Field__c` maps to a specific typed field on `Borrower_Snapshot__c`, enabling pure evaluation (FR-27). `Sort_Order__c` ensures deterministic replay ordering (FR-28).
 
+**UNITS CONVENTION (critical — the 43-vs-0.43 trap):** `Threshold_Value__c` is expressed in the **same units as the target `Fact_Field__c`**. For percentage facts (`DTI_Ratio__c`, `LTV_Ratio__c`, `Percent(5,2)`) that means **whole-number percentage points**, not fractions. The governing active rules bear this out: `DTI_MAX = 43 LTE DTI_Ratio__c` (fires on `44.8`), `LTV_MAX = 80 LTE LTV_Ratio__c` (passes at `80`). Authoring a percentage threshold as `0.80` is a bug — it would make every loan fail. Verify units against a live `Borrower_Snapshot__c` value before authoring a new threshold.
+
+**SCHEMA-vs-DOC DRIFT (reported 2026-07-02, Knuth):** the deployed `Policy_Rule__c` carries only 8 fields (`Policy_Version__c`, `Rule_Code__c`, `Rule_Label__c`, `Rule_Category__c`, `Operator__c`, `Threshold_Value__c`, `Fact_Field__c`, `Severity__c`). The additional columns listed above (`Threshold_High__c`, `Rule_Explanation__c`, `Allowed_Values__c`, `Regulatory_Citation__c`, `Override_Permitted__c`, `Override_Justification_Required__c`, `Sort_Order__c`) do **not** exist on the active object; `ReplayService` defaults them to null when adapting to the in-memory evaluator type. Full object-spec reconciliation is deferred to a Brooks-owned pass. Consequence: there is no `Rule_Explanation__c` to store read-aloud text — use `Rule_Label__c` on the record and the DESIGN note for narrative. Also: `Severity__c` values are title-case (`Hard_Decline`, `Soft_Decline`, `Warning`, `Info`); the evaluator switches on `HARD_DECLINE`/`SOFT_DECLINE`/`WARNING` and relies on Apex case-insensitive string `switch`.
+
 ---
 
 ### 2.6 Evidence_Item__c
@@ -351,7 +355,7 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 |----------------|------|----------|-------------|--------------------------|
 | `Name` | AutoNumber (`EI-{000000}`) | Auto | Evidence identifier | -- |
 | `Audit_Case__c` | Lookup(`Audit_Case__c`) | Yes | Parent audit case | -- |
-| `Document_Type__c` | Picklist | Yes | Type of document | `Pay_Stub`, `W2`, `Bank_Statement`, `Tax_Return`, `Appraisal`, `Credit_Report`, `Purchase_Agreement`, `Photo_ID`, `Employment_Verification`, `Other` |
+| `Document_Type__c` | Picklist | Yes | Type of document | `Pay_Stub`, `W2`, `Bank_Statement`, `Tax_Return`, `Appraisal`, `Credit_Report`, `Purchase_Agreement`, `Photo_ID`, `Employment_Verification`, `Recorded_Mortgage`, `Final_Title_Policy`, `Other` |
 | `Status__c` | Picklist | Yes | Evidence status | `Linked`, `Missing`, `Unverifiable` |
 | `ContentDocument_Id__c` | Text(18) | No | Salesforce ContentDocument ID (null if Missing) | -- |
 | `SHA256_Hash__c` | Text(64) | No | Document integrity hash | -- |
@@ -364,6 +368,8 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 - Referenced by: `Borrower_Snapshot__c`, `Replay_Check__c`, `Finding__c`
 
 **Notes:** Status changes create `Audit_Event__c` records per FR-8. The `Missing` and `Unverifiable` states are first-class outcomes, not error states.
+
+**Trailing documents (added 2026-07-02, Knuth):** `Recorded_Mortgage` and `Final_Title_Policy` represent required post-close trailing docs. A "required trailing doc" is simply an `Evidence_Item__c` of one of these types with `Required__c = true`; when absent it carries `Status__c = Missing`. Per ADR-3, a missing required doc surfaces as an evidence-panel gap / `missingEvidenceCount` (investigation trigger) and is **never** converted to a policy `Fail` — the replay kernel evaluates only numeric `Borrower_Snapshot__c` facts and does not turn evidence gaps into declines. See `my-project/_bmad-output/planning/DESIGN-second-pass-data.md`.
 
 ---
 
