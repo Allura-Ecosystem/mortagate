@@ -6,9 +6,12 @@
   "scripts": {
     "test:unit": "sfdx-lwc-jest",
     "test:unit:watch": "sfdx-lwc-jest --watch",
-    "test:unit:coverage": "sfdx-lwc-jest --coverage"
+    "test:unit:coverage": "sfdx-lwc-jest --coverage",
+    "test:tokens": "node scripts/check-brand-tokens.mjs",
+    "test:ux": "npm run test:tokens && npm run test:unit"
   },
   "devDependencies": {
-    "@salesforce/sfdx-lwc-jest": "^7.0.1"
+    "@salesforce/sfdx-lwc-jest": "^7.0.1",
+    "@sa11y/jest": "^6.13.0"
   }
 }
