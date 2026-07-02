@@ -5,3 +5,10 @@
 # Tooling / local artifacts
 **/jsconfig.json
 **/.eslintrc.json
+
+# Quarantined per ADR-23: Agentforce not org-portable (2026-07-01)
+# EmployeeCopilotPlanner is the stock SF Employee copilot, Active in mortagate-de - deploy cannot overwrite
+force-app/main/default/genAiPlannerBundles/EmployeeCopilotPlanner*
+force-app/main/default/bots/EmployeeCopilotPlanner*
+# Eval definition lacks required Version sibling; re-enable once authored
+force-app/main/default/aiEvaluationDefinitions/Veridact_Auditor_Copilot_v4_RuntimeSelection*
