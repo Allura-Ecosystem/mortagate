@@ -87,7 +87,22 @@ This is the decision log. Undocumented decisions are decisions waiting to be mad
 **Rejected:** (a) Building FactCorrectionService in EP-1 — adds ~2-3 days of Apex + LWC work to a journey-orchestration epic. (b) Hybrid flag-only approach — borrower flags but no downstream handling exists, creating false expectation.
 **Why:** EP-1's goal is the journey spine (6-screen state machine, progress indicator, Flows). Adding correction Apex muddies the scope. The extraction method itself is undecided (OQ-2), so building correction before extraction is premature. DESIGN-onboarding-ux.md updated to say "view-only with confirm checkbox."
 
-> _ADRs 15–17 (Agentforce confirmed, Production Path A, dual-kernel debt) were logged to Allura Brain during the audit pivot and are pending backfill into this doc. ADR-18/19 below formalize the items that were actioned in code this session._
+### ADR-15 — Borrower portal frozen; Veridact pivots to the internal audit tool
+**Decision (2026-06-14, audit pivot; backfilled 2026-07-02 from Allura Brain + session records):** The borrower-facing origination portal is **frozen**. Veridact is an internal mortgage audit replay & QC tool for bank QC analysts (BLUEPRINT B1: "Not a borrower-facing portal"). The pre-pivot intake objects (`Loan_Application__c`, `Evidence__c`, `Extracted_Facts__c`, `Decision_Event__c`, `Policy_Rule_Version__c`) remain deployed as inactive legacy scaffold — they do not feed the active Inputs → Work → Ledger flow and must not be treated as live schema without explicit re-integration.
+**Rejected:** Running borrower portal and audit tool as a dual-track product.
+**Why:** The Jobs intent gate — "dad's rules, one bad loan, one violation, one receipt" — names an auditor's job, not a borrower's. Market research (Wells Fargo on FSC + nCino; ACES as QC incumbent) showed the defensible differentiators are historical replay, evidence mapping, and immutable receipts — all audit-side. One product, one user, conceptual integrity.
+
+### ADR-16 — Agentforce confirmed as the AI layer, governed by the AI rulebook (assist, never decide)
+**Decision (2026-06-14; backfilled 2026-07-02):** Agentforce is the AI layer for Veridact. It operates under a governance rulebook (BLUEPRINT B2.7, SOLUTION-ARCHITECTURE §4.2): the agent **MAY** summarize cases, draft findings/requests, recommend, and create controlled tasks; it **MUST NOT** approve audits, close cases, override policy, delete findings, or modify signed receipts; and it **MUST** log every action to `Agent_Action_Log__c` + `Audit_Event__c` **before** action execution. Team Penasoto's specialist logic (loan-file audit, TRID, underwriting, DTI/LTV recalc) is the spec for Agentforce subagent implementations.
+**Rejected:** Autonomous AI verdicts; AI reasoning outside the Salesforce trust boundary.
+**Why:** In a regulated workflow the deterministic kernel owns the truth and the LLM owns the wording (later sharpened as ADR-21). The rulebook's logging MUST is enforced in code by the ADR-26 conformance delta; the surface decision (embedded sidebar) also lives there.
+
+### ADR-17 — Path A: all-Salesforce production stack; Allura is dev-only
+**Decision (2026-06-14; backfilled 2026-07-02):** Production = Salesforce only (SObjects, Apex, Agentforce, Flows, LWC, VF). Allura Brain is used for development orchestration and session memory only — it is never in the production stack and never appears in customer-facing materials.
+**Rejected:** Path B (Google Cloud AI reasoning tier) as the primary architecture — retained as a later upsell if a bank mandates it.
+**Why:** Single SOC 2 inheritance from Salesforce ($0) plus a ~$2,700 AppExchange security review beats $50–150K for a separate SOC 2. One trust boundary is also ADR-20's foundation: governance lives where the data lives.
+
+> _Backfill note (2026-07-02): the prior placeholder here listed "dual-kernel debt" among ADRs 15–17; that item was in fact formalized as ADR-18. ADR-15 is the borrower-portal freeze (already cited by BLUEPRINT B1), per the 2026-06-14 session record._
 
 ### ADR-18 — `Policy_Rule__c` is a thin reference object (dual-kernel)
 **Decision:** `Policy_Rule__c` carries exactly 8 fields — `Rule_Code__c`, `Rule_Label__c`, `Rule_Category__c`, `Operator__c`, `Threshold_Value__c`, `Fact_Field__c`, `Severity__c`, `Policy_Version__c`. All versioned detail (`Threshold_High__c`, `Sort_Order__c`, `Rule_Explanation__c`, `Allowed_Values__c`, `Override_Permitted__c`, `Override_Justification_Required__c`, `Regulatory_Citation__c`) lives only on `Policy_Rule_Version__c`. `ReplayService` keeps an ADAPT step that maps `Policy_Rule__c` → in-memory `Policy_Rule_Version__c`, so the pure evaluator's interface is unchanged.
