@@ -19,9 +19,17 @@ private class CaseSummaryServiceTest {
             Loan_Type__c      = 'Conventional',
             Purpose__c        = 'Purchase',
             LOS_Loan_Id__c    = 'LOS-HERO-1',
-            Approval_Date__c  = Date.newInstance(2025, 3, 15)
+            Approval_Date__c  = Date.newInstance(2025, 3, 15),
+            // Hero case passes the KYC/OFAC gate (verified identity + clear screen) so
+            // its briefing has NO leading block and existing assertions stay unchanged.
+            Identity_Verification_Status__c = 'Verified'
         );
         insert loan;
+
+        insert new Sanctions_Screening__c(
+            Loan__c = loan.Id, Result__c = 'Clear',
+            List_Source__c = 'OFAC_SDN', List_Version__c = 'OFAC-SDN-2026-06-18',
+            Screened_At__c = Datetime.now().addDays(-1));
 
         Audit_Case__c ac = new Audit_Case__c(
             Loan__c = loan.Id, Loan_Application__c = 'a0SummaryTest',
@@ -111,6 +119,10 @@ private class CaseSummaryServiceTest {
         System.assert(!r.summary.toLowerCase().contains('denied'), 'Never says denied');
         System.assertEquals(false, r.stale, 'Replay newer than loan edit');
 
+        // Clean KYC/OFAC gate (verified + clear screen) => no leading block, unchanged.
+        System.assertEquals(true, r.gated == null || r.gated == false, 'Clean loan is not gated');
+        System.assert(!r.summary.startsWith('BLOCKED'), 'No leading block on a clean case');
+
         assertDualWrite(caseId, 'Summarize_Case', 'Success');
     }
 
@@ -161,9 +173,18 @@ private class CaseSummaryServiceTest {
         for (Integer i = 0; i < 200; i++) {
             loans.add(new Loan__c(Borrower_Name__c = 'Bulk ' + i, Loan_Amount__c = 300000,
                 Property_Value__c = 400000, Loan_Type__c = 'Conventional',
-                Purpose__c = 'Purchase', Approval_Date__c = Date.today()));
+                Purpose__c = 'Purchase', Approval_Date__c = Date.today(),
+                Identity_Verification_Status__c = 'Verified'));
         }
         insert loans;
+
+        List<Sanctions_Screening__c> screens = new List<Sanctions_Screening__c>();
+        for (Integer i = 0; i < 200; i++) {
+            screens.add(new Sanctions_Screening__c(Loan__c = loans[i].Id, Result__c = 'Clear',
+                List_Source__c = 'OFAC_SDN', List_Version__c = 'OFAC-SDN-2026-06-18',
+                Screened_At__c = Datetime.now().addDays(-1)));
+        }
+        insert screens;
 
         List<Audit_Case__c> cases = new List<Audit_Case__c>();
         for (Integer i = 0; i < 200; i++) {
@@ -188,7 +209,9 @@ private class CaseSummaryServiceTest {
         Test.stopTest();
 
         System.assertEquals(200, out.size(), 'One response per request');
-        System.assert(soqlUsed <= 5, 'Reads hoisted: constant SOQL regardless of count, got ' + soqlUsed);
+        // +1 vs the pre-gate budget: the ADR-24 gate adds exactly one hoisted screening
+        // query (identity status folds into the existing case join at +0). Still constant.
+        System.assert(soqlUsed <= 6, 'Reads hoisted: constant SOQL regardless of count, got ' + soqlUsed);
         System.assertEquals(3, dmlUsed, 'Writes batched: 3 DML for any request count');
 
         System.assertEquals(200,
@@ -197,6 +220,96 @@ private class CaseSummaryServiceTest {
         System.assertEquals(400,
             [SELECT COUNT() FROM Audit_Event__c WHERE Event_Type__c = 'Agent_Action'],
             '400 Agent_Action events (initiated + outcome) across 200 actions');
+    }
+
+    @IsTest
+    static void summarize_sanctionsHold_leadsWithBlock_evenWhenReplayWouldPass() {
+        // Orthogonality proof: identity is Verified and the replay verdict is clean
+        // (FICO passes, no failing rule seeded), yet a Confirmed_Match sanctions screen
+        // BLOCKS — the block leads the briefing, ahead of any policy narration.
+        Loan__c loan = new Loan__c(
+            Borrower_Name__c = 'Clean Credit, Sanctioned', Loan_Amount__c = 250000,
+            Property_Value__c = 500000, Loan_Type__c = 'Conventional', Purpose__c = 'Purchase',
+            LOS_Loan_Id__c = 'LOS-SANC-1', Approval_Date__c = Date.today(),
+            Identity_Verification_Status__c = 'Verified');
+        insert loan;
+        insert new Sanctions_Screening__c(Loan__c = loan.Id, Result__c = 'Confirmed_Match',
+            List_Source__c = 'OFAC_SDN', List_Version__c = 'OFAC-SDN-2026-06-18',
+            Match_Details__c = 'SDN exact name match', Screened_At__c = Datetime.now());
+
+        Audit_Case__c ac = new Audit_Case__c(Loan__c = loan.Id, Loan_Application__c = 'a0SanctHold',
+            Borrower_Name_Snapshot__c = 'Clean Credit, Sanctioned', Status__c = 'In_Review',
+            Risk_Tier__c = 'High', Due_At__c = Datetime.now().addDays(5));
+        insert ac;
+        insert new Borrower_Snapshot__c(Audit_Case__c = ac.Id, Fact_Category__c = 'Credit',
+            FICO_Score__c = 780);
+
+        ReplayService.replay(ac.Id);
+
+        Test.startTest();
+        CaseSummaryService.Response r = CaseSummaryService.summarizeCase(ac.Id);
+        Test.stopTest();
+
+        System.assertEquals(true, r.gated, 'Sanctions hit gates the case');
+        System.assertEquals('SANCTIONS_HOLD', r.blockCode, 'Block code is a sanctions hold');
+        System.assert(r.summary.startsWith('BLOCKED — sanctions hold:'),
+            'Summary LEADS with the sanctions block: ' + r.summary);
+        System.assert(r.summary.contains('Confirmed Match'), 'Names the disposition plainly');
+        // Orthogonal: the clean policy replay is still narrated AFTER the block.
+        System.assert(r.summary.contains('Replay:'), 'Policy narration still present after the block');
+        System.assert(!r.summary.toLowerCase().contains('denied'), 'Never says denied');
+        assertDualWrite(ac.Id, 'Summarize_Case', 'Success');
+    }
+
+    @IsTest
+    static void summarize_identityIncomplete_leadsWithBlock() {
+        Loan__c loan = new Loan__c(
+            Borrower_Name__c = 'Unverified Party', Loan_Amount__c = 200000,
+            Property_Value__c = 300000, Loan_Type__c = 'Conventional', Purpose__c = 'Purchase',
+            LOS_Loan_Id__c = 'LOS-KYC-1', Approval_Date__c = Date.today(),
+            Identity_Verification_Status__c = 'Pending');
+        insert loan;
+        // A clear screen exists, but identity is not yet Verified => KYC precedence.
+        insert new Sanctions_Screening__c(Loan__c = loan.Id, Result__c = 'Clear',
+            List_Source__c = 'OFAC_SDN', List_Version__c = 'OFAC-SDN-2026-06-18',
+            Screened_At__c = Datetime.now());
+
+        Audit_Case__c ac = new Audit_Case__c(Loan__c = loan.Id, Loan_Application__c = 'a0KycInc',
+            Status__c = 'In_Review', Risk_Tier__c = 'Medium', Due_At__c = Datetime.now().addDays(7));
+        insert ac;
+
+        Test.startTest();
+        CaseSummaryService.Response r = CaseSummaryService.summarizeCase(ac.Id);
+        Test.stopTest();
+
+        System.assertEquals(true, r.gated, 'Unverified identity gates the case');
+        System.assertEquals('KYC_INCOMPLETE', r.blockCode, 'KYC precedence over the clear screen');
+        System.assert(r.summary.startsWith('BLOCKED — identity verification incomplete:'),
+            'Summary LEADS with the identity block: ' + r.summary);
+    }
+
+    @IsTest
+    static void summarize_noScreeningOnFile_leadsWithMissingScreenBlock() {
+        // Identity Verified, but NO sanctions screen on file => hard BLOCK (absence ≠ clearance).
+        Loan__c loan = new Loan__c(
+            Borrower_Name__c = 'Verified, Unscreened', Loan_Amount__c = 200000,
+            Property_Value__c = 300000, Loan_Type__c = 'Conventional', Purpose__c = 'Purchase',
+            LOS_Loan_Id__c = 'LOS-NOSCR-1', Approval_Date__c = Date.today(),
+            Identity_Verification_Status__c = 'Verified');
+        insert loan;
+
+        Audit_Case__c ac = new Audit_Case__c(Loan__c = loan.Id, Loan_Application__c = 'a0NoScreen',
+            Status__c = 'In_Review', Risk_Tier__c = 'Low', Due_At__c = Datetime.now().addDays(7));
+        insert ac;
+
+        Test.startTest();
+        CaseSummaryService.Response r = CaseSummaryService.summarizeCase(ac.Id);
+        Test.stopTest();
+
+        System.assertEquals(true, r.gated, 'A missing screen is a hard block');
+        System.assertEquals('SCREEN_MISSING', r.blockCode, 'Absence of a screen is not clearance');
+        System.assert(r.summary.startsWith('BLOCKED — no sanctions screening on file:'),
+            'Summary LEADS with the missing-screen block: ' + r.summary);
     }
 
     // ── shared assertion ────────────────────────────────────────────────

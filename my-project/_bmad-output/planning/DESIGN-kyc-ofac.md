@@ -352,3 +352,84 @@ item #6 instruction), which differs from the fuller §3.2 draft. Deployed fields
 R-8 stays OPEN until slice 2 lands, external tokenization is integrated, and the BLOCKED
 items above are signed off by Compliance/Security/Legal. Slice 1 clears none of the caps on
 its own; it deploys the **schema half** of the ratified ADR-24 design.
+
+### 9.5 Addendum — Slice 2 build (gating service, code) — 2026-07-03
+
+> [!NOTE]
+> **AI-Assisted Documentation.** Records what was *actually built and deployed* in slice 2
+> (the gating precondition service + wiring), extending §5.2. Schema is the contract; this
+> addendum governs over the §5.2 draft vocabulary where they differ (schema > docs).
+
+**Built and deployed to `mortagate-de`:**
+
+- **`IdentityGateService`** (`@group KYC-OFAC`) — the gating precondition, OUTSIDE the pure
+  kernel per §5.2. `public static Map<Id, GateResult> evaluate(Set<Id> loanIds)` and a
+  pre-hoisted overload `evaluate(Set<Id>, Map<Id,String> identityStatusByLoan)`.
+  `GateResult = { Boolean blocked, String blockCode, String reason }` where `blockCode ∈
+  {KYC_INCOMPLETE, SANCTIONS_HOLD, SCREEN_MISSING, null}` and `reason` is plain-words
+  RuleNarration-style text. **Gate logic per loan (first match wins, §5.2 precedence):**
+  1. `Identity_Verification_Status__c != 'Verified'` → `KYC_INCOMPLETE`
+  2. no `Sanctions_Screening__c` on file → `SCREEN_MISSING` (**hard BLOCK**, absence ≠ clearance)
+  3. newest (greatest `Screened_At__c`) `Result__c != 'Clear'` → `SANCTIONS_HOLD`
+  4. else → not blocked.
+  **Active-vocabulary note:** slice-1 narrowed the disposition field from the §5.2 draft
+  `Disposition__c ∈ {No_Match, False_Positive_Cleared, …}` to `Result__c ∈ {Clear,
+  Potential_Match, Confirmed_Match, Pending_Review}`. The §5.2 pass set `{No_Match,
+  False_Positive_Cleared}` collapses to the single active pass value **`Clear`** — the gate
+  compares `Result__c == 'Clear'`.
+  **Bulk-safety:** hoisted reads only, **ZERO DML**; `evaluate(Set<Id>)` = **2 SOQL** for N
+  loans (loan-status read `WITH USER_MODE` + screening read), overload = **1 SOQL**.
+  **Security:** the `Sanctions_Screening__c` read is a **deliberate system-mode** read (no
+  `WITH USER_MODE`): the object is under ADR-24 need-to-know isolation
+  (`Veridact_KYC_Officer_Access` only, OFF the auditor/engine permset), so the gate acts as
+  privileged precondition infrastructure that checks the screen on the caller's behalf and
+  returns ONLY the verdict + disposition label — never SSN, never `Match_Details__c`; sharing
+  is still honoured (`with sharing`); only required fields (`Result__c`, `Screened_At__c`,
+  `Loan__c`) are selected.
+
+- **Wiring — `CaseSummaryService` Phase-2** (the active audit surface that narrates replay
+  results for a case's loan): identity status folds into the existing case→`Loan__r` join
+  (**+0 SOQL**); the gate adds **+1 SOQL** (screenings). When the case's loan is gated, the
+  briefing **LEADS** with the block (`BLOCKED — sanctions hold: …` / `BLOCKED — identity
+  verification incomplete: …` / `BLOCKED — no sanctions screening on file: …`) **before** any
+  policy narration. The block and policy replay are **orthogonal** — a `Confirmed_Match`
+  leads the briefing even when the replay verdict is clean.
+
+- **BOUNDARY (unchanged from §5.2, code-enforced by omission):** the gate is **NOT** wired
+  into `PolicyRuleEvaluator` (must stay pure, ADR-5), `ReplayService`, or
+  `SecondPassSweepBatch`. The sweep replays decision **history**; gating is a **present-state**
+  precondition — a screen recorded today must not retroactively rewrite a historical replay.
+  Documented in both class docs.
+
+**Tests — 22/22 on `mortagate-de`** (deploy `0AfgL00000QJKX7SAP` gate 10/10 +
+`0AfgL00000QJKaLSAX` summary+diagnosis+gate 22/22):
+- `IdentityGateServiceTest` (10): verified+clear→not blocked; **Confirmed_Match with Verified
+  identity → SANCTIONS_HOLD (orthogonality proof)**; Potential_Match/Pending_Review→
+  SANCTIONS_HOLD; **no screening row → SCREEN_MISSING (absence ≠ clearance pin)**;
+  Pending/Failed/Not_Started/Manual_Review→KYC_INCOMPLETE (precedence over a clear screen);
+  newest-`Screened_At__c` wins both directions; bulk-200 → ≤2 SOQL / 0 DML; overload → 1 SOQL;
+  empty → 0 SOQL.
+- `CaseSummaryServiceTest` (+3): gated loan → summary leads with the block (sanctions-hold with
+  clean replay narrated behind it; identity-incomplete; no-screen); hero + bulk-200 seeded
+  verified+clear so existing content assertions stay unchanged (bulk SOQL budget relaxed 5→6
+  for the one hoisted gate query).
+
+**What remains after slice 2 — BLOCKED, HUMAN sign-off required (verbatim from §7 / §9.4, still open):**
+- **OQ-R8-1** — Which external SSN tokenization vault? (Skyflow / Very Good Security /
+  Salesforce Shield-only / in-house). *Owner + Security.*
+- **OQ-R8-2** — Is "no sanctions screen on file" a hard BLOCK to origination? (Knuth: yes —
+  absence ≠ clearance.) *Compliance.* **Note:** slice-2 code IMPLEMENTS this as SCREEN_MISSING
+  hard-block; the code choice does not substitute for the compliance ruling.
+- **OQ-R8-4** — Match-score threshold for auto `Clear` vs `Potential_Match` routing — who owns
+  the cutoff? (Config-as-data, not hardcoded.) *Compliance.*
+- **OQ-R8-6** — Retention/purge policy for `SSN_Token__c` in immutable records vs vault
+  deletion duty. *Compliance + Legal.*
+- **OQ-R8-7** — Encrypt `SSN_Token__c` at rest in Salesforce (Encrypted Text / Shield if
+  licensed, cf. R-6)? Built as plain Text(255) in slice 1 — encryption deferred to this
+  sign-off. *Security.*
+- **External tokenization integration** — not built in slice 2 (the gate reads only identity
+  status + screening disposition; no SSN capture/de-tokenization path exists yet).
+
+R-8 stays OPEN. Slice 2 lands the **gating-code half** of ADR-24 (§8 item (b)); items (c)
+external tokenization and (d) compliance sign-off remain. Slice 2 clears none of the
+Confidence Caps on its own — Production Lending stays capped until all four land.

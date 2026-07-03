@@ -22,6 +22,15 @@
  * Bulk-safe by construction: constant SOQL/DML regardless of request count (all
  * reads hoisted out of the per-case loop, all writes batched).
  *
+ * KYC/OFAC gating (ADR-24, present-state precondition): Phase-2 also runs the
+ * IdentityGateService gate on each case's loan (identity status folds into the
+ * existing case query at +0 SOQL; screenings cost +1 hoisted SOQL). When the loan
+ * is gated, the briefing LEADS with the block ("BLOCKED — sanctions hold: …" /
+ * identity incomplete / no screening on file) BEFORE any policy narration — the two
+ * axes are orthogonal, so a block stands regardless of the replay verdict. This is a
+ * present-tense precondition surfaced to the auditor; it is NOT wired into the pure
+ * kernel, ReplayService, or the second-pass sweep (which replay decision history).
+ *
  * @group Agentforce
  */
 public with sharing class CaseSummaryService {
@@ -75,9 +84,10 @@ public with sharing class CaseSummaryService {
         Set<Id> caseIdSet = new Set<Id>(caseIds);
         Map<Id, Audit_Case__c> caseById = new Map<Id, Audit_Case__c>([
             SELECT Id, Name, Status__c, Risk_Tier__c, Due_At__c,
-                   Borrower_Name_Snapshot__c, Loan_Amount__c,
+                   Borrower_Name_Snapshot__c, Loan_Amount__c, Loan__c,
                    Loan__r.LOS_Loan_Id__c, Loan__r.Loan_Amount__c,
-                   Loan__r.Property_Value__c, Loan__r.LastModifiedDate
+                   Loan__r.Property_Value__c, Loan__r.LastModifiedDate,
+                   Loan__r.Identity_Verification_Status__c
             FROM Audit_Case__c
             WHERE Id IN :caseIdSet
             WITH USER_MODE
@@ -88,17 +98,36 @@ public with sharing class CaseSummaryService {
             AuditSoql.latestChecksFor(caseIdSet);                    // SOQL 3 (+4)
         Map<Id, EvidenceRollup> evByCase = loadEvidence(caseIdSet);  // SOQL 5
 
+        // KYC/OFAC gate (ADR-24) — identity status is already hoisted on the case
+        // join above (+0 SOQL); the gate adds exactly +1 SOQL for the screenings.
+        Set<Id> loanIds = new Set<Id>();
+        Map<Id, String> identityStatusByLoan = new Map<Id, String>();
+        for (Audit_Case__c ac : caseById.values()) {
+            if (ac.Loan__c != null) {
+                loanIds.add(ac.Loan__c);
+                identityStatusByLoan.put(ac.Loan__c,
+                    ac.Loan__r == null ? null : ac.Loan__r.Identity_Verification_Status__c);
+            }
+        }
+        Map<Id, IdentityGateService.GateResult> gateByLoan = loanIds.isEmpty()
+            ? new Map<Id, IdentityGateService.GateResult>()
+            : IdentityGateService.evaluate(loanIds, identityStatusByLoan);  // SOQL 6
+
         List<Audit_Event__c> outcomeEvents = new List<Audit_Event__c>();
         for (Integer i = 0; i < caseIds.size(); i++) {
             Id caseId = caseIds[i];
             Response r;
             try {
+                Audit_Case__c ac = caseById.get(caseId);
+                IdentityGateService.GateResult gate =
+                    (ac != null && ac.Loan__c != null) ? gateByLoan.get(ac.Loan__c) : null;
                 r = narrate(
-                    caseById.get(caseId),
+                    ac,
                     factsByCase.get(caseId),
                     checksByCase.containsKey(caseId)
                         ? checksByCase.get(caseId) : new List<Replay_Check__c>(),
-                    evByCase.get(caseId)
+                    evByCase.get(caseId),
+                    gate
                 );
             } catch (Exception e) {
                 r = errorResponse(e);
@@ -169,7 +198,8 @@ public with sharing class CaseSummaryService {
     // ── Assembly (pure: no SOQL, no DML) ─────────────────────────────────
 
     private static Response narrate(
-        Audit_Case__c ac, Facts f, List<Replay_Check__c> checks, EvidenceRollup ev) {
+        Audit_Case__c ac, Facts f, List<Replay_Check__c> checks, EvidenceRollup ev,
+        IdentityGateService.GateResult gate) {
         Response res = new Response();
 
         if (ac == null) {
@@ -179,6 +209,14 @@ public with sharing class CaseSummaryService {
         }
 
         List<String> parts = new List<String>();
+
+        // ── KYC/OFAC gate (ADR-24): a present-state block LEADS the briefing,
+        //    orthogonal to and ahead of any policy narration below. ──
+        if (gate != null && gate.blocked) {
+            res.gated = true;
+            res.blockCode = gate.blockCode;
+            parts.add(gateLead(gate));
+        }
 
         // ── Header line: who / status / risk / SLA ──
         String borrower = String.isBlank(ac.Borrower_Name_Snapshot__c)
@@ -244,6 +282,19 @@ public with sharing class CaseSummaryService {
         res.summary = String.join(parts, ' ');
         res.actionStatus = 'Success';
         return res;
+    }
+
+    /** Lead sentence for a gated loan — names the block category, then the plain reason. */
+    private static String gateLead(IdentityGateService.GateResult gate) {
+        String head;
+        if (gate.blockCode == 'SANCTIONS_HOLD') {
+            head = 'BLOCKED — sanctions hold: ';
+        } else if (gate.blockCode == 'KYC_INCOMPLETE') {
+            head = 'BLOCKED — identity verification incomplete: ';
+        } else {   // SCREEN_MISSING
+            head = 'BLOCKED — no sanctions screening on file: ';
+        }
+        return head + gate.reason;
     }
 
     private static String loanSnapshot(Audit_Case__c ac, Facts f) {
@@ -356,8 +407,11 @@ public with sharing class CaseSummaryService {
         @InvocableVariable(label='Unverifiable count') public Integer unverifiableCount;
         @InvocableVariable(label='Replay stale') public Boolean stale;
 
-        // Governance carriers (NOT surfaced to Agentforce/Flow).
-        public String actionStatus;
-        public String actionError;
+        // Gate + governance carriers (NOT surfaced to Agentforce/Flow — the block
+        // rides the summary text the agent reads; these are for callers/tests).
+        public Boolean gated;
+        public String  blockCode;
+        public String  actionStatus;
+        public String  actionError;
     }
 }
