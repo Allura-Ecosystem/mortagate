@@ -1,0 +1,68 @@
+{
+  "status": 0,
+  "result": {
+    "nonScratchOrgs": [
+      {
+        "accessToken": "[REDACTED] Use 'sf org auth show-access-token' to view",
+        "instanceUrl": "https://orgfarm-156cb47730-dev-ed.develop.my.salesforce.com",
+        "orgId": "00DgL00000SseMyUAJ",
+        "username": "sasheed72.00f6e389a7e4@agentforce.com",
+        "loginUrl": "https://login.salesforce.com",
+        "clientId": "PlatformCLI",
+        "isDevHub": true,
+        "instanceApiVersion": "67.0",
+        "instanceApiVersionLastRetrieved": "7/2/2026, 8:08:18 AM",
+        "name": "faith meats",
+        "instanceName": "CAN98",
+        "namespacePrefix": null,
+        "isSandbox": false,
+        "isScratch": false,
+        "trailExpirationDate": null,
+        "orgEdition": "Developer Edition",
+        "tracksSource": false,
+        "alias": "mortagate-de",
+        "isDefaultDevHubUsername": false,
+        "isDefaultUsername": false,
+        "lastUsed": "2026-07-03T05:44:26.172Z",
+        "connectedStatus": "Connected"
+      }
+    ],
+    "devHubs": [
+      {
+        "accessToken": "[REDACTED] Use 'sf org auth show-access-token' to view",
+        "instanceUrl": "https://orgfarm-156cb47730-dev-ed.develop.my.salesforce.com",
+        "orgId": "00DgL00000SseMyUAJ",
+        "username": "sasheed72.00f6e389a7e4@agentforce.com",
+        "loginUrl": "https://login.salesforce.com",
+        "clientId": "PlatformCLI",
+        "isDevHub": true,
+        "instanceApiVersion": "67.0",
+        "instanceApiVersionLastRetrieved": "7/2/2026, 8:08:18 AM",
+        "name": "faith meats",
+        "instanceName": "CAN98",
+        "namespacePrefix": null,
+        "isSandbox": false,
+        "isScratch": false,
+        "trailExpirationDate": null,
+        "orgEdition": "Developer Edition",
+        "tracksSource": false,
+        "alias": "mortagate-de",
+        "isDefaultDevHubUsername": false,
+        "isDefaultUsername": false,
+        "lastUsed": "2026-07-03T05:44:26.172Z",
+        "connectedStatus": "Connected"
+      }
+    ],
+    "scratchOrgs_summary": {
+      "count": 3,
+      "note": "expired/deleted scratch orgs omitted for brevity",
+      "aliases": [
+        "audit-scratch:Deleted:expired",
+        "mortagate-scratch:Deleted:expired",
+        "veridact-af:Deleted:expired"
+      ]
+    },
+    "sandboxes": [],
+    "other": []
+  }
+}

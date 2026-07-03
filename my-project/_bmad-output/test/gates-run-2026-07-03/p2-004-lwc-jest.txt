@@ -1,0 +1,51 @@
+npm error Missing script: "test"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /home/ronin704/.npm/_logs/2026-07-03T06_08_10_784Z-debug-0.log
+
+> mortagate@1.0.0 test:unit
+> sfdx-lwc-jest --runInBand
+
+[34minfo[39m `sfdx-lwc-jest [options]` runs Jest unit tests in SFDX workspace
+
+Options:
+      --version              Show version number                       [boolean]
+      --coverage             Collect coverage and display in output
+                                                      [boolean] [default: false]
+  -u, --updateSnapshot       Re-record every snapshot that fails during a test
+                             run                      [boolean] [default: false]
+      --verbose              Display individual test results with the test suite
+                             hierarchy                [boolean] [default: false]
+      --watch                Watch files for changes and rerun tests related to
+                             changed files            [boolean] [default: false]
+      --debug                Run tests in debug mode
+                             (https://jestjs.io/docs/en/troubleshooting)
+                                                      [boolean] [default: false]
+      --skipApiVersionCheck  Deprecated: this noop flag is kept for backward
+                             compatibility                             [boolean]
+      --help                 Show help                                 [boolean]
+
+Examples:
+  sfdx-lwc-jest --coverage  Collect coverage and display in output
+  sfdx-lwc-jest -- --json   All params after `--` are directly passed to Jest
+[31merror[39m The following argument(s) are not recognized by lwc-jest: runInBand
+If you wish to pass these arguments along to Jest, please add the '--' flag
+PASS force-app/main/default/lwc/caseReview/__tests__/caseReview.test.js
+PASS force-app/main/default/lwc/auditQueue/__tests__/auditQueue.test.js
+PASS force-app/main/default/lwc/findingDetail/__tests__/findingDetail.test.js
+PASS force-app/main/default/lwc/policyVersions/__tests__/policyVersions.test.js
+PASS force-app/main/default/lwc/signoffReceipt/__tests__/signoffReceipt.test.js
+PASS force-app/main/default/lwc/glossaryTerm/__tests__/glossaryTerm.test.js
+PASS force-app/main/default/lwc/auditAnalytics/__tests__/auditAnalytics.test.js
+PASS force-app/main/default/lwc/auditQueueFilters/__tests__/auditQueueFilters.test.js
+PASS force-app/main/default/lwc/auditAdmin/__tests__/auditAdmin.test.js
+PASS force-app/main/default/lwc/riskBadge/__tests__/riskBadge.test.js
+PASS force-app/main/default/lwc/auditMetricCards/__tests__/auditMetricCards.test.js
+PASS force-app/main/default/lwc/auditQueueDatatable/__tests__/auditQueueDatatable.test.js
+
+Test Suites: 12 passed, 12 total
+Tests:       53 passed, 53 total
+Snapshots:   0 total
+Time:        6.665 s
+Ran all test suites.

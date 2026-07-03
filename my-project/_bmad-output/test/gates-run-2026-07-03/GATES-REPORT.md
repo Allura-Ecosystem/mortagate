@@ -1,0 +1,97 @@
+# Gate Run Receipt — mortagate.gates.json
+
+> **AI-Assisted Documentation** — This gate receipt was generated with AI assistance (Hightower, DevOps agent).
+
+- **Date (UTC):** 2026-07-03
+- **Project:** Mortgage Approval Engine (Veridact)
+- **Checkout:** `/media/ronin704/Games/Projects/Allura-ecosystem/allura module/mortgage-audit`
+- **Branch:** `feat/veridact-v1-demo`
+- **Org alias:** `mortagate-de` (Connected — Developer Edition, orgId `00DgL00000SseMyUAJ`, apiVersion 67.0)
+- **Gate file:** `mortagate.gates.json` (schema gate-runner.v1)
+- **Runner:** sf CLI 2.137.7, node v24.14.0
+- **Note:** `seed-data.apex` was NOT run (per standing instruction).
+
+## Executive Summary
+
+| Phase | PASS | PASS-WITH-DEVIATION | OPEN-MANUAL | FAIL |
+|---|---|---|---|---|
+| phase-0 (workspace/org readiness) | 4 | 0 | 0 | 0 |
+| phase-1 (Carlos doc readiness) | 7 | 0 | 0 | 0 |
+| phase-2 (metadata + quality) | 2 | 1 | 2 | **1** |
+| **Total** | **13** | **1** | **2** | **1** |
+
+- **Apex tests:** 198/198 passing (100%), org-wide coverage **83%**, test-run coverage 93%.
+- **LWC Jest:** 53/53 passing across 12 suites.
+- **Blocking failure:** `p2-002` full-source `--dry-run` FAILED with **132 component errors** — pending scheduled/async Apex jobs and an active Agentforce bot in the org block a full-source deploy. This is **not** the ADR-22/25 UNKNOWN_EXCEPTION gack, so the piecewise fallback was **not** invoked. Reported for triage; not fixed in this slice.
+
+---
+
+## Phase 0 — Workspace And Org Readiness
+
+| Check ID | Command / Test | Result | Evidence |
+|---|---|---|---|
+| p0-001-sf-cli-version | `sf --version` | PASS | `@salesforce/cli/2.137.7 linux-x64 node-v24.14.0` — `p0-001-sf-version.txt` |
+| p0-002-org-display | `sf org display --target-org mortagate-de --json` | PASS | `connectedStatus: Connected`, alias `mortagate-de`, apiVersion 67.0 — `p0-002-org-display.json` (accessToken redacted by CLI) |
+| p0-003-org-list | `sf org list --all --json` | PASS | `mortagate-de` present in nonScratchOrgs + devHubs, Connected — `p0-003-org-list.json` |
+| p0-004-project-context | file_exists ×3 | PASS | `planning docs/copilot-instructions.md`, `CLAUDE.md`, `mortagate.gates.json` all present |
+
+---
+
+## Phase 1 — Carlos Documentation Readiness
+
+| Check ID | Command / Test | Result | Evidence |
+|---|---|---|---|
+| p1-001-blueprint | `test -f planning docs/BLUEPRINT.md` | PASS | present |
+| p1-002-solution-architecture | `test -f planning docs/SOLUTION-ARCHITECTURE.md` | PASS | present |
+| p1-003-requirements-matrix | `test -f planning docs/REQUIREMENTS-MATRIX.md` | PASS | present |
+| p1-004-risks-decisions | `test -f planning docs/RISKS-AND-DECISIONS.md` | PASS | present |
+| p1-005-data-dictionary | `test -f planning docs/DATA-DICTIONARY.md` | PASS | present |
+| p1-006-design-doc | glob `my-project/_bmad-output/planning/DESIGN-*.md` | PASS | 5 matches (adverse-action, kyc-ofac, onboarding-ux, policy-engine, second-pass-data) — `p1-006-design-glob.txt` |
+| p1-007-ai-disclosure | content_match `AI-Assisted Documentation` ×5 docs | PASS | matched in all 5 Carlos docs |
+
+---
+
+## Phase 2 — Salesforce Metadata And Quality Readiness
+
+| Check ID | Command / Test | Result | Evidence |
+|---|---|---|---|
+| p2-001-project-json | `test -f sfdx-project.json` | PASS | present |
+| p2-002-source-status | `sf project deploy start --source-dir force-app --target-org mortagate-de --dry-run --json` | **FAIL** | 132 component errors / 432 total. `result.status: Failed`. See failure detail below — `p2-002-fullsource-dryrun.json`, `p2-002-failure-summary.txt` |
+| p2-003-apex-tests | `sf apex run test --target-org mortagate-de --result-format json --code-coverage` | PASS | 198/198 passing, orgWideCoverage **83%**, testRunCoverage 93% — `p2-003-apex-tests.json` |
+| p2-004-lwc-tests | `npm test -- --runInBand` → ran `npm run test:unit` | PASS-WITH-DEVIATION | 53/53 passing, 12 suites. Literal gate cmd fails: no `test` script in package.json (script is `test:unit` = sfdx-lwc-jest). Ran actual suite — `p2-004-lwc-jest.txt` |
+| p2-005-flow-quality-review | manual_review | OPEN-MANUAL | Not freshly reviewed. Standing evidence: Flow bulk-safety discipline (no DML/Get-Records in loops) per apex/flow ADRs; fault-connector convention. Pointer: `planning docs/RISKS-AND-DECISIONS.md`, `copilot-instructions.md`. Requires human sign-off. |
+| p2-006-lwc-quality-review | manual_review | OPEN-MANUAL | Not freshly reviewed. Standing evidence: brand-token guard (`npm run test:tokens`) green, `@sa11y/jest` a11y matchers in suite, no innerHTML-with-user-data convention, Apex CRUD/FLS via USER_MODE. Pointer: `lwc-craft` skill PICKLES checklist. Requires human sign-off. |
+
+### p2-002 Failure Detail (for triage)
+
+Full-source `--dry-run` returned `result.status: Failed`, **132 component errors** across 432 components. Distinct problems:
+
+| Count | Problem | Type |
+|---|---|---|
+| 54 + 65 (paired msgs) | `This schedulable class has jobs pending or in progress - CronTrigger IDs ()` + "bypass via Deployment Settings" | ApexClass |
+| 10 | `This schedulable class has jobs pending or in progress - CronTrigger IDs (08egL00000bzH8H)` | ApexClass |
+| 1 | `This Apex class has asynchronous Apex jobs ... pending or in progress; AsyncApexJob ID(s): 707gL000010vWCP` | ApexClass |
+| 1 | `Cannot update record as Agent is Active` | GenAiPlannerBundle |
+| 1 | `Can't edit an active bot version` | BotVersion |
+
+Failing component types: 130 ApexClass, 1 GenAiPlannerBundle, 1 BotVersion.
+
+**Root cause (org state, not source):** A scheduled job (CronTrigger `08egL00000bzH8H`, consistent with `SecondPassSweepBatch` scheduled per commit d3f1a9e) and pending async Apex block redeploy of the Apex classes they reference. The Agentforce bot/planner is Active, blocking its metadata update. None of these are source-compile errors.
+
+**Why no piecewise fallback:** Gate-run policy invokes the documented piecewise dry-run only when the full-source attempt returns `UNKNOWN_EXCEPTION` with **0** component errors (ADR-22/25 gack). Here there is no UNKNOWN_EXCEPTION and 132 real component errors, so the fallback condition is not met. Marked FAIL, left for triage.
+
+**Suggested triage (NOT applied in this slice):**
+- Unschedule/abort the pending `SecondPassSweepBatch` CronTrigger + drain async jobs, or enable "Allow deployments of components when corresponding Apex jobs are pending or in progress" in Deployment Settings; and deactivate the bot version / planner before a full-source deploy.
+- Delegate remediation to woz-builder-mortgate per routing policy if a fix is authorized.
+
+---
+
+## Evidence Files (same directory)
+
+- `p0-001-sf-version.txt`
+- `p0-002-org-display.json` (accessToken redacted by CLI)
+- `p0-003-org-list.json` (accessToken redacted by CLI)
+- `p1-006-design-glob.txt`
+- `p2-002-fullsource-dryrun.json` (raw), `p2-002-fullsource-dryrun.clean.json` (warning-stripped), `p2-002-failure-summary.txt`
+- `p2-003-apex-tests.json` (+ `.raw`)
+- `p2-004-lwc-jest.txt`

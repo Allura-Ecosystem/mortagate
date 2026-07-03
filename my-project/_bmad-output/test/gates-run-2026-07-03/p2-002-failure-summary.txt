@@ -1,0 +1,15 @@
+p2-002 FULL-SOURCE DRY-RUN — FAILURE SUMMARY
+command: sf project deploy start --source-dir force-app --target-org mortagate-de --dry-run --json
+result.status: Failed  success: false
+numberComponentErrors: 132 / total 432
+
+DISTINCT PROBLEMS (count x message):
+  54 x  This schedulable class has jobs pending or in progress - CronTrigger IDs ()
+  65 x  You can bypass this error by allowing deployments with Apex jobs in the Deployment Settings page in Setup.
+  10 x  This schedulable class has jobs pending or in progress - CronTrigger IDs (08egL00000bzH8H)
+  1 x  This Apex class has asynchronous Apex jobs (e.g. batch, schedulable, or queueable jobs) pending or in progress; AsyncApexJob ID(s): 707gL000010vWCP
+  1 x  Cannot update record as Agent is Active
+  1 x  Can't edit an active bot version
+
+This is NOT the ADR-22/25 UNKNOWN_EXCEPTION gack (no UNKNOWN_EXCEPTION, 132 real component errors).
+Piecewise fallback NOT triggered per gate-run instructions. Marked FAIL for triage.
