@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Sanctions Screening</label>
+    <pluralLabel>Sanctions Screenings</pluralLabel>
+    <nameField>
+        <label>Screening Number</label>
+        <type>AutoNumber</type>
+        <displayFormat>SS-{000000}</displayFormat>
+    </nameField>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <sharingModel>ReadWrite</sharingModel>
+    <description>Immutable record of a single OFAC / sanctions screening event against a party on a loan. Append-only -- never updated, never deleted (ADR-24, DESIGN-kyc-ofac.md). Parents on Loan__c (deleteConstraint=Restrict). A changed result is a NEW record, never an edit; the newest Screened_At__c for a Loan__c is the current disposition, the chain is the audit trail. APPEND-ONLY.</description>
+</CustomObject>

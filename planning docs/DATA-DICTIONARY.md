@@ -224,10 +224,13 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `FICO_At_Approval__c` | Number(3,0) | No | FICO score at time of approval | -- |
 | `LTV_At_Approval__c` | Percent(5,2) | No | LTV ratio at approval, whole-number percentage points | -- |
 | `Source_Application__c` | Lookup(`Loan_Application__c`) | No | Link back to origination record if available | -- |
+| `SSN_Token__c` | Text(255) | No | Opaque token from the EXTERNAL SSN vault -- NOT the SSN, meaningless without the vault. Raw SSN never stored in Salesforce (ADR-24). At-rest encryption pending OQ-R8-7. | -- |
+| `SSN_Last_Four__c` | Text(4) | No | Last four digits only, for display/verification. Never written to any immutable/snapshot/Agentforce payload (ADR-24). | -- |
+| `Identity_Verification_Status__c` | Picklist (restricted) | Yes | KYC/CIP identity state; gating precondition (ADR-24) -- only `Verified` passes to the kernel. Defaults to `Not_Started`. | `Not_Started` (default), `Pending`, `Verified`, `Failed`, `Manual_Review` |
 
 **Relationships:**
 - Optional lookup to `Loan_Application__c` (origination system)
-- Parent of: `Audit_Case__c`
+- Parent of: `Audit_Case__c`, `Sanctions_Screening__c` (KYC/OFAC, ADR-24)
 
 **Notes:** This is the audit-side loan record. It holds snapshotted loan data relevant to the audit. It is NOT the origination application -- `Loan_Application__c` is retained separately for the origination flow. The `Approval_Date__c` field is critical for FR-26 (policy version resolution).
 
@@ -559,6 +562,38 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 
 ---
 
+### 2.12 Sanctions_Screening__c [APPEND-ONLY]
+
+**Label:** Sanctions Screening
+**Description:** Immutable record of a single OFAC / sanctions screening event against a party on a loan. Append-only. Parents on `Loan__c` (not `Audit_Case__c`) -- every originated loan is screened, only some are audited (ADR-24, OQ-R8-5).
+**Old name:** (none -- NEW)
+**FR coverage:** R-8 / ADR-24 (KYC/OFAC gating preconditions)
+
+| Field API Name | Type | Required | Description | Default / Picklist Values |
+|----------------|------|----------|-------------|--------------------------|
+| `Name` | AutoNumber (`SS-{000000}`) | Auto | Screening identifier | -- |
+| `Loan__c` | Lookup(`Loan__c`) | Yes | Parent loan. `deleteConstraint=Restrict`, `relationshipName=Sanctions_Screenings` | -- |
+| `Result__c` | Picklist (restricted) | Yes | Outcome; gating precondition -- only `Clear` passes to the kernel | `Clear`, `Potential_Match`, `Confirmed_Match`, `Pending_Review` |
+| `List_Source__c` | Picklist (restricted) | Yes | Which sanctions list set governed the screen | `OFAC_SDN`, `Consolidated` |
+| `List_Version__c` | Text(50) | Yes | Provider list version / publish date -- pins exactly which list governed this screen | e.g. `OFAC-SDN-2026-06-18` |
+| `Match_Details__c` | LongTextArea(32000) | No | Provider candidates + analyst rationale. Never contains raw/de-tokenized SSN (ADR-24) | -- |
+| `Adjudicated_By__c` | Lookup(User) | No | User who adjudicated a match (null for auto-cleared). `deleteConstraint=SetNull` | -- |
+| `Screened_At__c` | DateTime | Yes | When the screen executed; newest for a `Loan__c` is the current result | -- |
+
+**Relationships:**
+- Lookup to `Loan__c` (parent, `Restrict`) -- the audit side reaches screening history through the existing `Loan__c` <- `Audit_Case__c` lookup
+- Lookup to `User` via `Adjudicated_By__c`
+
+**Immutability enforcement:**
+- Validation rule `Prevent_Edit_After_Creation`: `NOT(ISNEW())` blocks UPDATE on all fields after insert
+- Trigger `SanctionsScreeningPreventDelete` (before update + before delete): blocks UPDATE and DELETE in code (ADR-24/ADR-1 -- enforcement lives in code so it cannot be bypassed by Flow/API/other triggers; the validation rule stays as defense in depth)
+
+**FLS / access:** Screening object + `Loan__c` SSN fields are granted ONLY via the new `Veridact_KYC_Officer_Access` permission set (need-to-know isolation, ADR-24). They are deliberately absent from the general `Veridact_Mortgage_Engine_Access` permission set.
+
+**Notes:** A sanctions screen is a receipt, not a mutable status. A changed result is a NEW record, never an edit -- same discipline as `Decision_Event__c` re-evaluation (ADR-1). KYC/OFAC are gating preconditions evaluated OUTSIDE the pure kernel (ADR-24); they are never `Policy_Rule__c` rows and never enter `PolicyRuleEvaluator`. A `Confirmed_Match` / uncleared `Potential_Match` / `Pending_Review` / absent screen blocks origination regardless of policy verdict. **This slice delivers the schema only; the gating service (slice 2) is not yet built.**
+
+---
+
 ## 3. Immutability Rules Summary
 
 | Object | UPDATE Blocked | DELETE Blocked | Enforcement |
@@ -566,6 +601,7 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Audit_Event__c` | Yes (all fields post-insert) | Yes | Validation rule + before-delete trigger |
 | `Audit_Receipt__c` | Yes (all fields post-insert) | Yes | Validation rule + before-delete trigger |
 | `Agent_Action_Log__c` | Yes (all fields post-insert) | Yes | Validation rule + before-delete trigger |
+| `Sanctions_Screening__c` | Yes (all fields post-insert) | Yes | Validation rule + before update/delete trigger (ADR-24) |
 | `Decision_Event__c` (origination) | Yes (all fields post-insert) | Yes | Apex trigger (existing) |
 
 All other objects allow standard CRUD operations subject to FLS and sharing rules.
@@ -592,6 +628,8 @@ All other objects allow standard CRUD operations subject to FLS and sharing rule
 | `Policy_Version__c` | `Effective_Date__c` + `Is_Active__c` | Compound Custom Index | Version resolution (FR-26) |
 | `Agent_Action_Log__c` | `Audit_Case__c` | Lookup (auto) | Parent join |
 | `Agent_Action_Log__c` | `Timestamp__c` | Custom Index | Chronological queries |
+| `Sanctions_Screening__c` | `Loan__c` | Lookup (auto) | Parent join (ADR-24) |
+| `Sanctions_Screening__c` | `Screened_At__c` | Custom Index | Chronological "latest screen" queries (ADR-24) |
 
 ---
 

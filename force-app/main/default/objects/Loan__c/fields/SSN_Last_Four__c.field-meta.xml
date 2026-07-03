@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SSN_Last_Four__c</fullName>
+    <label>SSN Last Four</label>
+    <type>Text</type>
+    <length>4</length>
+    <required>false</required>
+    <description>Last four digits only, for display/verification (e.g. ••• •• 1234). Last-four alone is not a reportable SSN. Never written to any immutable, snapshot, or Agentforce payload (ADR-24).</description>
+</CustomField>

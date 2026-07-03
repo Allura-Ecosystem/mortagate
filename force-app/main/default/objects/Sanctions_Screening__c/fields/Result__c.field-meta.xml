@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Result__c</fullName>
+    <label>Result</label>
+    <type>Picklist</type>
+    <required>true</required>
+    <description>Outcome of the screen. Gating precondition (ADR-24): only Clear passes to the kernel; Potential_Match / Confirmed_Match / Pending_Review block origination regardless of policy verdict.</description>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Clear</fullName><default>false</default><label>Clear</label></value>
+            <value><fullName>Potential_Match</fullName><default>false</default><label>Potential Match</label></value>
+            <value><fullName>Confirmed_Match</fullName><default>false</default><label>Confirmed Match</label></value>
+            <value><fullName>Pending_Review</fullName><default>false</default><label>Pending Review</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

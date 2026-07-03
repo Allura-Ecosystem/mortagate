@@ -266,3 +266,89 @@ into the origination orchestrator outside the kernel, (c) external tokenization 
 and (d) compliance sign-off (parallel to the R-7 counsel-sign-off pattern). This document
 closes the **design** step only. Per the Confidence Caps, Production Lending stays capped
 until all four land and a human approves.
+
+---
+
+## 9. Addendum — Slice 1 build (schema only) — 2026-07-03
+
+> [!NOTE]
+> **AI-Assisted Documentation.** This addendum records what was *actually built and
+> deployed* in slice 1 (schema only), and reconciles the original §3–§6 design vocabulary
+> (drafted 2026-06-19) with the **active audit-side three-zone schema**. Schema is the
+> contract; where this addendum and §3–§6 differ, **this addendum governs** (schema > docs).
+
+### 9.1 Active-schema mapping (design draft → active objects)
+
+The design was drafted before the audit-side pivot settled. The active parent is `Loan__c`
+(the audit-relevant snapshot object, `LN-{000000}`), **not** the legacy origination
+`Loan_Application__c`. ADR-24 already ratified `Sanctions_Screening__c` parenting on
+`Loan__c` (OQ-R8-5), so the §3.1 decision carries over unchanged.
+
+| Design draft reference | Active object/field built | Note |
+|------------------------|---------------------------|------|
+| `Loan__c` (SSN + identity host, §4.1/§5.1) | `Loan__c` (audit-side, active) | Same object; confirmed as the active parent |
+| `Borrower_Snapshot__c` "never re-hold raw PII" (§4.1) | unchanged | Still holds no SSN; slice added nothing there |
+| `Loan_Application__c` (origination, dual-kernel) | not modified | Origination-side object retained; SSN lives on `Loan__c` per ADR-24 |
+
+### 9.2 Field-vocabulary reconciliation (ratified slim set vs §3.2/§5.1 draft)
+
+Slice 1 built the **ratified slim vocabulary** for `Sanctions_Screening__c` (per the loop
+item #6 instruction), which differs from the fuller §3.2 draft. Deployed fields:
+
+| §3.2 / §5.1 draft field | Built field (active) | Disposition |
+|-------------------------|----------------------|-------------|
+| `Disposition__c` (`No_Match`/`Potential_Match`/`Confirmed_Match`/`False_Positive_Cleared`/`Pending_Review`) | `Result__c` (`Clear`/`Potential_Match`/`Confirmed_Match`/`Pending_Review`) | RENAMED + narrowed. `Clear` replaces `No_Match`; `False_Positive_Cleared` folded into `Clear` (the current-state vocabulary the slice-2 gating service compares against) |
+| `List_Source__c` (5 values incl. EU/UN/Vendor) | `List_Source__c` (`OFAC_SDN`, `Consolidated`) | Narrowed to the two in-scope list sets |
+| `Disposition_Rationale__c` + `Match_Score__c` | `Match_Details__c` (LongTextArea) | Merged into one free-text detail field for slice 1 |
+| `Screened_By__c` (Lookup User, required) | `Adjudicated_By__c` (Lookup User, optional) | Re-scoped to the adjudicator; optional (auto-cleared screens have none) |
+| `Screened_Name__c`, `Screened_Party_Role__c`, `Provider__c`, `Provider_Reference_Id__c` | not built | Deferred; not in the slice-1 ratified set |
+| `List_Version__c`, `Screened_At__c`, `Loan__c` | built as designed | `List_Version__c` Text(50), `Screened_At__c` DateTime, `Loan__c` Lookup required `Restrict` |
+| `Identity_Verification_Status__c` (§5.1) | built (`Not_Started`/`Pending`/`Verified`/`Failed`/`Manual_Review`, default `Not_Started`, required) | Full design vocabulary retained; `SSN_Tokenized_At__c`/`SSN_Vault_Provider__c`/`Identity_Verified_At__c`/`KYC_Provider__c` deferred (not in slice-1 set) |
+
+### 9.3 What slice 1 built and deployed (org `mortagate-de`)
+
+- **New object** `Sanctions_Screening__c` [APPEND-ONLY], AutoNumber `SS-{000000}`, with fields
+  `Loan__c` (Lookup→`Loan__c`, required, `Restrict`), `Result__c`, `List_Source__c`,
+  `List_Version__c`, `Match_Details__c`, `Adjudicated_By__c` (Lookup→User, `SetNull`),
+  `Screened_At__c`.
+- **Append-only guards:** validation rule `Prevent_Edit_After_Creation` (`NOT(ISNEW())`) +
+  trigger `SanctionsScreeningPreventDelete` (before update + before delete, `addError`,
+  mirroring `AgentActionLogPreventDelete`).
+- **`Loan__c` additive fields:** `SSN_Token__c` Text(255), `SSN_Last_Four__c` Text(4),
+  `Identity_Verification_Status__c` restricted picklist.
+- **Permission set** `Veridact_KYC_Officer_Access` (need-to-know isolation): screening object
+  (create+read only) + `Loan__c` SSN fields FLS. **Not** added to
+  `Veridact_Mortgage_Engine_Access`.
+- **Test:** `SanctionsScreeningPreventDeleteTest` (insert allowed; update blocked bulk 200;
+  delete blocked bulk 200; rows survive). Deployed green alongside `PreventDeleteTriggerTest`
+  (9/9 passing).
+- **DATA-DICTIONARY.md** updated: §2.2 `Loan__c` field additions, new §2.12
+  `Sanctions_Screening__c`, §3 immutability row, §4 indexing rows.
+
+### 9.4 What remains
+
+- **Slice 2 — gating service (code, NOT in this slice):** wire the KYC/OFAC gating
+  preconditions into the origination orchestrator (`LoanDecisionService`) OUTSIDE the pure
+  kernel per §5.2 — `Identity_Verification_Status__c == Verified` AND latest
+  `Sanctions_Screening__c.Result__c == Clear`, else BLOCK (`KYC_INCOMPLETE` /
+  `SANCTIONS_HOLD`); a missing screen is a BLOCK, not a pass. Record the block append-only.
+
+- **BLOCKED — HUMAN sign-off required (verbatim from §7, still open):**
+  - **OQ-R8-1** — Which external SSN tokenization vault? (Skyflow / Very Good Security /
+    Salesforce Shield-only / in-house). *Owner + Security.*
+  - **OQ-R8-2** — Is "no sanctions screen on file" a hard BLOCK to origination? (Knuth: yes —
+    absence ≠ clearance.) *Compliance.*
+  - **OQ-R8-4** — Match-score threshold for auto `Clear` vs `Potential_Match` routing — who
+    owns the cutoff? (Config-as-data, not hardcoded.) *Compliance.*
+  - **OQ-R8-6** — Retention/purge policy for `SSN_Token__c` in immutable records vs vault
+    deletion duty. *Compliance + Legal.*
+  - **OQ-R8-7** — Encrypt `SSN_Token__c` at rest in Salesforce (Encrypted Text / Shield if
+    licensed, cf. R-6)? Built as plain Text(255) in slice 1 — encryption deferred to this
+    sign-off. *Security.*
+
+  (OQ-R8-3 and OQ-R8-5 were resolved by ADR-24: identity *status* on `Loan__c` is sufficient
+  for R-8; `Sanctions_Screening__c` parents on `Loan__c`.)
+
+R-8 stays OPEN until slice 2 lands, external tokenization is integrated, and the BLOCKED
+items above are signed off by Compliance/Security/Legal. Slice 1 clears none of the caps on
+its own; it deploys the **schema half** of the ratified ADR-24 design.
