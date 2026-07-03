@@ -21,8 +21,20 @@
 | 8 | Eval + un-quarantine | Hightower | **DONE** | 0828779 — eval PASS 3/3 (planner selects expected actions, June 'Unknown error' gone); AiEvaluationDefinition is Testing-API-only (no Version metadata exists — ADR-25 corrected); quarantine permanent-by-design |
 | 9 | 90-day QC-window lens | Woz+Pike | **DONE** | f5dfb56 — qcWindowDaysLeft + 6th metric card, anchor=Approval_Date__c (no closing date; documented proxy), Jest 63/63, token guard clean, on-org screenshot |
 | 10 | Packaging spike | Hightower | **DONE** | 0b2f097 — DESIGN-packaging.md: core app packageable, Agentforce excluded-with-runbook, top blocker = namespace (BLOCKED-HUMAN) |
-| 11 | Curator promotion proposals | Brooks | **DONE (proposals)** | 5 queued: bae7364c (bundle recipe), 32fa5287 (routing physics), b680f02a (units), 2cf67b2d (invocable descriptions), 21d988e5 (browser-automation doctrine). **Approval = BLOCKED-HUMAN** |
+| 11 | Curator promotion proposals | Brooks | **DONE (approved)** | 2026-07-03: all 19 pending proposals (5 doctrine + 14 session traces) approved by owner-curator sabir-ronin704, witness hashes frozen, canonical memories materialized + search-verified. Two Brain platform fixes required en route (see addendum) |
 
+
+## POST-LOOP ADDENDUM — signature-list burn-down (2026-07-03, owner-delegated session)
+
+Owner directive: "take all recommended actions to finish." Executed:
+
+- **Curator queue CLEARED (was BLOCKED-HUMAN):** all 19 pending proposals approved (curator `sabir-ronin704`, per-proposal rationales, witness hashes frozen). Found + fixed two Allura Brain platform defects blocking this: (1) `approval-audit.ts` re-connected the caller's live PoolClient (`"connect" in pg` guard matched clients too) — every curator approval 500'd; (2) the `promotion_sync_pending` outbox had **no consumer** — wrote `scripts/drain-promotion-outbox.ts` (append-only completion events, governed writer), drained 19/19, semantic retrieval verified. Both committed to allura-memory.
+- **Gates p2-005/p2-006 CLOSED (was BLOCKED-HUMAN):** fresh evidence reviews (Fowler: zero project Flows in source, all 107 org Flows managed/standard → vacuous PASS with re-open condition; Pike: 13 components, 5/5 criteria PASS, one non-blocking a11y polish note `policyVersions.html:18`). Owner-signed. **GATES 17/17 PASS, zero OPEN.**
+- **R-7 packet READY (counsel still signs):** `R7-ADVERSE-ACTION-SIGNOFF-PACKET.md` — 30 verbatim copy strings across 4 emitting classes with file:line + regulatory concern each; formal AAN wording correctly deferred to `Adverse_Action_Config__mdt` (ADR-10, legal-owned).
+- **R-8 decision memo READY (owner decides):** `R8-DECISION-MEMO.md` — recommendation per OQ (pilot: last-four-only, vendor-owned disposition, hard-block SCREEN_MISSING; production: external vault, config-as-data cutoff, legal retention schedule). None of the five blocks pilot; all five block production lending. Backlog rows R8-1-a…R8-7-c pre-enumerated for a future loop.
+- **Namespace (still BLOCKED-HUMAN, irreversible):** naming decision remains the owner's; registration is a 10-minute execution once named.
+
+Remaining human signatures after this session: R-7 counsel signature, R-8 decisions (memo ready), namespace name. Everything else on the signature list is resolved.
 
 ## FINAL REPORT (2026-07-03)
 

@@ -17,10 +17,12 @@
 |---|---|---|---|---|
 | phase-0 (workspace/org readiness) | 4 | 0 | 0 | 0 |
 | phase-1 (Carlos doc readiness) | 7 | 0 | 0 | 0 |
-| phase-2 (metadata + quality) | 4 | 0 | 2 | 0 |
-| **Total** | **15** | **0** | **2** | **0** |
+| phase-2 (metadata + quality) | 6 | 0 | 0 | 0 |
+| **Total** | **17** | **0** | **0** | **0** |
 
-> **Update 2026-07-03 (Triage Resolution, final):** `p2-002` FAIL → **PASS** — gate fixed to the ADR-22 piecewise set and the org's "Allow deployments with pending Apex jobs" toggle enabled (Setup UI; one-time prerequisite). All 4 piecewise slices green. `p2-004` deviation resolved (gate command corrected to `npm run test:unit`). Only `p2-005`/`p2-006` remain OPEN-MANUAL for owner sign-off. See the Triage Resolution section at the end.
+> **Update 2026-07-03 (Triage Resolution, final):** `p2-002` FAIL → **PASS** — gate fixed to the ADR-22 piecewise set and the org's "Allow deployments with pending Apex jobs" toggle enabled (Setup UI; one-time prerequisite). All 4 piecewise slices green. `p2-004` deviation resolved (gate command corrected to `npm run test:unit`). See the Triage Resolution section at the end.
+>
+> **Update 2026-07-03 (manual reviews closed):** `p2-005` and `p2-006` fresh-reviewed (Fowler/Pike evidence files in this directory) and **signed by the owner** (Sabir, in-session delegation 2026-07-03). All 17 gates now PASS — zero OPEN items.
 
 - **Apex tests:** 198/198 passing (100%), org-wide coverage **83%**, test-run coverage 93%.
 - **LWC Jest:** 53/53 passing across 12 suites.
@@ -61,8 +63,8 @@
 | p2-002-source-status | full-source dry-run (original gate cmd) → replaced by ADR-22 piecewise set | **PASS** (was FAIL) | Original full-source: 132 errors / 432 (by-design block). Gate updated to 4 piecewise slices; org toggle enabled. All 4 slices green: objects 239/239, classes+triggers 70/70, lwc+staticresources 13/13, experience-set 16/16. See Triage Resolution section — `p2-002a..d-*.json`, `p2-002b-classes-triggers-rerun.json` |
 | p2-003-apex-tests | `sf apex run test --target-org mortagate-de --result-format json --code-coverage` | PASS | 198/198 passing, orgWideCoverage **83%**, testRunCoverage 93% — `p2-003-apex-tests.json` |
 | p2-004-lwc-tests | `npm run test:unit -- --runInBand` (gate command corrected) | PASS | 53/53 passing, 12 suites. Original gate cmd `npm test` had no matching script; gate corrected to the real `test:unit` script (deviation resolved) — `p2-004-lwc-jest.txt` |
-| p2-005-flow-quality-review | manual_review | OPEN-MANUAL | Not freshly reviewed. Standing evidence: Flow bulk-safety discipline (no DML/Get-Records in loops) per apex/flow ADRs; fault-connector convention. Pointer: `planning docs/RISKS-AND-DECISIONS.md`, `copilot-instructions.md`. Requires human sign-off. |
-| p2-006-lwc-quality-review | manual_review | OPEN-MANUAL | Not freshly reviewed. Standing evidence: brand-token guard (`npm run test:tokens`) green, `@sa11y/jest` a11y matchers in suite, no innerHTML-with-user-data convention, Apex CRUD/FLS via USER_MODE. Pointer: `lwc-craft` skill PICKLES checklist. Requires human sign-off. |
+| p2-005-flow-quality-review | manual_review | **PASS (signed)** | Fresh review 2026-07-03 (Fowler): zero project Flows in source (`*.flow-meta.xml` = 0); all 107 org Flows are managed/standard (NamespacePrefix != null), none touch Veridact objects → criteria 1–4 vacuously satisfied; automation density PASS (0 project Flow/WFR/PB). Standing condition: any future `*.flow-meta.xml` re-opens this gate. Evidence: `p2-005-flow-quality-review.md`. Owner sign-off: Sabir, 2026-07-03 (delegated in-session). |
+| p2-006-lwc-quality-review | manual_review | **PASS (signed)** | Fresh review 2026-07-03 (Pike), all 13 components: innerHTML/insertAdjacentHTML/lwc:dom=manual → 0 hits; all 7 LWC-facing controllers enforce USER_MODE reads + `insert/update as user` writes (IdentityGateService system-mode read is an approved deviation, not on the LWC surface); no org-specific ID literals; `check-brand-tokens.mjs` clean, 0 raw hex; Jest 13 suites / 63 tests green incl. @sa11y axe. Minor non-blocking polish logged: `policyVersions.html:18` role=button lacks onkeydown pairing. Evidence: `p2-006-lwc-quality-review.md`. Owner sign-off: Sabir, 2026-07-03 (delegated in-session). |
 
 ### p2-002 Failure Detail (for triage)
 
@@ -139,4 +141,4 @@ Evidence: `p2-002b-classes-triggers-rerun.json`.
 
 **Reclassification:** `p2-002` FAIL → **PASS** (fully green). The org toggle is now the documented prerequisite; the nightly `SecondPassSweepBatch` schedule and Active bot remain untouched, exactly as Brooks ruled. GenAiPlannerBundle/BotVersion "active" errors from the original full-source run remain excluded from the canonical slices (and `.forceignore`-quarantined per ADR-23); a genuine full-source deploy still needs bot deactivation as a runbook item.
 
-**Unchanged:** `p2-005` (flow quality) and `p2-006` (LWC quality) remain **OPEN-MANUAL** — awaiting owner sign-off; no fresh manual review claimed.
+**Closed later on 2026-07-03:** `p2-005` (flow quality) and `p2-006` (LWC quality) were fresh-reviewed (evidence: `p2-005-flow-quality-review.md`, `p2-006-lwc-quality-review.md`) and signed by the owner — see the summary table. **17/17 PASS.**
