@@ -177,7 +177,7 @@
             "sf project deploy start --source-dir force-app/main/default/flexipages --source-dir force-app/main/default/tabs --source-dir force-app/main/default/applications --source-dir force-app/main/default/permissionsets --target-org mortagate-de --dry-run --json"
           ],
           "required": true,
-          "notes": "Full-source deploy is blocked by design on a live org (active Agentforce bot + scheduled Apex); piecewise is canonical per ADR-22/25. For full redeploys, enable Setup → Deployment Settings → 'Allow deployments with Apex jobs' and deactivate the bot first (release runbook item, not a gate)."
+          "notes": "Piecewise is canonical per ADR-22/25. ORG PREREQUISITE (one-time, survives deploys, set 2026-07-03 via Setup > Deployment Settings): 'Allow deployments of components when corresponding Apex jobs are pending or in progress' is ENABLED on mortagate-de so the classes+triggers slice passes while the nightly SecondPassSweepBatch schedule + async jobs remain active by design (the toggle permits the deploy; it does not touch the jobs). This flag is NOT exposed in ApexSettings metadata, so it is a Setup-UI org setting, not a committable file. A genuine full-source deploy additionally requires deactivating the active Agentforce bot/planner first (release runbook item, not a gate); those types are .forceignore-quarantined per ADR-23 and excluded from the piecewise slices."
         },
         {
           "id": "p2-003-apex-tests",
