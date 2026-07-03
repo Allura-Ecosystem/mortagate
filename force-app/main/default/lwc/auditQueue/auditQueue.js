@@ -12,7 +12,10 @@ const COLUMNS = [
     { label: 'Risk', fieldName: 'riskTier', type: 'riskBadge' },
     { label: 'Status', fieldName: 'status', type: 'text' },
     { label: 'Approver', fieldName: 'approverName', type: 'text' },
+    // Two distinct clocks, kept crisp (Pike gate): SLA = internal auditor due
+    // date (Due_At__c); QC Window = external Fannie Mae 90-day compliance clock.
     { label: 'SLA', fieldName: 'slaLabel', type: 'text' },
+    { label: 'QC Window', fieldName: 'qcWindowDaysLeft', type: 'qcWindow' },
     {
         type: 'button',
         fixedWidth: 110,

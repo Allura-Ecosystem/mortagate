@@ -1,0 +1,40 @@
+/* ============================================================
+   qcWindowBadge — Fannie Mae 90-day QC-window chip
+
+   Lives in this component's own stylesheet so the fill renders inside the
+   lightning-datatable shadow root (same reason as riskBadge). Brand tokens
+   inherit through the composed tree from the auditQueue :host.
+
+   WCAG 1.4.1: the days-remaining WORD is the primary signal; the chip fill is
+   reinforcement only. ADR-9: semantic status colour is a chip BACKGROUND, not
+   bare coloured text — declined fill + white text for exceeded, warn fill +
+   white text for the final two weeks, neutral muted text otherwise.
+   ============================================================ */
+.qc-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+}
+
+.qc-badge--exceeded {
+    background: var(--veridact-declined);
+    color: var(--veridact-on-accent);
+}
+
+.qc-badge--warn {
+    background: var(--veridact-warn);
+    color: var(--veridact-on-accent);
+}
+
+/* Neutral bands carry no status fill — plenty of runway / not applicable. */
+.qc-badge--ok,
+.qc-badge--none {
+    background: transparent;
+    color: var(--veridact-ink-muted);
+    padding-left: 0;
+    padding-right: 0;
+}

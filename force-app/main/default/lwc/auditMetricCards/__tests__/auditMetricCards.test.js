@@ -15,14 +15,15 @@ describe('c-audit-metric-cards', () => {
         return el;
     }
 
-    it('renders all five cards with values and labels', () => {
+    it('renders all six cards with values and labels', () => {
         const el = setup({
             metrics: {
                 assignedToMe: 14,
                 highRisk: 23,
                 evidenceNeeded: 9,
                 readyForSignoff: 6,
-                slaAtRisk: 4
+                slaAtRisk: 4,
+                qcWindowAtRisk: 3
             }
         });
         const values = [...el.shadowRoot.querySelectorAll('.metric-value')].map(
@@ -31,13 +32,14 @@ describe('c-audit-metric-cards', () => {
         const labels = [...el.shadowRoot.querySelectorAll('.metric-label')].map(
             (n) => n.textContent.trim()
         );
-        expect(values).toEqual(['14', '23', '9', '6', '4']);
+        expect(values).toEqual(['14', '23', '9', '6', '4', '3']);
         expect(labels).toEqual([
             'Assigned to me',
             'High risk',
             'Evidence needed',
             'Ready for signoff',
-            'SLA at risk'
+            'SLA at risk',
+            'QC window at risk'
         ]);
     });
 
@@ -46,7 +48,7 @@ describe('c-audit-metric-cards', () => {
         const values = [...el.shadowRoot.querySelectorAll('.metric-value')].map(
             (n) => n.textContent.trim()
         );
-        expect(values).toEqual(['0', '0', '0', '0', '0']);
+        expect(values).toEqual(['0', '0', '0', '0', '0', '0']);
     });
 
     it('applies the colour rail tone classes', () => {
@@ -54,5 +56,7 @@ describe('c-audit-metric-cards', () => {
         const cards = el.shadowRoot.querySelectorAll('.metric-card');
         expect(cards[0].className).toContain('rail-blue');
         expect(cards[4].className).toContain('rail-red');
+        // 6th card — QC window at risk — rides the amber (warn) rail.
+        expect(cards[5].className).toContain('rail-amber');
     });
 });

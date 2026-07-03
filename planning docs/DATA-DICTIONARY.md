@@ -216,7 +216,7 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Annual_Income__c` | Currency(18,2) | No | Borrower annual income | -- |
 | `Loan_Type__c` | Picklist | Yes | Product type | `Conventional`, `FHA`, `VA`, `USDA` |
 | `Purpose__c` | Picklist | Yes | Loan purpose | `Purchase`, `Refinance`, `Cash_Out_Refi` |
-| `Approval_Date__c` | Date | Yes | Original approval date (drives policy version resolution) | -- |
+| `Approval_Date__c` | Date | Yes | Original approval date. Drives policy version resolution (FR-26) AND anchors the 90-day Fannie Mae QC-window clock (FR-39) — there is deliberately **no `Closing_Date__c`**, so `Approval_Date__c` is the documented proxy anchor; no field was added for the QC lens. | -- |
 | `Originating_Branch__c` | Text(100) | No | Branch that originated the loan | -- |
 | `Approver_Name__c` | Text(255) | No | Loan officer who approved | -- |
 | `LOS_Loan_Id__c` | Text(50) | No | External loan ID from LOS (future integration) | -- |
@@ -232,7 +232,7 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 - Optional lookup to `Loan_Application__c` (origination system)
 - Parent of: `Audit_Case__c`, `Sanctions_Screening__c` (KYC/OFAC, ADR-24)
 
-**Notes:** This is the audit-side loan record. It holds snapshotted loan data relevant to the audit. It is NOT the origination application -- `Loan_Application__c` is retained separately for the origination flow. The `Approval_Date__c` field is critical for FR-26 (policy version resolution).
+**Notes:** This is the audit-side loan record. It holds snapshotted loan data relevant to the audit. It is NOT the origination application -- `Loan_Application__c` is retained separately for the origination flow. The `Approval_Date__c` field is critical for FR-26 (policy version resolution) and, per FR-39, is also the anchor for the 90-day post-closing QC compliance window. Fannie Mae's window is technically measured from loan CLOSING; absent a `Closing_Date__c` on this snapshot, `Approval_Date__c` is the closest durable origination date and is used as the documented proxy (an explicit `Closing_Date__c` would be the higher-fidelity anchor if the LOS feed ever supplies it).
 
 ---
 

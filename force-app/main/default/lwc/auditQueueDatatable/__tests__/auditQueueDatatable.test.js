@@ -20,21 +20,27 @@ describe('c-audit-queue-datatable', () => {
         expect(AuditQueueDatatable.customTypes.riskBadge).toBeDefined();
     });
 
-    it('uses standardCellLayout for riskBadge', () => {
-        const { riskBadge } = AuditQueueDatatable.customTypes;
-        expect(riskBadge.standardCellLayout).toBe(true);
+    it('registers the qcWindow custom type', () => {
+        expect(AuditQueueDatatable.customTypes.qcWindow).toBeDefined();
     });
 
-    it('provides a template for the riskBadge type', () => {
-        const { riskBadge } = AuditQueueDatatable.customTypes;
+    it('uses standardCellLayout for both custom types', () => {
+        const { riskBadge, qcWindow } = AuditQueueDatatable.customTypes;
+        expect(riskBadge.standardCellLayout).toBe(true);
+        expect(qcWindow.standardCellLayout).toBe(true);
+    });
+
+    it('provides a template for each custom type', () => {
+        const { riskBadge, qcWindow } = AuditQueueDatatable.customTypes;
         // The template is an imported HTML module — it will be a function or
         // object depending on the Jest transform, but it must be truthy.
         expect(riskBadge.template).toBeTruthy();
+        expect(qcWindow.template).toBeTruthy();
     });
 
-    it('registers exactly one custom type (one thing per component)', () => {
+    it('registers exactly the two badge cell types (no surprise types)', () => {
         const typeNames = Object.keys(AuditQueueDatatable.customTypes);
-        expect(typeNames).toEqual(['riskBadge']);
+        expect(typeNames).toEqual(['riskBadge', 'qcWindow']);
     });
 
     // --- Inheritance ---
