@@ -169,9 +169,15 @@
         },
         {
           "id": "p2-002-source-status",
-          "type": "command",
-          "command": "sf project deploy start --source-dir force-app --target-org mortagate-de --dry-run --json",
-          "required": true
+          "type": "command_set",
+          "commands": [
+            "sf project deploy start --source-dir force-app/main/default/objects --target-org mortagate-de --dry-run --json",
+            "sf project deploy start --source-dir force-app/main/default/classes --source-dir force-app/main/default/triggers --target-org mortagate-de --dry-run --json",
+            "sf project deploy start --source-dir force-app/main/default/lwc --source-dir force-app/main/default/staticresources --target-org mortagate-de --dry-run --json",
+            "sf project deploy start --source-dir force-app/main/default/flexipages --source-dir force-app/main/default/tabs --source-dir force-app/main/default/applications --source-dir force-app/main/default/permissionsets --target-org mortagate-de --dry-run --json"
+          ],
+          "required": true,
+          "notes": "Full-source deploy is blocked by design on a live org (active Agentforce bot + scheduled Apex); piecewise is canonical per ADR-22/25. For full redeploys, enable Setup → Deployment Settings → 'Allow deployments with Apex jobs' and deactivate the bot first (release runbook item, not a gate)."
         },
         {
           "id": "p2-003-apex-tests",
@@ -185,7 +191,7 @@
         {
           "id": "p2-004-lwc-tests",
           "type": "command",
-          "command": "npm test -- --runInBand",
+          "command": "npm run test:unit -- --runInBand",
           "required": false,
           "skip_if_missing": [
             "force-app/main/default/lwc",
