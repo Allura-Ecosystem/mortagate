@@ -10,5 +10,14 @@
 # EmployeeCopilotPlanner is the stock SF Employee copilot, Active in mortagate-de - deploy cannot overwrite
 force-app/main/default/genAiPlannerBundles/EmployeeCopilotPlanner*
 force-app/main/default/bots/EmployeeCopilotPlanner*
-# Eval definition lacks required Version sibling; re-enable once authored
+# AiEvaluationDefinition is NOT Metadata-API deployable on this org family (loop #8, 2026-07-03).
+# There is NO authorable "Version" XML sibling: the registry shows AiEvaluationDefinition has no
+# child type, the CLI-generated canonical XML has no version element, yet BOTH `sf project deploy
+# start` and `sf agent test create` fail with "There must be at least one evaluation definition
+# version exist" / "No active AI evaluation version found". The eval *version* is a server-side row
+# created only by the Testing API / Testing Center UI, not by metadata deploy. Keep the local
+# meta.xml as source-of-truth for the spec but exclude it from deploy so one-command deploy stays
+# green. The runnable artifact is specs/Veridact_Auditor_Copilot_v4-testSpec.yaml via
+# `sf agent test run-eval --spec <yaml>` (WITHOUT --no-normalize; that flag breaks session-id
+# interpolation -> HTTP 403 RBAC). In-org def Id 4KCgL00000058szWAA.
 force-app/main/default/aiEvaluationDefinitions/Veridact_Auditor_Copilot_v4_RuntimeSelection*

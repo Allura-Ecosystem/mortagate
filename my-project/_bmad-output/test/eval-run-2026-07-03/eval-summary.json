@@ -1,0 +1,56 @@
+{
+  "runDate": "2026-07-03T06:37Z",
+  "org": "mortagate-de (00DgL00000SseMyUAJ)",
+  "agent": "Veridact_Auditor_Copilot_v4",
+  "aiEvaluationDefinitionId": "4KCgL00000058szWAA",
+  "runner": "sf agent test run-eval --spec (beta) WITH normalization",
+  "classification": "PASS (functional) \u2014 framework action-name suffix quirk noted",
+  "note": "planner_actions_assertion scores 0 in all cases ONLY due to org-qualified action name suffix (_179gL0000027Q1S) vs short spec name; correct action fired with correct input+output in every case. Topic + bot_response pass.",
+  "cases": [
+    {
+      "case": "Veridact_Auditor_Copilot_v4_RuntimeSelection_case_0",
+      "sessionId": "019f26b2-56c5-7183-98cc-a88beffcd936",
+      "topic_pass": true,
+      "action_expected": [
+        "Diagnose_Loan_Audit"
+      ],
+      "action_fired": [
+        "Diagnose_Loan_Audit_179gL0000027Q1S"
+      ],
+      "action_assertion_pass": false,
+      "bot_response_score": 5,
+      "bot_response_pass": true,
+      "functional_verdict": "PASS"
+    },
+    {
+      "case": "Veridact_Auditor_Copilot_v4_RuntimeSelection_case_1",
+      "sessionId": "019f26b2-6cf8-7a61-b86e-b2d2e2fc051b",
+      "topic_pass": true,
+      "action_expected": [
+        "Diagnose_Loan_Audit"
+      ],
+      "action_fired": [
+        "Diagnose_Loan_Audit_179gL0000027Q1S"
+      ],
+      "action_assertion_pass": false,
+      "bot_response_score": 5,
+      "bot_response_pass": true,
+      "functional_verdict": "PASS"
+    },
+    {
+      "case": "Veridact_Auditor_Copilot_v4_RuntimeSelection_case_2",
+      "sessionId": "019f26b2-7fc5-77e8-ab6f-cc372bf21c5f",
+      "topic_pass": true,
+      "action_expected": [
+        "List_Missing_Evidence"
+      ],
+      "action_fired": [
+        "List_Missing_Evidence_179gL0000027Q1S"
+      ],
+      "action_assertion_pass": false,
+      "bot_response_score": 5,
+      "bot_response_pass": true,
+      "functional_verdict": "PASS"
+    }
+  ]
+}
