@@ -5,6 +5,14 @@
 > No package was published; no 2GP package or version was created against the
 > DevHub namespace. Evidence is cited as `file:line` or command output.
 > Carlos Guidelines apply. Loop item #10, 2026-07-03.
+>
+> **UPDATE 2026-07-05 — spike superseded by action (this is no longer report-only).**
+> An **unlocked** 2GP package was created and a version built against `mortagate-de`:
+> - `sf package create --package-type Unlocked --name CaseFile` → **`0HogL00000034rtSAA`** (namespace = none), wired into `sfdx-project.json` (`packageAliases.CaseFile`).
+> - `sf package version create --skip-validation` → **Success**, version **0.1.0.1**, `Package2VersionId 05igL0000003xRlQAI`, **SubscriberPackageVersionId `04tgL000000IMEzQAO`** (installable).
+> - Install URL (sandbox/scratch/DE): `https://login.salesforce.com/packaging/installPackage.apexp?p0=04tgL000000IMEzQAO`.
+>
+> **Measured finding that revises §7 blocker #1:** the namespace is required **only for MANAGED 2GP**. The pilot ships **unlocked → no namespace → no human gate**, so blocker #1 does **not** block the pilot. **Measured finding that softens §7 blocker #2:** the full `force-app` (Veridact bot + genAiFunctions/plugins/planner included) packaged into a version **without error under `--skip-validation`** — the Agentforce metadata did not reject packageability at build time. **Caveat:** the version carries `ValidationSkipped: true` / `IsReleased: false` — installable in scratch/sandbox/DE for the pilot, but a **validated** build (required to promote/release and to install in production, runs install-and-test with ≥75% coverage) is the next step, and *that* is where the ADR-23 Agentforce org-Id bindings (`botUser`, org-Id genAiPlugin names) will actually be exercised. Managed 2GP + namespace remain deferred to real AppExchange distribution.
 
 ---
 
