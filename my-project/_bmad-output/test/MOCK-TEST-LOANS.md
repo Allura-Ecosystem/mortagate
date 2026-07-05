@@ -42,3 +42,36 @@
 
 ### Expected queue after load + `SecondPassSweepBatch`
 Critical ×1 (Ruth) · High ×4 (Dana, Priya, Sam, Nadia) · Medium ×1 (Leo) · Low ×2 (Ava, Marcus).
+
+---
+
+## Evidence gaps
+
+Loader: `scripts/load-mock-test-evidence.apex` (run **after** the loans loader).
+Each case gets a realistic post-close document set; the **Missing** required docs are
+what the copilot's *"what evidence is missing for this case?"* action surfaces, and the
+trailing-doc gaps (Recorded Mortgage, Final Title Policy) feed the 90-day QC-window lens.
+Status ∈ `Linked` (present) · `Missing` (gap) · `Unverifiable` (illegible).
+
+| # | Borrower | Linked (present) | Missing (required gap) | Unverifiable |
+|---|---|---|---|---|
+| 01 | Ava Chen | Pay Stub, W2, Bank Stmt, Appraisal, Credit Report, Photo ID | — (none) | — |
+| 02 | Marcus Bell | Pay Stub, W2, Appraisal, Credit Report | — | Bank Statement |
+| 03 | Dana Ortiz | Pay Stub, Appraisal, Credit Report | **Employment Verification, W2** | — |
+| 04 | Priya Nair | Pay Stub, Appraisal, Photo ID | **Credit Report, Tax Return** | — |
+| 05 | Sam Weber | Pay Stub, W2, Credit Report | **Appraisal** | Purchase Agreement |
+| 06 | Ruth Okafor | Pay Stub, Credit Report | **Appraisal, Recorded Mortgage, Final Title Policy** | — |
+| 07 | Leo Park | Pay Stub, W2, Appraisal, Credit Report, Recorded Mortgage | **Final Title Policy** | — |
+| 08 | Nadia Farouk | Pay Stub, W2, Appraisal, Credit Report | **Photo ID** | — |
+
+**Gap design:** each gap reinforces the loan's story — Dana's DTI fail pairs with missing
+income proof, Sam's LTV fail with a missing appraisal, Ruth's Critical with all trailing
+docs absent, Nadia's KYC block with a missing Photo ID. Rows 01–02 are the clean control
+(zero required gaps).
+
+### Full load sequence (sandbox/pilot only)
+```bash
+sf apex run --target-org casefile-pilot -f scripts/load-mock-test-loans.apex
+sf apex run --target-org casefile-pilot -f scripts/load-mock-test-evidence.apex
+sf apex run --target-org casefile-pilot -f scripts/run-second-pass.apex   # replay + tier
+```
