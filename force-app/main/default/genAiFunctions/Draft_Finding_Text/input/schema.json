@@ -1,0 +1,32 @@
+{
+  "required" : [ "auditCaseId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "auditCaseId" : {
+      "title" : "Audit Case Id",
+      "description" : "The 15- or 18-character Salesforce record Id of the Audit_Case__c the auditor is asking about.",
+      "lightning:type" : "lightning__recordIdType",
+      "einstein:description" : "The 15- or 18-character Salesforce record Id of the Audit_Case__c the auditor is asking about. Audit Case Ids start with a05. Extract it directly from the user request, e.g. \"summarize audit case a05gL00000JtZ74QAF\".",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "replayCheckId" : {
+      "title" : "Replay Check Id",
+      "description" : "Optional Id of the specific Replay_Check__c to draft the finding from.",
+      "lightning:type" : "lightning__recordIdType",
+      "einstein:description" : "Optional Id of the specific Replay_Check__c to draft from. Replay Check Ids start with a06. Only include it if the user names a specific replay check.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "ruleCode" : {
+      "title" : "Rule code",
+      "description" : "Optional rule code such as DTI_MAX naming the failed rule to draft a finding for.",
+      "lightning:type" : "lightning__textType",
+      "einstein:description" : "Optional rule code such as DTI_MAX naming the failed rule to draft a finding for. Only include it if the user names a specific rule.",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

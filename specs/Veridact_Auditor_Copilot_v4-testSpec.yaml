@@ -29,3 +29,16 @@ testCases:
     contextVariables:
       - variableName: auditCaseId
         variableValue: a05gL00000JtZ74QAF
+  - utterance: >-
+      What evidence is missing for audit case a05gL00000JtZ74QAF?
+    expectedTopic: p_16jAq000000HTgj_Summarize_Rule_Violations
+    expectedActions:
+      - List_Missing_Evidence
+    expectedOutcome: >-
+      The agent invokes the List_Missing_Evidence action and lists the tracked
+      documents not yet linked (required first, then optional) plus any replay
+      checks that could not be verified for lack of supporting papers, without
+      linking evidence or deciding whether any item is cleared.
+    contextVariables:
+      - variableName: auditCaseId
+        variableValue: a05gL00000JtZ74QAF

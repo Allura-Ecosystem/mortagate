@@ -24,21 +24,11 @@ public with sharing class LoanDiagnosisService {
     private static final String FINAL_AUTHORITY =
         'A human auditor must make the final call on this loan.';
 
-    // THE LEO FLIP (mirrors lwc/glossaryTerm): each per-rule line now LEADS WITH
-    // the plain NAME and keeps the raw code as a parenthetical badge. Code → plain
-    // name. Unknown codes fall back to the raw code itself (never blank).
-    private static final Map<String, String> PLAIN_NAME = new Map<String, String>{
-        'DTI_MAX'    => 'Debt vs. income too high',
-        'DTI_WARN'   => 'Debt vs. income is getting high',
-        'FICO_MIN'   => 'Credit score too low',
-        'LTV_MAX'    => 'Loan too big vs. home value',
-        'INCOME_MIN' => 'Income is below the minimum needed',
-        'EMPLOY_MIN' => 'Has not worked at the job long enough',
-        'ASSET_MIN'  => 'Not enough savings in the bank',
-        'DEBT_MAX'   => 'Total debt is over the limit',
-        'FICO_PREF'  => 'Credit score is below the preferred level',
-        'LTV_PREF'   => 'Loan is bigger than the preferred level vs. home value'
-    };
+    // THE LEO FLIP (mirrors lwc/glossaryTerm): each per-rule line LEADS WITH the
+    // plain NAME and keeps the raw code as a parenthetical badge. The rule-code →
+    // plain-name vocabulary and the number formatting now live in the shared
+    // RuleNarration helper (ADR-26), so every governed action narrates a replay
+    // check the same way. This service delegates to it (see narrate()).
 
     // ── Invocable entry point (Agentforce GenAiFunction / Flow) ─────────
 
@@ -48,49 +38,109 @@ public with sharing class LoanDiagnosisService {
         category='Veridact Audit'
     )
     public static List<Response> diagnose(List<Request> requests) {
-        List<Response> responses = new List<Response>();
+        List<Id> caseIds = new List<Id>();
         for (Request req : requests) {
-            responses.add(diagnoseOne(req.auditCaseId));
+            caseIds.add(req?.auditCaseId);
         }
-        return responses;
+        return runDiagnoses(caseIds);
     }
 
     // ── LWC / anonymous-apex fallback (no Agentforce required) ──────────
 
     @AuraEnabled(cacheable=false)
     public static Response diagnoseCase(Id auditCaseId) {
-        return diagnoseOne(auditCaseId);
+        return runDiagnoses(new List<Id>{ auditCaseId })[0];
     }
 
-    // ── Core ────────────────────────────────────────────────────────────
+    // ── Core orchestrator ────────────────────────────────────────────────
+    //
+    // Governance (FR-23 / SOLUTION-ARCHITECTURE Flow 3): EVERY agent action must
+    // LOG BEFORE it EXECUTES, dual-writing to Agent_Action_Log__c + Audit_Event__c.
+    // Because those objects are append-only (validation rule + trigger, ADR-1) the
+    // pre-execution row can never be patched with the outcome — a changed state is
+    // a NEW appended record, never an edit. So the shape is:
+    //   Phase 1 (before execute): insert Agent_Action_Log__c (Status = 'Initiated')
+    //                             + Audit_Event__c ('Agent_Action', phase=initiated)
+    //   Phase 2 (execute):        pure in-memory narration of stored replay checks
+    //   Phase 3 (after execute):  append a NEW Audit_Event__c ('Agent_Action',
+    //                             phase=outcome) carrying the result — never an update
+    //
+    // Bulk-safe by construction: 3 SOQL + 3 DML regardless of request count. All
+    // reads are hoisted out of the per-case loop; all writes are batched.
+    private static List<Response> runDiagnoses(List<Id> caseIds) {
+        List<Response> responses = new List<Response>();
+        if (caseIds == null || caseIds.isEmpty()) {
+            return responses;
+        }
 
-    private static Response diagnoseOne(Id auditCaseId) {
+        // ── Phase 1: LOG-BEFORE-EXECUTE (dual-write intent) ──────────────
+        List<Agent_Action_Log__c> intentLogs = new List<Agent_Action_Log__c>();
+        for (Id caseId : caseIds) {
+            intentLogs.add(buildIntentLog(caseId));
+        }
+        Database.insert(intentLogs, AccessLevel.USER_MODE);          // DML 1
+
+        List<Audit_Event__c> intentEvents = new List<Audit_Event__c>();
+        for (Integer i = 0; i < caseIds.size(); i++) {
+            intentEvents.add(buildActionEvent(
+                caseIds[i], intentLogs[i].Id, 'initiated', 'Initiated', null, null));
+        }
+        AuditEventService.logEvents(intentEvents);                   // DML 2
+
+        // ── Phase 2: EXECUTE (bulk read once, then pure narration) ───────
+        Set<Id> caseIdSet = new Set<Id>(caseIds);
+        Map<Id, Audit_Case__c> caseById = new Map<Id, Audit_Case__c>([
+            SELECT Id, Borrower_Name_Snapshot__c, Loan__r.LastModifiedDate
+            FROM Audit_Case__c
+            WHERE Id IN :caseIdSet
+            WITH USER_MODE
+        ]);                                                          // SOQL 1
+        // R-11: Replay_Check__c is append-only — a re-run stacks a new batch on
+        // the old one. Diagnose the LATEST batch only (shared AuditSoql selector)
+        // so a duplicate run never double-counts violations. 2 SOQL, bulk-safe.
+        Map<Id, List<Replay_Check__c>> checksByCase =
+            AuditSoql.latestChecksFor(caseIdSet);                    // SOQL 2 + 3
+
+        List<Audit_Event__c> outcomeEvents = new List<Audit_Event__c>();
+        for (Integer i = 0; i < caseIds.size(); i++) {
+            Id caseId = caseIds[i];
+            Response r;
+            try {
+                r = narrate(
+                    caseById.get(caseId),
+                    checksByCase.containsKey(caseId)
+                        ? checksByCase.get(caseId)
+                        : new List<Replay_Check__c>()
+                );
+            } catch (Exception e) {
+                // A per-case failure becomes a Failed outcome rather than aborting
+                // the whole batch; the intent log already persisted (Phase 1).
+                r = errorResponse(e);
+            }
+            responses.add(r);
+            outcomeEvents.add(buildActionEvent(
+                caseId, intentLogs[i].Id, 'outcome', r.actionStatus, r.actionError, r.summary));
+        }
+
+        // ── Phase 3: APPEND OUTCOME (never an update to the intent row) ──
+        AuditEventService.logEvents(outcomeEvents);                 // DML 3
+        return responses;
+    }
+
+    // ── Narration (pure: no SOQL, no DML) ─────────────────────────────────
+
+    private static Response narrate(Audit_Case__c ac, List<Replay_Check__c> checks) {
         Response res = new Response();
         res.findings = new List<String>();
 
-        // Case + loan freshness context (read-only).
-        List<Audit_Case__c> cases = [
-            SELECT Id, Borrower_Name_Snapshot__c, Loan__r.LastModifiedDate
-            FROM Audit_Case__c
-            WHERE Id = :auditCaseId
-            WITH USER_MODE
-            LIMIT 1
-        ];
-        if (cases.isEmpty()) {
+        if (ac == null) {
             res.summary = 'Audit case not found or not accessible.';
             res.hasViolations = false;
-            logAction(auditCaseId, res.summary, 'Failed');
+            res.actionStatus = 'Failed';
             return res;
         }
-        Audit_Case__c ac = cases[0];
 
-        // R-11: Replay_Check__c is append-only — a re-run stacks a new batch on
-        // the old one. Diagnose the LATEST batch only (via the shared
-        // AuditSoql.latestChecksFor selector) so a duplicate run never
-        // double-counts violations (Sabir replayed twice => 2 fails, not 4).
-        List<Replay_Check__c> checks = AuditSoql.latestChecksFor(auditCaseId);
-
-        if (checks.isEmpty()) {
+        if (checks == null || checks.isEmpty()) {
             res.summary = 'We have not run the check on this loan yet, so there is '
                 + 'nothing to explain. Run the check first, then ask again. ' + FINAL_AUTHORITY;
             res.hasViolations = false;
@@ -98,7 +148,7 @@ public with sharing class LoanDiagnosisService {
             res.passCount = 0;
             res.unverifiableCount = 0;
             res.stale = false;
-            logAction(auditCaseId, res.summary, 'Partial');
+            res.actionStatus = 'Partial';
             return res;
         }
 
@@ -123,9 +173,9 @@ public with sharing class LoanDiagnosisService {
             // names the rule and shows BOTH numbers (guardrail intact).
             //   <PlainName> (<CODE>): <directionPhrase> <expected>, but this loan is <actual>.
             String code = rc.Rule_Name__c;        // Rule_Name__c carries the rule CODE
-            String line = plainName(code) + ' (' + code + '): '
-                + directionPhrase(code) + ' ' + prettyNum(rc.Expected_Value__c)
-                + ', but this loan is ' + prettyNum(rc.Actual_Value__c) + '.'
+            String line = RuleNarration.plainName(code) + ' (' + code + '): '
+                + RuleNarration.directionPhrase(code) + ' ' + RuleNarration.prettyNum(rc.Expected_Value__c)
+                + ', but this loan is ' + RuleNarration.prettyNum(rc.Actual_Value__c) + '.'
                 + (String.isBlank(rc.Rationale__c) ? '' : ' ' + rc.Rationale__c);
             res.findings.add(line);
             if (rc.Result__c == 'Fail') {
@@ -165,73 +215,70 @@ public with sharing class LoanDiagnosisService {
         parts.add(FINAL_AUTHORITY);
         res.summary = String.join(parts, ' ');
 
-        logAction(auditCaseId, res.summary, 'Success');
+        res.actionStatus = 'Success';
         return res;
     }
 
-    private static String safe(String v) {
-        return String.isBlank(v) ? 'n/a' : v;
-    }
-
-    /** Plain NAME for a rule code; unknown code falls back to the raw code. */
-    private static String plainName(String code) {
-        if (String.isBlank(code)) { return 'A rule'; }
-        String key = code.toUpperCase();
-        return PLAIN_NAME.containsKey(key) ? PLAIN_NAME.get(key) : code;
-    }
-
-    /**
-     * Direction phrase derived from the code SUFFIX, so the numbers read
-     * clearly to a non-expert (Leo):
-     *   *_MAX / *_WARN / DEBT_MAX / DTI_*  → "the most allowed is"   (ceiling)
-     *   *_MIN / *_PREF                     → "the lowest allowed is" (floor)
-     *   anything else                      → "the limit is"
-     */
-    private static String directionPhrase(String code) {
-        if (String.isBlank(code)) { return 'the limit is'; }
-        String key = code.toUpperCase();
-        if (key.endsWith('_MAX') || key.endsWith('_WARN')
-            || key == 'DEBT_MAX' || key.startsWith('DTI_')) {
-            return 'the most allowed is';
-        }
-        if (key.endsWith('_MIN') || key.endsWith('_PREF')) {
-            return 'the lowest allowed is';
-        }
-        return 'the limit is';
+    /** Structured failure Response for an unexpected error mid-narration. */
+    private static Response errorResponse(Exception e) {
+        Response res = new Response();
+        res.findings = new List<String>();
+        res.summary = 'We hit an unexpected problem while checking this loan. ' + FINAL_AUTHORITY;
+        res.hasViolations = false;
+        res.actionStatus = 'Failed';
+        res.actionError = (e == null) ? null : e.getMessage();
+        return res;
     }
 
     /**
-     * Format a stored numeric string for plain reading: drop trailing zeros so
-     * "43.0000" reads as "43" and "44.80" as "44.8". Non-numeric falls back.
+     * Build the pre-execution intent row (Status = 'Initiated'). Written BEFORE
+     * the narration runs; never updated afterwards (append-only). No Output yet —
+     * the output is not known at log-before-execute time and is instead carried on
+     * the appended outcome Audit_Event__c.
      */
-    private static String prettyNum(String v) {
-        if (String.isBlank(v)) { return 'n/a'; }
-        try {
-            return Decimal.valueOf(v).stripTrailingZeros().toPlainString();
-        } catch (Exception e) {
-            return v;
-        }
-    }
-
-    private static void logAction(Id auditCaseId, String output, String status) {
-        Agent_Action_Log__c log = new Agent_Action_Log__c(
-            Audit_Case__c   = auditCaseId,
-            Action_Name__c  = 'Summarize_Case',
-            Subagent__c     = 'Auditor_Assistant',
-            Status__c       = status,
-            Actor__c        = UserInfo.getName(),
-            Input_Summary__c  = 'what is wrong with this loan? (case ' + auditCaseId + ')',
-            Output_Summary__c = output,
-            Timestamp__c    = Datetime.now()
+    private static Agent_Action_Log__c buildIntentLog(Id auditCaseId) {
+        return new Agent_Action_Log__c(
+            Audit_Case__c    = auditCaseId,
+            Action_Name__c   = 'Summarize_Case',
+            Subagent__c      = 'Auditor_Assistant',
+            Status__c        = 'Initiated',
+            Actor__c         = UserInfo.getName(),
+            Input_Summary__c = 'what is wrong with this loan? (case ' + auditCaseId + ')',
+            Timestamp__c     = Datetime.now()
         );
-        // Append-only governed write path.
-        Database.insert(log, AccessLevel.USER_MODE);
+    }
+
+    /**
+     * Build one Audit_Event__c for the dual-write trail. Event_Type is
+     * 'Agent_Action' — the canonical value in the schema and DATA-DICTIONARY §2.11
+     * (SOLUTION-ARCHITECTURE §4.2 lists an out-of-date 'Agent_Action_Logged'; the
+     * restricted picklist and data dictionary win). `phase` distinguishes the
+     * before-execute (initiated) event from the after-execute (outcome) event;
+     * Related_Record_Id__c back-links to the intent Agent_Action_Log__c row.
+     */
+    private static Audit_Event__c buildActionEvent(
+        Id auditCaseId, Id logId, String phase, String status, String error, String summary) {
+        Map<String, Object> payload = new Map<String, Object>{
+            'action' => 'Summarize_Case',
+            'phase'  => phase,
+            'status' => status
+        };
+        if (String.isNotBlank(error))   { payload.put('error', error); }
+        if (String.isNotBlank(summary)) { payload.put('summary', summary); }
+        return new Audit_Event__c(
+            Audit_Case__c        = auditCaseId,
+            Event_Type__c        = 'Agent_Action',
+            Actor__c             = UserInfo.getName(),
+            Timestamp__c         = Datetime.now(),
+            Payload__c           = JSON.serialize(payload),
+            Related_Record_Id__c = (logId == null) ? null : String.valueOf(logId)
+        );
     }
 
     // ── DTOs ────────────────────────────────────────────────────────────
 
     public class Request {
-        @InvocableVariable(required=true label='Audit Case Id')
+        @InvocableVariable(required=true label='Audit Case Id' description='The 15- or 18-character Salesforce record Id of the Audit_Case__c the auditor is asking about (Audit Case Ids start with a05). Extract it directly from the user request, e.g. "summarize audit case a05gL00000JtZ74QAF".')
         public Id auditCaseId;
     }
 
@@ -243,5 +290,11 @@ public with sharing class LoanDiagnosisService {
         @InvocableVariable(label='Unverifiable count') public Integer unverifiableCount;
         @InvocableVariable(label='Replay stale') public Boolean stale;
         @InvocableVariable(label='Findings') public List<String> findings;
+
+        // Internal governance carriers (NOT @InvocableVariable — never surfaced to
+        // Agentforce/Flow). Populated by narrate()/errorResponse() so the outcome
+        // Audit_Event__c can record the action result without touching the DTO API.
+        public String actionStatus;   // 'Initiated' | 'Success' | 'Partial' | 'Failed'
+        public String actionError;    // populated only on the Failed path
     }
 }

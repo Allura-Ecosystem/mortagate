@@ -6,7 +6,7 @@ persona: Knuth
 category: Infrastructure
 type: subagent
 status: active
-model: ollama-cloud/deepseek-v4-pro
+model: ollama/deepseek-v4-pro:cloud
 permission:
   edit: allow
   bash: allow

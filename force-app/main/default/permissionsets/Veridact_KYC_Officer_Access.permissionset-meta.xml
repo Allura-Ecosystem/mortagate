@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Veridact KYC Officer Access</label>
+    <description>Need-to-know isolation for KYC/OFAC (ADR-24). Grants append-only Sanctions_Screening__c (create+read) and Loan__c SSN fields. Kept OFF the general engine permset; required fields get implicit FLS.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+
+    <!-- ================= Object Permissions ================= -->
+    <objectPermissions>
+        <object>Sanctions_Screening__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>true</allowCreate>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <object>Loan__c</object>
+        <allowRead>true</allowRead>
+        <allowCreate>false</allowCreate>
+        <allowEdit>false</allowEdit>
+        <allowDelete>false</allowDelete>
+        <viewAllRecords>false</viewAllRecords>
+        <modifyAllRecords>false</modifyAllRecords>
+    </objectPermissions>
+
+    <!-- ================= Field Permissions ================= -->
+    <!-- SSN reference fields on Loan__c — need-to-know, KYC officers only -->
+    <fieldPermissions>
+        <field>Loan__c.SSN_Token__c</field>
+        <readable>true</readable>
+        <editable>false</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Loan__c.SSN_Last_Four__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <!-- Optional (non-required) Sanctions_Screening__c fields -->
+    <fieldPermissions>
+        <field>Sanctions_Screening__c.Match_Details__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <field>Sanctions_Screening__c.Adjudicated_By__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
+</PermissionSet>

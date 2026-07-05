@@ -275,7 +275,7 @@ After replay execution completes:
 - Event types documented in DATA-DICTIONARY.md
 
 **Audit Event Types:**
-`Case_Created`, `Evidence_Status_Changed`, `Replay_Executed`, `Finding_Created`, `Submitted_For_Signoff`, `Case_Signed_Off`, `Violation_Alert_Sent`, `Agent_Action_Logged`
+`Case_Created`, `Evidence_Status_Changed`, `Replay_Executed`, `Finding_Created`, `Submitted_For_Signoff`, `Case_Signed_Off`, `Violation_Alert_Sent`, `Agent_Action`
 
 ### 4.3 Security
 

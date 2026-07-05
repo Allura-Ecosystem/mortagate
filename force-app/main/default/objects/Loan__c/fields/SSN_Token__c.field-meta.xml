@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SSN_Token__c</fullName>
+    <label>SSN Token</label>
+    <type>Text</type>
+    <length>255</length>
+    <required>false</required>
+    <description>Opaque token returned by the EXTERNAL SSN vault. NOT the SSN and meaningless without the vault. Raw SSN is never stored in Salesforce (ADR-24). At-rest encryption of this token is pending OQ-R8-7 (Security).</description>
+</CustomField>

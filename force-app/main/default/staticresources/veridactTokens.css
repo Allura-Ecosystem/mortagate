@@ -17,14 +17,34 @@
    components referencing --veridact-white receive charcoal.
    Per copilot-instructions: never hardcode hex in components —
    reference these variables.
+   ------------------------------------------------------------
+   WIRING (ADR-UX-02 stage 5): this file is loaded into every
+   Veridact LWC via loadStyle(this, veridactTokens) from each
+   exposed root component. loadStyle injects the sheet at the
+   document level, so the ':root' selector sets the custom
+   properties globally; they then INHERIT down the composed tree
+   into every component (custom-property inheritance is the one
+   thing that crosses shadow-DOM boundaries, so nested base
+   components — e.g. c-risk-badge inside lightning-datatable —
+   receive them too). The ':host' selector is a mirror so the
+   same sheet still resolves if it is ever injected directly into
+   a shadow root (native shadow mode). This is the SOLE home for
+   hex literals — components reference these vars with no fallback.
    ============================================================ */
 
-:root {
+:root, :host {
     /* --- Core Palette (v2.0.0: light palette) --- */
     --veridact-indigo-depth: #F5F0E8;   /* Cream — primary background (was indigo) */
-    --veridact-proof-amber: #E25D22;    /* Orange — accent, CTAs (was amber) */
+    --veridact-proof-amber: #E25D22;    /* Orange — accent for SURFACES/large-text only (3.18:1 on cream — NOT for normal body text or white labels) */
+    --veridact-accent-strong: #B8441A;  /* Deep orange — use whenever orange must carry TEXT meaning: orange text on cream 4.77:1 ✅, white label on this bg 5.41:1 ✅ (WCAG AA fix, ADR-UX-01) */
     --veridact-white: #1F1E1C;          /* Charcoal — primary text (was white) */
-    --veridact-white-60: rgba(31, 30, 28, 0.5);  /* Charcoal muted — secondary text (was white-60) */
+    --veridact-white-60: rgba(31, 30, 28, 0.5);  /* DECORATIVE ONLY — composited 3.15:1 on cream, FAILS AA for text. For muted TEXT use --veridact-ink-muted (#645D53, 5.73:1) */
+
+    /* --- Extended semantic colors (ADR-UX-02, 2026-07-01) ---
+       Added to eliminate out-of-palette hexes hardcoded across 11 LWCs.
+       WCAG AA verified on Cream #F5F0E8 (normal text ≥4.5:1). */
+    --veridact-link: #1d4ed8;           /* Links / primary blue text — 5.91:1 on cream ✅, white-on-link 6.70:1 ✅ */
+    --veridact-warn: #8a5a00;           /* Warning / caution text — 5.22:1 on cream ✅, white-on-warn 5.93:1 ✅ */
 
     /* --- Semantic decision colors (CHIP/BADGE backgrounds, NOT text) ---
        WCAG ratios verified on Cream #F5F0E8 background.
@@ -40,6 +60,25 @@
     --veridact-review-on: #ffffff;
     --veridact-declined: #8a3324;       /* chip bg — white text 8.14:1 ✅ (unchanged) */
     --veridact-declined-on: #ffffff;
+
+    /* --- Semantic tint fills (soft status backgrounds, ADR-UX-02) ---
+       Very light fills for banners/rows. Charcoal #1F1E1C text on each ≥13.8:1 ✅. */
+    --veridact-approved-tint: #e3f3ea;  /* soft green fill */
+    --veridact-declined-tint: #fbe6e1;  /* soft red fill */
+    --veridact-review-tint: #eef2ff;    /* soft blue fill */
+    --veridact-warn-tint: #fdf0d9;      /* soft amber fill */
+
+    /* --- Semantic tint borders (pair with the tint fills above, ADR-UX-02 stage 5) ---
+       1px hairlines for the soft status banners/cards. Consolidated from the
+       per-component near-duplicate borders that stage 5 detokenized. */
+    --veridact-approved-border: #cfe6da; /* green banner hairline */
+    --veridact-declined-border: #e9b6a8; /* red banner hairline */
+    --veridact-warn-border: #f0c674;     /* amber banner hairline */
+
+    /* --- Neutral / interaction tokens (ADR-UX-02 stage 5) --- */
+    --veridact-on-accent: #ffffff;          /* white text/icon on a filled accent/status surface */
+    --veridact-accent-strong-hover: #8f3413; /* darker deep-orange — button :hover, white text 7.9:1 ✅ */
+    --veridact-border-subtle: #eceae3;      /* light warm hairline (rows, chips) — softer than --veridact-border */
 
     /* --- Surfaces (light mode borrower portal — v2.0.0) --- */
     --veridact-surface: #F5F0E8;        /* Page background — Cream */
@@ -78,7 +117,7 @@
 
 /* Honor reduced-motion preference — disable slide animations */
 @media (prefers-reduced-motion: reduce) {
-    :root {
+    :root, :host {
         --veridact-transition: 0s;
     }
 }

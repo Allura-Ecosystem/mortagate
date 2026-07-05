@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Lists what is still needed to clear an audit case: every tracked document that is not yet linked (required documents first, then optional), plus any replay checks that could not be verified because the supporting papers are missing. Read only — it never links evidence and never decides whether an item is cleared. A human auditor decides.</description>
+    <invocationTarget>MissingEvidenceService</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <masterLabel>List Missing Evidence</masterLabel>
+</GenAiFunction>

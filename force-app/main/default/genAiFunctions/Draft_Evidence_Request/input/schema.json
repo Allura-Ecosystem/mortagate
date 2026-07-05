@@ -1,0 +1,16 @@
+{
+  "required" : [ "auditCaseId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "auditCaseId" : {
+      "title" : "Audit Case Id",
+      "description" : "The 15- or 18-character Salesforce record Id of the Audit_Case__c to draft an evidence request for.",
+      "lightning:type" : "lightning__recordIdType",
+      "einstein:description" : "The 15- or 18-character Salesforce record Id of the Audit_Case__c the auditor wants an evidence-request drafted for. Audit Case Ids start with a05. Extract it directly from the user request, e.g. \"draft an evidence request for audit case a05gL00000JtZ74QAF\".",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

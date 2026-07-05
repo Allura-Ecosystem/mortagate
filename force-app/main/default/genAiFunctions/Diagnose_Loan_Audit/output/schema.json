@@ -1,0 +1,66 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "summary" : {
+      "title" : "Diagnosis summary",
+      "description" : "Plain-language diagnosis naming each broken rule, the expected threshold, and the loan's actual value.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "hasViolations" : {
+      "title" : "Has violations",
+      "description" : "Whether the audit case has any rule violations.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "violationCount" : {
+      "title" : "Violation count",
+      "description" : "Number of rules the loan broke.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "passCount" : {
+      "title" : "Pass count",
+      "description" : "Number of rules the loan passed.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "unverifiableCount" : {
+      "title" : "Unverifiable count",
+      "description" : "Number of rules that could not be verified from stored replay checks.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "stale" : {
+      "title" : "Replay stale",
+      "description" : "Whether the stored replay results are stale relative to the current loan data.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "findings" : {
+      "title" : "Findings",
+      "description" : "Each broken rule explained in plain words.",
+      "items" : {
+        "lightning:type" : "lightning__textType"
+      },
+      "lightning:type" : "lightning__listType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

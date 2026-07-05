@@ -157,5 +157,115 @@ private class AuditQueueControllerTest {
         // SLA at risk: due within 3 days or overdue, not Closed:
         // Rashida (+1d), Hideo (-4d). Eleanor is Closed (excluded). Yusuf +5d excluded.
         System.assertEquals(2, m.slaAtRisk);
+        // QC window at risk: every seeded loan closed 2025-03-15 — long past the
+        // 90-day window — so none sit in the final-14-day at-risk band.
+        System.assertEquals(0, m.qcWindowAtRisk,
+            'Seed anchors are all window-exceeded, none in the 0<daysLeft<=14 band');
+    }
+
+    // ── QC compliance window (Fannie Mae 90-day post-closing lens) ───────
+
+    @IsTest
+    static void getQueue_qcWindowDaysLeft_mathAndSign() {
+        // Anchor dates chosen relative to today so the 90-day math is exact and
+        // date-independent: daysLeft = 90 - (today - Approval_Date__c).
+        Loan__c atRisk = newLoan('QC AtRisk', 300000, 'LA-QC-01');
+        atRisk.Approval_Date__c = Date.today().addDays(-80);   // daysLeft = 10
+        Loan__c blown = newLoan('QC Blown', 300000, 'LA-QC-02');
+        blown.Approval_Date__c = Date.today().addDays(-100);   // daysLeft = -10
+        Loan__c healthy = newLoan('QC Healthy', 300000, 'LA-QC-03');
+        healthy.Approval_Date__c = Date.today().addDays(-10);  // daysLeft = 80
+        insert new List<Loan__c>{ atRisk, blown, healthy };
+
+        Datetime due = Datetime.now().addDays(7);
+        insert new List<Audit_Case__c>{
+            new Audit_Case__c(Loan__c = atRisk.Id, Loan_Application__c = 'q01',
+                Status__c = 'In_Review', Risk_Tier__c = 'Medium', Due_At__c = due,
+                Borrower_Name_Snapshot__c = 'QC AtRisk'),
+            new Audit_Case__c(Loan__c = blown.Id, Loan_Application__c = 'q02',
+                Status__c = 'In_Review', Risk_Tier__c = 'High', Due_At__c = due,
+                Borrower_Name_Snapshot__c = 'QC Blown'),
+            new Audit_Case__c(Loan__c = healthy.Id, Loan_Application__c = 'q03',
+                Status__c = 'In_Review', Risk_Tier__c = 'Low', Due_At__c = due,
+                Borrower_Name_Snapshot__c = 'QC Healthy')
+        };
+
+        Test.startTest();
+        List<AuditQueueController.AuditCaseRow> rows = AuditQueueController.getQueue(null);
+        Test.stopTest();
+
+        Map<String, AuditQueueController.AuditCaseRow> byBorrower =
+            new Map<String, AuditQueueController.AuditCaseRow>();
+        for (AuditQueueController.AuditCaseRow r : rows) {
+            byBorrower.put(r.borrowerName, r);
+        }
+        System.assertEquals(10, byBorrower.get('QC AtRisk').qcWindowDaysLeft, '90 - 80');
+        System.assertEquals(-10, byBorrower.get('QC Blown').qcWindowDaysLeft,
+            'Negative when the 90-day window is exceeded');
+        System.assertEquals(80, byBorrower.get('QC Healthy').qcWindowDaysLeft, '90 - 10');
+    }
+
+    @IsTest
+    static void getQueue_qcWindow_nullForClosedCase() {
+        // Closed case (Eleanor Kwon, seeded) → QC clock retired → null.
+        // (Approval_Date__c is org-required, so a truly anchor-less loan cannot
+        // be seeded; the Closed branch is the realistic null path.)
+        Test.startTest();
+        List<AuditQueueController.AuditCaseRow> rows = AuditQueueController.getQueue(null);
+        Test.stopTest();
+
+        Map<String, AuditQueueController.AuditCaseRow> byBorrower =
+            new Map<String, AuditQueueController.AuditCaseRow>();
+        for (AuditQueueController.AuditCaseRow r : rows) {
+            byBorrower.put(r.borrowerName, r);
+        }
+        System.assertEquals(null, byBorrower.get('Eleanor Kwon').qcWindowDaysLeft,
+            'Closed case carries no live QC clock');
+        // Sanity: an open seeded case DOES carry a (long-exceeded) clock.
+        System.assertNotEquals(null, byBorrower.get('Sabir Asheed Sr.').qcWindowDaysLeft,
+            'Open case always carries a QC clock');
+    }
+
+    @IsTest
+    static void getMetrics_qcWindowAtRisk_countsFinalTwoWeeksOnly() {
+        // Boundary-heavy fixture around the 0 < daysLeft <= 14 band.
+        Loan__c edge14 = newLoan('QC Edge14', 300000, 'LA-QC-10');
+        edge14.Approval_Date__c = Date.today().addDays(-76);  // daysLeft = 14 → counts
+        Loan__c edge1 = newLoan('QC Edge1', 300000, 'LA-QC-11');
+        edge1.Approval_Date__c = Date.today().addDays(-89);   // daysLeft = 1  → counts
+        Loan__c edgeZero = newLoan('QC Zero', 300000, 'LA-QC-12');
+        edgeZero.Approval_Date__c = Date.today().addDays(-90); // daysLeft = 0  → excluded
+        Loan__c blown = newLoan('QC Blown2', 300000, 'LA-QC-13');
+        blown.Approval_Date__c = Date.today().addDays(-100);  // daysLeft = -10 → excluded
+        Loan__c healthy = newLoan('QC Healthy2', 300000, 'LA-QC-14');
+        healthy.Approval_Date__c = Date.today().addDays(-10); // daysLeft = 80 → excluded
+        Loan__c closedAtRisk = newLoan('QC Closed', 300000, 'LA-QC-15');
+        closedAtRisk.Approval_Date__c = Date.today().addDays(-80); // in band but Closed → excluded
+        insert new List<Loan__c>{ edge14, edge1, edgeZero, blown, healthy, closedAtRisk };
+
+        Datetime due = Datetime.now().addDays(7);
+        insert new List<Audit_Case__c>{
+            new Audit_Case__c(Loan__c = edge14.Id, Loan_Application__c = 'm01', Due_At__c = due,
+                Status__c = 'In_Review', Risk_Tier__c = 'Medium', Borrower_Name_Snapshot__c = 'QC Edge14'),
+            new Audit_Case__c(Loan__c = edge1.Id, Loan_Application__c = 'm02', Due_At__c = due,
+                Status__c = 'Evidence_Needed', Risk_Tier__c = 'High', Borrower_Name_Snapshot__c = 'QC Edge1'),
+            new Audit_Case__c(Loan__c = edgeZero.Id, Loan_Application__c = 'm03', Due_At__c = due,
+                Status__c = 'In_Review', Risk_Tier__c = 'Medium', Borrower_Name_Snapshot__c = 'QC Zero'),
+            new Audit_Case__c(Loan__c = blown.Id, Loan_Application__c = 'm04', Due_At__c = due,
+                Status__c = 'In_Review', Risk_Tier__c = 'High', Borrower_Name_Snapshot__c = 'QC Blown2'),
+            new Audit_Case__c(Loan__c = healthy.Id, Loan_Application__c = 'm05', Due_At__c = due,
+                Status__c = 'In_Review', Risk_Tier__c = 'Low', Borrower_Name_Snapshot__c = 'QC Healthy2'),
+            new Audit_Case__c(Loan__c = closedAtRisk.Id, Loan_Application__c = 'm06', Due_At__c = due,
+                Status__c = 'Closed', Risk_Tier__c = 'Medium', Borrower_Name_Snapshot__c = 'QC Closed')
+        };
+
+        Test.startTest();
+        AuditQueueController.AuditMetrics m = AuditQueueController.getMetrics();
+        Test.stopTest();
+
+        // edge14 (daysLeft 14) + edge1 (daysLeft 1) count; zero/blown/healthy/closed excluded.
+        // Seed cases all window-exceeded → contribute 0.
+        System.assertEquals(2, m.qcWindowAtRisk,
+            'Only open cases with 0 < daysLeft <= 14 count; boundaries 0 and Closed excluded');
     }
 }

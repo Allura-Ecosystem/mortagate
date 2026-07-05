@@ -7,6 +7,7 @@
         <type>AutoNumber</type>
         <displayFormat>AC-{000000}</displayFormat>
     </nameField>
+    <enableActivities>true</enableActivities>
     <enableHistory>true</enableHistory>
     <deploymentStatus>Deployed</deploymentStatus>
     <sharingModel>ReadWrite</sharingModel>

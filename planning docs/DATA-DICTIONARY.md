@@ -216,20 +216,23 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Annual_Income__c` | Currency(18,2) | No | Borrower annual income | -- |
 | `Loan_Type__c` | Picklist | Yes | Product type | `Conventional`, `FHA`, `VA`, `USDA` |
 | `Purpose__c` | Picklist | Yes | Loan purpose | `Purchase`, `Refinance`, `Cash_Out_Refi` |
-| `Approval_Date__c` | Date | Yes | Original approval date (drives policy version resolution) | -- |
+| `Approval_Date__c` | Date | Yes | Original approval date. Drives policy version resolution (FR-26) AND anchors the 90-day Fannie Mae QC-window clock (FR-39) — there is deliberately **no `Closing_Date__c`**, so `Approval_Date__c` is the documented proxy anchor; no field was added for the QC lens. | -- |
 | `Originating_Branch__c` | Text(100) | No | Branch that originated the loan | -- |
 | `Approver_Name__c` | Text(255) | No | Loan officer who approved | -- |
 | `LOS_Loan_Id__c` | Text(50) | No | External loan ID from LOS (future integration) | -- |
-| `DTI_At_Approval__c` | Percent(5,4) | No | DTI ratio at time of approval | -- |
+| `DTI_At_Approval__c` | Percent(5,2) | No | DTI ratio at approval, whole-number percentage points | -- |
 | `FICO_At_Approval__c` | Number(3,0) | No | FICO score at time of approval | -- |
-| `LTV_At_Approval__c` | Percent(5,4) | No | LTV ratio at time of approval | -- |
+| `LTV_At_Approval__c` | Percent(5,2) | No | LTV ratio at approval, whole-number percentage points | -- |
 | `Source_Application__c` | Lookup(`Loan_Application__c`) | No | Link back to origination record if available | -- |
+| `SSN_Token__c` | Text(255) | No | Opaque token from the EXTERNAL SSN vault -- NOT the SSN, meaningless without the vault. Raw SSN never stored in Salesforce (ADR-24). At-rest encryption pending OQ-R8-7. | -- |
+| `SSN_Last_Four__c` | Text(4) | No | Last four digits only, for display/verification. Never written to any immutable/snapshot/Agentforce payload (ADR-24). | -- |
+| `Identity_Verification_Status__c` | Picklist (restricted) | Yes | KYC/CIP identity state; gating precondition (ADR-24) -- only `Verified` passes to the kernel. Defaults to `Not_Started`. | `Not_Started` (default), `Pending`, `Verified`, `Failed`, `Manual_Review` |
 
 **Relationships:**
 - Optional lookup to `Loan_Application__c` (origination system)
-- Parent of: `Audit_Case__c`
+- Parent of: `Audit_Case__c`, `Sanctions_Screening__c` (KYC/OFAC, ADR-24)
 
-**Notes:** This is the audit-side loan record. It holds snapshotted loan data relevant to the audit. It is NOT the origination application -- `Loan_Application__c` is retained separately for the origination flow. The `Approval_Date__c` field is critical for FR-26 (policy version resolution).
+**Notes:** This is the audit-side loan record. It holds snapshotted loan data relevant to the audit. It is NOT the origination application -- `Loan_Application__c` is retained separately for the origination flow. The `Approval_Date__c` field is critical for FR-26 (policy version resolution) and, per FR-39, is also the anchor for the 90-day post-closing QC compliance window. Fannie Mae's window is technically measured from loan CLOSING; absent a `Closing_Date__c` on this snapshot, `Approval_Date__c` is the closest durable origination date and is used as the documented proxy (an explicit `Closing_Date__c` would be the higher-fidelity anchor if the LOS feed ever supplies it).
 
 ---
 
@@ -248,9 +251,9 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Fact_Category__c` | Picklist | Yes | Category of fact | `Income`, `Employment`, `Asset`, `Credit`, `Identity`, `Residency`, `Debt` |
 | `Annual_Income__c` | Currency(18,2) | No | Verified annual income | -- |
 | `Monthly_Income__c` | Currency(18,2) | No | Verified monthly income | -- |
-| `DTI_Ratio__c` | Percent(5,4) | No | Debt-to-income ratio | -- |
+| `DTI_Ratio__c` | Percent(5,2) | No | Debt-to-income ratio, whole-number percentage points (e.g. `44.8` = 44.8%) | -- |
 | `FICO_Score__c` | Number(3,0) | No | Credit score (300-850) | -- |
-| `LTV_Ratio__c` | Percent(5,4) | No | Loan-to-value ratio | -- |
+| `LTV_Ratio__c` | Percent(5,2) | No | Loan-to-value ratio, whole-number percentage points (e.g. `80` = 80%) | -- |
 | `Employment_Months__c` | Number(4,0) | No | Months at current employer | -- |
 | `Employer_Name__c` | Text(255) | No | Current employer name | -- |
 | `Address_Tenure_Months__c` | Number(4,0) | No | Months at current address | -- |
@@ -338,6 +341,10 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 
 **Notes:** Rules are data, not code (Philosophy #3). The `Fact_Field__c` maps to a specific typed field on `Borrower_Snapshot__c`, enabling pure evaluation (FR-27). `Sort_Order__c` ensures deterministic replay ordering (FR-28).
 
+**UNITS CONVENTION (critical — the 43-vs-0.43 trap):** `Threshold_Value__c` is expressed in the **same units as the target `Fact_Field__c`**. For percentage facts (`DTI_Ratio__c`, `LTV_Ratio__c`, `Percent(5,2)`) that means **whole-number percentage points**, not fractions. The governing active rules bear this out: `DTI_MAX = 43 LTE DTI_Ratio__c` (fires on `44.8`), `LTV_MAX = 80 LTE LTV_Ratio__c` (passes at `80`). Authoring a percentage threshold as `0.80` is a bug — it would make every loan fail. Verify units against a live `Borrower_Snapshot__c` value before authoring a new threshold.
+
+**SCHEMA-vs-DOC DRIFT (reported 2026-07-02, Knuth):** the deployed `Policy_Rule__c` carries only 8 fields (`Policy_Version__c`, `Rule_Code__c`, `Rule_Label__c`, `Rule_Category__c`, `Operator__c`, `Threshold_Value__c`, `Fact_Field__c`, `Severity__c`). The additional columns listed above (`Threshold_High__c`, `Rule_Explanation__c`, `Allowed_Values__c`, `Regulatory_Citation__c`, `Override_Permitted__c`, `Override_Justification_Required__c`, `Sort_Order__c`) do **not** exist on the active object; `ReplayService` defaults them to null when adapting to the in-memory evaluator type. Full object-spec reconciliation is deferred to a Brooks-owned pass. Consequence: there is no `Rule_Explanation__c` to store read-aloud text — use `Rule_Label__c` on the record and the DESIGN note for narrative. Also: `Severity__c` values are title-case (`Hard_Decline`, `Soft_Decline`, `Warning`, `Info`); the evaluator switches on `HARD_DECLINE`/`SOFT_DECLINE`/`WARNING` and relies on Apex case-insensitive string `switch`.
+
 ---
 
 ### 2.6 Evidence_Item__c
@@ -351,7 +358,7 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 |----------------|------|----------|-------------|--------------------------|
 | `Name` | AutoNumber (`EI-{000000}`) | Auto | Evidence identifier | -- |
 | `Audit_Case__c` | Lookup(`Audit_Case__c`) | Yes | Parent audit case | -- |
-| `Document_Type__c` | Picklist | Yes | Type of document | `Pay_Stub`, `W2`, `Bank_Statement`, `Tax_Return`, `Appraisal`, `Credit_Report`, `Purchase_Agreement`, `Photo_ID`, `Employment_Verification`, `Other` |
+| `Document_Type__c` | Picklist | Yes | Type of document | `Pay_Stub`, `W2`, `Bank_Statement`, `Tax_Return`, `Appraisal`, `Credit_Report`, `Purchase_Agreement`, `Photo_ID`, `Employment_Verification`, `Recorded_Mortgage`, `Final_Title_Policy`, `Other` |
 | `Status__c` | Picklist | Yes | Evidence status | `Linked`, `Missing`, `Unverifiable` |
 | `ContentDocument_Id__c` | Text(18) | No | Salesforce ContentDocument ID (null if Missing) | -- |
 | `SHA256_Hash__c` | Text(64) | No | Document integrity hash | -- |
@@ -364,6 +371,8 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 - Referenced by: `Borrower_Snapshot__c`, `Replay_Check__c`, `Finding__c`
 
 **Notes:** Status changes create `Audit_Event__c` records per FR-8. The `Missing` and `Unverifiable` states are first-class outcomes, not error states.
+
+**Trailing documents (added 2026-07-02, Knuth):** `Recorded_Mortgage` and `Final_Title_Policy` represent required post-close trailing docs. A "required trailing doc" is simply an `Evidence_Item__c` of one of these types with `Required__c = true`; when absent it carries `Status__c = Missing`. Per ADR-3, a missing required doc surfaces as an evidence-panel gap / `missingEvidenceCount` (investigation trigger) and is **never** converted to a policy `Fail` — the replay kernel evaluates only numeric `Borrower_Snapshot__c` facts and does not turn evidence gaps into declines. See `my-project/_bmad-output/planning/DESIGN-second-pass-data.md`.
 
 ---
 
@@ -529,7 +538,7 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Output_Summary__c` | LongTextArea(32000) | No | Summary of output returned by the agent | -- |
 | `Prompt_Template__c` | Text(255) | No | Which prompt template was used | -- |
 | `Duration_Ms__c` | Number(8,0) | No | Execution duration in milliseconds | -- |
-| `Status__c` | Picklist | Yes | Action outcome | `Success`, `Failed`, `Partial` |
+| `Status__c` | Picklist | Yes | Action state/outcome | `Initiated`, `Success`, `Failed`, `Partial` |
 | `Error_Message__c` | Text(255) | No | Error details if failed | -- |
 
 **Action Names (picklist values):**
@@ -547,9 +556,41 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 
 **Immutability enforcement:**
 - Validation rule `Prevent_Edit_After_Creation`: blocks UPDATE on all fields after insert
-- Before-delete trigger `AgentActionLogPreventDelete`: blocks DELETE
+- Trigger `AgentActionLogPreventDelete` (before update + before delete): blocks UPDATE and DELETE in code (ADR-1 — enforcement lives in code so it cannot be bypassed by Flow/API/other triggers; the validation rule stays as defense in depth)
 
-**Notes:** Every Agentforce action MUST call `logAgentAction` before executing (FR-23). A corresponding `Audit_Event__c` with `Event_Type = Agent_Action` is also created for each action, creating dual-write traceability.
+**Notes:** Every Agentforce action MUST call the governed log-before-execute path (FR-23): BEFORE the action executes it inserts the `Agent_Action_Log__c` intent row with `Status = Initiated` and dual-writes an `Audit_Event__c` (`Event_Type = Agent_Action`, payload `phase = initiated`). Because both objects are append-only, the intent row is never updated with the result; instead the outcome is APPENDED as a second `Audit_Event__c` (`Event_Type = Agent_Action`, payload `phase = outcome`, `status = Success|Partial|Failed`, plus the narrated summary), whose `Related_Record_Id__c` back-links to the intent log. This yields dual-write traceability that brackets every action while honouring the append-only invariant (ADR-1: a changed state is a new appended record, never an edit). Reference implementation: `LoanDiagnosisService.runDiagnoses`.
+
+---
+
+### 2.12 Sanctions_Screening__c [APPEND-ONLY]
+
+**Label:** Sanctions Screening
+**Description:** Immutable record of a single OFAC / sanctions screening event against a party on a loan. Append-only. Parents on `Loan__c` (not `Audit_Case__c`) -- every originated loan is screened, only some are audited (ADR-24, OQ-R8-5).
+**Old name:** (none -- NEW)
+**FR coverage:** R-8 / ADR-24 (KYC/OFAC gating preconditions)
+
+| Field API Name | Type | Required | Description | Default / Picklist Values |
+|----------------|------|----------|-------------|--------------------------|
+| `Name` | AutoNumber (`SS-{000000}`) | Auto | Screening identifier | -- |
+| `Loan__c` | Lookup(`Loan__c`) | Yes | Parent loan. `deleteConstraint=Restrict`, `relationshipName=Sanctions_Screenings` | -- |
+| `Result__c` | Picklist (restricted) | Yes | Outcome; gating precondition -- only `Clear` passes to the kernel | `Clear`, `Potential_Match`, `Confirmed_Match`, `Pending_Review` |
+| `List_Source__c` | Picklist (restricted) | Yes | Which sanctions list set governed the screen | `OFAC_SDN`, `Consolidated` |
+| `List_Version__c` | Text(50) | Yes | Provider list version / publish date -- pins exactly which list governed this screen | e.g. `OFAC-SDN-2026-06-18` |
+| `Match_Details__c` | LongTextArea(32000) | No | Provider candidates + analyst rationale. Never contains raw/de-tokenized SSN (ADR-24) | -- |
+| `Adjudicated_By__c` | Lookup(User) | No | User who adjudicated a match (null for auto-cleared). `deleteConstraint=SetNull` | -- |
+| `Screened_At__c` | DateTime | Yes | When the screen executed; newest for a `Loan__c` is the current result | -- |
+
+**Relationships:**
+- Lookup to `Loan__c` (parent, `Restrict`) -- the audit side reaches screening history through the existing `Loan__c` <- `Audit_Case__c` lookup
+- Lookup to `User` via `Adjudicated_By__c`
+
+**Immutability enforcement:**
+- Validation rule `Prevent_Edit_After_Creation`: `NOT(ISNEW())` blocks UPDATE on all fields after insert
+- Trigger `SanctionsScreeningPreventDelete` (before update + before delete): blocks UPDATE and DELETE in code (ADR-24/ADR-1 -- enforcement lives in code so it cannot be bypassed by Flow/API/other triggers; the validation rule stays as defense in depth)
+
+**FLS / access:** Screening object + `Loan__c` SSN fields are granted ONLY via the new `Veridact_KYC_Officer_Access` permission set (need-to-know isolation, ADR-24). They are deliberately absent from the general `Veridact_Mortgage_Engine_Access` permission set.
+
+**Notes:** A sanctions screen is a receipt, not a mutable status. A changed result is a NEW record, never an edit -- same discipline as `Decision_Event__c` re-evaluation (ADR-1). KYC/OFAC are gating preconditions evaluated OUTSIDE the pure kernel (ADR-24); they are never `Policy_Rule__c` rows and never enter `PolicyRuleEvaluator`. A `Confirmed_Match` / uncleared `Potential_Match` / `Pending_Review` / absent screen blocks origination regardless of policy verdict. **This slice delivers the schema only; the gating service (slice 2) is not yet built.**
 
 ---
 
@@ -560,6 +601,7 @@ These objects remain deployed for the loan origination flow but are NOT part of 
 | `Audit_Event__c` | Yes (all fields post-insert) | Yes | Validation rule + before-delete trigger |
 | `Audit_Receipt__c` | Yes (all fields post-insert) | Yes | Validation rule + before-delete trigger |
 | `Agent_Action_Log__c` | Yes (all fields post-insert) | Yes | Validation rule + before-delete trigger |
+| `Sanctions_Screening__c` | Yes (all fields post-insert) | Yes | Validation rule + before update/delete trigger (ADR-24) |
 | `Decision_Event__c` (origination) | Yes (all fields post-insert) | Yes | Apex trigger (existing) |
 
 All other objects allow standard CRUD operations subject to FLS and sharing rules.
@@ -586,6 +628,8 @@ All other objects allow standard CRUD operations subject to FLS and sharing rule
 | `Policy_Version__c` | `Effective_Date__c` + `Is_Active__c` | Compound Custom Index | Version resolution (FR-26) |
 | `Agent_Action_Log__c` | `Audit_Case__c` | Lookup (auto) | Parent join |
 | `Agent_Action_Log__c` | `Timestamp__c` | Custom Index | Chronological queries |
+| `Sanctions_Screening__c` | `Loan__c` | Lookup (auto) | Parent join (ADR-24) |
+| `Sanctions_Screening__c` | `Screened_At__c` | Custom Index | Chronological "latest screen" queries (ADR-24) |
 
 ---
 

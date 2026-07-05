@@ -1,0 +1,5 @@
+my-project/_bmad-output/planning/DESIGN-adverse-action.md
+my-project/_bmad-output/planning/DESIGN-kyc-ofac.md
+my-project/_bmad-output/planning/DESIGN-onboarding-ux.md
+my-project/_bmad-output/planning/DESIGN-policy-engine.md
+my-project/_bmad-output/planning/DESIGN-second-pass-data.md

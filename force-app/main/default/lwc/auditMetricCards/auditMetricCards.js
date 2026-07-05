@@ -4,7 +4,7 @@ import { LightningElement, api } from 'lwc';
  * auditMetricCards — presentational dashboard cards with a coloured left accent
  * bar (the Figma "rail"). Two ways to feed it, both supported:
  *
- *   • metrics  — an AuditQueueController.AuditMetrics object; renders the five
+ *   • metrics  — an AuditQueueController.AuditMetrics object; renders the six
  *                fixed Audit Queue cards (assigned to me / high risk / …). This
  *                is the original Audit Queue contract, unchanged.
  *   • cards    — an explicit [{ key, label, value, tone }] array, so other
@@ -36,7 +36,8 @@ export default class AuditMetricCards extends LightningElement {
             { key: 'highRisk', label: 'High risk', value: m.highRisk ?? 0, tone: 'rail-orange' },
             { key: 'evidenceNeeded', label: 'Evidence needed', value: m.evidenceNeeded ?? 0, tone: 'rail-amber' },
             { key: 'readyForSignoff', label: 'Ready for signoff', value: m.readyForSignoff ?? 0, tone: 'rail-green' },
-            { key: 'slaAtRisk', label: 'SLA at risk', value: m.slaAtRisk ?? 0, tone: 'rail-red' }
+            { key: 'slaAtRisk', label: 'SLA at risk', value: m.slaAtRisk ?? 0, tone: 'rail-red' },
+            { key: 'qcWindowAtRisk', label: 'QC window at risk', value: m.qcWindowAtRisk ?? 0, tone: 'rail-amber' }
         ].map((c) => ({ ...c, cssClass: `metric-card ${c.tone}` }));
     }
     set cards(value) {

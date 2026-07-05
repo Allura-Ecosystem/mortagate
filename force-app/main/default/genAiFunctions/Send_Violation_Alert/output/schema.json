@@ -1,0 +1,39 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "summary" : {
+      "title" : "Alert summary",
+      "description" : "Plain-language result of the alert: whether an internal follow-up task was raised for the assigned auditor, the rule violations it covers, and that a human decides.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "alertCreated" : {
+      "title" : "Alert task created",
+      "description" : "True when a new internal follow-up task was created for the assigned auditor.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "alreadyAlerted" : {
+      "title" : "Already alerted",
+      "description" : "True when an open violation-alert task already existed, so no duplicate was created.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "violationCount" : {
+      "title" : "Violation count",
+      "description" : "Number of rule violations found on the case's latest replay.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

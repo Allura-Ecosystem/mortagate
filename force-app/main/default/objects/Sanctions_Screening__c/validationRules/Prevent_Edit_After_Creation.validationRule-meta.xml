@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Edit_After_Creation</fullName>
+    <active>true</active>
+    <errorConditionFormula>NOT(ISNEW())</errorConditionFormula>
+    <errorMessage>Sanctions Screenings are append-only and cannot be edited after creation. Record a new screening instead.</errorMessage>
+    <description>Sanctions Screening is append-only. Blocks all updates after initial insert (ADR-24). Defense in depth alongside the SanctionsScreeningPreventDelete trigger.</description>
+</ValidationRule>

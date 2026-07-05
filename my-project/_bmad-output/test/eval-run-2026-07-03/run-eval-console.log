@@ -1,0 +1,63 @@
+START 2026-07-03T06:36:39Z
+ ›   Warning: @salesforce/cli update available from [92m2.137.7[39m to [92m2.140.6[39m.
+[1m[33mWarning:[39m[22m This command is currently in beta. Any aspect of this command can change without advanced notice. Don't use beta commands in your scripts.
+Detected YAML test spec for agent 'Veridact_Auditor_Copilot_v4' with 3 test case(s). Translating to Evaluation API format.
+{
+  "results": [
+    {
+      "id": "Veridact_Auditor_Copilot_v4_RuntimeSelection_case_0",
+      "outputs": [
+        {
+          "type": "agent.create_session",
+          "id": "cs",
+          "session_id": "019f26b1-b4ce-7992-b50e-c59d3b51d49d"
+        }
+      ],
+      "evaluation_results": [],
+      "errors": [
+        {
+          "type": "step.error",
+          "id": "sm",
+          "error_message": "HTTP 403 for http://bot-svc-llmagent.chatbot-runtime.svc.mesh.sfdc.net:7442/sessions/%7Bcs.session_id%7D/messages: RBAC: access denied"
+        }
+      ]
+    },
+    {
+      "id": "Veridact_Auditor_Copilot_v4_RuntimeSelection_case_1",
+      "outputs": [
+        {
+          "type": "agent.create_session",
+          "id": "cs",
+          "session_id": "019f26b1-c52a-7657-800a-0bcde4c0f8a2"
+        }
+      ],
+      "evaluation_results": [],
+      "errors": [
+        {
+          "type": "step.error",
+          "id": "sm",
+          "error_message": "HTTP 403 for http://bot-svc-llmagent.chatbot-runtime.svc.mesh.sfdc.net:7442/sessions/%7Bcs.session_id%7D/messages: RBAC: access denied"
+        }
+      ]
+    },
+    {
+      "id": "Veridact_Auditor_Copilot_v4_RuntimeSelection_case_2",
+      "outputs": [
+        {
+          "type": "agent.create_session",
+          "id": "cs",
+          "session_id": "019f26b1-c658-7bd1-96b4-4a2a6b9e04c0"
+        }
+      ],
+      "evaluation_results": [],
+      "errors": [
+        {
+          "type": "step.error",
+          "id": "sm",
+          "error_message": "HTTP 403 for http://bot-svc-llmagent.chatbot-runtime.svc.mesh.sfdc.net:7442/sessions/%7Bcs.session_id%7D/messages: RBAC: access denied"
+        }
+      ]
+    }
+  ]
+}
+EXIT=1 2026-07-03T06:36:53Z

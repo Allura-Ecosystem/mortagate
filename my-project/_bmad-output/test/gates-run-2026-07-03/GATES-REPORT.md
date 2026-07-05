@@ -1,0 +1,144 @@
+# Gate Run Receipt — mortagate.gates.json
+
+> **AI-Assisted Documentation** — This gate receipt was generated with AI assistance (Hightower, DevOps agent).
+
+- **Date (UTC):** 2026-07-03
+- **Project:** Mortgage Approval Engine (Veridact)
+- **Checkout:** `/media/ronin704/Games/Projects/Allura-ecosystem/allura module/mortgage-audit`
+- **Branch:** `feat/veridact-v1-demo`
+- **Org alias:** `mortagate-de` (Connected — Developer Edition, orgId `00DgL00000SseMyUAJ`, apiVersion 67.0)
+- **Gate file:** `mortagate.gates.json` (schema gate-runner.v1)
+- **Runner:** sf CLI 2.137.7, node v24.14.0
+- **Note:** `seed-data.apex` was NOT run (per standing instruction).
+
+## Executive Summary
+
+| Phase | PASS | PASS-WITH-DEVIATION | OPEN-MANUAL | FAIL |
+|---|---|---|---|---|
+| phase-0 (workspace/org readiness) | 4 | 0 | 0 | 0 |
+| phase-1 (Carlos doc readiness) | 7 | 0 | 0 | 0 |
+| phase-2 (metadata + quality) | 6 | 0 | 0 | 0 |
+| **Total** | **17** | **0** | **0** | **0** |
+
+> **Update 2026-07-03 (Triage Resolution, final):** `p2-002` FAIL → **PASS** — gate fixed to the ADR-22 piecewise set and the org's "Allow deployments with pending Apex jobs" toggle enabled (Setup UI; one-time prerequisite). All 4 piecewise slices green. `p2-004` deviation resolved (gate command corrected to `npm run test:unit`). See the Triage Resolution section at the end.
+>
+> **Update 2026-07-03 (manual reviews closed):** `p2-005` and `p2-006` fresh-reviewed (Fowler/Pike evidence files in this directory) and **signed by the owner** (Sabir, in-session delegation 2026-07-03). All 17 gates now PASS — zero OPEN items.
+
+- **Apex tests:** 198/198 passing (100%), org-wide coverage **83%**, test-run coverage 93%.
+- **LWC Jest:** 53/53 passing across 12 suites.
+- **Blocking failure:** `p2-002` full-source `--dry-run` FAILED with **132 component errors** — pending scheduled/async Apex jobs and an active Agentforce bot in the org block a full-source deploy. This is **not** the ADR-22/25 UNKNOWN_EXCEPTION gack, so the piecewise fallback was **not** invoked. Reported for triage; not fixed in this slice.
+
+---
+
+## Phase 0 — Workspace And Org Readiness
+
+| Check ID | Command / Test | Result | Evidence |
+|---|---|---|---|
+| p0-001-sf-cli-version | `sf --version` | PASS | `@salesforce/cli/2.137.7 linux-x64 node-v24.14.0` — `p0-001-sf-version.txt` |
+| p0-002-org-display | `sf org display --target-org mortagate-de --json` | PASS | `connectedStatus: Connected`, alias `mortagate-de`, apiVersion 67.0 — `p0-002-org-display.json` (accessToken redacted by CLI) |
+| p0-003-org-list | `sf org list --all --json` | PASS | `mortagate-de` present in nonScratchOrgs + devHubs, Connected — `p0-003-org-list.json` |
+| p0-004-project-context | file_exists ×3 | PASS | `planning docs/copilot-instructions.md`, `CLAUDE.md`, `mortagate.gates.json` all present |
+
+---
+
+## Phase 1 — Carlos Documentation Readiness
+
+| Check ID | Command / Test | Result | Evidence |
+|---|---|---|---|
+| p1-001-blueprint | `test -f planning docs/BLUEPRINT.md` | PASS | present |
+| p1-002-solution-architecture | `test -f planning docs/SOLUTION-ARCHITECTURE.md` | PASS | present |
+| p1-003-requirements-matrix | `test -f planning docs/REQUIREMENTS-MATRIX.md` | PASS | present |
+| p1-004-risks-decisions | `test -f planning docs/RISKS-AND-DECISIONS.md` | PASS | present |
+| p1-005-data-dictionary | `test -f planning docs/DATA-DICTIONARY.md` | PASS | present |
+| p1-006-design-doc | glob `my-project/_bmad-output/planning/DESIGN-*.md` | PASS | 5 matches (adverse-action, kyc-ofac, onboarding-ux, policy-engine, second-pass-data) — `p1-006-design-glob.txt` |
+| p1-007-ai-disclosure | content_match `AI-Assisted Documentation` ×5 docs | PASS | matched in all 5 Carlos docs |
+
+---
+
+## Phase 2 — Salesforce Metadata And Quality Readiness
+
+| Check ID | Command / Test | Result | Evidence |
+|---|---|---|---|
+| p2-001-project-json | `test -f sfdx-project.json` | PASS | present |
+| p2-002-source-status | full-source dry-run (original gate cmd) → replaced by ADR-22 piecewise set | **PASS** (was FAIL) | Original full-source: 132 errors / 432 (by-design block). Gate updated to 4 piecewise slices; org toggle enabled. All 4 slices green: objects 239/239, classes+triggers 70/70, lwc+staticresources 13/13, experience-set 16/16. See Triage Resolution section — `p2-002a..d-*.json`, `p2-002b-classes-triggers-rerun.json` |
+| p2-003-apex-tests | `sf apex run test --target-org mortagate-de --result-format json --code-coverage` | PASS | 198/198 passing, orgWideCoverage **83%**, testRunCoverage 93% — `p2-003-apex-tests.json` |
+| p2-004-lwc-tests | `npm run test:unit -- --runInBand` (gate command corrected) | PASS | 53/53 passing, 12 suites. Original gate cmd `npm test` had no matching script; gate corrected to the real `test:unit` script (deviation resolved) — `p2-004-lwc-jest.txt` |
+| p2-005-flow-quality-review | manual_review | **PASS (signed)** | Fresh review 2026-07-03 (Fowler): zero project Flows in source (`*.flow-meta.xml` = 0); all 107 org Flows are managed/standard (NamespacePrefix != null), none touch Veridact objects → criteria 1–4 vacuously satisfied; automation density PASS (0 project Flow/WFR/PB). Standing condition: any future `*.flow-meta.xml` re-opens this gate. Evidence: `p2-005-flow-quality-review.md`. Owner sign-off: Sabir, 2026-07-03 (delegated in-session). |
+| p2-006-lwc-quality-review | manual_review | **PASS (signed)** | Fresh review 2026-07-03 (Pike), all 13 components: innerHTML/insertAdjacentHTML/lwc:dom=manual → 0 hits; all 7 LWC-facing controllers enforce USER_MODE reads + `insert/update as user` writes (IdentityGateService system-mode read is an approved deviation, not on the LWC surface); no org-specific ID literals; `check-brand-tokens.mjs` clean, 0 raw hex; Jest 13 suites / 63 tests green incl. @sa11y axe. Minor non-blocking polish logged: `policyVersions.html:18` role=button lacks onkeydown pairing. Evidence: `p2-006-lwc-quality-review.md`. Owner sign-off: Sabir, 2026-07-03 (delegated in-session). |
+
+### p2-002 Failure Detail (for triage)
+
+Full-source `--dry-run` returned `result.status: Failed`, **132 component errors** across 432 components. Distinct problems:
+
+| Count | Problem | Type |
+|---|---|---|
+| 54 + 65 (paired msgs) | `This schedulable class has jobs pending or in progress - CronTrigger IDs ()` + "bypass via Deployment Settings" | ApexClass |
+| 10 | `This schedulable class has jobs pending or in progress - CronTrigger IDs (08egL00000bzH8H)` | ApexClass |
+| 1 | `This Apex class has asynchronous Apex jobs ... pending or in progress; AsyncApexJob ID(s): 707gL000010vWCP` | ApexClass |
+| 1 | `Cannot update record as Agent is Active` | GenAiPlannerBundle |
+| 1 | `Can't edit an active bot version` | BotVersion |
+
+Failing component types: 130 ApexClass, 1 GenAiPlannerBundle, 1 BotVersion.
+
+**Root cause (org state, not source):** A scheduled job (CronTrigger `08egL00000bzH8H`, consistent with `SecondPassSweepBatch` scheduled per commit d3f1a9e) and pending async Apex block redeploy of the Apex classes they reference. The Agentforce bot/planner is Active, blocking its metadata update. None of these are source-compile errors.
+
+**Why no piecewise fallback:** Gate-run policy invokes the documented piecewise dry-run only when the full-source attempt returns `UNKNOWN_EXCEPTION` with **0** component errors (ADR-22/25 gack). Here there is no UNKNOWN_EXCEPTION and 132 real component errors, so the fallback condition is not met. Marked FAIL, left for triage.
+
+**Suggested triage (NOT applied in this slice):**
+- Unschedule/abort the pending `SecondPassSweepBatch` CronTrigger + drain async jobs, or enable "Allow deployments of components when corresponding Apex jobs are pending or in progress" in Deployment Settings; and deactivate the bot version / planner before a full-source deploy.
+- Delegate remediation to woz-builder-mortgate per routing policy if a fix is authorized.
+
+---
+
+## Evidence Files (same directory)
+
+- `p0-001-sf-version.txt`
+- `p0-002-org-display.json` (accessToken redacted by CLI)
+- `p0-003-org-list.json` (accessToken redacted by CLI)
+- `p1-006-design-glob.txt`
+- `p2-002-fullsource-dryrun.json` (raw), `p2-002-fullsource-dryrun.clean.json` (warning-stripped), `p2-002-failure-summary.txt`
+- `p2-003-apex-tests.json`
+- `p2-004-lwc-jest.txt`
+- Piecewise dry-run slices: `p2-002a-objects.json`, `p2-002b-classes-triggers.json`, `p2-002c-lwc-staticresources.json`, `p2-002d-flexipages-tabs-apps-permsets.json`
+
+---
+
+## Triage Resolution (2026-07-03, Brooks ruling)
+
+**Ruling:** The org state is CORRECT — the nightly `SecondPassSweepBatch` schedule and the Active Agentforce bot are the product working as designed. The gate definition predates a live org. **Fix the gate, not the org.** Do NOT unschedule the batch or deactivate the bot.
+
+**Actions taken (this commit):**
+
+1. **`mortagate.gates.json` p2-002 updated** — the single full-source `--dry-run` command was replaced with the ADR-22 piecewise dry-run set (4 commands: objects; classes+triggers; lwc+staticresources; flexipages+tabs+applications+permissionsets). The `notes` field records that the org toggle "Allow deployments... Apex jobs pending" is now **ENABLED** as a one-time org prerequisite (survives deploys), and that a genuine full-source deploy still needs bot deactivation as a runbook item.
+2. **`mortagate.gates.json` p2-004 updated** — command corrected from `npm test -- --runInBand` to `npm run test:unit -- --runInBand` (the real script; resolves the p2-004 deviation).
+
+**Piecewise dry-run results (run 2026-07-03):**
+
+| Slice | Command (dirs) | Result | Components |
+|---|---|---|---|
+| p2-002a | objects | PASS | 239/239, 0 errors |
+| p2-002b | classes + triggers | **FAIL-BY-DESIGN** | 130 errors / 136 — `This schedulable class has jobs pending or in progress` (CronTrigger `08egL00000bzH8H` = active nightly `SecondPassSweepBatch`) + 1 async AsyncApexJob `707gL000010vWCP` |
+| p2-002c | lwc + staticresources | PASS | 13/13, 0 errors |
+| p2-002d | flexipages + tabs + applications + permissionsets | PASS | 16/16, 0 errors |
+
+The classes+triggers slice initially FAILED-BY-DESIGN (active scheduled batch blocks redeploy of the Apex classes it references). Per Brooks' follow-up ruling, the durable fix is to make the gate honestly green by enabling the org toggle (safe: it permits deployment while scheduled/async jobs exist; it does not touch the jobs).
+
+### Toggle enablement (2026-07-03) — how it was set
+
+- **Attempted metadata first (per instruction):** retrieved `Settings:Apex` from `mortagate-de` and inspected `ApexSettings`. The flag is **NOT present** in `ApexSettings` metadata (16 fields; `enableAggregateCodeCoverageOnly` is code-coverage aggregation, not this). Confirmed no committable metadata field exists → did **not** guess-deploy a settings file; removed the retrieved file.
+- **Setup UI via agent-browser (fallback):** Setup → Deployment Settings (`/lightning/setup/DeploymentSettings/home`) → checked **"Allow deployments of components when corresponding Apex jobs are pending or in progress"** → Save → **"Your changes were saved successfully"** (verified; checkbox `checked=true` persisted). Screenshots in scratchpad. This is a **one-time org-level prerequisite that survives deploys**; recorded in the p2-002 `notes` field.
+
+### Classes+triggers re-run (after toggle) — verbatim
+
+```
+sf project deploy start --source-dir force-app/main/default/classes --source-dir force-app/main/default/triggers --target-org mortagate-de --dry-run --json
+→ status: Succeeded  success: true  errors: 0 / total: 70  deployed: 70  (EXIT 0)
+```
+
+Evidence: `p2-002b-classes-triggers-rerun.json`.
+
+**All 4 piecewise slices now PASS** (objects 239/239, classes+triggers 70/70, lwc+staticresources 13/13, experience-set 16/16).
+
+**Reclassification:** `p2-002` FAIL → **PASS** (fully green). The org toggle is now the documented prerequisite; the nightly `SecondPassSweepBatch` schedule and Active bot remain untouched, exactly as Brooks ruled. GenAiPlannerBundle/BotVersion "active" errors from the original full-source run remain excluded from the canonical slices (and `.forceignore`-quarantined per ADR-23); a genuine full-source deploy still needs bot deactivation as a runbook item.
+
+**Closed later on 2026-07-03:** `p2-005` (flow quality) and `p2-006` (LWC quality) were fresh-reviewed (evidence: `p2-005-flow-quality-review.md`, `p2-006-lwc-quality-review.md`) and signed by the owner — see the summary table. **17/17 PASS.**

@@ -21,11 +21,11 @@ jest.mock(
 );
 
 const ROWS = [
-    { recordId: '500x1', loanNumber: 'LA-558823', borrowerName: 'Sabir Asheed Sr.', riskTier: 'High', status: 'In Review', approverName: 'Janet Chen', slaLabel: 'Overdue 2d' },
-    { recordId: '500x2', loanNumber: 'LA-559184', borrowerName: 'Marcus Bellweather', riskTier: 'High', status: 'In Review', approverName: 'Priya Raman', slaLabel: 'Due today' }
+    { recordId: '500x1', loanNumber: 'LA-558823', borrowerName: 'Sabir Asheed Sr.', riskTier: 'High', status: 'In Review', approverName: 'Janet Chen', slaLabel: 'Overdue 2d', qcWindowDaysLeft: 8 },
+    { recordId: '500x2', loanNumber: 'LA-559184', borrowerName: 'Marcus Bellweather', riskTier: 'High', status: 'In Review', approverName: 'Priya Raman', slaLabel: 'Due today', qcWindowDaysLeft: -3 }
 ];
 
-const METRICS = { assignedToMe: 14, highRisk: 23, evidenceNeeded: 9, readyForSignoff: 6, slaAtRisk: 4 };
+const METRICS = { assignedToMe: 14, highRisk: 23, evidenceNeeded: 9, readyForSignoff: 6, slaAtRisk: 4, qcWindowAtRisk: 3 };
 
 describe('c-audit-queue', () => {
     afterEach(() => {
@@ -57,6 +57,15 @@ describe('c-audit-queue', () => {
 
         const cards = el.shadowRoot.querySelector('c-audit-metric-cards');
         expect(cards.metrics.highRisk).toBe(23);
+        expect(cards.metrics.qcWindowAtRisk).toBe(3);
+
+        // The QC Window compliance column rides the custom qcWindow cell type
+        // and sits beside (not instead of) the internal SLA column.
+        const qcCol = table.columns.find((c) => c.fieldName === 'qcWindowDaysLeft');
+        expect(qcCol).toBeDefined();
+        expect(qcCol.type).toBe('qcWindow');
+        expect(qcCol.label).toBe('QC Window');
+        expect(table.columns.some((c) => c.fieldName === 'slaLabel')).toBe(true);
     });
 
     it('filters rows client-side by the search term', async () => {

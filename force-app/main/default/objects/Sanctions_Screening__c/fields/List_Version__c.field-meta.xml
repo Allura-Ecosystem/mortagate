@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>List_Version__c</fullName>
+    <label>List Version</label>
+    <type>Text</type>
+    <length>50</length>
+    <required>true</required>
+    <description>Provider list version / publish date (e.g. OFAC-SDN-2026-06-18) -- pins exactly which list governed this screen.</description>
+</CustomField>

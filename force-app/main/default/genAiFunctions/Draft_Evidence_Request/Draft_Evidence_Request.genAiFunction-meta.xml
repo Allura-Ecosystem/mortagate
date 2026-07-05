@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Drafts a professional message asking the borrower or branch for the documents still needed to complete an audit case: every required document that is not yet linked (required first, then optional), formatted as a request the auditor can send. Read only — it never sends anything, never creates or changes evidence records, and never decides the loan. The draft carries a polite deadline placeholder for the auditor to fill in, and a human auditor reviews and sends it.</description>
+    <invocationTarget>EvidenceRequestService</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <masterLabel>Draft Evidence Request</masterLabel>
+</GenAiFunction>

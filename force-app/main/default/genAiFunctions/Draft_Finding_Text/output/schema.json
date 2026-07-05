@@ -1,0 +1,47 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "draftText" : {
+      "title" : "Draft finding text",
+      "description" : "Draft finding narrative suitable for the Finding Description field. Draft only; a human auditor accepts or edits it.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "found" : {
+      "title" : "Check found",
+      "description" : "Whether a matching replay check was found to draft from.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "ruleName" : {
+      "title" : "Rule name",
+      "description" : "Plain name of the rule the finding is drafted for.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "ruleCode" : {
+      "title" : "Rule code",
+      "description" : "Code of the rule the finding is drafted for.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    },
+    "ruleResult" : {
+      "title" : "Rule result",
+      "description" : "Result of the replay check the finding is drafted for.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

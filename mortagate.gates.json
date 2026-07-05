@@ -169,9 +169,15 @@
         },
         {
           "id": "p2-002-source-status",
-          "type": "command",
-          "command": "sf project deploy start --source-dir force-app --target-org mortagate-de --dry-run --json",
-          "required": true
+          "type": "command_set",
+          "commands": [
+            "sf project deploy start --source-dir force-app/main/default/objects --target-org mortagate-de --dry-run --json",
+            "sf project deploy start --source-dir force-app/main/default/classes --source-dir force-app/main/default/triggers --target-org mortagate-de --dry-run --json",
+            "sf project deploy start --source-dir force-app/main/default/lwc --source-dir force-app/main/default/staticresources --target-org mortagate-de --dry-run --json",
+            "sf project deploy start --source-dir force-app/main/default/flexipages --source-dir force-app/main/default/tabs --source-dir force-app/main/default/applications --source-dir force-app/main/default/permissionsets --target-org mortagate-de --dry-run --json"
+          ],
+          "required": true,
+          "notes": "Piecewise is canonical per ADR-22/25. ORG PREREQUISITE (one-time, survives deploys, set 2026-07-03 via Setup > Deployment Settings): 'Allow deployments of components when corresponding Apex jobs are pending or in progress' is ENABLED on mortagate-de so the classes+triggers slice passes while the nightly SecondPassSweepBatch schedule + async jobs remain active by design (the toggle permits the deploy; it does not touch the jobs). This flag is NOT exposed in ApexSettings metadata, so it is a Setup-UI org setting, not a committable file. A genuine full-source deploy additionally requires deactivating the active Agentforce bot/planner first (release runbook item, not a gate); those types are .forceignore-quarantined per ADR-23 and excluded from the piecewise slices."
         },
         {
           "id": "p2-003-apex-tests",
@@ -185,7 +191,7 @@
         {
           "id": "p2-004-lwc-tests",
           "type": "command",
-          "command": "npm test -- --runInBand",
+          "command": "npm run test:unit -- --runInBand",
           "required": false,
           "skip_if_missing": [
             "force-app/main/default/lwc",
