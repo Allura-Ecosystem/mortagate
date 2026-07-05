@@ -14,6 +14,7 @@
   "oauthLocalPort": 1919,
   "sourceApiVersion": "66.0",
   "packageAliases": {
-    "CaseFile": "0HogL00000034rtSAA"
+    "CaseFile": "0HogL00000034rtSAA",
+    "CaseFile@0.1.0-1": "04tgL000000IMEzQAO"
   }
 }
