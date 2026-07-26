@@ -134,7 +134,10 @@ private class SabirSrSmokeTest {
             Operator__c        = op,
             Threshold_Value__c = threshold,
             Fact_Field__c      = factField,
-            Severity__c        = severity
+            Severity__c        = severity,
+            // Pins deterministic evaluation order (added 2026-07-26); this
+            // parameter was previously accepted and silently discarded.
+            Sort_Order__c      = sortOrder
         );
     }
 
@@ -164,9 +167,11 @@ private class SabirSrSmokeTest {
         System.assertEquals(10, checks.size(),
             'Expected 10 replay checks for Sabir Sr. demo case');
 
-        // Verify persisted checks. ADR-6: rules are queried ORDER BY Rule_Code__c
-        // ASC, so Sort_Order__c reflects alphabetical order — NOT insertion order.
-        // Assert by Rule_Name__c to stay order-independent.
+        // Verify persisted checks. Rules are queried
+        // ORDER BY Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC (2026-07-26),
+        // so Sort_Order__c now reflects the authored rule sequence. Ordering
+        // itself is asserted in ReplayServiceTest.determinism_*; the assertions
+        // here stay order-independent and key off Rule_Name__c.
         List<Replay_Check__c> dbChecks = [
             SELECT Rule_Name__c, Result__c, Expected_Value__c, Actual_Value__c, Sort_Order__c
             FROM Replay_Check__c

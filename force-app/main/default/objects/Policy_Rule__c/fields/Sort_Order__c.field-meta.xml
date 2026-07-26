@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sort_Order__c</fullName>
+    <description>Deterministic evaluation order within a Policy_Version__c. Pins the sequence in which rules are fetched and evaluated so that replaying the same Audit_Case__c against the same Policy_Version__c always produces Replay_Check__c records in an identical order. Nulls sort last and fall back to Rule_Code__c ASC.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Lower numbers evaluate first. Leave blank to fall back to alphabetical Rule Code ordering.</inlineHelpText>
+    <label>Sort Order</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

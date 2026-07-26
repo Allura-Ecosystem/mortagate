@@ -180,7 +180,11 @@ public with sharing class SeedDataLoader {
             Operator__c          = op,
             Rule_Category__c     = category,
             Severity__c          = severity,
-            Fact_Field__c        = factField
+            Fact_Field__c        = factField,
+            // Pins deterministic evaluation order. Prior to 2026-07-26 this
+            // parameter was accepted and silently discarded, leaving rule order
+            // dependent solely on the Rule_Code__c tiebreaker in ReplayService.
+            Sort_Order__c        = sortOrder
         );
     }
 

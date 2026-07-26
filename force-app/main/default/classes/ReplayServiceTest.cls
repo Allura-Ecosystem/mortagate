@@ -130,8 +130,32 @@ private class ReplayServiceTest {
             Operator__c        = op,
             Threshold_Value__c = threshold,
             Fact_Field__c      = factField,
-            Severity__c        = severity
+            Severity__c        = severity,
+            // Pins deterministic evaluation order. Prior to 2026-07-26 this
+            // parameter was accepted and silently discarded here and in
+            // SeedDataLoader.makeRule(), leaving order dependent solely on the
+            // Rule_Code__c tiebreaker.
+            Sort_Order__c      = sortOrder
         );
+    }
+
+    /** Rule codes in seeded Sort_Order__c sequence — deliberately NOT alphabetical. */
+    private static final List<String> EXPECTED_ORDER = new List<String>{
+        'DTI_MAX', 'FICO_MIN', 'LTV_MAX', 'INCOME_MIN', 'EMPLOY_MIN',
+        'ASSET_MIN', 'DTI_WARN', 'FICO_PREF', 'LTV_PREF', 'DEBT_MAX'
+    };
+
+    private static List<String> ruleNamesInSortOrder(Id auditCaseId) {
+        List<String> names = new List<String>();
+        for (Replay_Check__c rc : [
+            SELECT Rule_Name__c
+            FROM Replay_Check__c
+            WHERE Audit_Case__c = :auditCaseId
+            ORDER BY Sort_Order__c ASC
+        ]) {
+            names.add(rc.Rule_Name__c);
+        }
+        return names;
     }
 
     private static Audit_Case__c getSabirCase() {
@@ -161,8 +185,9 @@ private class ReplayServiceTest {
         ];
         System.assertEquals(10, dbChecks.size());
 
-        // ADR-6: rules queried ORDER BY Rule_Code__c ASC, so Sort_Order__c is
-        // alphabetical — assert by rule name (order-independent), mapped values.
+        // Rules are queried ORDER BY Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC
+        // (see determinism_* tests below). Value assertions here are deliberately
+        // order-independent — assert by rule name via maps.
         Map<String, String> resultByRule = new Map<String, String>();
         Map<String, String> expectedByRule = new Map<String, String>();
         for (Replay_Check__c rc : dbChecks) {
@@ -245,5 +270,111 @@ private class ReplayServiceTest {
             'Expected at most 3 SOQL, got ' + soqlUsed);
         System.assert(dmlUsed <= 2,
             'Expected at most 2 DML, got ' + dmlUsed);
+    }
+
+    // ─── D: Determinism — replay ordering is pinned ────────────────────
+    //
+    // Replay determinism is the core promise of the product: the same
+    // Audit_Case__c evaluated against the same Policy_Version__c must produce
+    // the same Replay_Check__c sequence every time, or a QC finding cannot be
+    // defended to an examiner. Before 2026-07-26 the ordering rested entirely
+    // on the Rule_Code__c alphabetical tiebreaker — correct by accident, and
+    // silently breakable by anyone adding a rule code. Sort_Order__c makes the
+    // contract explicit at the schema level. These three tests hold it.
+
+    /**
+     * D1: Sort_Order__c — not Rule_Code__c — drives evaluation order.
+     * The seeded order is deliberately non-alphabetical, so a regression that
+     * drops the Sort_Order__c clause from the SOQL fails this assertion.
+     */
+    @IsTest
+    static void determinism_sortOrderDrivesEvaluationOrder() {
+        Audit_Case__c ac = getSabirCase();
+
+        Test.startTest();
+        ReplayService.replay(ac.Id);
+        Test.stopTest();
+
+        List<String> actual = ruleNamesInSortOrder(ac.Id);
+
+        System.assertEquals(EXPECTED_ORDER.size(), actual.size(),
+            'Expected one check per seeded rule.');
+        System.assertEquals(EXPECTED_ORDER, actual,
+            'Replay order must follow Policy_Rule__c.Sort_Order__c, not Rule_Code__c. '
+            + 'Got: ' + actual);
+
+        // Guard the guard: if the seeded order ever became alphabetical the
+        // assertion above would pass even with the ordering clause removed.
+        List<String> alphabetical = new List<String>(EXPECTED_ORDER);
+        alphabetical.sort();
+        System.assertNotEquals(alphabetical, actual,
+            'Fixture is no longer a valid discriminator — seeded Sort_Order__c '
+            + 'now matches alphabetical Rule_Code__c order. Reorder the fixture.');
+    }
+
+    /**
+     * D2: Replaying the same case twice yields an identical rule sequence.
+     * This is the literal definition of replay determinism.
+     */
+    @IsTest
+    static void determinism_replayTwice_producesIdenticalSequence() {
+        Audit_Case__c ac = getSabirCase();
+
+        Test.startTest();
+        List<Replay_Check__c> firstPass  = ReplayService.replay(ac.Id);
+        List<Replay_Check__c> secondPass = ReplayService.replay(ac.Id);
+        Test.stopTest();
+
+        System.assertEquals(firstPass.size(), secondPass.size(),
+            'Both passes must produce the same number of checks.');
+
+        for (Integer i = 0; i < firstPass.size(); i++) {
+            System.assertEquals(
+                firstPass[i].Rule_Name__c, secondPass[i].Rule_Name__c,
+                'Rule at position ' + i + ' diverged between replays.');
+            System.assertEquals(
+                firstPass[i].Result__c, secondPass[i].Result__c,
+                'Result for ' + firstPass[i].Rule_Name__c + ' diverged between replays.');
+            System.assertEquals(
+                firstPass[i].Sort_Order__c, secondPass[i].Sort_Order__c,
+                'Sort_Order__c for ' + firstPass[i].Rule_Name__c + ' diverged between replays.');
+        }
+    }
+
+    /**
+     * D3: A rule with no Sort_Order__c sorts last, never first.
+     * Covers the NULLS LAST branch. The fixture rule is given an
+     * alphabetically-first code so a missing NULLS LAST would surface it at
+     * position 0 under the tiebreaker.
+     */
+    @IsTest
+    static void determinism_nullSortOrder_sortsLast() {
+        Policy_Version__c pv = [SELECT Id FROM Policy_Version__c LIMIT 1];
+
+        insert new Policy_Rule__c(
+            Policy_Version__c  = pv.Id,
+            Rule_Code__c       = 'AAA_UNSORTED',
+            Rule_Label__c      = 'Unsorted Rule',
+            Rule_Category__c   = 'Credit',
+            Operator__c        = 'GTE',
+            Threshold_Value__c = 1,
+            Fact_Field__c      = 'FICO_Score__c',
+            Severity__c        = 'Info',
+            Sort_Order__c      = null
+        );
+
+        Audit_Case__c ac = getSabirCase();
+
+        Test.startTest();
+        ReplayService.replay(ac.Id);
+        Test.stopTest();
+
+        List<String> actual = ruleNamesInSortOrder(ac.Id);
+
+        System.assertEquals(EXPECTED_ORDER.size() + 1, actual.size(),
+            'Expected the 10 seeded rules plus the unsorted one.');
+        System.assertEquals('AAA_UNSORTED', actual[actual.size() - 1],
+            'A rule with a null Sort_Order__c must sort last despite an '
+            + 'alphabetically-first Rule_Code__c. Got: ' + actual);
     }
 }

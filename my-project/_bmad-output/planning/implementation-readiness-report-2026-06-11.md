@@ -25,6 +25,22 @@ note: "Delta assessment from 2026-06-07 baseline. Carlos Guidelines docs at proj
 
 # Implementation Readiness Assessment — Delta Report
 
+> ## ⛔ SUPERSEDED — 2026-07-26
+>
+> Replaced by `implementation-readiness-report-2026-07-26.md`. Retained for history only.
+> **Do not plan from this document.** It is stale in three independent ways:
+>
+> 1. **Wrong product name.** ADR-30 renamed the product to **CaseFile** on 2026-07-03.
+> 2. **Wrong product.** ADR-15 pivoted from borrower intake to post-close audit replay. The
+>    EP-1 story list below (brand migration, onboarding orchestrator, mobile 375px, chrome
+>    removal) describes the retired intake portal.
+> 3. **Story IDs have been reused.** `US-1.0`–`US-1.7` now name entirely different work —
+>    today's `US-1.4` is the audit replay orchestrator, not "Mobile 375px." Mapping story
+>    IDs from this document to the current backlog will silently produce the wrong scope.
+>
+> The 95% composite was computed against that retired scope and is not comparable to any
+> later figure.
+
 **Date:** 2026-06-11
 **Baseline:** 2026-06-07 report (92%, READY WITH CONDITIONS)
 **Project:** Mortage (Veridact — Salesforce Community Mortgage Approval Engine)

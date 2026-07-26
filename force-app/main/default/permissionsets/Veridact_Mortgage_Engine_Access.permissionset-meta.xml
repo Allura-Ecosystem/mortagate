@@ -822,6 +822,15 @@
         <readable>true</readable>
         <editable>true</editable>
     </fieldPermissions>
+    <!-- Policy_Rule__c: every other field on this object is universally required
+         (required=true), so FLS entries are neither needed nor permitted for them.
+         Sort_Order__c is optional, so it needs an explicit grant or the
+         WITH USER_MODE rule fetch in ReplayService would drop it for non-admins. -->
+    <fieldPermissions>
+        <field>Policy_Rule__c.Sort_Order__c</field>
+        <readable>true</readable>
+        <editable>true</editable>
+    </fieldPermissions>
 
     <!-- ================= Apex Class Access ================= -->
     <classAccesses>

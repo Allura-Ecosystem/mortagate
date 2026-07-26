@@ -72,14 +72,20 @@ public with sharing class ReplayService {
             evidenceStatus.put(ei.Document_Type__c, ei.Status__c);
         }
 
-        // 1b. Resolve governing policy version by approval date
+        // 1b. Resolve governing policy version by approval date.
+        //
+        // Rule ordering is a schema-level contract, not an in-memory convention:
+        // Sort_Order__c pins the intended evaluation sequence and Rule_Code__c
+        // remains the tiebreaker, so an unsorted rule can never make a replay
+        // nondeterministic. NULLS LAST keeps a newly-authored rule that has not
+        // been given a sort order from silently jumping the queue.
         Policy_Version__c policyVersion = [
             SELECT Id, Version_Number__c,
                 (SELECT Id, Rule_Code__c, Rule_Label__c, Rule_Category__c,
                         Operator__c, Threshold_Value__c,
-                        Fact_Field__c, Severity__c
+                        Fact_Field__c, Severity__c, Sort_Order__c
                  FROM Policy_Rules__r
-                 ORDER BY Rule_Code__c ASC)
+                 ORDER BY Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC)
             FROM Policy_Version__c
             WHERE Is_Active__c = true
               AND Effective_Date__c <= :approvalDate
@@ -98,9 +104,16 @@ public with sharing class ReplayService {
 
         // Map Policy_Rule__c → Policy_Rule_Version__c (in-memory) so the
         // existing pure evaluator works unchanged.
-        // Note: Threshold_High, Rule_Explanation, Allowed_Values, Override_Permitted
-        // and Sort_Order exist only on Policy_Rule_Version__c, not Policy_Rule__c.
-        // They default to null in the adaptation since Policy_Rule__c doesn't carry them.
+        // Note: Threshold_High, Rule_Explanation, Allowed_Values and Override_Permitted
+        // exist only on Policy_Rule_Version__c, not Policy_Rule__c. They default to
+        // null in the adaptation since Policy_Rule__c doesn't carry them.
+        //
+        // Sort_Order__c is deliberately NOT carried across. It exists on
+        // Policy_Rule__c (added 2026-07-26) and governs the *fetch* order above;
+        // Policy_Rule_Version__c has no such field, and the pure evaluator must
+        // not re-sort — it consumes the list in the order the assembler hands it
+        // over. Persisted ordering is re-derived from the evaluator's output index
+        // into Replay_Check__c.Sort_Order__c at commit time (see rcr.sortOrder below).
         //
         // Key the back-mapping on Rule_Code__c (a stable business key), NOT list
         // position. The evaluator returns RuleOutcome.ruleCode for every result,

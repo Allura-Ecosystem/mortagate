@@ -34,6 +34,13 @@
 > It does *not* independently re-prove org deployment; that is the phase-2 gate's job
 > (`mortagate.gates.json` p2-002, piecewise per ADR-22/25) and HEAD already claims gates 17/17.
 > Unticked boxes below are **genuine gaps**, each annotated with what is actually missing.
+>
+> **Status after the fix pass — EP-0 is 36/36 in source.** The one open gap this gate found
+> (`Policy_Rule__c.Sort_Order__c`, US-0.2) was fixed the same day; see the annotation there,
+> which includes a correction to how severely I first reported it. Two things remain **org-only**
+> and cannot be closed from source at all: that the metadata is actually deployed to
+> `mortagate-de` (gate p2-002) and that the Apex tests actually pass (gate p2-003).
+> **EP-0 is dev-ready. It is not gate-proven until those two commands run.**
 
 ### Stories
 
@@ -63,14 +70,59 @@
   - [x] Policy_Version__c deployed with all fields from DATA-DICTIONARY section 2.4 <!-- objects/Policy_Version__c/ -->
   - [x] Policy_Rule__c deployed as Master-Detail child of Policy_Version__c <!-- Policy_Rule__c/fields/Policy_Version__c.field-meta.xml type MasterDetail -->
   - [x] All picklist values match DATA-DICTIONARY (Operator, Severity, Rule_Category) <!-- Policy_Rule__c/fields/{Operator__c,Severity__c,Rule_Category__c} all present -->
-  - [ ] Sort_Order__c field exists on Policy_Rule__c for deterministic ordering
-    > ❌ **GAP — confirmed defect, 2026-07-26.** `Sort_Order__c` does **not** exist on `Policy_Rule__c`.
-    > The only `Sort_Order__c` in the project is on `Replay_Check__c`.
-    > Worse, `SeedDataLoader.makeRule()` still accepts a `sortOrder` parameter (`SeedDataLoader.cls:173`)
-    > and all 10 call sites pass values 1–10 — but the method body never assigns it (`SeedDataLoader.cls:175-184`).
-    > The value is silently discarded. Policy rule evaluation order is therefore **unpinned**,
-    > which is a direct risk to replay determinism (same case + same policy version must yield the same result).
-    > Fix = add `Sort_Order__c` (Number) to `Policy_Rule__c`, assign it in `makeRule`, and `ORDER BY` it in the kernel's rule fetch.
+  - [x] Sort_Order__c field exists on Policy_Rule__c for deterministic ordering <!-- objects/Policy_Rule__c/fields/Sort_Order__c.field-meta.xml, Number(4,0), added 2026-07-26 -->
+
+  > ✅ US-0.2 closed 2026-07-26. **This box was a real gap and is now fixed — with a correction
+  > to my own first report of it.**
+  >
+  > **What was actually wrong.** `Sort_Order__c` was specified on `Policy_Rule__c` in
+  > DATA-DICTIONARY §2.5 (`Number(4,0)`, FR-28) but had never been implemented — the only
+  > `Sort_Order__c` in the tree was on `Replay_Check__c`. Three builders
+  > (`SeedDataLoader.makeRule()`, `ReplayServiceTest.buildRule()`, `SabirSrSmokeTest.buildRule()`)
+  > each accepted a `sortOrder` argument, each had live call sites passing 0–10, and none of
+  > them ever assigned it. The value was silently discarded in three places. This was an
+  > **implementation gap against the spec**, not a spec change — the docs were right.
+  >
+  > **Correction to my earlier annotation.** I wrote that evaluation order was "unpinned" and
+  > that replay determinism was at risk. That overstated it. `ReplayService` already ordered
+  > the `Policy_Rules__r` subquery `ORDER BY Rule_Code__c ASC` and back-mapped outcomes by
+  > business key rather than list index, so replays *were* deterministic — just deterministic
+  > by an alphabetical tiebreaker rather than by authored intent, and silently breakable by
+  > anyone renaming a rule code. Real defect, wrong severity. Recorded here rather than
+  > quietly amended.
+  >
+  > **The fix, four parts:**
+  > 1. `objects/Policy_Rule__c/fields/Sort_Order__c.field-meta.xml` — `Number(4,0)`, optional,
+  >    mirroring the `Replay_Check__c` field pattern.
+  > 2. FLS granted in `Veridact_Mortgage_Engine_Access`. Required because every *other*
+  >    `Policy_Rule__c` field is `required=true` (universally required fields carry no FLS
+  >    entry); `Sort_Order__c` is optional, so without an explicit grant the `WITH USER_MODE`
+  >    rule fetch would drop it for non-admins.
+  > 3. `ORDER BY Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC` on the `Policy_Rules__r`
+  >    subquery in `ReplayService`. Ordering is pinned **query-side, in the assembler** —
+  >    ADR-5 forbids SOQL in `PolicyRuleEvaluator`, and a schema-level contract survives a
+  >    later refactor better than an in-memory `sort()` convention. `NULLS LAST` keeps a
+  >    newly-authored rule with no sort order from jumping the queue; `Rule_Code__c` stays as
+  >    the tiebreaker so ordering can never become nondeterministic.
+  > 4. Assignment restored in all three builders.
+  >
+  > **Determinism is now tested, not asserted.** `ReplayServiceTest.determinism_*` adds three
+  > cases: (D1) `Sort_Order__c` — not `Rule_Code__c` — drives order, using a deliberately
+  > non-alphabetical fixture plus a guard that fails if the fixture ever stops discriminating;
+  > (D2) the same case replayed twice yields an identical rule/result/order sequence;
+  > (D3) a rule with a null sort order sorts last despite an alphabetically-first rule code.
+  >
+  > ⚠️ Source proves the tests exist and assert the right things. It does not prove they
+  > **pass** — that is gate p2-003 and needs the org.
+  >
+  > ⚠️ **Separate open gap on this same object, found while fixing the above.**
+  > DATA-DICTIONARY §2.5 also specifies six `Policy_Rule__c` fields that do not exist in
+  > source: `Threshold_High__c` (BETWEEN operator), `Rule_Explanation__c`, `Allowed_Values__c`
+  > (IN operator), `Regulatory_Citation__c`, `Override_Permitted__c`,
+  > `Override_Justification_Required__c`. The kernel reads none of them today, so nothing is
+  > broken — but `Operator__c` offers `BETWEEN` and `IN` picklist values that **cannot be
+  > evaluated** without `Threshold_High__c` / `Allowed_Values__c`. Either implement the fields
+  > or restrict the picklist. Tracked as EP-5 hardening, not an EP-0 blocker.
 - **Layer:** Salesforce
 - **Depends on:** none
 
@@ -107,8 +159,32 @@
 
   > ✅ US-0.4 source-verified 2026-07-26. **Bonus not in the story:** a fourth append-only object
   > `Sanctions_Screening__c` also ships with `Prevent_Edit_After_Creation` + `SanctionsScreeningPreventDelete`
-  > (per ADR-24, KYC/OFAC is a gating precondition outside the pure kernel). EP-0 scope says 11 SObjects —
-  > confirm whether Sanctions_Screening__c is inside or outside that count.
+  > (per ADR-24, KYC/OFAC is a gating precondition outside the pure kernel).
+  >
+  > **RULING 2026-07-26 (Brooks): `Sanctions_Screening__c` is OUTSIDE the canonical 11.**
+  > DATA-DICTIONARY §0.1 enumerates the 11 by name and does not include it; it was introduced
+  > later by ADR-24 as a **gating precondition that runs before the replay kernel**, not as part
+  > of the audit schema. Its access is deliberately isolated to `Veridact_KYC_Officer_Access`
+  > and deliberately absent from `Veridact_Mortgage_Engine_Access` (need-to-know, ADR-24), which
+  > is itself the argument: an object the audit engine's own permission set cannot read is not
+  > part of the audit engine's schema. The org therefore holds **11 canonical + 1 gating = 12**
+  > audit-side SObjects. EP-0's "11 canonical SObjects" scope statement stands as written and
+  > needs no amendment. Its immutability enforcement is a bonus beyond EP-0's acceptance
+  > criteria, not an unmet one.
+  >
+  > **AMENDMENT, same day.** The ruling above is right about `Sanctions_Screening__c` and wrong
+  > about the repository as a whole. A full object inventory taken later on 2026-07-26 found
+  > **19 object definitions in `force-app`**, not 12: the 11 canonical, `Sanctions_Screening__c`,
+  > **5 legacy pre-pivot intake objects** (`Loan_Application__c`, `Extracted_Facts__c`,
+  > `Evidence__c`, `Decision_Event__c`, `Policy_Rule_Version__c`), and 2 custom metadata types.
+  > The legacy five belong to a second, complete policy engine
+  > (`FactAssemblerService` → `PolicyRuleEvaluator` → `DecisionCommitService`, orchestrated by
+  > `LoanDecisionService`) that ADR-15 nominally retired but nobody removed. It is still in
+  > source and will still deploy. This does not change EP-0's scope — the 11 are all present and
+  > correct — but "the org holds 12 SObjects" was an incomplete statement of what ships.
+  > Recorded here rather than quietly amended.
+  > Full analysis and the three disposition options:
+  > `my-project/_bmad-output/planning/implementation-readiness-report-2026-07-26.md` (Finding 1).
 - **Layer:** Salesforce
 - **Depends on:** US-0.1
 
