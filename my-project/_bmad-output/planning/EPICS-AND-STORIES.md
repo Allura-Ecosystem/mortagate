@@ -1,4 +1,23 @@
-# EPICS AND STORIES — Mortgate
+# ⛔ SUPERSEDED — DO NOT USE — EPICS AND STORIES — Mortgate
+
+> [!CAUTION]
+> # THIS FILE IS DEAD. STOP READING.
+>
+> **Superseded 2026-07-26. The live backlog is:**
+> ### `my-project/_bmad-output/planning-artifacts/EPICS-AND-STORIES.md`
+>
+> This file was generated **2026-06-07**, *before* the ADR-15 pivot was propagated into the
+> planning layer. It describes the **frozen borrower-facing origination portal** — a 6-screen
+> "borrower journey" (Welcome Gate → Intent → PreCheck → Evidence Queue → Decision Room →
+> Outcome), Experience Cloud chrome, and Community permission sets for a Borrower persona.
+>
+> **None of that is the product.** CaseFile is an *internal post-close audit replay & QC tool
+> for bank QC analysts* (BLUEPRINT B1, ADR-15, renamed per ADR-30 on 2026-07-03).
+>
+> This file has the same filename as the live backlog and sits in the sibling directory.
+> On 2026-07-26 it misled an automated survey into reporting that the entire planning layer
+> was stale and needed a rewrite. It is retained only for history. **Do not plan from it.
+> Do not implement from it. Do not cite it.**
 
 > [!NOTE]
 > **AI-Assisted Documentation**

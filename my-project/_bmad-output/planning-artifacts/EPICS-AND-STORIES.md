@@ -28,6 +28,13 @@
 
 ### Deploy the 11 canonical SObjects, seed data for Sabir Sr., and enforce immutability on append-only objects. When this epic is done, you can open the org, query the seed data, and prove that audit events and receipts cannot be edited or deleted.
 
+> **RECONCILIATION PASS — 2026-07-26 (Brooks).**
+> EP-0 criteria were checked against `force-app` source, not against a live org query.
+> A ticked box below means **the metadata or Apex exists in source and matches the stated criterion**.
+> It does *not* independently re-prove org deployment; that is the phase-2 gate's job
+> (`mortagate.gates.json` p2-002, piecewise per ADR-22/25) and HEAD already claims gates 17/17.
+> Unticked boxes below are **genuine gaps**, each annotated with what is actually missing.
+
 ### Stories
 
 #### US-0.1: Deploy core audit objects (Audit_Case, Loan, Borrower_Snapshot)
@@ -36,12 +43,14 @@
 - **So that** the central audit entities exist and accept records
 - **FRs:** FR-24 (Audit_Case is referenced by events)
 - **Acceptance Criteria:**
-  - [ ] Audit_Case__c deployed with all fields from DATA-DICTIONARY section 2.1
-  - [ ] Loan__c deployed with all fields from DATA-DICTIONARY section 2.2
-  - [ ] Borrower_Snapshot__c deployed with all fields from DATA-DICTIONARY section 2.3
-  - [ ] Validation rule `Prevent_Self_Audit` active on Audit_Case__c
-  - [ ] Validation rule `Snapshot_Write_Once` active on Audit_Case__c
-  - [ ] All lookups resolve correctly (Audit_Case -> Loan, Borrower_Snapshot -> Audit_Case)
+  - [x] Audit_Case__c deployed with all fields from DATA-DICTIONARY section 2.1 <!-- objects/Audit_Case__c/ -->
+  - [x] Loan__c deployed with all fields from DATA-DICTIONARY section 2.2 <!-- objects/Loan__c/Loan__c.object-meta.xml, label "Loan" -->
+  - [x] Borrower_Snapshot__c deployed with all fields from DATA-DICTIONARY section 2.3 <!-- objects/Borrower_Snapshot__c/ -->
+  - [x] Validation rule `Prevent_Self_Audit` active on Audit_Case__c <!-- objects/Audit_Case__c/validationRules/Prevent_Self_Audit.validationRule-meta.xml -->
+  - [x] Validation rule `Snapshot_Write_Once` active on Audit_Case__c <!-- objects/Audit_Case__c/validationRules/Snapshot_Write_Once.validationRule-meta.xml -->
+  - [x] All lookups resolve correctly (Audit_Case -> Loan, Borrower_Snapshot -> Audit_Case) <!-- Audit_Case__c/fields/Loan__c, Borrower_Snapshot__c/fields/Audit_Case__c -->
+
+  > ✅ US-0.1 source-verified 2026-07-26.
 - **Layer:** Salesforce
 - **Depends on:** none
 
@@ -51,10 +60,17 @@
 - **So that** versioned lending rules exist as data records
 - **FRs:** FR-26, FR-28
 - **Acceptance Criteria:**
-  - [ ] Policy_Version__c deployed with all fields from DATA-DICTIONARY section 2.4
-  - [ ] Policy_Rule__c deployed as Master-Detail child of Policy_Version__c
-  - [ ] All picklist values match DATA-DICTIONARY (Operator, Severity, Rule_Category)
+  - [x] Policy_Version__c deployed with all fields from DATA-DICTIONARY section 2.4 <!-- objects/Policy_Version__c/ -->
+  - [x] Policy_Rule__c deployed as Master-Detail child of Policy_Version__c <!-- Policy_Rule__c/fields/Policy_Version__c.field-meta.xml type MasterDetail -->
+  - [x] All picklist values match DATA-DICTIONARY (Operator, Severity, Rule_Category) <!-- Policy_Rule__c/fields/{Operator__c,Severity__c,Rule_Category__c} all present -->
   - [ ] Sort_Order__c field exists on Policy_Rule__c for deterministic ordering
+    > ❌ **GAP — confirmed defect, 2026-07-26.** `Sort_Order__c` does **not** exist on `Policy_Rule__c`.
+    > The only `Sort_Order__c` in the project is on `Replay_Check__c`.
+    > Worse, `SeedDataLoader.makeRule()` still accepts a `sortOrder` parameter (`SeedDataLoader.cls:173`)
+    > and all 10 call sites pass values 1–10 — but the method body never assigns it (`SeedDataLoader.cls:175-184`).
+    > The value is silently discarded. Policy rule evaluation order is therefore **unpinned**,
+    > which is a direct risk to replay determinism (same case + same policy version must yield the same result).
+    > Fix = add `Sort_Order__c` (Number) to `Policy_Rule__c`, assign it in `makeRule`, and `ORDER BY` it in the kernel's rule fetch.
 - **Layer:** Salesforce
 - **Depends on:** none
 
@@ -64,11 +80,13 @@
 - **So that** the case review workflow objects are available
 - **FRs:** FR-5, FR-6, FR-9
 - **Acceptance Criteria:**
-  - [ ] Evidence_Item__c deployed with all fields from DATA-DICTIONARY section 2.6
-  - [ ] Replay_Check__c deployed with all fields from DATA-DICTIONARY section 2.7
-  - [ ] Finding__c deployed with all fields from DATA-DICTIONARY section 2.8
-  - [ ] Replay_Check__c lookups resolve to Audit_Case, Policy_Rule, Evidence_Item, Borrower_Snapshot
-  - [ ] Finding__c lookups resolve to Audit_Case and Replay_Check
+  - [x] Evidence_Item__c deployed with all fields from DATA-DICTIONARY section 2.6 <!-- objects/Evidence_Item__c/ -->
+  - [x] Replay_Check__c deployed with all fields from DATA-DICTIONARY section 2.7 <!-- objects/Replay_Check__c/ -->
+  - [x] Finding__c deployed with all fields from DATA-DICTIONARY section 2.8 <!-- objects/Finding__c/ -->
+  - [x] Replay_Check__c lookups resolve to Audit_Case, Policy_Rule, Evidence_Item, Borrower_Snapshot <!-- Replay_Check__c/fields/{Audit_Case__c,Borrower_Snapshot__c,Evidence_Item__c} + Sort_Order__c -->
+  - [x] Finding__c lookups resolve to Audit_Case and Replay_Check <!-- Finding__c/fields/{Audit_Case__c,Replay_Check__c} -->
+
+  > ✅ US-0.3 source-verified 2026-07-26.
 - **Layer:** Salesforce
 - **Depends on:** US-0.1, US-0.2
 
@@ -78,14 +96,19 @@
 - **So that** the append-only audit trail is enforced by code
 - **FRs:** FR-24, FR-25
 - **Acceptance Criteria:**
-  - [ ] Audit_Event__c deployed with validation rule `Prevent_Edit_After_Creation` blocking UPDATE
-  - [ ] Audit_Event__c has before-delete trigger `AuditEventPreventDelete` blocking DELETE
-  - [ ] Audit_Receipt__c deployed with validation rule blocking UPDATE after insert
-  - [ ] Audit_Receipt__c has before-delete trigger `AuditReceiptPreventDelete` blocking DELETE
-  - [ ] Agent_Action_Log__c deployed with validation rule blocking UPDATE after insert
-  - [ ] Agent_Action_Log__c has before-delete trigger `AgentActionLogPreventDelete` blocking DELETE
-  - [ ] All picklist values for Event_Type__c match DATA-DICTIONARY (12 values)
-  - [ ] All picklist values for Action_Name__c match DATA-DICTIONARY (8 values)
+  - [x] Audit_Event__c deployed with validation rule `Prevent_Edit_After_Creation` blocking UPDATE <!-- objects/Audit_Event__c/validationRules/Prevent_Edit_After_Creation.validationRule-meta.xml -->
+  - [x] Audit_Event__c has before-delete trigger `AuditEventPreventDelete` blocking DELETE <!-- triggers/AuditEventPreventDelete.trigger -->
+  - [x] Audit_Receipt__c deployed with validation rule blocking UPDATE after insert <!-- objects/Audit_Receipt__c/validationRules/Prevent_Edit_After_Creation.validationRule-meta.xml -->
+  - [x] Audit_Receipt__c has before-delete trigger `AuditReceiptPreventDelete` blocking DELETE <!-- triggers/AuditReceiptPreventDelete.trigger -->
+  - [x] Agent_Action_Log__c deployed with validation rule blocking UPDATE after insert <!-- objects/Agent_Action_Log__c/validationRules/Prevent_Edit_After_Creation.validationRule-meta.xml -->
+  - [x] Agent_Action_Log__c has before-delete trigger `AgentActionLogPreventDelete` blocking DELETE <!-- triggers/AgentActionLogPreventDelete.trigger -->
+  - [x] All picklist values for Event_Type__c match DATA-DICTIONARY (12 values) <!-- Event_Type__c.field-meta.xml: 13 <fullName> = 1 field name + 12 values -->
+  - [x] All picklist values for Action_Name__c match DATA-DICTIONARY (8 values) <!-- Action_Name__c.field-meta.xml: 9 <fullName> = 1 field name + 8 values -->
+
+  > ✅ US-0.4 source-verified 2026-07-26. **Bonus not in the story:** a fourth append-only object
+  > `Sanctions_Screening__c` also ships with `Prevent_Edit_After_Creation` + `SanctionsScreeningPreventDelete`
+  > (per ADR-24, KYC/OFAC is a gating precondition outside the pure kernel). EP-0 scope says 11 SObjects —
+  > confirm whether Sanctions_Screening__c is inside or outside that count.
 - **Layer:** Salesforce
 - **Depends on:** US-0.1
 
@@ -95,12 +118,16 @@
 - **So that** immutability is proven at scale
 - **FRs:** FR-25
 - **Acceptance Criteria:**
-  - [ ] Test class `ImmutabilityEnforcementTest` inserts 200 Audit_Event__c records
-  - [ ] Bulk update of 200 records is blocked -- all records unchanged
-  - [ ] Bulk delete of 200 records is blocked -- all records still exist
-  - [ ] Same tests pass for Audit_Receipt__c (200 insert, 200 update blocked, 200 delete blocked)
-  - [ ] Same tests pass for Agent_Action_Log__c
-  - [ ] Tests use `System.runAs` with a standard user
+  - [x] Test class `ImmutabilityEnforcementTest` inserts 200 Audit_Event__c records <!-- ImmutabilityEnforcementTest.cls:17 BULK_SIZE=200; :45-56 -->
+  - [x] Bulk update of 200 records is blocked -- all records unchanged <!-- :112 System.runAs block -->
+  - [x] Bulk delete of 200 records is blocked -- all records still exist <!-- :138 System.runAs block -->
+  - [x] Same tests pass for Audit_Receipt__c (200 insert, 200 update blocked, 200 delete blocked) <!-- :57-70, :162, :180, :205 -->
+  - [x] Same tests pass for Agent_Action_Log__c <!-- :71-84, :229, :247, :272 -->
+  - [x] Tests use `System.runAs` with a standard user <!-- 6 System.runAs blocks -->
+
+  > ✅ US-0.5 source-verified 2026-07-26 — cleanest story in the epic. Written, not just claimed.
+  > ⚠️ Source proves the test *exists and asserts the right things*; it does not prove it **passes**.
+  > That is gate p2-003 (`sf apex run test`) and needs the org.
 - **Layer:** Salesforce
 - **Depends on:** US-0.4
 
@@ -110,13 +137,21 @@
 - **So that** the vertical slice has data to operate on
 - **FRs:** FR-26 (policy version resolution depends on seed data)
 - **Acceptance Criteria:**
-  - [ ] 1 Loan__c record: Sabir Sr., $380K conventional, DTI 44.8%, FICO 710, LTV 80%, Approval_Date 2025-03-15
-  - [ ] 1 Audit_Case__c record linked to the loan, Status = In_Review, Risk_Tier = High
-  - [ ] 1 Borrower_Snapshot__c with DTI_Ratio = 44.8%, FICO_Score = 710, Annual_Income, Monthly_Debt
-  - [ ] 5 Evidence_Item__c records (Pay_Stub=Linked, W2=Linked, Credit_Report=Linked, Appraisal=Missing, Bank_Statement=Linked)
-  - [ ] 1 Policy_Version__c (Q1 2025 Conventional, Effective_Date = 2025-01-01)
-  - [ ] 10 Policy_Rule__c records including DTI_MAX (43%, LTE), FICO_MIN (620, GTE), LTV_MAX (80%, LTE)
-  - [ ] Data importable via `sf data import tree` or Apex script
+  - [x] 1 Loan__c record: Sabir Sr., $380K conventional, DTI 44.8%, FICO 710, LTV 80%, Approval_Date 2025-03-15 <!-- SeedDataLoader.cls:190-198 Loan_Amount__c=380000, DTI_At_Approval__c=44.8, FICO_At_Approval__c=710 -->
+  - [x] 1 Audit_Case__c record linked to the loan, Status = In_Review, Risk_Tier = High <!-- SeedDataLoader.cls:65-72 -->
+  - [x] 1 Borrower_Snapshot__c with DTI_Ratio = 44.8%, FICO_Score = 710, Annual_Income, Monthly_Debt <!-- SeedDataLoader.cls:74-77 buildBorrowerSnapshots -->
+  - [x] 5 Evidence_Item__c records (Pay_Stub=Linked, W2=Linked, Credit_Report=Linked, Appraisal=Missing, Bank_Statement=Linked) <!-- SeedDataLoader.cls:79-82 buildEvidenceItems -->
+  - [x] 1 Policy_Version__c (Q1 2025 Conventional, Effective_Date = 2025-01-01) <!-- SeedDataLoader.cls:41 -->
+  - [x] 10 Policy_Rule__c records including DTI_MAX (43%, LTE), FICO_MIN (620, GTE), LTV_MAX (80%, LTE) <!-- SeedDataLoader.cls:157-166, exactly 10 makeRule calls, thresholds match -->
+  - [x] Data importable via `sf data import tree` or Apex script <!-- SeedDataLoader.cls — Apex script path, which this criterion explicitly permits -->
+
+  > ✅ US-0.6 source-verified 2026-07-26 via `SeedDataLoader.cls`, which also seeds 4 extra
+  > queue-variety personas beyond Sabir Sr. and provides a teardown path (`:119-132`).
+  > ⚠️ **Do not confuse this with the `_bmad-output/implementation/demo/*.json` fixtures** — those
+  > (`Loan_Application__c.json`, `Extracted_Facts__c.json`, `Policy_Rule_Version__c.json`) target the
+  > **frozen origination schema** from before ADR-15 and seed none of the audit objects.
+  > `SeedDataLoader.cls` is the only live seed path for EP-0.
+  > ⚠️ Source proves the loader exists; it does not prove it has been **run** against `mortagate-de`.
 - **Layer:** Salesforce
 - **Depends on:** US-0.3
 
