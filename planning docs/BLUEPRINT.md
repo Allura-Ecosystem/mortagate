@@ -14,7 +14,7 @@
 | **Project** | Veridact — Mortgage Audit Replay & QC |
 | **Tagline** | "Every decision has a receipt." |
 | **Brand** | Veridact Brand Kit v1.0.1 (Canvas/Ink/Orange/Outfit) |
-| **Platform** | React + Salesforce + Agentforce + Allura Brain (4 layers) |
+| **Platform** | React + Salesforce + Agentforce + Allura Brain (4 layers) + External Compliance Verifier (LangChain) |
 | **Org** | mortagate-de (Developer Edition) |
 | **Alias** | mortagate-de |
 | **Owner** | Sabir Asheed (sasheed72@gmail.com) |
