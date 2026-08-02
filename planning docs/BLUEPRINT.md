@@ -43,7 +43,7 @@ An internal mortgage audit tool for bank QC analysts. The auditor takes an alrea
 3. **Missing fact = INDETERMINATE** (ADR-3) -- A missing evidence item does not produce PASS or FAIL. It produces INDETERMINATE / Unverifiable, forcing the auditor to investigate.
 4. **Rules are data, not code** (ADR-4) -- Policy rules stored as `Policy_Rule__c` records, versioned with effective dates. Analysts maintain rules without deployment.
 5. **Three-layer pure kernel** (ADR-5) -- Fact assembly (read) / Rule evaluation (pure) / Decision commit (write). The evaluator has zero SOQL and zero DML.
-6. **Deterministic ordering** (ADR-6) -- Replay checks are returned sorted by `Rule_Code__c`. Same inputs produce byte-identical output ordering across runs.
+6. **Deterministic ordering** (ADR-6) -- Rule evaluation order is pinned at the schema level: the governing-rules query orders by `Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC` (FR-28). Same inputs produce byte-identical output ordering across runs.
 7. **AI assists, humans decide** -- Agentforce MAY summarize, draft, recommend, and create controlled tasks. Agentforce MUST NOT approve audits, close cases, override policy, delete findings, or modify signed receipts.
 8. **Historical fidelity** -- Replay uses the exact policy version effective at the loan's approval date, not today's rules.
 9. **Queue-first, not dashboard-first** -- The auditor's landing screen is a work queue, not a metrics dashboard.
@@ -120,6 +120,8 @@ Audit Queue | Case Review | Findings | Receipts | Analytics | Policy Versions | 
 ## B4. Data Model -- Entity Relationships (11 SObjects)
 
 ```
+Audit_Case__c (*) ──→ (1) Loan__c              [legacy origination object, retained per ADR-32]
+Audit_Case__c (1) ──→ (0..*) Borrower_Snapshot__c
 Audit_Case__c (1) ──→ (0..*) Evidence_Item__c
 Audit_Case__c (1) ──→ (0..*) Replay_Check__c
 Audit_Case__c (1) ──→ (0..*) Finding__c
@@ -140,7 +142,9 @@ Audit_Event__c       [append-only, chain of custody]
 
 | Object | Purpose | Immutable? |
 |--------|---------|------------|
-| `Audit_Case__c` | A single loan under review. Status, risk tier, SLA, assigned auditor. | No (status transitions allowed) |
+| `Audit_Case__c` | A single loan under review. Status, risk tier, SLA, assigned auditor. Hard lookup to `Loan__c` (approval date drives policy-version resolution). | No (status transitions allowed) |
+| `Loan__c` | Legacy origination object retained per ADR-32. Supplies `Approval_Date__c` to the replay engine. | No |
+| `Borrower_Snapshot__c` | Point-in-time borrower facts for a case (DTI, FICO, LTV, income, tenure). Source of the replay fact map. | No |
 | `Evidence_Item__c` | Document linked to a case (pay stub, appraisal, credit report). Status: Linked / Missing / Unverifiable. | No (status updates allowed) |
 | `Policy_Version__c` | Versioned policy with effective dates. | Yes, after referenced by Replay_Check__c |
 | `Policy_Rule__c` | A specific rule within a policy version (DTI_MAX, FICO_MIN). Threshold, operator, severity. | Yes, after referenced by Replay_Check__c |
@@ -174,39 +178,41 @@ Audit_Event__c       [append-only, chain of custody]
 
 ## B5. Policy Replay Engine -- Three-Layer Architecture (ADR-5)
 
-### Layer 1: Fact Assembly (`FactAssemblerService`)
+`ReplayService` is the orchestrator and runs a four-step pipeline: **ASSEMBLE → ADAPT → EVALUATE → COMMIT**.
 
-- Queries `Evidence_Item__c` and extracted facts for a given `Audit_Case__c`
-- Resolves governing `Policy_Version__c` and `Policy_Rule__c` records by matching the loan's approval date against rule effective date ranges
-- Builds an immutable `ReplayContext` value object
+### Layer 1: Assembly + Adaptation (`ReplayService`)
+
+- **ASSEMBLE**: Queries `Audit_Case__c` with `Borrower_Snapshot__c` and `Evidence_Item__c` subqueries; builds the fact map and evidence-status map
+- Resolves the governing `Policy_Version__c` (and its `Policy_Rule__c` children) by matching `Loan__r.Approval_Date__c` against effective-date windows; latest effective version wins (FR-26)
+- Governing-rules subquery orders by `Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC` (ADR-6, FR-28)
+- **ADAPT**: Maps each `Policy_Rule__c` to an in-memory `Policy_Rule_Version__c` (never inserted) so the evaluator's interface is unchanged; back-mapping keyed on `Rule_Code__c` business key
+- Builds a `PolicyEvaluationContext` value object
 - Only class allowed to query the database on behalf of the engine
-- If multiple versions exist for the same rule code, the latest effective version is selected (FR-26)
 
 ### Layer 2: Rule Evaluation (`PolicyRuleEvaluator`)
 
-- Pure function: `evaluate(ctx: ReplayContext) -> List<ReplayCheckResult>`
+- Pure function: `evaluate(ctx: PolicyEvaluationContext, rules: List<Policy_Rule_Version__c>) -> EvaluationResult`
 - Walks each rule: compares fact value against operator + threshold
 - Operators: GT, GTE, LT, LTE, EQ, NEQ, IN, BETWEEN
 - Missing facts produce INDETERMINATE result, not failure (ADR-3)
-- Results sorted by `Rule_Code__c` for deterministic ordering (ADR-6)
+- Consumes the rule list exactly in the order the assembler hands it over -- never re-sorts (ADR-6)
 - Zero database reads. Zero database writes. Zero side effects. Fully unit-testable.
 
 ### Layer 3: Decision Commitment (`ReplayCommitService`)
 
-- Receives `List<ReplayCheckResult>`, creates `Replay_Check__c` records
-- Populates `Policy_Rule__c` lookup, result fields, evidence linkage
+- Receives replay check results, creates `Replay_Check__c` records; persisted `Sort_Order__c` re-derived from the evaluator's output index
+- Populates `Policy_Rule__c` lookup, result fields, evidence linkage; engine PASS/FAIL/INDETERMINATE maps to picklist Pass/Fail/Unverifiable at this boundary
 - Creates `Audit_Event__c` with Event_Type `Replay_Executed`
 - Only class that writes. Called from controller or invocable Apex -- never from evaluator.
 
-### Bulk Safety Contract (ADR-5)
+### Governor Budget Contract (ADR-5, ADR-27)
 
-- Rules loaded ONCE outside loop (1 SOQL)
-- Evidence loaded in single bulk query (1 SOQL)
-- Policy version resolution in single query (1 SOQL)
-- Evaluation is pure in-memory -- zero SOQL per case
-- `Replay_Check__c` records bulk-inserted (1 DML)
-- Total for N cases: 3 SOQL + 1 DML. Scales linearly.
-- Bulk-tested with 200+ records.
+- Case + snapshots + evidence in one query with subqueries (1 SOQL)
+- Policy version + rules resolution in one query (1 SOQL + headroom; budget is 3)
+- Evaluation is pure in-memory -- zero SOQL, zero DML
+- Commit writes `Replay_Check__c` + `Audit_Event__c` (2 DML)
+- Total for a **single case: 3 SOQL + 2 DML**
+- Bulk sweep processes one case per batch chunk (chunk size 1, ADR-27), so the per-case budget IS the governor contract
 
 ---
 
@@ -289,7 +295,7 @@ Counter-metrics: SM-C1 (review thoroughness must not drop), SM-C2 (auditors must
 
 | ID | Question | Owner | Status |
 |----|----------|-------|--------|
-| OQ-1 | Schema reconciliation: rename existing code names (`Rule_Check__c`, `Policy_Rule_Version__c`) to match PRD canonical names (`Replay_Check__c`, `Policy_Version__c` + `Policy_Rule__c`), or update PRD to match code? | Brooks | Open |
+| OQ-1 | Schema reconciliation: rename existing code names to match PRD canonical names, or update PRD to match code? **Resolved 2026-08-02: code names are canonical (`Replay_Check__c`, `Policy_Version__c`, `Policy_Rule__c` are deployed); `Policy_Rule_Version__c` is retained solely as the evaluator's in-memory adapter type — never inserted (ADR-5).** | Brooks | Resolved |
 | OQ-2 | Policy lifecycle ownership: who creates, approves, publishes, and retires policy versions? | Sabir | Open |
 | OQ-3 | Production LOS decision: which LOS for v2 integration (Encompass, ICE, Blend)? | Sabir | Open |
 | OQ-4 | Agentforce controlled writes: when does Agentforce move from draft-only to controlled write actions? | Brooks | Open |

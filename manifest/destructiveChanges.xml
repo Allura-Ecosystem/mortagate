@@ -2,8 +2,17 @@
 <!--
   Borrower-facing decision-engine deprecation (product is now auditor-only).
   Removes the borrower onboarding UI and its soft pre-check Apex.
-  Shared kernel (LoanDecisionService, FactAssemblerService, PolicyRuleEvaluator,
-  ReplayService, etc.) and auditor screens are intentionally NOT listed.
+
+  Shared/audit kernel (PolicyRuleEvaluator, ReplayService, ReplayCommitService)
+  and auditor screens are intentionally NOT listed — they are live CaseFile code.
+
+  The retired origination classes (FactAssemblerService, LoanDecisionService,
+  DecisionCommitService, DecisionReceiptController, AdverseActionNoticeController
+  and their tests/pages) are ALSO intentionally NOT listed. Per ADR-32 (2026-08-02)
+  they are quarantined at class level via .forceignore, not destructively removed:
+  source is retained for audit/replay provenance and the 5 legacy objects stay
+  deployed (Audit_Case__c has a hard lookup to Loan__c). Deleting that source was
+  explicitly rejected. Do not add them here without superseding ADR-32.
 -->
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>

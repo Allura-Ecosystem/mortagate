@@ -185,6 +185,16 @@
   > Recorded here rather than quietly amended.
   > Full analysis and the three disposition options:
   > `my-project/_bmad-output/planning/implementation-readiness-report-2026-07-26.md` (Finding 1).
+  >
+  > **CLOSED 2026-08-02 by ADR-32.** Finding 1 is ruled: class-level quarantine via
+  > `.forceignore`. The origination classes (`FactAssemblerService`, `LoanDecisionService`,
+  > `DecisionCommitService`, the two receipt/notice controllers + tests + pages) no longer
+  > deploy. The **5 legacy objects stay deployed on purpose** — `Audit_Case__c` has a hard
+  > lookup to `Loan__c` and `ReplayService` reads `Loan__r.Approval_Date__c`. `PolicyRuleEvaluator`
+  > was never legacy; it is the shared pure kernel and stays live. Class source is retained,
+  > not deleted, and is deliberately absent from `manifest/destructiveChanges.xml`.
+  > Caveat: `.forceignore` stops future deploys only — the classes remain in the org until
+  > destructively removed.
 - **Layer:** Salesforce
 - **Depends on:** US-0.1
 
@@ -239,16 +249,21 @@
 
 ### Stories
 
-#### US-1.1: FactAssemblerService -- query evidence and resolve governing policy
+#### US-1.1: ReplayService ASSEMBLE step -- query evidence and resolve governing policy
+> **Rewritten 2026-08-02 (readiness divergence D-1, unblocked by ADR-32).** The audit path
+> does **not** call `FactAssemblerService`. `FactAssemblerService` served the origination
+> engine, which ADR-32 retired and `.forceignore`-quarantined. The audit-side assemble is
+> Step 1 inside `ReplayService` itself. Code is authoritative.
+
 - **As a** developer
-- **I can** call FactAssemblerService.assemble(caseId) and get back a ReplayContext with evidence, borrower snapshot, and governing policy rules
+- **I can** have ReplayService's ASSEMBLE step build a ReplayContext with evidence, borrower snapshot, and governing policy rules
 - **So that** the replay engine has all data it needs in a single bulk-safe load
 - **FRs:** FR-6, FR-26
 - **Acceptance Criteria:**
-  - [ ] Service queries Evidence_Item__c, Borrower_Snapshot__c for the case (1 SOQL)
-  - [ ] Service resolves Policy_Version__c by loan Approval_Date (latest effective version <= approval date) (1 SOQL)
-  - [ ] Service loads child Policy_Rule__c records for the resolved version (1 SOQL)
-  - [ ] Total: exactly 3 SOQL, 0 DML
+  - [ ] Step queries Audit_Case__c with Evidence_Item__c + Borrower_Snapshot__c subqueries (1 SOQL)
+  - [ ] Step resolves Policy_Version__c by `Loan__r.Approval_Date__c` (latest effective version <= approval date), with child Policy_Rule__c as a subquery ordered `Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC` (1 SOQL)
+  - [ ] Third SOQL completes the assemble set
+  - [ ] Total: exactly 3 SOQL, 0 DML in ASSEMBLE
   - [ ] Returns immutable ReplayContext wrapper
   - [ ] Bulk-safe: works for List<Id> caseIds (no SOQL in loops)
   - [ ] Uses `with sharing` and `WITH USER_MODE`
@@ -265,7 +280,7 @@
   - [ ] Zero SOQL, zero DML in the evaluator class
   - [ ] Supports operators: GTE, LTE, GT, LT, EQ, NEQ, IN, BETWEEN
   - [ ] Missing facts produce INDETERMINATE result (not Pass or Fail)
-  - [ ] Results sorted by Rule_Code__c (deterministic ordering)
+  - [ ] Results arrive pre-sorted by `Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC` from the assembler; the evaluator consumes that order and does **not** re-sort (ADR-5 purity). Divergence D-2 closed 2026-08-02.
   - [ ] Sabir Sr. DTI 44.8% vs DTI_MAX 43% LTE produces Fail
   - [ ] Sabir Sr. FICO 710 vs FICO_MIN 620 GTE produces Pass
   - [ ] Test with 200+ synthetic rules to prove bulk safety
@@ -292,8 +307,8 @@
 - **So that** the replay is triggered by a single method call
 - **FRs:** FR-6, FR-26, FR-27, FR-28
 - **Acceptance Criteria:**
-  - [ ] Orchestrates FactAssemblerService -> PolicyRuleEvaluator -> ReplayCommitService
-  - [ ] Total budget: 3 SOQL + 1 DML for N cases
+  - [ ] Orchestrates ASSEMBLE (in-class) -> ADAPT -> PolicyRuleEvaluator -> ReplayCommitService. **Not** FactAssemblerService — that is the retired origination path (ADR-32). D-1 closed 2026-08-02.
+  - [ ] Total budget: 3 SOQL + **2 DML** for N cases (Replay_Check__c insert + Audit_Event__c). D-3 closed 2026-08-02; code is authoritative.
   - [ ] Sabir Sr. case produces 10 Replay_Check__c records (1 Fail on DTI_MAX, 9 Pass)
   - [ ] Audit_Event__c created with Event_Type = Replay_Executed
   - [ ] Replay completes in < 5 seconds for a single case
@@ -720,11 +735,11 @@
 - **As a** developer
 - **I can** run ReplayService.replay() on 200 cases in a single transaction without hitting governor limits
 - **So that** bulk safety is proven
-- **FRs:** FR-27 (3 SOQL + 1 DML for N cases)
+- **FRs:** FR-27 (3 SOQL + 2 DML for N cases)
 - **Acceptance Criteria:**
   - [ ] Apex test inserts 200 Audit_Case__c with Loan, Borrower_Snapshot, Evidence_Item, Policy_Version, Policy_Rules
   - [ ] Calls ReplayService.replay(caseIds) for all 200
-  - [ ] Total SOQL <= 3, total DML <= 1 (per the ADR-5 budget)
+  - [ ] Total SOQL <= 3, total DML <= 2 (per the ADR-5 budget as implemented; D-3 closed 2026-08-02)
   - [ ] All 200 cases produce correct Replay_Check__c records
   - [ ] Test completes without LimitException
 - **Layer:** Salesforce

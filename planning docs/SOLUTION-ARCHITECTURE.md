@@ -83,9 +83,11 @@ The system runs on four layers. Each layer does one job.
 
 | Layer | Class | Responsibility | DB Access |
 |-------|-------|----------------|-----------|
-| **Fact Assembly** | `FactAssemblerService` | Query evidence and resolve governing policy rules by loan approval date | Read only (3 SOQL) |
+| **Assembly + Adaptation** | `ReplayService` | Orchestrator: query case/snapshots/evidence, resolve governing policy version by loan approval date, adapt `Policy_Rule__c` → in-memory `Policy_Rule_Version__c` | Read only (3 SOQL) |
 | **Rule Evaluation** | `PolicyRuleEvaluator` | Pure evaluation: facts in, results out | Zero SOQL, zero DML |
-| **Decision Commit** | `ReplayCommitService` | Write `Replay_Check__c` records and `Audit_Event__c` | Write only (1 DML) |
+| **Decision Commit** | `ReplayCommitService` | Write `Replay_Check__c` records and `Audit_Event__c` | Write only (2 DML) |
+
+*(The original origination-side trio — `FactAssemblerService` / `LoanDecisionService` / `DecisionCommitService` — is quarantined per ADR-32; `PolicyRuleEvaluator` is the shared pure kernel that survived the pivot.)*
 
 #### Object Breakdown (18 total)
 
@@ -107,13 +109,15 @@ The system runs on four layers. Each layer does one job.
 
 **Retained Origination Objects (5)**
 
+All five stay deployed (ADR-32): `Audit_Case__c` has a hard lookup to `Loan__c` and `ReplayService` queries `Loan__r.Approval_Date__c`. The origination *classes* that served them are quarantined via `.forceignore`; the objects are not.
+
 | # | Object | Layer Role |
 |---|--------|-----------|
 | 12 | `Loan_Application__c` | Borrower mortgage application (origination-side, read-only in audit) |
 | 13 | `Evidence__c` | Origination-side uploaded documents (distinct from `Evidence_Item__c`) |
 | 14 | `Extracted_Facts__c` | Origination-side fact extraction output |
-| 15 | `Decision_Event__c` | Origination-side decision log (append-only, separate from `Audit_Event__c`) |
-| 16 | `Policy_Rule_Version__c` | Retired -- split into `Policy_Version__c` + `Policy_Rule__c`; retained for backward compatibility |
+| 15 | `Decision_Event__c` | Origination-side decision log (append-only, separate from `Audit_Event__c`; immutability trigger stays live) |
+| 16 | `Policy_Rule_Version__c` | Split into `Policy_Version__c` + `Policy_Rule__c` for persistence; retained as the evaluator's **in-memory adapter type** — `ReplayService` maps `Policy_Rule__c` records onto it, never inserts it (ADR-5) |
 
 **Custom Metadata Types (2)**
 
@@ -190,19 +194,25 @@ React Audit Queue
 Auditor clicks "Run Replay" in Case Review
   → React: POST /replay { caseId }
   → Salesforce Controller: invoke ReplayService.replay(caseId)
-  → FactAssemblerService:
-      1. Query Evidence_Item__c for case (1 SOQL)
-      2. Get loan approval date from Audit_Case__c
-      3. Resolve governing Policy_Version__c + Policy_Rule__c by approval date (1 SOQL)
-      4. Build immutable ReplayContext
-  → PolicyRuleEvaluator:
-      1. Walk each rule against evidence facts (pure, 0 SOQL/DML)
+  → ReplayService — ASSEMBLE:
+      1. Query Audit_Case__c with Borrower_Snapshot__c + Evidence_Item__c subqueries,
+         including Loan__r.Approval_Date__c (1 SOQL)
+      2. Build fact map + evidence-status map
+      3. Resolve governing Policy_Version__c + Policy_Rules__r by approval date,
+         ORDER BY Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC (ADR-6, FR-28) (1 SOQL)
+  → ReplayService — ADAPT:
+      4. Map Policy_Rule__c → in-memory Policy_Rule_Version__c (never inserted);
+         back-map keyed on Rule_Code__c business key
+      5. Build PolicyEvaluationContext
+  → PolicyRuleEvaluator — EVALUATE:
+      1. Walk each rule against facts (pure, 0 SOQL/DML)
       2. Missing facts → INDETERMINATE (ADR-3)
-      3. Sort results by Rule_Code__c (ADR-6)
-      4. Return List<ReplayCheckResult>
-  → ReplayCommitService:
-      1. Insert Replay_Check__c records (1 DML)
-      2. Insert Audit_Event__c with Event_Type 'Replay_Executed'
+      3. Consume rules in assembler order — no re-sort (ADR-6)
+      4. Return EvaluationResult
+  → ReplayCommitService — COMMIT:
+      1. Insert Replay_Check__c records, Sort_Order__c from evaluator output index;
+         PASS/FAIL/INDETERMINATE → Pass/Fail/Unverifiable (1 DML)
+      2. Insert Audit_Event__c with Event_Type 'Replay_Executed' (1 DML)
   → React: render replay checklist in right pane
 ```
 
@@ -260,11 +270,11 @@ After replay execution completes:
 
 | Metric | Budget | Enforcement |
 |--------|--------|-------------|
-| SOQL per N cases | 3 | `FactAssemblerService` loads all data in bulk queries |
-| DML per N cases | 1 | `ReplayCommitService` bulk-inserts all records |
+| SOQL per case | 3 | `ReplayService` assembles via subquery-loaded bulk queries |
+| DML per case | 2 | `ReplayCommitService` writes `Replay_Check__c` + `Audit_Event__c` |
 | In-loop SOQL | 0 | `PolicyRuleEvaluator` is pure -- no DB access |
 | In-loop DML | 0 | Enforced by code review gate |
-| Bulk test threshold | 200+ records | `ReplayServiceTest` with 200 cases |
+| Bulk sweep | 1 case per batch chunk (ADR-27) | `SecondPassSweepBatch` chunk size 1 -- per-case budget IS the contract |
 
 ### 4.2 Auditability
 
@@ -305,7 +315,7 @@ After replay execution completes:
 |--------|--------|
 | Queue load | < 2 seconds for 500 cases |
 | Single-case replay | < 5 seconds |
-| Bulk replay | 3 SOQL + 1 DML for N cases (linear scaling) |
+| Bulk replay | 3 SOQL + 2 DML per case; sweep runs 1 case per batch chunk (ADR-27) |
 | PDF export | < 10 seconds |
 
 ### 4.6 Data Integrity
@@ -317,7 +327,7 @@ After replay execution completes:
 | Append-only agent logs | Apex trigger + validation rule on `Agent_Action_Log__c` |
 | Policy version immutability | Trigger blocks edit after referenced by `Replay_Check__c` |
 | Historical fidelity | Replay resolves policy version by loan approval date, not current date |
-| Deterministic ordering | `Replay_Check__c` results sorted by `Rule_Code__c` (ADR-6) |
+| Deterministic ordering | Schema-level `ORDER BY Sort_Order__c ASC NULLS LAST, Rule_Code__c ASC` in the governing-rules query; persisted `Replay_Check__c.Sort_Order__c` from evaluator output index (ADR-6, FR-28) |
 | Worst-wins risk tier | Case risk tier set by most severe replay check result (ADR-2) |
 | Missing fact handling | INDETERMINATE result, not PASS or FAIL (ADR-3) |
 

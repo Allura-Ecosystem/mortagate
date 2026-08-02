@@ -4,7 +4,15 @@
     <label>Operator</label>
     <type>Picklist</type>
     <required>true</required>
-    <description>Comparison operator</description>
+    <description>Comparison operator. Narrowed to the five values PolicyRuleEvaluator
+        can execute against the fields ReplayService actually selects (ADR-33 D-4
+        carve-out, 2026-08-02). NEQ and IN were removed because the evaluator's
+        switch has no branch for them and throws PolicyEngineException at replay
+        time. BETWEEN was removed because Policy_Rule__c has no Threshold_High__c,
+        so the upper bound is always null and the rule silently never fires --
+        a wrong answer in an audit product, which is worse than a throw.
+        Do not re-add any of the three without also widening Policy_Rule__c and
+        the ReplayService SELECT/copy at lines ~84 and ~130.</description>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
@@ -14,9 +22,6 @@
             <value><fullName>GT</fullName><default>false</default><label>GT</label></value>
             <value><fullName>LT</fullName><default>false</default><label>LT</label></value>
             <value><fullName>EQ</fullName><default>false</default><label>EQ</label></value>
-            <value><fullName>NEQ</fullName><default>false</default><label>NEQ</label></value>
-            <value><fullName>IN</fullName><default>false</default><label>IN</label></value>
-            <value><fullName>BETWEEN</fullName><default>false</default><label>BETWEEN</label></value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

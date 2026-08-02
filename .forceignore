@@ -21,3 +21,21 @@ force-app/main/default/bots/EmployeeCopilotPlanner*
 # `sf agent test run-eval --spec <yaml>` (WITHOUT --no-normalize; that flag breaks session-id
 # interpolation -> HTTP 403 RBAC). In-org def Id 4KCgL00000058szWAA.
 force-app/main/default/aiEvaluationDefinitions/Veridact_Auditor_Copilot_v4_RuntimeSelection*
+
+# Quarantined per ADR-32: retired origination/intake engine (2026-08-02)
+# Class-level quarantine only — the 5 legacy objects (Loan_Application__c, Loan__c,
+# Evidence__c, Extracted_Facts__c, Decision_Event__c) STAY deployed: Audit_Case__c has a
+# hard lookup to Loan__c and ReplayService queries Loan__r.Approval_Date__c.
+# IdentityGateService and DecisionEventImmutability* stay live (case-side consumers).
+# Note: .forceignore only stops future deploys — these classes remain in-org until
+# explicitly destructively removed.
+force-app/main/default/classes/FactAssemblerService.cls*
+force-app/main/default/classes/LoanDecisionService.cls*
+force-app/main/default/classes/LoanDecisionServiceTest.cls*
+force-app/main/default/classes/DecisionCommitService.cls*
+force-app/main/default/classes/DecisionReceiptController.cls*
+force-app/main/default/classes/DecisionReceiptControllerTest.cls*
+force-app/main/default/classes/AdverseActionNoticeController.cls*
+force-app/main/default/classes/AdverseActionNoticeControllerTest.cls*
+force-app/main/default/pages/DecisionReceipt.page*
+force-app/main/default/pages/AdverseActionNotice.page*
