@@ -68,6 +68,37 @@
                     <h2 class="pane-title">Replay checks</h2>
                     <span class="findings-count">{findingsLabel}</span>
                 </header>
+
+                <!-- ── Progress spinner during replay ── -->
+                <template if:true={isLoading}>
+                    <div class="spinner-wrap" role="status" aria-live="polite">
+                        <div class="spinner"></div>
+                        <p class="spinner-text">{spinnerMessage}</p>
+                    </div>
+                </template>
+
+                <!-- ── Inline decision summary after replay ── -->
+                <template if:true={showSummary}>
+                    <div class="decision-summary" data-passed={summaryPassed}>
+                        <div class="summary-bar">
+                            <span class="summary-pass">{summaryPassCount} passed</span>
+                            <span class="summary-sep">&middot;</span>
+                            <span class="summary-fail">{summaryFailCount} failed</span>
+                        </div>
+                        <template if:true={hasFailingRules}>
+                            <ul class="summary-fail-list">
+                                <template for:each={failingRules} for:item="fr">
+                                    <li key={fr.ruleName} class="summary-fail-item">
+                                        <span class="summary-fail-icon">&#10007;</span>
+                                        <span class="summary-fail-rule">{fr.ruleName}</span>
+                                        <span class="summary-fail-detail">{fr.detail}</span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                    </div>
+                </template>
+
                 <template if:true={hasChecks}>
                     <ul class="check-list">
                         <template for:each={checks} for:item="ck">
@@ -97,5 +128,24 @@
                 </template>
             </section>
         </div>
+
+        <!-- ── Post-sign-off confirmation modal ── -->
+        <template if:true={showSignoffModal}>
+            <div class="modal-backdrop" onclick={handleModalBackdrop}>
+                <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="signoff-modal-title">
+                    <div class="modal-body">
+                        <div class="modal-icon">&#10003;</div>
+                        <h2 id="signoff-modal-title" class="modal-title">Signed off</h2>
+                        <p class="modal-message">
+                            This case has been sent to <strong>{signoffApproverName}</strong> for final approval.
+                            A copy has been filed to Compliance.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-done-btn" onclick={handleSignoffDone}>Done</button>
+                    </div>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
