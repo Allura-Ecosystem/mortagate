@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CaseFile — Enterprise Readiness Infographic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0B2B1D;
+    font-family: 'Inter', sans-serif;
+    color: #FAF9F6;
+    line-height: 1.5;
+    padding: 40px 20px;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .header .badge {
+    display: inline-block;
+    background: #C8963E;
+    color: #0B2B1D;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    color: #FAF9F6;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: #C8963E; }
+  .header .subtitle {
+    font-size: 1.1rem;
+    color: rgba(250,249,246,0.7);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* Top-line stat cards */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .stat-card {
+    background: rgba(250,249,246,0.06);
+    border: 1px solid rgba(250,249,246,0.1);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #C8963E;
+  }
+  .stat-card .label {
+    font-size: 0.8rem;
+    color: rgba(250,249,246,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #C8963E;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(200,150,62,0.3);
+  }
+
+  /* Gap meter */
+  .gap-meter {
+    background: rgba(250,249,246,0.06);
+    border: 1px solid rgba(250,249,246,0.1);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+  .gap-meter .row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .gap-meter .bar-wrap {
+    flex: 1;
+    min-width: 200px;
+  }
+  .gap-meter .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+  .gap-meter .bar-label .pct { font-weight: 700; color: #C8963E; }
+  .gap-meter .bar-track {
+    height: 24px;
+    background: rgba(250,249,246,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .gap-meter .bar-fill {
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #C8963E, #e0b060);
+    transition: width 0.6s ease;
+  }
+  .gap-meter .bar-fill.pilot { width: 20%; }
+  .gap-meter .bar-fill.target { width: 100%; opacity: 0.3; }
+  .gap-meter .marker {
+    position: absolute;
+    top: -2px;
+    width: 4px;
+    height: 28px;
+    background: #FAF9F6;
+    border-radius: 2px;
+  }
+  .gap-meter .marker.pilot-marker { left: 20%; }
+  .gap-meter .marker.target-marker { left: 100%; }
+  .gap-meter .legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    font-size: 0.8rem;
+  }
+  .gap-meter .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .gap-meter .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+  }
+  .gap-meter .legend-dot.pilot-dot { background: #C8963E; }
+  .gap-meter .legend-dot.target-dot { background: rgba(250,249,246,0.3); }
+
+  /* Phase cards */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .phase-card {
+    background: rgba(250,249,246,0.06);
+    border: 1px solid rgba(250,249,246,0.1);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+  }
+  .phase-card.p0::before { background: #C8963E; }
+  .phase-card.p1::before { background: #e74c3c; }
+  .phase-card.p2::before { background: #e67e22; }
+  .phase-card.p3::before { background: #e74c3c; }
+  .phase-card.p4::before { background: #3498db; }
+  .phase-card.p5::before { background: #2ecc71; }
+  .phase-card .phase-tag {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .phase-card.p0 .phase-tag { background: rgba(200,150,62,0.2); color: #C8963E; }
+  .phase-card.p1 .phase-tag { background: rgba(231,76,60,0.2); color: #e74c3c; }
+  .phase-card.p2 .phase-tag { background: rgba(230,126,34,0.2); color: #e67e22; }
+  .phase-card.p3 .phase-tag { background: rgba(231,76,60,0.2); color: #e74c3c; }
+  .phase-card.p4 .phase-tag { background: rgba(52,152,219,0.2); color: #3498db; }
+  .phase-card.p5 .phase-tag { background: rgba(46,204,113,0.2); color: #2ecc71; }
+  .phase-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .phase-card .meta {
+    display: flex;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: rgba(250,249,246,0.6);
+    margin-bottom: 12px;
+  }
+  .phase-card .meta .icon { font-size: 1rem; }
+  .phase-card .desc {
+    font-size: 0.88rem;
+    color: rgba(250,249,246,0.8);
+    margin-bottom: 12px;
+  }
+  .phase-card .status-bar {
+    height: 6px;
+    background: rgba(250,249,246,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .phase-card .status-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .phase-card.p0 .status-fill { width: 100%; background: #C8963E; }
+  .phase-card.p1 .status-fill { width: 5%; background: #e74c3c; }
+  .phase-card.p2 .status-fill { width: 0%; background: #e67e22; }
+  .phase-card.p3 .status-fill { width: 0%; background: #e74c3c; }
+  .phase-card.p4 .status-fill { width: 0%; background: #3498db; }
+  .phase-card.p5 .status-fill { width: 0%; background: #2ecc71; }
+  .phase-card .status-label {
+    font-size: 0.75rem;
+    color: rgba(250,249,246,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .phase-card .blocker {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: rgba(231,76,60,0.1);
+    border: 1px solid rgba(231,76,60,0.2);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: rgba(250,249,246,0.7);
+  }
+  .phase-card .blocker strong { color: #e74c3c; }
+
+  /* Scorecard */
+  .scorecard {
+    background: rgba(250,249,246,0.06);
+    border: 1px solid rgba(250,249,246,0.1);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+  .scorecard .sc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .scorecard .sc-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(250,249,246,0.04);
+    border-radius: 8px;
+    font-size: 0.85rem;
+  }
+  .scorecard .sc-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+  .scorecard .sc-icon.pass { background: rgba(46,204,113,0.2); color: #2ecc71; }
+  .scorecard .sc-icon.fail { background: rgba(231,76,60,0.2); color: #e74c3c; }
+  .scorecard .sc-icon.warn { background: rgba(230,126,34,0.2); color: #e67e22; }
+  .scorecard .sc-icon.defer { background: rgba(149,165,166,0.2); color: #95a5a6; }
+  .scorecard .sc-icon.info { background: rgba(52,152,219,0.2); color: #3498db; }
+
+  /* Bottom line */
+  .bottom-line {
+    background: linear-gradient(135deg, rgba(200,150,62,0.12), rgba(11,43,29,0.8));
+    border: 1px solid rgba(200,150,62,0.3);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .bottom-line h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: #C8963E;
+    margin-bottom: 12px;
+  }
+  .bottom-line p {
+    font-size: 1rem;
+    color: rgba(250,249,246,0.8);
+    max-width: 700px;
+    margin: 0 auto 8px;
+  }
+  .bottom-line .highlight {
+    color: #FAF9F6;
+    font-weight: 600;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: rgba(250,249,246,0.3);
+    padding-top: 16px;
+    border-top: 1px solid rgba(250,249,246,0.06);
+  }
+  .footer a { color: #C8963E; text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.8rem; }
+    .phase-grid { grid-template-columns: 1fr; }
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Enterprise Readiness Report</div>
+    <h1>CaseFile <span>Mortagate</span></h1>
+    <p class="subtitle">A Salesforce-based post-close mortgage audit replay and QC tool for bank analysts. From intake to signed decision — with a traceable audit trail.</p>
+  </div>
+
+  <!-- Top stats -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="num">204</div>
+      <div class="label">Apex Tests</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">100%</div>
+      <div class="label">Test Pass Rate</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">83%</div>
+      <div class="label">Code Coverage</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">72</div>
+      <div class="label">Apex Classes</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">39</div>
+      <div class="label">Custom Objects</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">13</div>
+      <div class="label">LWC Components</div>
+    </div>
+  </div>
+
+  <!-- Gap meter -->
+  <div class="gap-meter">
+    <div class="row">
+      <div class="bar-wrap">
+        <div class="bar-label">
+          <span>Enterprise Readiness</span>
+          <span class="pct">~20%</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill pilot"></div>
+          <div class="bar-fill target" style="width:100%;opacity:0.15;"></div>
+          <div class="marker pilot-marker"></div>
+          <div class="marker target-marker"></div>
+        </div>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-dot pilot-dot"></div>
+            <span>Current state — Pilot ready</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot target-dot"></div>
+            <span>Enterprise production target</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:16px;font-size:0.88rem;color:rgba(250,249,246,0.7);">
+      The foundation is solid. The pilot works. But enterprise production is a <strong style="color:#FAF9F6;">multi-quarter program</strong> through legal and vendor contracts — not more code.
+    </p>
+  </div>
+
+  <!-- Phase cards -->
+  <h2 class="section-title">Enterprise Readiness Roadmap</h2>
+  <div class="phase-grid">
+
+    <div class="phase-card p0">
+      <div class="phase-tag">P0 · DONE</div>
+      <h3>Verify the Slice</h3>
+      <div class="meta">
+        <span class="icon">&#x1F511;</span> <span>Human action</span>
+        <span class="icon">&#x1F9F1;</span> <span>Code</span>
+      </div>
+      <p class="desc">Make the current slice real before adding to it. Deploy, test, validate the borrower journey on a real phone.</p>
+      <div class="status-bar"><div class="status-fill"></div></div>
+      <div class="status-label">&#10003; Complete — 204 tests, 100% pass, 83% coverage</div>
+    </div>
+
+    <div class="phase-card p1">
+      <div class="phase-tag">P1 · NOT STARTED</div>
+      <h3>Compliance</h3>
+      <div class="meta">
+        <span class="icon">&#x2696;&#xFE0F;</span> <span>Legal sign-off</span>
+        <span class="icon">&#x1F9F1;</span> <span>Code</span>
+      </div>
+      <p class="desc">Adverse action notice, Fair Lending, HMDA, GLBA, state licensing. The true blocker for a regulated lending product.</p>
+      <div class="status-bar"><div class="status-fill"></div></div>
+      <div class="status-label">Weeks to months</div>
+      <div class="blocker"><strong>&#x26A0;&#xFE0F; Hardest dependency:</strong> Legal counsel sign-off on adverse action wording</div>
+    </div>
+
+    <div class="phase-card p2">
+      <div class="phase-tag">P2 · NOT STARTED</div>
+      <h3>Security &amp; PII</h3>
+      <div class="meta">
+        <span class="icon">&#x1F91D;</span> <span>Vendor</span>
+        <span class="icon">&#x1F9F1;</span> <span>Code</span>
+      </div>
+      <p class="desc">Shield Platform Encryption for SSN, income, assets. Permission sets, FLS/CRUD audit, least-privilege model.</p>
+      <div class="status-bar"><div class="status-fill"></div></div>
+      <div class="status-label">Weeks</div>
+      <div class="blocker"><strong>&#x26A0;&#xFE0F; Hardest dependency:</strong> Shield Platform Encryption is a paid Salesforce add-on</div>
+    </div>
+
+    <div class="phase-card p3">
+      <div class="phase-tag">P3 · NOT STARTED</div>
+      <h3>Integrations</h3>
+      <div class="meta">
+        <span class="icon">&#x1F91D;</span> <span>Vendor contracts</span>
+        <span class="icon">&#x1F9F1;</span> <span>Code</span>
+      </div>
+      <p class="desc">Credit bureau pull, income verification, document extraction, e-sign, LOS integration. Most of real origination.</p>
+      <div class="status-bar"><div class="status-fill"></div></div>
+      <div class="status-label">Months</div>
+      <div class="blocker"><strong>&#x26A0;&#xFE0F; Hardest dependency:</strong> Vendor contracts (Experian, Plaid, DocuSign, nCino)</div>
+    </div>
+
+    <div class="phase-card p4">
+      <div class="phase-tag">P4 · NOT STARTED</div>
+      <h3>Data Model Depth</h3>
+      <div class="meta">
+        <span class="icon">&#x1F9F1;</span> <span>Code</span>
+      </div>
+      <p class="desc">Co-borrower / joint applications, full assets, liabilities, employment history, property structures.</p>
+      <div class="status-bar"><div class="status-fill"></div></div>
+      <div class="status-label">Weeks</div>
+    </div>
+
+    <div class="phase-card p5">
+      <div class="phase-tag">P5 · NOT STARTED</div>
+      <h3>Operational Readiness</h3>
+      <div class="meta">
+        <span class="icon">&#x1F9F1;</span> <span>Code</span>
+      </div>
+      <p class="desc">CI/CD pipeline, monitoring, DR plan, runbook, accessibility audit, logging framework.</p>
+      <div class="status-bar"><div class="status-fill"></div></div>
+      <div class="status-label">Weeks</div>
+    </div>
+
+  </div>
+
+  <!-- Beta Readiness Scorecard -->
+  <h2 class="section-title">Beta Readiness Scorecard (G-2)</h2>
+  <div class="scorecard">
+    <div class="sc-grid">
+      <div class="sc-item">
+        <div class="sc-icon pass">&#x2713;</div>
+        <span><strong>SC-1</strong> Apex tests — 204 tests, 100% pass, 83% coverage</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon pass">&#x2713;</div>
+        <span><strong>SC-2a</strong> Brain search — memory_search returns records</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon info">&#x2139;&#xFE0F;</div>
+        <span><strong>SC-2b</strong> Brain wiring — finding: unbuilt, not broken</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon pass">&#x2713;</div>
+        <span><strong>SC-3</strong> Score persistence — no longer hardcoded 0.5</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon pass">&#x2713;</div>
+        <span><strong>SC-4</strong> Embeddings — 1024-dim from Ollama qwen3</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon pass">&#x2713;</div>
+        <span><strong>SC-5</strong> Deploy slices — 217 files, 0 errors</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon warn">&#x26A0;&#xFE0F;</div>
+        <span><strong>SC-6a</strong> Document upload — PASS (no Hash/Scan fields)</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon pass">&#x2713;</div>
+        <span><strong>SC-6b</strong> Decision written — HARD_DECLINED, DTI 44.8% &gt; 43%</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon defer">&#x2192;</div>
+        <span><strong>SC-6c</strong> Async spine — DEFERRED (unbuilt)</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon pass">&#x2713;</div>
+        <span><strong>SC-7</strong> Audit Replay — 10 checks, 8 pass / 2 fail</span>
+      </div>
+      <div class="sc-item">
+        <div class="sc-icon info">&#x2139;&#xFE0F;</div>
+        <span><strong>SC-8</strong> UAT script — WRITTEN, needs real analyst</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom line -->
+  <div class="bottom-line">
+    <h2>The Bottom Line</h2>
+    <p>The build is a <span class="highlight">credible foundation</span> and an excellent demo. The architecture is enterprise-quality. The pilot works end-to-end on the synchronous path.</p>
+    <p>Reaching enterprise production is a <span class="highlight">multi-quarter, multi-person program</span>. The critical path runs through <span class="highlight">legal/compliance (P1)</span> and <span class="highlight">vendor integrations (P3)</span> — not through more Apex.</p>
+    <p style="margin-top:16px;font-size:0.9rem;color:rgba(200,150,62,0.8);">The most valuable next step: log in and verify what's already here.</p>
+  </div>
+
+  <div class="footer">
+    <p>CaseFile (Mortagate) &mdash; Enterprise Readiness Assessment &mdash; August 2026</p>
+    <p>Built with &#x1F49A; for the Captain (Sabir) and stakeholders</p>
+  </div>
+
+</div>
+</body>
+</html>
