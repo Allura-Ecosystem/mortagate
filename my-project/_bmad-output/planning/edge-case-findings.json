@@ -1,0 +1,356 @@
+[
+  {
+    "location": "ReplayService.cls:47-50",
+    "trigger_condition": "ac.Loan__r is null when accessing Approval_Date__c",
+    "guard_snippet": "if (ac.Loan__r == null || ac.Loan__r.Approval_Date__c == null) { return new List<Replay_Check__c>(); }",
+    "potential_consequence": "NullPointerException on ac.Loan__r.Approval_Date__c when Loan__r is null"
+  },
+  {
+    "location": "ReplayService.cls:56-67",
+    "trigger_condition": "Borrower_Snapshots__r is null (SOQL subquery returns null)",
+    "guard_snippet": "for (Borrower_Snapshot__c bs : (ac.Borrower_Snapshots__r == null ? new List<Borrower_Snapshot__c>() : ac.Borrower_Snapshots__r))",
+    "potential_consequence": "NullPointerException iterating null subquery relationship"
+  },
+  {
+    "location": "ReplayService.cls:70-73",
+    "trigger_condition": "Evidence_Items__r is null (SOQL subquery returns null)",
+    "guard_snippet": "for (Evidence_Item__c ei : (ac.Evidence_Items__r == null ? new List<Evidence_Item__c>() : ac.Evidence_Items__r))",
+    "potential_consequence": "NullPointerException iterating null subquery relationship"
+  },
+  {
+    "location": "ReplayService.cls:82-96",
+    "trigger_condition": "Policy_Version__c query returns zero rows (no active version for approval date)",
+    "guard_snippet": "if (policyVersion == null) { return new List<Replay_Check__c>(); }",
+    "potential_consequence": "NullPointerException accessing policyVersion.Policy_Rules__r on null"
+  },
+  {
+    "location": "ReplayService.cls:98-101",
+    "trigger_condition": "Policy_Rules__r subquery returns null on Policy_Version__c",
+    "guard_snippet": "List<Policy_Rule__c> rules = (policyVersion.Policy_Rules__r == null) ? new List<Policy_Rule__c>() : policyVersion.Policy_Rules__r;",
+    "potential_consequence": "NullPointerException when Policy_Rules__r subquery is null"
+  },
+  {
+    "location": "ReplayService.cls:125-138",
+    "trigger_condition": "pr.Rule_Code__c is null during adaptation (no business key)",
+    "guard_snippet": "if (String.isBlank(pr.Rule_Code__c)) { continue; }",
+    "potential_consequence": "Null key in ruleIdByCode map causes silent overwrite or null lookup at commit"
+  },
+  {
+    "location": "ReplayService.cls:163",
+    "trigger_condition": "ruleIdByCode.get(ro.ruleCode) returns null when ruleCode not in map",
+    "guard_snippet": "rcr.policyRuleId = ruleIdByCode.get(ro.ruleCode);",
+    "potential_consequence": "Replay_Check__c.Policy_Rule__c saved as null, losing link to governing rule"
+  },
+  {
+    "location": "ReplayService.cls:165-167",
+    "trigger_condition": "ro.threshold or ro.factValue is non-null non-Decimal (e.g. String) passed to String.valueOf",
+    "guard_snippet": "rcr.expectedValue = (ro.threshold instanceof Decimal) ? String.valueOf(ro.threshold) : (ro.threshold == null ? null : String.valueOf(ro.threshold));",
+    "potential_consequence": "String.valueOf on Object produces unexpected format for non-numeric types"
+  },
+  {
+    "location": "ReplayService.cls:193",
+    "trigger_condition": "mapOutcome receives unknown outcome string (e.g. 'ERROR')",
+    "guard_snippet": "when else { return engineOutcome; }",
+    "potential_consequence": "Unknown outcome passes through raw, may violate Replay_Check__c.Result__c picklist constraints"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:32",
+    "trigger_condition": "rule.Fact_Field__c is null — ctx.applicantFacts.get(null) returns null",
+    "guard_snippet": "Object factValue = (rule.Fact_Field__c == null) ? null : ctx.applicantFacts.get(rule.Fact_Field__c);",
+    "potential_consequence": "Null key lookup returns null, rule silently becomes INDETERMINATE instead of FAIL"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:85-89",
+    "trigger_condition": "toDecimal(factValue) returns null for GT/GTE/LT/LTE/EQ — null compared to threshold is false",
+    "guard_snippet": "Decimal d = toDecimal(factValue); if (d == null) { return false; } return d > threshold;",
+    "potential_consequence": "Null Decimal silently evaluates as false for all relational operators, masking data issues"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:90-93",
+    "trigger_condition": "BETWEEN operator with null thresholdHigh (only threshold set)",
+    "guard_snippet": "if (thresholdHigh == null) { return false; }",
+    "potential_consequence": "Null thresholdHigh causes null <= v comparison returning false, BETWEEN always fails"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:90-93",
+    "trigger_condition": "BETWEEN operator with null threshold (only thresholdHigh set)",
+    "guard_snippet": "if (threshold == null) { return false; }",
+    "potential_consequence": "Null threshold causes v >= null comparison returning false, BETWEEN always fails"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:90-93",
+    "trigger_condition": "BETWEEN operator with both thresholds null",
+    "guard_snippet": "if (threshold == null || thresholdHigh == null) { return false; }",
+    "potential_consequence": "Null thresholds cause both comparisons to return false, BETWEEN always fails"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:94-96",
+    "trigger_condition": "IN_LIST with null allowedValuesJson (parseList returns empty set)",
+    "guard_snippet": "return parseList(allowedValuesJson).contains(String.valueOf(factValue));",
+    "potential_consequence": "Empty set never contains anything, IN_LIST always returns false silently"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:97-99",
+    "trigger_condition": "NOT_IN_LIST with null allowedValuesJson (parseList returns empty set)",
+    "guard_snippet": "return !parseList(allowedValuesJson).contains(String.valueOf(factValue));",
+    "potential_consequence": "Empty set never contains anything, NOT_IN_LIST always returns true silently"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:100-102",
+    "trigger_condition": "operator is null (null switch on operator)",
+    "guard_snippet": "if (String.isBlank(operator)) { throw new PolicyEngineException('Null or blank operator'); }",
+    "potential_consequence": "Null switch on operator throws NullPointerException, not PolicyEngineException"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:119-131",
+    "trigger_condition": "toDecimal receives Boolean value (e.g. from a checkbox fact field)",
+    "guard_snippet": "if (value instanceof Boolean) { return (Boolean)value ? Decimal.valueOf(1) : Decimal.valueOf(0); }",
+    "potential_consequence": "Unhandled type throws PolicyEngineException for valid Boolean fact values"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:119-131",
+    "trigger_condition": "toDecimal receives Date/Datetime value from fact map",
+    "guard_snippet": "if (value instanceof Date || value instanceof Datetime) { return null; }",
+    "potential_consequence": "Unhandled type throws PolicyEngineException for temporal fact values"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:119-131",
+    "trigger_condition": "toDecimal receives a Blob or SObject value in fact map",
+    "guard_snippet": "if (!(value instanceof Decimal || value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof String)) { return null; }",
+    "potential_consequence": "Unhandled SObject type throws PolicyEngineException instead of returning INDETERMINATE"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:128",
+    "trigger_condition": "toDecimal receives non-numeric string (e.g. 'N/A') — Decimal.valueOf throws",
+    "guard_snippet": "try { return Decimal.valueOf(s); } catch (Exception e) { throw new PolicyEngineException('Non-numeric string: ' + s); }",
+    "potential_consequence": "System.TypeException from Decimal.valueOf on non-numeric string, not PolicyEngineException"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:106-116",
+    "trigger_condition": "parseList receives JSON null element in array",
+    "guard_snippet": "for (Object o : raw) { if (o != null) { out.add(String.valueOf(o)); } }",
+    "potential_consequence": "String.valueOf(null) produces 'null' string, adding literal 'null' to allowed set"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:60-66",
+    "trigger_condition": "tallyFailure receives null severity string",
+    "guard_snippet": "if (String.isBlank(severity)) { return; }",
+    "potential_consequence": "Null severity falls into 'when else' branch, failure silently uncounted"
+  },
+  {
+    "location": "PolicyRuleEvaluator.cls:68-73",
+    "trigger_condition": "deriveVerdict with all counts zero but indeterminateCount > 0",
+    "guard_snippet": "if (result.indeterminateCount > 0 && result.hardDeclineCount == 0 && result.softDeclineCount == 0 && result.warningCount == 0) { return 'PENDING_REVIEW'; }",
+    "potential_consequence": "All-indeterminate case returns APPROVED, masking missing-evidence scenario"
+  },
+  {
+    "location": "LoanDecisionService.cls:27",
+    "trigger_condition": "contexts.get(appId) returns null when appId has no assembled context",
+    "guard_snippet": "PolicyEvaluationContext ctx = contexts.get(appId); if (ctx == null) { continue; }",
+    "potential_consequence": "Null context passed to evaluate, ctx.applicantFacts.get() throws NullPointerException"
+  },
+  {
+    "location": "LoanDecisionService.cls:38-39",
+    "trigger_condition": "decideOne called with null applicationId",
+    "guard_snippet": "if (applicationId == null) { return null; }",
+    "potential_consequence": "Null Id in Set causes NullPointerException or returns empty list"
+  },
+  {
+    "location": "SecondPassSweepBatch.cls:136-148",
+    "trigger_condition": "AuditSoql.latestChecksFor returns null (should return empty list per contract)",
+    "guard_snippet": "List<Replay_Check__c> existing = AuditSoql.latestChecksFor(ac.Id); if (existing == null) { existing = new List<Replay_Check__c>(); }",
+    "potential_consequence": "Null existing list causes NullPointerException in for-each loop"
+  },
+  {
+    "location": "SecondPassSweepBatch.cls:192-206",
+    "trigger_condition": "checks list contains null elements (should not happen but unguarded)",
+    "guard_snippet": "for (Replay_Check__c rc : checks) { if (rc == null) { continue; } }",
+    "potential_consequence": "Null element in checks list causes NullPointerException in deriveRiskTier"
+  },
+  {
+    "location": "SecondPassSweepBatch.cls:192-206",
+    "trigger_condition": "rc.Result__c is null — neither 'Fail' nor 'Unverifiable', falls through to 'Low'",
+    "guard_snippet": "if (rc.Result__c == null) { continue; }",
+    "potential_consequence": "Null result silently ignored, may mask data corruption in replay checks"
+  },
+  {
+    "location": "SecondPassSweepBatch.cls:111-115",
+    "trigger_condition": "scope list contains null elements (should not happen but unguarded)",
+    "guard_snippet": "for (Audit_Case__c ac : scope) { if (ac != null) { processCase(ac); } }",
+    "potential_consequence": "Null element in scope causes NullPointerException in processCase"
+  },
+  {
+    "location": "FactAssemblerService.cls:22-66",
+    "trigger_condition": "applicationIds set contains null Id",
+    "guard_snippet": "for (Id appId : applicationIds) { if (appId == null) { continue; } }",
+    "potential_consequence": "Null Id in factsByApp map key causes NullPointerException on put/get"
+  },
+  {
+    "location": "FactAssemblerService.cls:40-48",
+    "trigger_condition": "f.Application__c is null in Extracted_Facts__c query results",
+    "guard_snippet": "if (f.Application__c == null) { continue; }",
+    "potential_consequence": "Null Application__c causes factsByApp.get(null) returning null, then NullPointerException on putIfPresent"
+  },
+  {
+    "location": "FactAssemblerService.cls:56-58",
+    "trigger_condition": "e.Application__c is null in Evidence__c query results",
+    "guard_snippet": "if (e.Application__c == null) { continue; }",
+    "potential_consequence": "Null Application__c causes evidenceByApp.get(null) returning null, then NullPointerException on put"
+  },
+  {
+    "location": "FactAssemblerService.cls:93-102",
+    "trigger_condition": "r.Rule_Code__c is null — governing map key is null, only one null-key rule kept",
+    "guard_snippet": "if (String.isBlank(r.Rule_Code__c)) { continue; }",
+    "potential_consequence": "Null Rule_Code__c silently deduped to single entry, losing other null-code rules"
+  },
+  {
+    "location": "FactAssemblerService.cls:32-48",
+    "trigger_condition": "Extracted_Facts__c query returns rows with all-null fact fields (empty extraction)",
+    "guard_snippet": "// putIfPresent skips nulls, facts map stays empty for that app",
+    "potential_consequence": "Empty facts map means all rules evaluate INDETERMINATE — may be intended but silent"
+  },
+  {
+    "location": "ReplayCommitService.cls:54-69",
+    "trigger_condition": "r.auditCaseId is null in ReplayCheckResult",
+    "guard_snippet": "if (r.auditCaseId == null) { continue; }",
+    "potential_consequence": "Null Audit_Case__c lookup on Replay_Check__c causes DML failure"
+  },
+  {
+    "location": "ReplayCommitService.cls:75-83",
+    "trigger_condition": "caseIds set is empty after filtering null auditCaseIds",
+    "guard_snippet": "if (caseIds.isEmpty()) { return checks; }",
+    "potential_consequence": "Zero Audit_Event__c records created, no governance trail for the replay"
+  },
+  {
+    "location": "ReplayCommitService.cls:81",
+    "trigger_condition": "Payload__c JSON contains checks.size() for ALL checks, not per-case count",
+    "guard_snippet": "Payload__c = '{\"replayCheckCount\":' + checksPerCase + '}'",
+    "potential_consequence": "Misleading payload count when multiple cases share one commit call"
+  },
+  {
+    "location": "DecisionCommitService.cls:27-46",
+    "trigger_condition": "requests list is null or contains null elements",
+    "guard_snippet": "if (requests == null || requests.isEmpty()) { return new List<Decision_Event__c>(); }",
+    "potential_consequence": "Null requests causes NullPointerException in for-each loop"
+  },
+  {
+    "location": "DecisionCommitService.cls:30",
+    "trigger_condition": "req.result is null — accessing r.verdict throws NullPointerException",
+    "guard_snippet": "if (req == null || req.result == null) { continue; }",
+    "potential_consequence": "Null EvaluationResult causes NullPointerException on r.verdict"
+  },
+  {
+    "location": "DecisionCommitService.cls:40",
+    "trigger_condition": "r.evaluationTimestamp is null — Decision_Timestamp__c saved as null",
+    "guard_snippet": "Decision_Timestamp__c = r.evaluationTimestamp == null ? Datetime.now() : r.evaluationTimestamp",
+    "potential_consequence": "Null timestamp in Decision_Event__c may violate required-field constraints"
+  },
+  {
+    "location": "AuditSoql.cls:119-164",
+    "trigger_condition": "latestChecksFor with caseIds containing null Id",
+    "guard_snippet": "Set<Id> cleanIds = new Set<Id>(); for (Id id : caseIds) { if (id != null) { cleanIds.add(id); } }",
+    "potential_consequence": "Null Id in IN clause causes SOQL exception"
+  },
+  {
+    "location": "AuditSoql.cls:134",
+    "trigger_condition": "AggregateResult.get('maxTs') returns null (case has checks but all have null Replay_Timestamp__c)",
+    "guard_snippet": "Datetime maxTs = (Datetime) ar.get('maxTs'); if (maxTs == null) { continue; }",
+    "potential_consequence": "Null maxTs added to latestStamps set, second query matches all null-timestamp rows across cases"
+  },
+  {
+    "location": "EvaluationResult.cls:31-38",
+    "trigger_condition": "firstDeclineReason called on empty triggeredRules list",
+    "guard_snippet": "for (RuleOutcome ro : triggeredRules) { ... }",
+    "potential_consequence": "Empty list returns null — caller must handle null decline reason"
+  },
+  {
+    "location": "EvaluationResult.cls:31-38",
+    "trigger_condition": "firstDeclineReason with FAIL outcomes but all have null explanation",
+    "guard_snippet": "if (ro.outcome == 'FAIL' && String.isNotBlank(ro.explanation)) { return ro.explanation; }",
+    "potential_consequence": "Returns null when all failing rules lack explanations — caller must handle"
+  },
+  {
+    "location": "RuleOutcome.cls:17-27",
+    "trigger_condition": "rule parameter is null in constructor",
+    "guard_snippet": "if (rule == null) { throw new PolicyEngineException('Rule cannot be null'); }",
+    "potential_consequence": "Null rule causes NullPointerException accessing rule.Id, rule.Rule_Code__c, etc."
+  },
+  {
+    "location": "SignoffController.cls:194-241",
+    "trigger_condition": "computeCounts with null auditCaseId passed to AuditSoql.latestChecksFor",
+    "guard_snippet": "if (auditCaseId == null) { return new Counts(); }",
+    "potential_consequence": "Null caseId passed to latestChecksFor returns empty list (guarded at callee)"
+  },
+  {
+    "location": "SignoffController.cls:224-229",
+    "trigger_condition": "Finding__c query returns zero rows — findingsSnapshotJson is '[]'",
+    "guard_snippet": "c.findingsSnapshotJson = JSON.serialize(fRows);",
+    "potential_consequence": "Empty JSON array stored — valid but may surprise downstream consumers expecting null"
+  },
+  {
+    "location": "SignoffController.cls:248-254",
+    "trigger_condition": "c.replaySnapshotJson is null in demoHash — Blob.valueOf(null) throws",
+    "guard_snippet": "String material = auditCaseId + '|' + signedAt.getTime() + '|P' + c.passes + '|V' + c.violations + '|U' + c.unverifiable + '|F' + c.totalFindings + '|' + (c.replaySnapshotJson == null ? '' : c.replaySnapshotJson);",
+    "potential_consequence": "Null replaySnapshotJson causes NullPointerException in Blob.valueOf"
+  },
+  {
+    "location": "SignoffController.cls:248-254",
+    "trigger_condition": "c.findingsSnapshotJson is null — not used in hash but stored on receipt",
+    "guard_snippet": "Findings_Snapshot__c = c.findingsSnapshotJson == null ? '[]' : c.findingsSnapshotJson",
+    "potential_consequence": "Null findingsSnapshotJson stored on receipt, may violate schema constraints"
+  },
+  {
+    "location": "CaseSummaryService.cls:336-337",
+    "trigger_condition": "slaPhrase with dueAt in distant past — Math.abs(Long.MIN_VALUE) overflows",
+    "guard_snippet": "Long ms = dueAt.getTime() - Datetime.now().getTime(); Long days = Math.abs(ms) / (1000L * 60L * 60L * 24L);",
+    "potential_consequence": "Math.abs(Long.MIN_VALUE) returns Long.MIN_VALUE (negative), days becomes negative"
+  },
+  {
+    "location": "CaseSummaryService.cls:153-170",
+    "trigger_condition": "loadFacts with null s.Audit_Case__c in Borrower_Snapshot__c query",
+    "guard_snippet": "if (s.Audit_Case__c == null) { continue; }",
+    "potential_consequence": "Null Audit_Case__c causes byCase.get(null) returning null, fact silently dropped"
+  },
+  {
+    "location": "AnalyticsController.cls:79-83",
+    "trigger_condition": "approverByCase.get(caseId) returns null (should not happen but unguarded)",
+    "guard_snippet": "String approver = approverByCase.get(caseId); if (approver == null) { continue; }",
+    "potential_consequence": "Null approver key causes NullPointerException in approverChecks.put(null, ...)"
+  },
+  {
+    "location": "AnalyticsController.cls:86-89",
+    "trigger_condition": "rc.Result__c is null — neither Fail nor Pass, silently uncounted in totals",
+    "guard_snippet": "if (rc.Result__c == null) { continue; }",
+    "potential_consequence": "Null result silently excluded from pass/fail/unverifiable tallies"
+  },
+  {
+    "location": "AnalyticsController.cls:100",
+    "trigger_condition": "exceptionRate = totalChecks - totalPasses when totalChecks < totalPasses (impossible but unguarded)",
+    "guard_snippet": "Integer nonPassed = Math.max(0, totalChecks - totalPasses);",
+    "potential_consequence": "Negative exception rate if data inconsistency causes totalPasses > totalChecks"
+  },
+  {
+    "location": "FindingDraftService.cls:161-168",
+    "trigger_condition": "queryChecks with null whereClause or null binds",
+    "guard_snippet": "if (String.isBlank(whereClause)) { return new List<Replay_Check__c>(); }",
+    "potential_consequence": "Null whereClause causes SOQL exception in AuditSoql.query"
+  },
+  {
+    "location": "EvidenceRequestService.cls:49",
+    "trigger_condition": "req?.auditCaseId is null — null added to caseIds list",
+    "guard_snippet": "if (req?.auditCaseId != null) { caseIds.add(req.auditCaseId); }",
+    "potential_consequence": "Null Id in caseIds causes SOQL exception in WHERE IN clause"
+  },
+  {
+    "location": "LoanDiagnosisService.cls:175-179",
+    "trigger_condition": "rc.Expected_Value__c or rc.Actual_Value__c is null — RuleNarration.prettyNum(null)",
+    "guard_snippet": "String expected = RuleNarration.prettyNum(rc.Expected_Value__c);",
+    "potential_consequence": "Depends on RuleNarration.prettyNum null handling — may produce 'null' string"
+  },
+  {
+    "location": "LoanDiagnosisService.cls:242",
+    "trigger_condition": "buildIntentLog hardcodes Action_Name__c = 'Summarize_Case' instead of 'Diagnose_Loan'",
+    "guard_snippet": "Action_Name__c = 'Diagnose_Loan'",
+    "potential_consequence": "Governance trail mislabels diagnosis actions as summarization"
+  }
+]
