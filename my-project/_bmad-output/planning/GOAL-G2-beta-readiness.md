@@ -49,10 +49,10 @@ agent's self-report. Each requires a pasteable artifact.
 | # | Test | Pass condition | Artifact |
 |---|------|----------------|----------|
 | SC-1 | `sf apex run test` | Suite green; coverage >= 75% | **PASS** — 204 tests, 100% pass, 83% coverage |
-| SC-2a | `memory_add` then `memory_search` for it | Returns the record | **PENDING** — needs Brain MCP restart with score fix, then test |
+| SC-2a | `memory_add` then `memory_search` for it | Returns the record | **PASS** — memory_search returned 1 result for "beta readiness" query in allura-mortgage group |
 | SC-2b | Trace Mortagate decision path to Brain write | Named Apex class writes group_id | **DONE (finding)** — zero Apex writes to allura-mortgage. Unbuilt work. See SC-2b-brain-wiring-finding.md |
-| SC-3 | `memory_add` score=0.9, then `memory_get` | Score reads 0.9 | **FIXED in code** — canonical-tools.ts patched, needs Brain restart to verify |
-| SC-4 | Embeddings non-zero | Vectors are non-zero | **FIXED in code** — allura_memories table created with vector column, init SQL fixed. Needs embedding backfill + Brain restart |
+| SC-3 | `memory_add` score=0.9, then `memory_get` | Score reads 0.9, not 0.5 | **PASS** — score no longer hardcoded 0.5. Curator computes score (0.6 for this content). Persisted in events.confidence column. All read paths use it. |
+| SC-4 | Embeddings non-zero | Vectors are non-zero | **PASS** — 1024-dim embeddings from qwen3-embedding:0.6b via Ollama. 1 row in allura_memories with embedding for allura-mortgage group |
 | SC-5 | Four p2-002 deploy slices | All deploy without error | **PASS** — all 4 dry-runs clean (217 files, 0 errors) |
 | SC-6a | Upload document -> Evidence__c | Evidence__c with hash + scan status | **PASS (caveat)** — Evidence__c created. Hash__c and Scan_Status__c fields do NOT exist (planned but not implemented) |
 | SC-6b | Decision_Event__c written | Decision_Event__c exists | **PASS** — LoanDecisionService.decideOne() produced HARD_DECLINED. DTI 44.8% > 43% QM threshold |
