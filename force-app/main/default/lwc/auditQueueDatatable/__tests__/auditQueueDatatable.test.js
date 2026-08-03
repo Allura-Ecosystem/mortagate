@@ -40,7 +40,7 @@ describe('c-audit-queue-datatable', () => {
 
     it('registers exactly the two badge cell types (no surprise types)', () => {
         const typeNames = Object.keys(AuditQueueDatatable.customTypes);
-        expect(typeNames).toEqual(['riskBadge', 'qcWindow']);
+        expect(typeNames).toEqual(['riskBadge', 'qcWindow', 'slaBadge']);
     });
 
     // --- Inheritance ---

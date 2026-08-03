@@ -93,7 +93,7 @@ is the mechanism; the passing run is the evidence.
 | # | Decision | Why it blocks |
 |---|----------|---------------|
 | D-A | ~~Product name: CaseFile vs Veridact~~ — **RESOLVED 2026-08-03, see below** | No longer blocks SC-8. Residual work is string migration, not a decision. |
-| D-B | Three policy objects exist — `Policy_Rule__c`, `Policy_Rule_Version__c`, `Policy_Version__c` — where the documented model names only `Policy_Rule_Version__c` | The governance invariant "every approval references `Policy_Rule_Version__c`" is unenforceable when a decision could reference any of three. SC-7 cannot pass on an ambiguous reference target. **Evidence gathered 2026-08-03 — see D-B evidence below. The ruling is still Sabir's.** |
+| D-B | Three policy objects exist — `Policy_Rule__c`, `Policy_Rule_Version__c`, `Policy_Version__c` — where the documented model names only `Policy_Rule_Version__c` | **RESOLVED 2026-08-03.** Owner ruling (Sabir, per Brooks recommendation): ADR-18 in-memory adaptation satisfies the governance invariant for beta. No `Policy_Rule_Version__c` persistence required for beta. Production requires persistence — added as parked item (g) in ADR-33. |
 | D-6 | `sourceApiVersion` 66.0 vs org API 67.0 | Confirmed 2026-08-03, no longer suspected. One-version gap; may surface on newer metadata types during SC-5. |
 
 ### D-A resolution — the name was never in dispute in the repository
