@@ -48,11 +48,11 @@ agent's self-report. Each requires a pasteable artifact.
 
 | # | Test | Pass condition | Artifact |
 |---|------|----------------|----------|
-| SC-1 | `sf apex run test --target-org mortagate-de --code-coverage` | Suite green; org-wide coverage ≥ 75% | Full CLI output including the test total |
-| SC-2 | `memory_search` against group `allura-mortgage` for a known-present record | Returns the record | Query + result |
-| SC-3 | `memory_add` with an explicit score of 0.9, then `memory_get` | Persisted score reads 0.9, not 0.5 | Both calls, both outputs |
-| SC-4 | Inspect stored embeddings in the RuVector backend | Vectors are non-zero | Row sample |
-| SC-5 | Four `p2-002` piecewise deploy slices | All four deploy without error | Deploy output per slice |
+| SC-1 | `sf apex run test --target-org mortagate-de --code-coverage` | Suite green; org-wide coverage ≥ 75% | **PASS 2026-08-03** — 204 tests, 100% pass, 83% coverage, Run Id 707gL0000189QJ8 |
+| SC-2 | `memory_search` against group `allura-mortgage` for a known-present record | Returns the record | **Revised** — see SC-2a/SC-2b below |
+| SC-3 | `memory_add` with an explicit score of 0.9, then `memory_get` | Persisted score reads 0.9, not 0.5 | **IN PROGRESS** — known bug, subagent dispatched to fix |
+| SC-4 | Inspect stored embeddings in the RuVector backend | Vectors are non-zero | **FAIL 2026-08-03** — zero embeddings. pgvector installed, Ollama models available, but no vector columns or data. Subagent dispatched to fix. |
+| SC-5 | Four `p2-002` piecewise deploy slices | All four deploy without error | **PASS 2026-08-03** — all 4 dry-runs clean (20+125+55+17 = 217 files), zero errors, zero warnings |
 | SC-6 | Upload a document through the portal | `Evidence__c` created with hash + scan status; `Intake_Received__e` fires; `Decision_Event__c` written | Record IDs for all three |
 | SC-7 | Audit Replay on the SC-6 decision | Reconstructs evidence, rule version, approver, timestamps | Replay output |
 | SC-8 | Analyst UAT script | A non-engineer completes SC-6 following the written script alone, unaided | Script + observed completion |

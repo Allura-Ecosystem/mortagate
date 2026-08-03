@@ -1,0 +1,48 @@
+# Sprint Status — CaseFile Beta Readiness (G-2)
+# generated: 2026-08-03
+# last_updated: 2026-08-03
+# project: CaseFile (Mortagate)
+# tracking_system: file-system
+# story_location: my-project/_bmad-output/planning/stories
+
+development_status:
+  # Epic: Beta Readiness (maps to G-2 success criteria)
+  epic-beta-readiness: in-progress
+  
+  # SC-1: Apex test suite — PASSED
+  sc-1-apex-test-suite: done
+  
+  # SC-4: Embeddings non-zero — must run before SC-2
+  sc-4-embeddings-nonzero: ready-for-dev
+  
+  # SC-2a: Brain federation test with known-present data
+  sc-2a-brain-federation: ready-for-dev
+  
+  # SC-2b: Trace Mortagate decision path to Brain write (unbuilt, not bug)
+  sc-2b-brain-wiring: ready-for-dev
+  
+  # SC-3: memory_add score persistence (known bug: always 0.5)
+  sc-3-score-persistence: ready-for-dev
+  
+  # SC-5: Four p2-002 piecewise deploy slices
+  sc-5-deploy-slices: ready-for-dev
+  
+  # SC-6a: Upload document -> Evidence__c with hash + scan status
+  sc-6a-document-upload: ready-for-dev
+  
+  # SC-6b: Decision_Event__c written for that evidence
+  sc-6b-decision-written: ready-for-dev
+  
+  # SC-6c: Intake_Received__e fires (DEFERRED behind ADR-33 OQ-3)
+  sc-6c-async-spine: backlog
+  
+  # SC-7: Audit Replay reconstructs evidence, rule version, approver, timestamps
+  sc-7-audit-replay: ready-for-dev
+  
+  # SC-8: Analyst UAT script — non-engineer completes SC-6 unaided
+  sc-8-analyst-uat: backlog
+  
+  # D-B ruling needed from Captain
+  db-policy-rule-version-persistence: blocked
+  
+  epic-beta-readiness-retrospective: optional
