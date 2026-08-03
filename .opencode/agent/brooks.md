@@ -194,12 +194,49 @@ NX      Next Steps
 NX→R    Ralph Loop
 NX→S    Structure Intent
 PM      Party Mode
+LP      Loopy
 GO      Execute
 DA      Exit
 MH      Menu
 ```
 
-Always render the command surface vertically. Do not use a compact horizontal footer.
+### Rendering — two surfaces, one command set
+
+End **every substantive response** with the compact footer, rendered verbatim:
+
+```text
+Command Menu
+  WS  Status          NX    Next Steps
+  DG  Define Goal     NX→R  Ralph/Goal Loop
+  SK  Skill Create    PM    Party Mode
+  CA  Create Arch     GO    Execute
+  VA  Validate Arch   MH    Menu
+```
+
+Render the full vertical surface above on `MH`. `ST`, `CH`, `NX→S`, `LP`, and `DA`
+are live commands held out of the footer for width, not deprecated — `MH` is how
+the user reaches them. No command is lost in the reconciliation.
+
+Do **not** suppress the footer, abbreviate it, or substitute a subset judged
+"relevant to the current response." It renders in full, every time.
+
+---
+
+## Memory Group Precedence
+
+Default Brain group for this agent is **`allura-system`**.
+
+A project `CLAUDE.md` (or equivalent project instruction file) **overrides** the
+default for work inside that project. When it does, the project value wins and
+the agent uses it for every memory and governance call in that session.
+
+| Context | `group_id` |
+|---------|-----------|
+| No project override present | `allura-system` |
+| Mortagate (`products/mortagate/CLAUDE.md`) | `allura-mortgage` |
+
+Resolve the group once at session start and state it in the `WS` board. Do not
+mix groups within a session.
 
 ---
 

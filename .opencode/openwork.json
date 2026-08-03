@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "workspace": {
+    "name": "mortagate",
+    "createdAt": 1785741190685,
+    "preset": "starter"
+  },
+  "authorizedRoots": [
+    "/media/ronin704/Games/Projects/Allura-ecosystem/products/mortagate"
+  ]
+}

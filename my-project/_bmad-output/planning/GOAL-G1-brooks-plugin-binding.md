@@ -118,14 +118,77 @@ All five are observable by Sabir. None is satisfied by an agent's self-report.
 SC-1 through SC-5 pass, and `diff` between `.opencode/agent/core/brooks.md` and the
 plugin install copy reports the two in sync.
 
-## Assumption to verify before editing
+## Assumption — TESTED 2026-08-03, and it is FALSE
 
-That the install directory is a mirror of `.opencode/agent/core/brooks.md`. This is
-inferred from the plugin file's own closing line ("This agent is mirrored from
-`.opencode/agent/core/brooks.md`"), not confirmed by inspection. If the two are not
-in a mirror relationship, R1 and R2 are independent edits and SC-3 will fail. Run the
-diff in the Definition of Done **before** editing, not after — it is the cheapest way
-to settle this and it costs one command.
+The assumption was that the plugin install directory mirrors the repo source, inferred
+from the plugin file's own closing line and never confirmed by inspection. G-1 said to
+settle it before editing. Settled.
+
+### Correction 1 — the source path in R2 does not exist
+
+R2 targets `.opencode/agent/core/brooks.md`. There is no `core/` directory. The actual
+file is:
+
+```
+/media/ronin704/Games/Projects/Allura-ecosystem/products/mortagate/.opencode/agent/brooks.md
+```
+
+It is the right file — it carries the exact string R3 targets, at line 202. It sits
+**inside the mounted Mortagate repo**, which reverses G-1's reachability table:
+
+| Target | Old claim | Actual |
+|--------|-----------|--------|
+| Plugin install copy (R1) | Reachable | **Reachable** — confirmed by read |
+| Repo source (R2, R3, R4) | Blocked, `/media/…` | **Reachable** — it is inside the mount |
+| `git commit` (R5) | Blocked | **Still blocked** — needs Sabir's shell |
+
+R2, R3, and R4 do not need a plain desktop terminal. Only R5 does.
+
+### Correction 2 — NOT A MIRROR. The two files have diverged three ways.
+
+| # | Plugin copy | Repo source |
+|---|-------------|-------------|
+| 1 | 15 commands, includes `LP  Loopy` (line 211) | 14 commands, **`LP` absent** |
+| 2 | "after Scout returns the synthesized context" (193) | "after Scout returns the synthesized context **and Git HEAD is inspected**" (179) |
+| 3 | line 217 adds "Show the full vertical menu on `MH`; otherwise include only commands relevant to the current response" | line 202 lacks that clause |
+
+Neither file is a superset of the other. The repo source is **behind** on the menu and
+**ahead** on the Scout gate. This is two-directional drift, not a stale copy.
+
+**Consequences:**
+
+- R1 and R2 are **independent edits**, not one edit and a propagation. Doing R1 alone
+  passes SC-1 and fails SC-3.
+- Any `cp` of one file over the other **destroys** whichever divergence it overwrites.
+  The Git HEAD inspection step exists only in the repo source; a `cp` from plugin to
+  source silently deletes it. **Do not `cp`. Edit both files.**
+- R3 has more to remove than stated. The plugin's line 217 carries a **third** rule —
+  "otherwise include only commands relevant to the current response" — which directly
+  contradicts the Mortagate `CLAUDE.md` requirement to render the menu verbatim on
+  every substantive response. R3 must delete that clause too, not just the
+  "compact horizontal footer" sentence.
+- R4 cannot be an edit-in-place. Neither file contains the string `allura-system`
+  anywhere, so there is no "always `allura-system`" line to amend. R4 becomes an
+  **addition** of a new precedence paragraph, not a correction of an existing one.
+
+### Revised line targets
+
+| File | Menu block | Contradicting line |
+|------|-----------|--------------------|
+| Plugin `agents/brooks.md` | 197–215 | 217 |
+| Repo `.opencode/agent/brooks.md` | 183–200 | 202 |
+
+G-1's original "lines 197–218" was correct for the plugin copy only. It was never a
+valid target for the repo source.
+
+### Definition of done — amended
+
+The original DoD required `diff` to report the two files in sync. That is now the
+**goal state**, not a verification of an existing one. The diff will report three
+differences until R1 and R2 both land, and the post-edit diff must show the two
+in sync **on the menu block and the footer rules**, while the Scout-gate difference
+is either deliberately reconciled or explicitly recorded as intentional divergence.
+Do not let a `diff`-clean outcome be achieved by discarding the Git HEAD step.
 
 ## Out of scope
 
