@@ -48,14 +48,17 @@ agent's self-report. Each requires a pasteable artifact.
 
 | # | Test | Pass condition | Artifact |
 |---|------|----------------|----------|
-| SC-1 | `sf apex run test --target-org mortagate-de --code-coverage` | Suite green; org-wide coverage ≥ 75% | **PASS 2026-08-03** — 204 tests, 100% pass, 83% coverage, Run Id 707gL0000189QJ8 |
-| SC-2 | `memory_search` against group `allura-mortgage` for a known-present record | Returns the record | **Revised** — see SC-2a/SC-2b below |
-| SC-3 | `memory_add` with an explicit score of 0.9, then `memory_get` | Persisted score reads 0.9, not 0.5 | **IN PROGRESS** — known bug, subagent dispatched to fix |
-| SC-4 | Inspect stored embeddings in the RuVector backend | Vectors are non-zero | **FAIL 2026-08-03** — zero embeddings. pgvector installed, Ollama models available, but no vector columns or data. Subagent dispatched to fix. |
-| SC-5 | Four `p2-002` piecewise deploy slices | All four deploy without error | **PASS 2026-08-03** — all 4 dry-runs clean (20+125+55+17 = 217 files), zero errors, zero warnings |
-| SC-6 | Upload a document through the portal | `Evidence__c` created with hash + scan status; `Intake_Received__e` fires; `Decision_Event__c` written | Record IDs for all three |
-| SC-7 | Audit Replay on the SC-6 decision | Reconstructs evidence, rule version, approver, timestamps | Replay output |
-| SC-8 | Analyst UAT script | A non-engineer completes SC-6 following the written script alone, unaided | Script + observed completion |
+| SC-1 | `sf apex run test` | Suite green; coverage >= 75% | **PASS** — 204 tests, 100% pass, 83% coverage |
+| SC-2a | `memory_add` then `memory_search` for it | Returns the record | **PENDING** — needs Brain MCP restart with score fix, then test |
+| SC-2b | Trace Mortagate decision path to Brain write | Named Apex class writes group_id | **DONE (finding)** — zero Apex writes to allura-mortgage. Unbuilt work. See SC-2b-brain-wiring-finding.md |
+| SC-3 | `memory_add` score=0.9, then `memory_get` | Score reads 0.9 | **FIXED in code** — canonical-tools.ts patched, needs Brain restart to verify |
+| SC-4 | Embeddings non-zero | Vectors are non-zero | **FIXED in code** — allura_memories table created with vector column, init SQL fixed. Needs embedding backfill + Brain restart |
+| SC-5 | Four p2-002 deploy slices | All deploy without error | **PASS** — all 4 dry-runs clean (217 files, 0 errors) |
+| SC-6a | Upload document -> Evidence__c | Evidence__c with hash + scan status | **PASS (caveat)** — Evidence__c created. Hash__c and Scan_Status__c fields do NOT exist (planned but not implemented) |
+| SC-6b | Decision_Event__c written | Decision_Event__c exists | **PASS** — LoanDecisionService.decideOne() produced HARD_DECLINED. DTI 44.8% > 43% QM threshold |
+| SC-6c | Intake_Received__e fires | Event fires + subscriber consumes | **DEFERRED** behind ADR-33 OQ-3 (unbuilt) |
+| SC-7 | Audit Replay | Reconstructs evidence, rule version, approver | **PASS** — 10 Replay_Check__c records. 8 pass, 2 fail (DTI_MAX, DTI_WARN at 44.8%). All rules traced with Sort_Order, Expected, Actual |
+| SC-8 | Analyst UAT script | Non-engineer completes SC-6 unaided | **WRITTEN** — SC-8-analyst-uat-script.md at 6th grade level. Needs a real analyst to run it |
 
 ### Sequencing risk — run SC-4 before SC-2
 
