@@ -11,6 +11,9 @@
                         &middot; Approved by {header.approverName}
                         &middot; {header.status}
                     </p>
+                    <template if:true={header.policyVersionName}>
+                        <p class="policy-version-line">Policy version: {header.policyVersionName}</p>
+                    </template>
                 </div>
                 <div class="header-actions">
                     <span class="risk-chip" data-tier={header.riskTier}>{header.riskTier} risk</span>

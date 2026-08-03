@@ -248,7 +248,7 @@ public with sharing class SignoffController {
     private static String demoHash(Id auditCaseId, Counts c, Datetime signedAt) {
         String material = auditCaseId + '|' + signedAt.getTime()
             + '|P' + c.passes + '|V' + c.violations + '|U' + c.unverifiable
-            + '|F' + c.totalFindings + '|' + c.replaySnapshotJson;
+            + '|F' + c.totalFindings + '|' + (c.replaySnapshotJson == null ? '' : c.replaySnapshotJson);
         Blob digest = Crypto.generateDigest('SHA-256', Blob.valueOf(material));
         return EncodingUtil.convertToHex(digest);  // 64 hex chars (fits Text(64))
     }

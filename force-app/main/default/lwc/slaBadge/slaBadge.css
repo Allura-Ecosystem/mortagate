@@ -1,0 +1,45 @@
+/* ============================================================
+   slaBadge — SLA status chip for the audit queue datatable
+
+   Lives in this component's own stylesheet so the fill renders inside the
+   lightning-datatable shadow root (same pattern as qcWindowBadge / riskBadge).
+
+   WCAG 1.4.1: the label text is the primary signal; the chip fill is
+   reinforcement only. ADR-9: semantic status colour is a chip BACKGROUND.
+   ============================================================ */
+.sla-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+}
+
+/* Overdue — red fill (SLA window blown) */
+.sla-badge--overdue {
+    background: var(--veridact-declined);
+    color: var(--veridact-on-accent);
+}
+
+/* Due today or within 3 days — amber fill */
+.sla-badge--soon {
+    background: var(--veridact-warn);
+    color: var(--veridact-on-accent);
+}
+
+/* Closed case — green tint */
+.sla-badge--met {
+    background: var(--veridact-approved-tint);
+    color: var(--veridact-approved);
+}
+
+/* Plenty of runway — no fill, muted text */
+.sla-badge--ok,
+.sla-badge--none {
+    background: transparent;
+    color: var(--veridact-ink-muted);
+    padding-left: 0;
+    padding-right: 0;
+}

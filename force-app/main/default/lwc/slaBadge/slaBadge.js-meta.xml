@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>false</isExposed>
+    <masterLabel>SLA Badge</masterLabel>
+    <description>Presentational badge for the SLA column — renders Overdue in red, Due today/soon in amber, ok/met in muted.</description>
+</LightningComponentBundle>

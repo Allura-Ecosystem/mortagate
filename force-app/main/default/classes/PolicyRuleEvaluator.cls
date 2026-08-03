@@ -82,22 +82,49 @@ public with sharing class PolicyRuleEvaluator {
                                             Decimal threshold, Decimal thresholdHigh,
                                             String allowedValuesJson) {
         switch on operator {
-            when 'GT'  { return toDecimal(factValue) > threshold; }
-            when 'GTE' { return toDecimal(factValue) >= threshold; }
-            when 'LT'  { return toDecimal(factValue) < threshold; }
-            when 'LTE' { return toDecimal(factValue) <= threshold; }
-            when 'EQ'  { return toDecimal(factValue) == threshold; }
+            when 'GT'  {
+                Decimal d = toDecimal(factValue);
+                if (d == null) { throw new PolicyEngineException('PolicyRuleEvaluator: GT operator — fact value is not a valid Decimal: ' + factValue); }
+                return d > threshold;
+            }
+            when 'GTE' {
+                Decimal d = toDecimal(factValue);
+                if (d == null) { throw new PolicyEngineException('PolicyRuleEvaluator: GTE operator — fact value is not a valid Decimal: ' + factValue); }
+                return d >= threshold;
+            }
+            when 'LT'  {
+                Decimal d = toDecimal(factValue);
+                if (d == null) { throw new PolicyEngineException('PolicyRuleEvaluator: LT operator — fact value is not a valid Decimal: ' + factValue); }
+                return d < threshold;
+            }
+            when 'LTE' {
+                Decimal d = toDecimal(factValue);
+                if (d == null) { throw new PolicyEngineException('PolicyRuleEvaluator: LTE operator — fact value is not a valid Decimal: ' + factValue); }
+                return d <= threshold;
+            }
+            when 'EQ'  {
+                Decimal d = toDecimal(factValue);
+                if (d == null) { throw new PolicyEngineException('PolicyRuleEvaluator: EQ operator — fact value is not a valid Decimal: ' + factValue); }
+                return d == threshold;
+            }
             when 'BETWEEN' {
                 Decimal v = toDecimal(factValue);
+                if (v == null) { throw new PolicyEngineException('PolicyRuleEvaluator: BETWEEN operator — fact value is not a valid Decimal: ' + factValue); }
+                if (threshold == null) { throw new PolicyEngineException('PolicyRuleEvaluator: BETWEEN operator — threshold (low) is null'); }
+                if (thresholdHigh == null) { throw new PolicyEngineException('PolicyRuleEvaluator: BETWEEN operator — thresholdHigh is null'); }
                 return v >= threshold && v <= thresholdHigh;
             }
             when 'IN_LIST' {
                 return parseList(allowedValuesJson).contains(String.valueOf(factValue));
             }
             when 'NOT_IN_LIST' {
+                if (String.isBlank(allowedValuesJson)) { throw new PolicyEngineException('PolicyRuleEvaluator: NOT_IN_LIST operator — Allowed_Values__c is null or blank'); }
                 return !parseList(allowedValuesJson).contains(String.valueOf(factValue));
             }
             when else {
+                if (String.isBlank(operator)) {
+                    throw new PolicyEngineException('PolicyRuleEvaluator: Operator is null or blank on rule');
+                }
                 throw new PolicyEngineException('Unknown operator: ' + operator);
             }
         }
@@ -118,6 +145,8 @@ public with sharing class PolicyRuleEvaluator {
     @TestVisible
     private static Decimal toDecimal(Object value) {
         if (value == null) { return null; }
+        if (value instanceof Boolean) { return (Boolean)value ? Decimal.valueOf(1) : Decimal.valueOf(0); }
+        if (value instanceof Date || value instanceof Datetime) { return null; }
         if (value instanceof Decimal)  { return (Decimal) value; }
         if (value instanceof Integer)  { return Decimal.valueOf((Integer) value); }
         if (value instanceof Long)     { return Decimal.valueOf((Long) value); }
@@ -125,8 +154,12 @@ public with sharing class PolicyRuleEvaluator {
         if (value instanceof String) {
             String s = (String) value;
             if (String.isBlank(s)) { return null; }
-            return Decimal.valueOf(s);
+            try {
+                return Decimal.valueOf(s);
+            } catch (Exception e) {
+                throw new PolicyEngineException('PolicyRuleEvaluator: Non-numeric string in fact value: "' + s + '"');
+            }
         }
-        throw new PolicyEngineException('Fact value is not numeric: ' + value);
+        throw new PolicyEngineException('PolicyRuleEvaluator: Fact value is not numeric: ' + value + ' (type: ' + value.getClass() + ')');
     }
 }

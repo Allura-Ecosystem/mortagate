@@ -24,7 +24,11 @@ public with sharing class LoanDecisionService {
         List<DecisionCommitService.CommitRequest> toCommit =
             new List<DecisionCommitService.CommitRequest>();
         for (Id appId : applicationIds) {
-            EvaluationResult result = PolicyRuleEvaluator.evaluate(contexts.get(appId), rules);
+            PolicyEvaluationContext ctx = contexts.get(appId);
+            if (ctx == null) {
+                throw new PolicyEngineException('LoanDecisionService: No PolicyEvaluationContext found for application ' + appId);
+            }
+            EvaluationResult result = PolicyRuleEvaluator.evaluate(ctx, rules);
             DecisionCommitService.CommitRequest req =
                 new DecisionCommitService.CommitRequest(appId, result, governingVersionId);
             req.triggeredBy = triggeredBy;

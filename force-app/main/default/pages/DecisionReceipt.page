@@ -10,7 +10,7 @@
   Decision Receipt — a printable/emailable rendering of one immutable
   Decision_Event__c. Pure read: no apex:form, no inputs, no DML. All data is
   rendered through standard {!} escaping (no escape="false") because this
-  document may travel outside the org. Veridact brand applied for PDF.
+  document may travel outside the org. CaseFile brand applied for PDF.
 -->
 <head>
     <style type="text/css">
@@ -162,7 +162,7 @@
 
             <div class="footer">
                 This receipt reflects the policy versions in force at the decision time and is an
-                immutable record. Veridact &mdash; every decision has a receipt.
+                immutable record. CaseFile &mdash; every decision has a receipt.
             </div>
         </apex:outputPanel>
     </apex:outputPanel>

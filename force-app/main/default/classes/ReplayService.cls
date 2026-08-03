@@ -44,9 +44,12 @@ public with sharing class ReplayService {
             LIMIT 1
         ];  // 1 SOQL (with 2 subqueries)
 
+        if (ac.Loan__r == null) {
+            throw new PolicyEngineException('ReplayService: Audit_Case__c.Loan__r is null for case ' + auditCaseId);
+        }
         Date approvalDate = ac.Loan__r.Approval_Date__c;
         if (approvalDate == null) {
-            return new List<Replay_Check__c>();
+            throw new PolicyEngineException('ReplayService: Loan__r.Approval_Date__c is null for case ' + auditCaseId);
         }
 
         // Build fact map from Borrower_Snapshot__c records.
@@ -95,9 +98,13 @@ public with sharing class ReplayService {
             LIMIT 1
         ];  // 1 SOQL (with 1 subquery) — total now 2 SOQL
 
+        if (policyVersion == null) {
+            throw new PolicyEngineException('ReplayService: No active Policy_Version__c found for approval date ' + approvalDate);
+        }
+
         List<Policy_Rule__c> rules = policyVersion.Policy_Rules__r;
         if (rules == null || rules.isEmpty()) {
-            return new List<Replay_Check__c>();
+            throw new PolicyEngineException('ReplayService: Policy_Version__c ' + policyVersion.Id + ' has no Policy_Rules__r');
         }
 
         // ── Step 2: ADAPT ───────────────────────────────────────────────

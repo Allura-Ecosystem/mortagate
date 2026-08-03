@@ -1,6 +1,7 @@
 import LightningDatatable from 'lightning/datatable';
 import riskBadgeCell from './riskBadgeCell.html';
 import qcWindowCell from './qcWindowCell.html';
+import slaBadgeCell from './slaBadgeCell.html';
 
 /**
  * auditQueueDatatable — lightning-datatable extended with custom cell types
@@ -23,6 +24,11 @@ export default class AuditQueueDatatable extends LightningDatatable {
         qcWindow: {
             template: qcWindowCell,
             standardCellLayout: true
+        },
+        slaBadge: {
+            template: slaBadgeCell,
+            standardCellLayout: true,
+            typeAttributes: ['tone']
         }
     };
 }

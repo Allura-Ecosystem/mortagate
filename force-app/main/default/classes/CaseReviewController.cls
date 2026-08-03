@@ -41,6 +41,7 @@ public with sharing class CaseReviewController {
             'SELECT Id, Name, Status__c, Risk_Tier__c, Borrower_Name_Snapshot__c, ' +
             'Original_Approver__r.Name, ' +
             'Loan__r.LOS_Loan_Id__c, Loan__r.Approver_Name__c, Loan__r.LastModifiedDate, ' +
+            'Policy_Version__c ' +
             '(SELECT Id, Document_Type__c, Status__c FROM Evidence_Items__r ORDER BY Document_Type__c ASC) ' +
             'FROM Audit_Case__c WHERE Id = :auditCaseId LIMIT 1';
 
@@ -78,6 +79,24 @@ public with sharing class CaseReviewController {
 
     // ── Helpers ─────────────────────────────────────────────────────────
 
+    /**
+     * Resolve the human-readable name of a Policy_Version__c from its 18-char
+     * text ID. Policy_Version__c on Audit_Case__c is stored as Text(18) (not a
+     * Lookup), so we query the object directly. Returns null if the ID is blank
+     * or the record is not found / not accessible.
+     */
+    private static String resolvePolicyVersionName(String rawId) {
+        if (String.isBlank(rawId)) { return null; }
+        try {
+            List<Policy_Version__c> pvs = (List<Policy_Version__c>) AuditSoql.query(
+                'SELECT Name FROM Policy_Version__c WHERE Id = :id LIMIT 1',
+                new Map<String, Object>{ 'id' => rawId });
+            return pvs.isEmpty() ? null : pvs[0].Name;
+        } catch (Exception e) {
+            return null; // not accessible or invalid Id — degrade gracefully
+        }
+    }
+
     private static CaseDetail toDetail(Audit_Case__c ac, List<Replay_Check__c> latestChecks) {
         CaseDetail d = new CaseDetail();
 
@@ -93,6 +112,7 @@ public with sharing class CaseReviewController {
         h.approverName = (ac.Original_Approver__r != null)
             ? ac.Original_Approver__r.Name
             : (ac.Loan__r != null ? ac.Loan__r.Approver_Name__c : null);
+        h.policyVersionName = resolvePolicyVersionName(ac.Policy_Version__c);
         d.header = h;
 
         // ── Replay checks (RIGHT pane) — LATEST batch only (R-11) ──
@@ -159,6 +179,7 @@ public with sharing class CaseReviewController {
         @AuraEnabled public String status;     // display label (de-underscored)
         @AuraEnabled public String statusApi;  // raw picklist value
         @AuraEnabled public String approverName;
+        @AuraEnabled public String policyVersionName;
     }
 
     public class ReplayCheckRow {
