@@ -100,7 +100,7 @@ their stories become actionable only after P0 closes.
 > **Goal:** Wire the 6 standalone LWC screens into one cohesive borrower journey with progress visibility,
 > mobile-first verification, and test coverage. Addresses Pike's ❌ gate findings.
 > **Source:** Pike UX Audit 2026-06-07; BLUEPRINT §B8; DESIGN-onboarding-ux.md
-> **Dev harness:** See `EP-1-dev-context.md` and `stories/US-1.*.md` for full story files.
+> **Dev harness:** See `EP-1-dev-context.md` for context. The original `stories/US-1.*.md` files have been archived to `my-project/_bmad-output/archive/salesforce-bmad/stories/` as of 2026-08-24 (Epic M-1 co-work plugin pivot).
 
 ### US-1.0: Migrate brand to Figma Kit v1.0.1 (ADR-13)
 - **NFRs:** NFR-3, NFR-5
