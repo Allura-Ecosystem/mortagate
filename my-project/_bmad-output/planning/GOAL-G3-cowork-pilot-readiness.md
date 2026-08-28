@@ -46,7 +46,7 @@ not recalled from memory).
 | Cowork mentions in PRD/brief/architecture/live epics (pre-G-3) | 0 | grep across all 4 files |
 | Live epics/stories location | `my-project/_bmad-output/planning-artifacts/EPICS-AND-STORIES.md` | The sibling file under `planning/` (same name) is marked SUPERSEDED — do not cite it |
 | Onboarding UX doc available for reuse | No — existing doc is borrower-persona, frozen/superseded scope | Direct read of `DESIGN-onboarding-ux.md` |
-| Cowork vs. ADR-33 pilot-scope freeze | ADR-34 **ACTIVE** — Cowork ruled exempt | `planning docs/RISKS-AND-DECISIONS.md` — approved by Sabir 2026-08-28 (no Salesforce writes, no Allura calls, read-only) |
+| Cowork vs. ADR-33 pilot-scope freeze | ADR-34 **ACTIVE**, but **superseded in practice by ADR-36** | ADR-34 approved by Sabir 2026-08-28 (no Salesforce writes, no Allura calls, read-only). Same day, ADR-36 deprecated the entire prior implementation — the freeze ADR-34 exempted Cowork from no longer has a live product to freeze. Both ADRs in `planning docs/RISKS-AND-DECISIONS.md`. |
 
 ## Items still requiring Sabir (cannot be closed from this session)
 

@@ -6,41 +6,43 @@
 # story_location: my-project/_bmad-output/planning/stories
 
 development_status:
-  # Epic: Beta Readiness (G-2) — not active, see ADR-36
+  # Epic: Beta Readiness (G-2) — not active, see ADR-36. All SC-n children below
+  # inherit not-active from the parent as of 2026-08-28 (VA fix — they previously
+  # still read ready-for-dev, contradicting the epic's own not-active status).
   epic-beta-readiness: not-active
-  
-  # SC-1: Apex test suite — PASSED
+
+  # SC-1: Apex test suite — PASSED (historical fact, predates the pivot)
   sc-1-apex-test-suite: done
-  
-  # SC-4: Embeddings non-zero — must run before SC-2
-  sc-4-embeddings-nonzero: ready-for-dev
-  
-  # SC-2a: Brain federation test with known-present data
-  sc-2a-brain-federation: ready-for-dev
-  
-  # SC-2b: Trace Mortagate decision path to Brain write (unbuilt, not bug)
-  sc-2b-brain-wiring: ready-for-dev
-  
-  # SC-3: memory_add score persistence (known bug: always 0.5)
-  sc-3-score-persistence: ready-for-dev
-  
-  # SC-5: Four p2-002 piecewise deploy slices
-  sc-5-deploy-slices: ready-for-dev
-  
-  # SC-6a: Upload document -> Evidence__c with hash + scan status
-  sc-6a-document-upload: ready-for-dev
-  
-  # SC-6b: Decision_Event__c written for that evidence
-  sc-6b-decision-written: ready-for-dev
-  
-  # SC-6c: Intake_Received__e fires (DEFERRED behind ADR-33 OQ-3)
-  sc-6c-async-spine: backlog
-  
-  # SC-7: Audit Replay reconstructs evidence, rule version, approver, timestamps
-  sc-7-audit-replay: ready-for-dev
-  
-  # SC-8: Analyst UAT script — non-engineer completes SC-6 unaided
-  sc-8-analyst-uat: backlog
+
+  # SC-4: Embeddings non-zero — not active, epic-beta-readiness deprecated (ADR-36)
+  sc-4-embeddings-nonzero: not-active
+
+  # SC-2a: Brain federation test with known-present data — not active (ADR-36)
+  sc-2a-brain-federation: not-active
+
+  # SC-2b: Trace Mortagate decision path to Brain write — not active (ADR-36)
+  sc-2b-brain-wiring: not-active
+
+  # SC-3: memory_add score persistence (known bug: always 0.5) — not active (ADR-36)
+  sc-3-score-persistence: not-active
+
+  # SC-5: Four p2-002 piecewise deploy slices — not active (ADR-36)
+  sc-5-deploy-slices: not-active
+
+  # SC-6a: Upload document -> Evidence__c with hash + scan status — not active (ADR-36)
+  sc-6a-document-upload: not-active
+
+  # SC-6b: Decision_Event__c written for that evidence — not active (ADR-36)
+  sc-6b-decision-written: not-active
+
+  # SC-6c: Intake_Received__e fires (DEFERRED behind ADR-33 OQ-3) — not active (ADR-36)
+  sc-6c-async-spine: not-active
+
+  # SC-7: Audit Replay reconstructs evidence, rule version, approver, timestamps — not active (ADR-36)
+  sc-7-audit-replay: not-active
+
+  # SC-8: Analyst UAT script — non-engineer completes SC-6 unaided — not active (ADR-36)
+  sc-8-analyst-uat: not-active
   
   # D-B ruling needed from Captain
   db-policy-rule-version-persistence: blocked
