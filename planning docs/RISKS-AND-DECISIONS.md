@@ -238,6 +238,25 @@ Sabir's sign-off, the same pattern as ADR-32/33's owner rulings.
 `EPICS-AND-STORIES.md` EP-6 for the epic this closes out (US-6.3 architecture work
 references this ADR).
 
+**Addendum 2026-08-28 — Allura Enterprise Dashboard (Epic 25) relationship,
+disclosed not resolved.** A separate project
+(`nexu-io/open-design/.od/projects/allura-enterprise-dashboard-brandlocked`)
+independently specifies Mortgage Approval Gate as Epic 25's first signed module,
+with a four-step Cowork flow (intake → evidence/policy context → request human
+review → Allura decision + receipt) that is directionally consistent with this
+ADR's ruling — neither side cites the other, and they were authored without
+cross-reference. This ADR's ruling (Cowork is exempt from the ADR-33 Salesforce
+freeze) is **unaffected and stands**: that freeze is specific to the CaseFile
+Salesforce pilot, and nothing here changes it.
+
+**What this addendum does not do:** it does not adopt the Epic 25 module contract
+(signed-manifest admission, host-owned lifecycle states, capability grants) as
+governing Cowork's architecture. That is a materially larger commitment —
+different trust model, different host, different admission requirements — than a
+same-day documentation pass should decide. Recorded here as a known, disclosed
+relationship for whoever picks up EP-6/US-6.8 next; a decision to adopt, ignore,
+or partially align with the Epic 25 contract is deferred, not made.
+
 ### ADR-35 — EP-0 "Schema Foundation" is an explicitly exempt foundation epic, not a user-value violation
 
 **Decision (2026-08-28, Brooks recommendation, documented assumption per

@@ -5,25 +5,29 @@
 > Portions of this document were drafted with the assistance of an AI language model.
 
 > [!CAUTION]
-> **FR numbering in this document does not match the PRD. Never cite "FR-n" without
-> naming the source document.**
+> **RESOLVED 2026-08-28 (Sabir): the PRD is canonical for FR numbering. This
+> document's FR-n identifiers are historical/reference only — never cite "FR-n"
+> without naming the source document.**
 >
-> - **FR-1 through FR-9** describe the **borrower-facing origination portal**
->   (welcome gate, intent capture, pre-check, evidence queue, decision room, outcome
->   view) — frozen by ADR-15, superseded by the ADR-30 CaseFile rename. Dead. Do not
->   implement from them.
-> - **FR-10 through FR-39** describe the **current CaseFile product** — the same
->   product `prds/prd-Mortagate-2026-06-14/prd.md` describes as FR-1 through FR-28 —
->   but under an **independently authored, non-corresponding numbering scheme**. This
+> - **`prds/prd-Mortagate-2026-06-14/prd.md`'s FR-1 through FR-28 is the current
+>   numbering scheme**, effective 2026-08-28. It was already the de facto standard —
+>   every epic and story in `EPICS-AND-STORIES.md` traces to the PRD's numbers, none
+>   reference this document's — this ruling makes that formal.
+> - **FR-1 through FR-9 in this document** describe the **borrower-facing origination
+>   portal** (welcome gate, intent capture, pre-check, evidence queue, decision room,
+>   outcome view) — frozen by ADR-15, superseded by the ADR-30 CaseFile rename. Dead.
+>   Do not implement from them.
+> - **FR-10 through FR-39 in this document** describe the **current CaseFile
+>   product** under this document's own, now-superseded numbering scheme. This
 >   matrix's FR-20 ("Audit Queue screen") is the PRD's FR-1 ("Queue display"); this
->   matrix's FR-26 ("Sign-off Receipt") is roughly the PRD's FR-12/FR-13. There is no
->   1:1 mapping and none is asserted here.
-> - **Reconciling the two numbering schemes into one is an open decision**, not yet
->   made — see `implementation-readiness-report-2026-08-28.md` and Sprint Change
->   Proposal 2026-08-28. Until it is, code comments, ADRs, and commit messages that
->   cite an FR number from *this* document (FR-23, FR-35, etc. appear in ADR-32/33)
->   remain valid readings of *this* document's scheme — they are not wrong, they are
->   just not the PRD's scheme. Disclosed 2026-08-28; not resolved.
+>   matrix's FR-26 ("Sign-off Receipt") is roughly the PRD's FR-12/FR-13. No 1:1
+>   remapping table exists or is planned — this document is retained for its
+>   implementation/verification detail (test names, Apex classes, coverage), not
+>   for its FR numbers.
+> - Existing citations of this document's numbers (FR-23, FR-35, etc. appear in
+>   ADR-32/33) are historical and remain valid readings of *this* document as it
+>   stood when written. They are not retroactively wrong; they are simply not the
+>   PRD's scheme, which governs going forward.
 
 Traceability from requirement → implementation → verification. Status legend: ✅ built & verified · 🟡 built, verification in progress · ⬜ not built.
 
