@@ -5,6 +5,12 @@
 > Portions of this document were drafted with the assistance of an AI language model.
 > Content has been reviewed against the PRD, product brief, and codebase but requires stakeholder sign-off.
 
+> [!CAUTION]
+> **Not current.** Mortagate is a Microsoft Copilot Cowork plugin — see
+> `product-brief-cowork.md` and `prds/prd-cowork-2026-08-28.md` in
+> `my-project/_bmad-output/planning-artifacts/`. Don't plan new work from this
+> document.
+
 ---
 
 ## B1. Project Identity

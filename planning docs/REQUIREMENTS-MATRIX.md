@@ -5,6 +5,11 @@
 > Portions of this document were drafted with the assistance of an AI language model.
 
 > [!CAUTION]
+> **Not current.** The FR-canonical ruling below (PRD wins) is itself no longer
+> live — that PRD isn't the active one either. Mortagate's active requirements
+> are `prds/prd-cowork-2026-08-28.md` (CW-1..CW-22).
+
+> [!CAUTION]
 > **RESOLVED 2026-08-28 (Sabir): the PRD is canonical for FR numbering. This
 > document's FR-n identifiers are historical/reference only — never cite "FR-n"
 > without naming the source document.**

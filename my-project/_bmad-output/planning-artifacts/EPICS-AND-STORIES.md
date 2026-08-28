@@ -1,5 +1,9 @@
 # Epics and Stories -- Veridact v1 Demo
 
+> [!CAUTION]
+> **Not current.** Mortagate is a Microsoft Copilot Cowork plugin. **EP-6 is the
+> only active epic.** EP-0..EP-5 below are not being built.
+
 > **Methodology:** Vertical slice, demo-first. Each epic delivers a demoable increment.
 > **PRD reference:** `prds/prd-Mortagate-2026-06-14/prd.md` (28 FRs)
 > **Schema:** 11 SObjects per `planning docs/DATA-DICTIONARY.md`
@@ -10,15 +14,15 @@
 
 ## Epic Overview
 
-| Epic | Name | Phase | FRs Covered | Dependencies |
-|------|------|-------|-------------|--------------|
-| EP-0 | Schema Foundation | 0 | FR-24, FR-25, FR-26, FR-28 | None |
-| EP-1 | Vertical Slice -- Sabir Sr. End-to-End | 1 | FR-5, FR-6, FR-7, FR-8, FR-9, FR-10, FR-12, FR-13, FR-17, FR-27 | EP-0 |
-| EP-2 | Audit Queue | 2 | FR-1, FR-2, FR-3, FR-4 | EP-0 |
-| EP-3 | Agentforce Actions | 3 | FR-11, FR-17, FR-18, FR-19, FR-20, FR-21, FR-22, FR-23 | EP-1 |
-| EP-4 | Analytics and Polish | 4 | FR-14, FR-15, FR-16 | EP-2, EP-3 |
-| EP-5 | Integration and Hardening | 5 | Cross-cutting NFRs | EP-1, EP-2, EP-3 |
-| EP-6 | Cowork Pilot Readiness | — | CW-1..CW-22 (own namespace, see `prds/prd-cowork-2026-08-28.md`) | None (independent module) |
+| Epic | Name | Phase | FRs Covered | Dependencies | Status |
+|------|------|-------|-------------|--------------|--------|
+| EP-0 | Schema Foundation | 0 | FR-24, FR-25, FR-26, FR-28 | None | Not active |
+| EP-1 | Vertical Slice -- Sabir Sr. End-to-End | 1 | FR-5, FR-6, FR-7, FR-8, FR-9, FR-10, FR-12, FR-13, FR-17, FR-27 | EP-0 | Not active |
+| EP-2 | Audit Queue | 2 | FR-1, FR-2, FR-3, FR-4 | EP-0 | Not active |
+| EP-3 | Agentforce Actions | 3 | FR-11, FR-17, FR-18, FR-19, FR-20, FR-21, FR-22, FR-23 | EP-1 | Not active |
+| EP-4 | Analytics and Polish | 4 | FR-14, FR-15, FR-16 | EP-2, EP-3 | Not active |
+| EP-5 | Integration and Hardening | 5 | Cross-cutting NFRs | EP-1, EP-2, EP-3 | Not active |
+| EP-6 | Cowork Pilot Readiness | — | CW-1..CW-22 (own namespace, see `prds/prd-cowork-2026-08-28.md`) | None (independent module) | **Active** |
 
 **Total stories:** 46 (EP-0..EP-5: 38 · EP-6: 8)
 

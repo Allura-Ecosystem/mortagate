@@ -5,6 +5,14 @@
 > Portions of this document were drafted with the assistance of an AI language model.
 > Content has been reviewed against the PRD, product brief, and codebase but requires stakeholder sign-off.
 
+> [!CAUTION]
+> **Not current.** Mortagate is a Microsoft Copilot Cowork plugin — the
+> architecture below isn't it. §5's "Cowork Hard Boundaries" and ADR-34 stay
+> accurate. The active product's own architecture doc,
+> `microsoft-cowork/docs/REFERENCE-ARCHITECTURE.md`, lives on branch
+> `feat/microsoft-cowork-plugin` (PR #6) — not on this branch yet, since that PR
+> is unmerged. Its absence here doesn't mean it doesn't exist.
+
 ---
 
 ## 1. System Context

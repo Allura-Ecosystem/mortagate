@@ -284,6 +284,63 @@ Hardening"), which the same readiness pass marked 🟡 on user value for a diffe
 reason (cross-cutting NFR work, not schema) — EP-5 was not reviewed under this ADR
 and carries no exemption.
 
+### ADR-36 — Platform pivot: Mortagate is a Microsoft Copilot Cowork plugin only. Salesforce is deprecated.
+
+**Decision (2026-08-28, Sabir — explicit, unambiguous directive):** Mortagate stops
+being a Salesforce product. The Cowork module (`microsoft-cowork/`, PR #6, EP-6) is
+now **the entire product**, not an adjunct to a Salesforce audit-replay engine. The
+Salesforce implementation — `force-app/` (253 metadata components), the CaseFile
+Audit Queue / Case Review / Finding Detail / Sign-off Receipt / Analytics cockpit,
+the policy replay kernel, Agentforce integration, and every epic built around
+them (EP-0 through EP-5) — is **deprecated as of this decision**, effective
+immediately.
+
+**What "deprecated" means here, precisely:**
+- No further feature work proceeds against `force-app/`, the Salesforce PRD
+  (FR-1..28), or EP-0..EP-5. They stop being the active backlog.
+- The Salesforce source code is **not deleted in this pass.** Removing it is a
+  separate, mechanically larger task (`sfdx-project.json`, CI wiring, 253 files
+  with interdependent deploy manifests) that deserves its own dedicated pass, not
+  a rider on a same-turn strategic pivot. It is marked deprecated, not erased.
+- `mortagate.gates.json`'s phase-2 Salesforce gates (org auth, piecewise deploy,
+  Apex tests, LWC tests, manual reviews) are **no longer the definition of
+  "dev-ready."** CLAUDE.md's "Current Runtime Gate" section, which mandates these
+  commands pass before claiming gate completion, is superseded for this product's
+  actual scope — a corresponding gate file for the Cowork-only product does not
+  yet exist and is a named follow-up, not silently assumed.
+- Every ADR that governs the Salesforce implementation specifically (ADR-1
+  through ADR-33, ADR-35) remains historically accurate — they describe what was
+  built and why, and stay as the record of that work. They stop being
+  forward-looking guidance for new work.
+- ADR-34 (Cowork exempt from the ADR-33 pilot-scope freeze) is **superseded by
+  this decision**, not contradicted — the freeze it exempted Cowork from no
+  longer has a live product to freeze. ADR-34's underlying finding (Cowork makes
+  no Salesforce writes, no Allura Brain calls) stands as historical fact.
+
+**Rejected:** (a) Keeping Salesforce as a parallel or future-phase track — the
+directive was explicit and total, not a deprioritization. (b) Deleting `force-app/`
+immediately to "complete" the pivot in one pass — conflates a strategic decision
+with a mechanical cleanup task; doing both at once raises the risk of getting
+either wrong, and the source code deprecated-but-present is a safe, reversible
+state while the delete-or-archive decision gets its own attention.
+
+**Why:** The prior architecture (Salesforce cockpit + Cowork as a bolt-on evidence
+module) is now the wrong frame entirely. Documenting the reversal as a numbered
+ADR — the same discipline applied to every other decision this session — means
+future readers don't have to reconstruct "wait, why does this repo have both a
+Salesforce org and a Cowork package" from git archaeology.
+
+**Cascading updates from this ADR** (tracked so nothing is silently assumed done):
+- [x] `CLAUDE.md` — project identity and Current Runtime Gate section
+- [x] `BLUEPRINT.md`, PRD, `SOLUTION-ARCHITECTURE.md`, `REQUIREMENTS-MATRIX.md`,
+      `DATA-DICTIONARY.md` — superseded banners pointing to the Cowork PRD/brief
+- [x] `EPICS-AND-STORIES.md` — EP-0..EP-5 marked deprecated, EP-6 sole active epic
+- [ ] `mortagate.gates.json` — new Cowork-scoped gate definition (not authored
+      this pass — named follow-up)
+- [ ] `force-app/` disposition (delete vs. archive) — not decided this pass
+
+**Status:** ACTIVE.
+
 ---
 
 ## Risk Register

@@ -1,13 +1,13 @@
-# Sprint Status — CaseFile Beta Readiness (G-2)
+# Sprint Status — Mortagate (Microsoft Copilot Cowork plugin)
 # generated: 2026-08-03
-# last_updated: 2026-08-03
-# project: CaseFile (Mortagate)
+# last_updated: 2026-08-28
+# project: Mortagate — Cowork plugin (G-2/CaseFile below is not active)
 # tracking_system: file-system
 # story_location: my-project/_bmad-output/planning/stories
 
 development_status:
-  # Epic: Beta Readiness (maps to G-2 success criteria)
-  epic-beta-readiness: in-progress
+  # Epic: Beta Readiness (G-2) — not active, see ADR-36
+  epic-beta-readiness: not-active
   
   # SC-1: Apex test suite — PASSED
   sc-1-apex-test-suite: done
@@ -54,11 +54,12 @@ development_status:
   # GOAL-G3-cowork-pilot-readiness.md (planning).
   epic-cowork-pilot-readiness: backlog
 
-  # US-6.1: Author a Cowork-scoped product brief
-  us-6-1-cowork-brief: backlog
+  # US-6.1: Author a Cowork-scoped product brief — done 2026-08-28
+  us-6-1-cowork-brief: done
 
-  # US-6.2: Add a Cowork PRD section
-  us-6-2-cowork-prd-section: backlog
+  # US-6.2: Add a Cowork PRD section — done 2026-08-28 (specified; behavioural
+  # verification is US-6.7)
+  us-6-2-cowork-prd-section: done
 
   # US-6.3: Architecture integration/boundary subsection — done this session
   us-6-3-architecture-boundaries: done
