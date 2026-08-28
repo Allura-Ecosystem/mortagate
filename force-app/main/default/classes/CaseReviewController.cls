@@ -41,7 +41,7 @@ public with sharing class CaseReviewController {
             'SELECT Id, Name, Status__c, Risk_Tier__c, Borrower_Name_Snapshot__c, ' +
             'Original_Approver__r.Name, ' +
             'Loan__r.LOS_Loan_Id__c, Loan__r.Approver_Name__c, Loan__r.LastModifiedDate, ' +
-            'Policy_Version__c ' +
+            'Policy_Version__c, ' +
             '(SELECT Id, Document_Type__c, Status__c FROM Evidence_Items__r ORDER BY Document_Type__c ASC) ' +
             'FROM Audit_Case__c WHERE Id = :auditCaseId LIMIT 1';
 

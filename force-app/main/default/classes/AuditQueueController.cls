@@ -134,19 +134,28 @@ public with sharing class AuditQueueController {
             'AND Due_At__c != null AND Due_At__c <= :horizon',
             new Map<String, Object>{ 'closed' => 'Closed', 'horizon' => slaHorizon });
 
-        // QC window at risk: open cases with daysLeft <= QC_AT_RISK_DAYS.
+        // QC window at risk: open cases with 0 < daysLeft <= QC_AT_RISK_DAYS
+        // (the final two weeks only — per FR-39, matches the queue's own
+        // "Window exceeded" vs "at risk" chip distinction; an already-exceeded
+        // case is a different state, not this one).
         //   daysLeft = QC_WINDOW_DAYS - (today - anchor)
-        //   daysLeft <= QC_AT_RISK_DAYS  ⇢ anchor  >= today - 76  (final two weeks OR already exceeded)
-        // This includes cases where the window is already exceeded (daysLeft < 0)
-        // so the metric card count matches the rows showing "Window exceeded".
+        //   daysLeft <= QC_AT_RISK_DAYS  ⇢ anchor <= today - 76  (upper bound: old enough)
+        //   daysLeft >  0                ⇢ anchor >  today - 90  (lower bound: not yet exceeded)
+        // Corrected 2026-08-28: the lower bound was missing, so this metric
+        // silently counted already-exceeded cases too — caught by
+        // AuditQueueControllerTest.getMetrics_countsEachCardCorrectly and
+        // .getMetrics_qcWindowAtRisk_countsFinalTwoWeeksOnly, both of which
+        // assert the narrower FR-39 band.
         // Expressed as parent-field date bounds so the count stays a single
         // aggregate query (no per-row math, USER_MODE via AuditSoql.count).
         Date qcCeil = Date.today().addDays(-(QC_WINDOW_DAYS - QC_AT_RISK_DAYS));
+        Date qcFloor = Date.today().addDays(-QC_WINDOW_DAYS);
         m.qcWindowAtRisk = countOf(
             'SELECT COUNT() FROM Audit_Case__c WHERE Status__c != :closed ' +
             'AND Loan__r.Approval_Date__c != null ' +
-            'AND Loan__r.Approval_Date__c <= :qcCeil',
-            new Map<String, Object>{ 'closed' => 'Closed', 'qcCeil' => qcCeil });
+            'AND Loan__r.Approval_Date__c <= :qcCeil ' +
+            'AND Loan__r.Approval_Date__c > :qcFloor',
+            new Map<String, Object>{ 'closed' => 'Closed', 'qcCeil' => qcCeil, 'qcFloor' => qcFloor });
         return m;
     }
 
