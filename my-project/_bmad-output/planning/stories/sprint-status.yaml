@@ -54,7 +54,9 @@ development_status:
   # same block because this is the sole sprint-status.yaml in the repo. Full detail:
   # EPICS-AND-STORIES.md EP-6 (planning-artifacts) and
   # GOAL-G3-cowork-pilot-readiness.md (planning).
-  epic-cowork-pilot-readiness: backlog
+  # Status: in-progress — US-6.1..6.3 done, US-6.4 ready, US-6.5/6.6 human-gated,
+  # US-6.7/6.8 backlog. Not 'backlog' (3/8 done) and not 'done' (5 remain).
+  epic-cowork-pilot-readiness: in-progress
 
   # US-6.1: Author a Cowork-scoped product brief — done 2026-08-28
   us-6-1-cowork-brief: done
