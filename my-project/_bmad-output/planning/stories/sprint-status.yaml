@@ -68,10 +68,11 @@ development_status:
   # US-6.3: Architecture integration/boundary subsection — done this session
   us-6-3-architecture-boundaries: done
 
-  # US-6.4: Pilot-cohort onboarding UX doc — created this session; 3 open items
-  # (invite/licensing mechanics, synthetic fixture source, feedback channel) are
-  # Sabir decisions, not dev work — blocked pending those decisions
-  us-6-4-pilot-onboarding-ux: blocked
+  # US-6.4: Pilot-cohort onboarding UX doc — DONE 2026-08-28. Sabir ruled 1A 2A 3A
+  # (provision himself, shared fixture pack, per-user feedback docs); fixture pack
+  # at pilot-fixtures/, feedback channel at planning/pilot-feedback/; provisioning
+  # is Sabir's session work per the US-6.6 runbook.
+  us-6-4-pilot-onboarding-ux: done
 
   # US-6.5: Review and merge PR #6 — DONE 2026-08-28. Reviewed vs CW-1..CW-22
   # (Pike 21/22 + Fowler adversarial, findings remediated c2ed5d6, verdict posted

@@ -847,7 +847,9 @@
 - **Depends on:** US-6.1
 - **Acceptance Criteria:**
   - [x] New file created, explicitly distinguished from the borrower persona in DESIGN-onboarding-ux.md
-  - [ ] Open items resolved: pilot invite/licensing mechanics, synthetic doc fixture source, feedback capture channel
+  - [x] Open items resolved: pilot invite/licensing mechanics, synthetic doc fixture source, feedback capture channel <!-- 2026-08-28: Sabir ruled 1A 2A 3A → see planning/US-6.4-pilot-decisions-brief.md -->
+
+  > ✅ US-6.4 closed 2026-08-28. Decisions recorded; fixture pack + feedback channel ready; provisioning is Sabir's session work (see US-6.6 runbook).
 
 #### US-6.5: Review and merge PR #6
 - **As a** repo maintainer

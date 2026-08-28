@@ -37,14 +37,13 @@ documents in a private workspace, ahead of any production rollout.
 5. **Feedback.** Pilot user's observations feed US-6.8 (feedback loop → go/no-go on
    the Entra-secured MCP connector).
 
-## Open items (US-6.4 — not yet resolved)
+## Open items (US-6.4 — RESOLVED 2026-08-28, Sabir ruled 1A 2A 3A)
 
-- **Invite/licensing mechanics** — who provisions Frontier-tenant access for each
-  pilot cohort member, and how?
-- **Synthetic document fixture** — shared fixture set provided to all pilot users,
-  or each user supplies their own synthetic documents?
-- **Feedback capture channel** — where does pilot feedback land (form, Slack,
-  direct session with Brooks) so US-6.8 has a real input rather than word-of-mouth?
+- **Invite/licensing mechanics** — ✅ **Ruling 1A:** Sabir provisions the pilot M365
+  group + licenses directly (see `US-6.4-pilot-decisions-brief.md` and the US-6.6 runbook).
+- **Synthetic document fixture** — ✅ **Ruling 2A:** shared in-repo pack at
+  `my-project/_bmad-output/pilot-fixtures/` (ground truth in README only).
+- **Feedback capture channel** — ✅ **Ruling 3A:** per-user feedback docs in
+  `my-project/_bmad-output/planning/pilot-feedback/`, template in the decisions brief.
 
-These are decisions for Sabir, not defaults to assume — flag for `DG` (Define Goal)
-or a direct answer before pilot kickoff.
+These were decisions for Sabir, not defaults to assume — now recorded, not assumed.

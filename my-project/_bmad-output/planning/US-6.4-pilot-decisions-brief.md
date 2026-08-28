@@ -1,10 +1,10 @@
 # US-6.4 — Pilot Decisions Brief
 
-**Status:** Awaiting Sabir's rulings · **Date:** 2026-08-28 · **Owner:** Sabir
+**Status:** ✅ **DECIDED 2026-08-28** · **Owner:** Sabir
+**Rulings:** **1A** (Sabir provisions) · **2A** (shared in-repo fixture pack) · **3A** (per-user feedback docs in `planning/pilot-feedback/`)
 **Purpose:** The 3 open items from `planning/DESIGN-cowork-pilot-onboarding.md` presented
-with recommendations so a single approval session closes the story. Each item shows the
-options and the recommended default. **Recommendations are defaults, not decisions** —
-per the UX doc, these are "decisions for Sabir, not defaults to assume."
+with recommendations so a single approval session closes the story. Recommendations are
+defaults, not decisions — **decisions for Sabir, not defaults to assume**.
 
 ---
 
