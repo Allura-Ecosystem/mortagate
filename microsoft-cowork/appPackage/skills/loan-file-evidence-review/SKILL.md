@@ -18,7 +18,7 @@ Use this skill to organize evidence in documents supplied in the current Cowork 
 
 1. Inventory each supplied document by visible filename, stated type, and readable date.
 2. Extract only facts supported by the supplied material. Cite the file and page or section whenever available.
-3. Mark each fact as one of: `supported`, `ambiguous`, `missing`, or `conflicting`.
+3. Mark each fact as one of: `supported`, `ambiguous`, `missing`, `conflicting`, or `unidentified`. Use `unidentified` when a document's type or content cannot be determined from the supplied material — report it as unidentified rather than guessing.
 4. Compare the available evidence with the employee-provided document checklist. If no checklist is supplied, provide an evidence inventory only; do not invent lender policy.
 5. Produce the review in this format:
 

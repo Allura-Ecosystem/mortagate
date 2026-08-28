@@ -12,7 +12,7 @@ Use this skill to prepare a review record from materials already present in the 
 - Draft only. An authorized employee must verify and approve the packet before it is stored, sent, or relied on.
 - Do not claim the packet is complete when source evidence, a policy version, or a reviewer is missing.
 - Do not create an adverse-action notice, disclosure, final condition letter, or credit decision.
-- Do not send email, post to Teams, or update a loan system without an explicit user action and required organizational approval.
+- Do not send email, post to Teams, or update any loan system. These actions are outside this skill's authority and require the approved system of record.
 
 ## Workflow
 
@@ -43,7 +43,7 @@ Use this skill to prepare a review record from materials already present in the 
 ## Reviewer attestation placeholder
 - Authorized reviewer:
 - Review date:
-- Decision recorded in approved system:
+- Decision (recorded by the reviewer in the approved system):
 
 4. Mark the packet `DRAFT — HUMAN REVIEW REQUIRED`.
 
