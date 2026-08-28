@@ -1,0 +1,9 @@
+SYNTHETIC — NOT A REAL BORROWER DOCUMENT. Fabricated for pilot testing.
+
+=== W-2 WAGE AND TAX STATEMENT 2025 ===
+Employer: Apex Logistics Inc. (EIN 77-1234567)
+Employee: Jordan A. Reyes (SSN 999-88-7776 fabricated)
+Box 1 Wages: $98,400
+Box 2 Federal tax withheld: $14,760
+Box 3 Social Security wages: $98,400
+Box 5 Medicare wages: $98,400

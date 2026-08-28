@@ -1,0 +1,13 @@
+SYNTHETIC — NOT A REAL BORROWER DOCUMENT. Fabricated for pilot testing.
+
+=== BANK STATEMENT — First Pilot Bank ===
+Account: ********8821 (checking)
+Account Holder: Jordan A. Reyes
+Statement Period: 03/01/2026 – 03/31/2026
+Beginning Balance: $38,200.00
+03/02  Direct deposit (Apex Logistics)      +$4,720.00
+03/05  Check #1124 (auto loan)              -$412.00
+03/12  Direct deposit (Apex Logistics)      +$4,720.00
+03/18  Check #1125 (rent)                   -$1,150.00
+03/25  Transfer to savings                  -$3,000.00
+Ending Balance: $43,078.00

@@ -1,0 +1,9 @@
+SYNTHETIC — NOT A REAL BORROWER DOCUMENT. Fabricated for pilot testing.
+
+=== PAYSTUB — Apex Logistics Inc. ===
+Employee: Jordan A. Reyes
+Pay Period: 04/01/2026 – 04/15/2026
+Gross Pay: $4,750.00
+YTD Gross: $28,800.00
+(Annualized from YTD 4 months = $86,400/yr = $7,200/mo — conflicts with the
+form-1003-v2 monthly base income of $9,500 in this pair.)

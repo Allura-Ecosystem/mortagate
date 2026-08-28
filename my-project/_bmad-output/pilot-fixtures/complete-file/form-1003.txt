@@ -1,0 +1,16 @@
+SYNTHETIC — NOT A REAL BORROWER DOCUMENT. Fabricated for pilot testing.
+
+=== FORM 1003 — UNIFORM RESIDENTIAL LOAN APPLICATION ===
+Borrower: JORDAN A. REYES              Co-Borrower: (none)
+SSN: 999-88-7776 (fabricated)          DOB: 1988-03-14
+Address: 1414 Pilot Lane, Charlotte NC 28213
+Employer: Apex Logistics Inc.          Position: Fleet Dispatcher
+Monthly Base Income: $9,500
+Rental Income: $0
+Credit: None declared
+Loan Purpose: Purchase — Primary Residence
+Property: 1414 Pilot Lane (subject)
+Loan Amount: $310,000               Rate: (not set by applicant)
+Assets: Checking $42,000; Retirement $98,000
+Liabilities: Auto loan $18,400 @ $412/mo
+Declaration: No prior bankruptcies; no outstanding judgements.
