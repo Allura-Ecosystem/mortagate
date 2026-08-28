@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://aka.ms/m365-agents-toolkits/v1.12/yaml.schema.json
+version: v1.12
+
+environmentFolderPath: ./env
+
+provision:
+  - uses: teamsApp/zipAppPackage
+    with:
+      manifestPath: ./appPackage/manifest.json
+      outputZipPath: ./dist/mortgate-evidence-review.zip
+      outputFolder: ./dist
+  - uses: teamsApp/validateAppPackage
+    with:
+      appPackagePath: ./dist/mortgate-evidence-review.zip
+
+projectId: e0b0ac58-3f14-5b71-99c9-2958d7d0bb31
