@@ -44,5 +44,36 @@ development_status:
   
   # D-B ruling needed from Captain
   db-policy-rule-version-persistence: blocked
-  
+
   epic-beta-readiness-retrospective: optional
+
+  # Epic: Cowork Pilot Readiness (G-3) — added 2026-08-28 via Sprint Change Proposal
+  # (bmad-correct-course). Independent of epic-beta-readiness above; tracked in this
+  # same block because this is the sole sprint-status.yaml in the repo. Full detail:
+  # EPICS-AND-STORIES.md EP-6 (planning-artifacts) and
+  # GOAL-G3-cowork-pilot-readiness.md (planning).
+  epic-cowork-pilot-readiness: backlog
+
+  # US-6.1: Author a Cowork-scoped product brief
+  us-6-1-cowork-brief: backlog
+
+  # US-6.2: Add a Cowork PRD section
+  us-6-2-cowork-prd-section: backlog
+
+  # US-6.3: Architecture integration/boundary subsection — done this session
+  us-6-3-architecture-boundaries: done
+
+  # US-6.4: Pilot-cohort onboarding UX doc — created this session, open items remain
+  us-6-4-pilot-onboarding-ux: ready-for-dev
+
+  # US-6.5: Review and merge PR #6 — requires Sabir
+  us-6-5-merge-pr-6: blocked
+
+  # US-6.6: Tenant-side package validation — requires interactive M365 sign-in
+  us-6-6-tenant-validation: blocked
+
+  # US-6.7: Private pilot upload, synthetic docs — depends on US-6.6
+  us-6-7-pilot-upload: backlog
+
+  # US-6.8: Feedback loop and connector go/no-go — depends on US-6.7
+  us-6-8-feedback-and-connector-decision: backlog

@@ -18,15 +18,28 @@
 | EP-3 | Agentforce Actions | 3 | FR-11, FR-17, FR-18, FR-19, FR-20, FR-21, FR-22, FR-23 | EP-1 |
 | EP-4 | Analytics and Polish | 4 | FR-14, FR-15, FR-16 | EP-2, EP-3 |
 | EP-5 | Integration and Hardening | 5 | Cross-cutting NFRs | EP-1, EP-2, EP-3 |
+| EP-6 | Cowork Pilot Readiness | — | CW-1..CW-22 (own namespace, see `prds/prd-cowork-2026-08-28.md`) | None (independent module) |
 
-**Total stories:** 32
-**FRs covered:** All 28 (FR-1 through FR-28)
+**Total stories:** 46 (EP-0..EP-5: 38 · EP-6: 8)
+
+> The header previously read 32, then 40. Both were wrong — a direct count on
+> 2026-08-28 (G-5 readiness pass) found 38 stories in EP-0..EP-5, not 32. The 40
+> figure inherited that error when EP-6's 8 stories were added. Corrected to 46.
+**FRs covered:** All 28 (FR-1 through FR-28) across EP-0..EP-5.
+**Cowork requirements:** CW-1 through CW-22 in EP-6 — separate product, separate PRD, separate namespace. Not FR-numbered by design; see `prds/prd-cowork-2026-08-28.md` and Sprint Change Proposal 2026-08-28.
 
 ---
 
 ## EP-0: Schema Foundation
 
 ### Deploy the 11 canonical SObjects, seed data for Sabir Sr., and enforce immutability on append-only objects. When this epic is done, you can open the org, query the seed data, and prove that audit events and receipts cannot be edited or deleted.
+
+> **User-value exemption — ADR-35 (2026-08-28).** This epic's stories are phrased as
+> `As a developer...`, not `As an auditor...`, which the create-epics-and-stories
+> standard flags as a violation. ADR-35 records why: the object layer must exist
+> before any downstream epic can deliver auditor value, and distributing schema
+> deployment across 5 consuming epics would violate the backlog's own
+> no-forward-dependency rule. See `planning docs/RISKS-AND-DECISIONS.md` ADR-35.
 
 > **RECONCILIATION PASS — 2026-07-26 (Brooks).**
 > EP-0 criteria were checked against `force-app` source, not against a live org query.
@@ -276,6 +289,7 @@
 - **I can** call PolicyRuleEvaluator.evaluate(context) and get back a list of ReplayCheckResults
 - **So that** rules are evaluated without any database access
 - **FRs:** FR-27, FR-28
+- **NFRs:** NFR-6 (kernel testable without an org), NFR-7 (deterministic output)
 - **Acceptance Criteria:**
   - [ ] Zero SOQL, zero DML in the evaluator class
   - [ ] Supports operators: GTE, LTE, GT, LT, EQ, NEQ, IN, BETWEEN
@@ -334,6 +348,7 @@
 - **I can** open a Case Review screen that shows the evidence panel (left) and replay checklist (right)
 - **So that** the auditor can see evidence and replay results side by side
 - **FRs:** FR-5, FR-7
+- **NFRs:** NFR-3 (WCAG 2.1 AA, keyboard nav — see AC below)
 - **Acceptance Criteria:**
   - [ ] Left pane: lists all Evidence_Item__c records for the case with Document_Type, Status, badge colors
   - [ ] Missing evidence items show amber badge
@@ -464,6 +479,7 @@
 - **I can** view the Audit Queue in a Salesforce LWC with risk-tier badges, filters, and metrics
 - **So that** the queue works inside Salesforce before the React cockpit connects
 - **FRs:** FR-1, FR-2, FR-3, FR-4
+- **NFRs:** NFR-3 (WCAG 2.1 AA, keyboard nav — see AC below)
 - **Acceptance Criteria:**
   - [ ] Tabular queue with columns: Case Name, Loan Amount, Risk Tier, Status, SLA Due Date, Auditor, Branch, Product Type
   - [ ] Risk-tier badges: High=Red, Medium=Amber, Low=Green (color + text label, never color alone)
@@ -736,6 +752,7 @@
 - **I can** run ReplayService.replay() on 200 cases in a single transaction without hitting governor limits
 - **So that** bulk safety is proven
 - **FRs:** FR-27 (3 SOQL + 2 DML for N cases)
+- **NFRs:** NFR-1 (bulk safety — this story is NFR-1's verification)
 - **Acceptance Criteria:**
   - [ ] Apex test inserts 200 Audit_Case__c with Loan, Borrower_Snapshot, Evidence_Item, Policy_Version, Policy_Rules
   - [ ] Calls ReplayService.replay(caseIds) for all 200
@@ -766,6 +783,119 @@
   - [ ] Each step has expected outcome and screenshot placeholder
 - **Layer:** Cross-layer
 - **Depends on:** US-4.4
+
+---
+
+## EP-6: Cowork Pilot Readiness
+
+### Backfill planning traceability for the Microsoft Copilot Cowork module (built in PR #6 without a brief, PRD coverage, architecture entry, or UX doc) and take it through a private pilot with a new cohort of mortgage employees.
+
+> **Origin:** Sprint Change Proposal 2026-08-28 (`bmad-correct-course`). This epic exists
+> because implementation preceded planning for this module — see the proposal for full
+> impact analysis. It is independent of EP-0 through EP-5 (no shared FRs, no dependency
+> in either direction).
+
+### Stories
+
+#### US-6.1: Author a Cowork-scoped product brief
+- **As a** stakeholder evaluating the Cowork module
+- **I can** read a brief scoped to Cowork specifically (problem, pilot-cohort users, hard boundaries)
+- **So that** the module has its own planning anchor instead of only a prior-session handoff note
+- **Acceptance Criteria:**
+  - [x] Brief exists at `product-brief-cowork.md`, scoped to Cowork only <!-- 2026-08-28, G-5 -->
+  - [x] Explicitly distinguished from the CaseFile brief (`product-brief.md`)
+  - [x] Hard boundaries and Frontier-preview constraint stated
+- **Layer:** Planning
+- **Depends on:** none
+
+  > ✅ US-6.1 closed 2026-08-28.
+
+#### US-6.2: Add a Cowork PRD section
+- **As a** stakeholder
+- **I can** read PRD-level acceptance criteria for the 4 Cowork skills (onboarding, evidence review, policy replay, audit packet draft)
+- **So that** the module's scope is traceable and testable the same way Veridact's FRs are
+- **Acceptance Criteria:**
+  - [x] Companion PRD at `prds/prd-cowork-2026-08-28.md` <!-- 2026-08-28, G-5 -->
+  - [x] 22 requirements CW-1..CW-22, own namespace, no collision with FR-1..FR-28
+  - [x] Every requirement carries an acceptance criterion
+  - [x] Traceability table maps each CW group to its shipped skill directory
+  - [ ] CW-1..CW-22 behaviourally verified — pilot work, US-6.7
+- **Layer:** Planning
+- **Depends on:** US-6.1
+
+  > ✅ US-6.2 closed 2026-08-28 as *specified*. Behavioural verification is US-6.7.
+
+#### US-6.3: Add integration/boundary subsection to SOLUTION-ARCHITECTURE.md
+- **As a** future engineer or reviewer
+- **I can** find Cowork's hard boundaries (no approve/deny/rate/policy-override/borrower-message/loan-system-write) codified in the governed architecture doc
+- **So that** the invariant survives beyond the originating handoff note and any future connector work is gated by an ADR
+- **Layer:** Planning
+- **Depends on:** US-6.1
+- **Acceptance Criteria:**
+  - [x] Integration Map row added for Microsoft Copilot Cowork
+  - [x] "Cowork Hard Boundaries" subsection added, listing all 7 prohibited actions
+
+#### US-6.4: Document pilot-cohort onboarding UX
+- **As a** pilot-cohort mortgage employee
+- **I can** follow a documented onboarding flow (Frontier tenant, private "Only you" upload, synthetic docs)
+- **So that** the pilot starts from a written flow instead of tribal knowledge
+- **Layer:** Planning
+- **Depends on:** US-6.1
+- **Acceptance Criteria:**
+  - [x] New file created, explicitly distinguished from the borrower persona in DESIGN-onboarding-ux.md
+  - [ ] Open items resolved: pilot invite/licensing mechanics, synthetic doc fixture source, feedback capture channel
+
+#### US-6.5: Review and merge PR #6
+- **As a** repo maintainer
+- **I can** review and merge the Cowork module PR
+- **So that** the module lands on `main` and the pilot can begin
+- **Acceptance Criteria:**
+  - [ ] PR #6 reviewed against the CW-1..CW-22 requirements in `prds/prd-cowork-2026-08-28.md`
+  - [ ] All CI checks green at time of merge (8 checks per the Cowork PRD §7)
+  - [ ] Merged to `main`; `feat/microsoft-cowork-plugin` deleted or retained per repo convention
+  - [ ] `microsoft-cowork/` present on `main`
+- **Layer:** Salesforce/Engineering
+- **Depends on:** none
+- **Owner:** Sabir — requires human approval, Brooks does not merge PRs unilaterally
+
+#### US-6.6: Tenant-side package validation
+- **As a** pilot administrator
+- **I can** validate the Cowork package against a Frontier-enabled Microsoft 365 Copilot tenant with a licensed user
+- **So that** the package is confirmed installable before any pilot user touches it
+- **Acceptance Criteria:**
+  - [ ] Package uploaded to a Frontier-enabled M365 Copilot tenant by a licensed user
+  - [ ] Tenant-side validation passes with no manifest or permission errors
+  - [ ] All four skills appear and are invocable in Cowork
+  - [ ] Any validation failure is recorded with the exact error, not summarised
+- **Layer:** External
+- **Depends on:** US-6.5
+- **Owner:** Sabir — requires interactive Microsoft 365 sign-in, out of session scope
+
+#### US-6.7: Private pilot upload
+- **As a** pilot-cohort member
+- **I can** upload synthetic/nonproduction documents via private "Only you" Cowork upload
+- **So that** the pilot validates the module without touching production borrower data
+- **Acceptance Criteria:**
+  - [ ] Upload is private ("Only you") — not a shared workspace
+  - [ ] Documents are synthetic/nonproduction; zero real borrower data
+  - [ ] CW-1..CW-15 exercised: onboarding, evidence review, replay comparison, packet draft
+  - [ ] CW-16..CW-22 exercised adversarially: each of the 7 prohibited actions is requested and cleanly refused
+  - [ ] Missing-document findings verified accurate against a known-incomplete synthetic file
+  - [ ] Every deviation recorded, including refusals that were unclear to a non-engineer
+- **Layer:** External
+- **Depends on:** US-6.6
+
+#### US-6.8: Pilot cohort feedback loop and connector go/no-go
+- **As a** project owner
+- **I can** collect pilot cohort feedback and decide whether to proceed to the Entra-secured, read-only MCP connector
+- **So that** the next phase of Cowork work is evidence-driven, not assumption-driven
+- **Acceptance Criteria:**
+  - [ ] Feedback collected from every pilot-cohort member, not just volunteers
+  - [ ] US-6.4's three open items resolved (invite/licensing, fixture source, feedback channel)
+  - [ ] Explicit go/no-go recorded for the Entra-secured read-only MCP connector
+  - [ ] If go: a new ADR is raised before any connector work starts (required by ADR-34)
+- **Layer:** Planning
+- **Depends on:** US-6.7
 
 ---
 

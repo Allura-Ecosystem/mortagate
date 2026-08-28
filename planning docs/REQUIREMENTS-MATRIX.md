@@ -4,6 +4,27 @@
 > **AI-Assisted Documentation**
 > Portions of this document were drafted with the assistance of an AI language model.
 
+> [!CAUTION]
+> **FR numbering in this document does not match the PRD. Never cite "FR-n" without
+> naming the source document.**
+>
+> - **FR-1 through FR-9** describe the **borrower-facing origination portal**
+>   (welcome gate, intent capture, pre-check, evidence queue, decision room, outcome
+>   view) — frozen by ADR-15, superseded by the ADR-30 CaseFile rename. Dead. Do not
+>   implement from them.
+> - **FR-10 through FR-39** describe the **current CaseFile product** — the same
+>   product `prds/prd-Mortagate-2026-06-14/prd.md` describes as FR-1 through FR-28 —
+>   but under an **independently authored, non-corresponding numbering scheme**. This
+>   matrix's FR-20 ("Audit Queue screen") is the PRD's FR-1 ("Queue display"); this
+>   matrix's FR-26 ("Sign-off Receipt") is roughly the PRD's FR-12/FR-13. There is no
+>   1:1 mapping and none is asserted here.
+> - **Reconciling the two numbering schemes into one is an open decision**, not yet
+>   made — see `implementation-readiness-report-2026-08-28.md` and Sprint Change
+>   Proposal 2026-08-28. Until it is, code comments, ADRs, and commit messages that
+>   cite an FR number from *this* document (FR-23, FR-35, etc. appear in ADR-32/33)
+>   remain valid readings of *this* document's scheme — they are not wrong, they are
+>   just not the PRD's scheme. Disclosed 2026-08-28; not resolved.
+
 Traceability from requirement → implementation → verification. Status legend: ✅ built & verified · 🟡 built, verification in progress · ⬜ not built.
 
 > **Last verified:** 2026-06-23 — Full source deployed to `mortagate-de` (DevHub). Apex `RunLocalTests` = **140/140 PASS (100%)**. LWC Jest = **53/53 PASS (12 suites)**. All auditor screens verified on-org. Agentforce Copilot agent activated. Piecewise deploy strategy documented in `DEPLOY-REPORT.md`.
@@ -61,12 +82,19 @@ Traceability from requirement → implementation → verification. Status legend
 | ID | Requirement | Source | Implementation | Verification | Status |
 |----|-------------|--------|----------------|--------------|--------|
 | NFR-1 | Bulk safe: 3 SOQL + 1 DML for N apps | B7 | three-layer engine | `bulk_200Applications_withinGovernorLimits` — 140/140 on `mortagate-de` | ✅ |
-| NFR-2 | Mobile-first 375px, 100dvh per screen | B8 | all LWC CSS | manual | 🟡 |
+| NFR-2 | Mobile-first 375px, 100dvh per screen | B8 | all LWC CSS | manual | ⛔ SUPERSEDED |
 | NFR-3 | WCAG 2.1 AA contrast; semantic colors as chips | ADR-9 | `veridactTokens.css`, chip classes | contrast math verified | ✅ |
 | NFR-4 | Honor `prefers-reduced-motion` | DESIGN | token = 0s + component media queries | code review | ✅ |
 | NFR-5 | No Salesforce chrome; full Veridact skin | B8 | brand tokens + component styling | manual | 🟡 |
 | NFR-6 | Kernel unit-testable without an org | ADR-5 | pure `PolicyRuleEvaluator` | tests use in-memory rules, no DML — 140/140 on `mortagate-de` | ✅ |
 | NFR-7 | Deterministic audit output | ADR-6 | `RuleCodeComparator` sort | code review + 140/140 on `mortagate-de` | ✅ |
+
+> **NFR-2 superseded 2026-08-28.** "Mobile-first 375px" is a borrower-portal
+> requirement (B8 = the frozen borrower brief) and directly contradicts
+> `SOLUTION-ARCHITECTURE.md` §2 Layer 1: *"Desktop-first (auditors use 1280px+
+> monitors)."* CaseFile auditors do not use the cockpit on a phone. NFR-1, NFR-3,
+> NFR-4, NFR-5, NFR-6, NFR-7 remain valid for CaseFile and are restated in the PRD's
+> own NFR section (`prd.md` §8).
 
 ## Compliance Requirements (P1 — see DESIGN-adverse-action.md)
 | ID | Requirement | Source | Implementation | Verification | Status |

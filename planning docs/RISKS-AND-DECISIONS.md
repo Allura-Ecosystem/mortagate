@@ -197,6 +197,74 @@ This is the decision log. Undocumented decisions are decisions waiting to be mad
 
 **D-B RULING — 2026-08-03 (owner: Sabir, per Brooks recommendation):** The ADR-18 in-memory adaptation satisfies the governance invariant "every approval references `Policy_Rule_Version__c`" for beta. `ReplayService` reads `Policy_Rule__c`, adapts to in-memory `Policy_Rule_Version__c` shape, evaluates, and writes `Replay_Check__c` records. No `Policy_Rule_Version__c` is persisted. This is acceptable for beta because the replay results are fully traceable (10 checks with expected vs actual, rule names, sort order). **Production requires persistence** — a new Apex class must write `Policy_Rule_Version__c` records from the audit loop. Added as parked item (g): "Persist `Policy_Rule_Version__c` records from the audit loop — the ADR-18 in-memory adaptation satisfies beta but not production governance."
 
+### ADR-34 — Microsoft Copilot Cowork module sits outside the ADR-33 pilot-scope freeze
+
+**Decision (2026-08-28, Sabir — approved via Brooks recommendation):** The Microsoft
+Copilot Cowork module (`microsoft-cowork/`, [PR #6](https://github.com/Allura-Ecosystem/mortagate/pull/6),
+opened 2026-08-28) is **not** subject to the ADR-33 pilot-scope freeze (2026-08-02) and
+does not require re-opening or widening that freeze. ADR-33 froze scope at "the
+post-close audit loop only" and named an explicit in-scope list (replay kernel, Audit
+Case + Findings + sign-off receipt, append-only enforcement, `SecondPassSweepBatch`,
+Agentforce auditor copilot, KYC/OFAC gate) plus a parked list (a)–(g). Cowork appears
+in neither list — it was built three weeks after the freeze with no ADR checkpoint
+against it, which this ADR closes retroactively.
+
+**Basis for the recommendation (measured, not assumed — 2026-08-28):**
+- Zero Salesforce writes: `microsoft-cowork/` contains no Apex, no metadata, no
+  reference to `mortagate-de` or any CaseFile SObject. Confirmed by file listing
+  (`git ls-tree -r feat/microsoft-cowork-plugin -- microsoft-cowork`).
+- Zero Allura Brain touchpoints: no `group_id`, no MCP memory calls, anywhere in the
+  module's skills or docs. Confirmed by grep across
+  `microsoft-cowork/docs/REFERENCE-ARCHITECTURE.md` and the four skill definitions.
+- Read-only against user-supplied evidence only: the module's own README states it
+  "does not approve or deny credit, set pricing or rate, issue notices, send
+  communications, or update a loan-origination system" — matching the boundary
+  independently written into `SOLUTION-ARCHITECTURE.md` §5 the same session.
+- It therefore cannot touch the replay kernel, `Audit_Case__c`/`Policy_Rule__c`
+  data, or any object ADR-33's freeze protects.
+
+**Rejected:** (a) Treating Cowork as automatically in-scope because it's mortgage-
+adjacent — the freeze is about the CaseFile Salesforce pilot specifically, not every
+tool an auditor might touch; extending it to a standalone M365 package with no data
+path into `mortagate-de` would freeze work that was never at risk. (b) Silently
+leaving this unruled — ADR-33 explicitly says a new ADR is required for any scope
+reinterpretation, and "Cowork just doesn't count" is itself an interpretation.
+
+**Why:** Governance discipline means the freeze's boundary is decided once and cited,
+not re-derived by whoever notices the gap. This ADR is that decision — pending
+Sabir's sign-off, the same pattern as ADR-32/33's owner rulings.
+
+**Status:** **ACTIVE.** Approved 2026-08-28. See `GOAL-G3-cowork-pilot-readiness.md` and
+`EPICS-AND-STORIES.md` EP-6 for the epic this closes out (US-6.3 architecture work
+references this ADR).
+
+### ADR-35 — EP-0 "Schema Foundation" is an explicitly exempt foundation epic, not a user-value violation
+
+**Decision (2026-08-28, Brooks recommendation, documented assumption per
+`implementation-readiness-report-2026-08-28.md` finding C-1):** EP-0's six stories
+(`As a developer, I can deploy...`) are a deliberate exception to the
+create-epics-and-stories standard's user-value rule, not an oversight. On a
+Salesforce project the object layer must exist before any LWC can render or any
+replay can execute — there is no way to phrase "deploy `Policy_Rule__c`" as auditor
+value without concealing what the story actually does.
+
+**Rejected:** (a) Folding EP-0's schema stories into the first story of each
+downstream epic that needs a table — inspected and rejected: `Audit_Case__c`,
+`Loan__c`, and `Policy_Rule__c` are each consumed by 3+ downstream epics (EP-1
+through EP-5), so distributing their deployment would either duplicate the
+deployment story N times or create a hidden cross-epic dependency the backlog's own
+"no forward references" rule exists to prevent. (b) Silently leaving EP-0 unexplained
+— the readiness check flags it every time it runs, and an unexplained violation
+reads as an unnoticed one.
+
+**Why:** A named exemption is auditable; an implicit one is not. This ADR is the
+record that EP-0's shape was a choice, checked against the alternative, not a gap.
+
+**Status:** ACTIVE. Scope: EP-0 only. Does not exempt EP-5 ("Integration and
+Hardening"), which the same readiness pass marked 🟡 on user value for a different
+reason (cross-cutting NFR work, not schema) — EP-5 was not reviewed under this ADR
+and carries no exemption.
+
 ---
 
 ## Risk Register

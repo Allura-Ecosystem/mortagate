@@ -343,6 +343,19 @@ After replay execution completes:
 | Figma | Design source of truth | Read-only reference | Locked (5 screens, brand kit v1.0.1) |
 | GitHub | `Allura-Ecosystem/mortagate` monorepo | Code + CI | Active |
 | Vercel | Hosting (free tier) | React deployment | Active |
+| Microsoft Copilot Cowork | Skills package (`microsoft-cowork/appPackage/skills/`), read-only evidence review | Standalone — no Salesforce/Veridact write path | Built (PR #6 open), pilot pending |
+
+### Cowork Hard Boundaries (codified, not advisory)
+
+The Cowork module cannot, by design: approve or deny a loan; set a rate or credit
+term; override policy; issue an adverse-action notice; send a borrower message; or
+write to any loan system (Salesforce or otherwise). It has no integration path into
+the layers above beyond reading uploaded evidence documents supplied directly by
+the user in the Cowork chat. Any future connector (EP-6/US-6.8, the Entra-secured
+MCP connector) is a new integration and requires its own ADR before it touches this
+map. See `EPICS-AND-STORIES.md` EP-6 and `GOAL-G3-cowork-pilot-readiness.md`.
+Cowork's standing relative to the ADR-33 pilot-scope freeze is ruled in ADR-34
+(§7 below) — **ACTIVE**, approved by Sabir 2026-08-28.
 
 ### Not Integrated (v1)
 
@@ -390,6 +403,11 @@ After replay execution completes:
 | ADR-13 | Veridact brand | Canvas/Ink/Orange/Outfit visual identity |
 | ADR-15 | Borrower portal frozen | No borrower-facing features in v1 |
 | ADR-16 | Agentforce confirmed | Available on org, 4 subagents planned |
+| ADR-34 | Cowork sits outside ADR-33 freeze | **ACTIVE** — approved by Sabir 2026-08-28, see `RISKS-AND-DECISIONS.md` |
+
+> Note: ADR-17 through ADR-33 exist in `RISKS-AND-DECISIONS.md` but are not yet
+> reflected in this table — pre-existing drift, out of scope for this pass. ADR-34 is
+> listed above only because this session's Cowork work depends on citing it correctly.
 
 ---
 
