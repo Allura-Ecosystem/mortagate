@@ -1,4 +1,19 @@
-# DESIGN: Borrower Onboarding UX
+# ⛔ SUPERSEDED — BORROWER PERSONA — DESIGN: Borrower Onboarding UX
+
+> [!CAUTION]
+> **This is not the current product's UX.**
+>
+> This document designs the **borrower-facing origination portal**, frozen by ADR-15
+> and superseded by the ADR-30 rename. CaseFile is an **internal post-close audit
+> replay and QC tool for bank QC analysts** — a different persona, a different product.
+>
+> Retained for history. **Do not plan from it, implement from it, or treat it as the
+> UX baseline for a readiness check.** Banner added 2026-08-28 (G-5) after the
+> identically-named `EPICS-AND-STORIES.md` collision showed how an unbannered stale
+> doc misleads automated passes.
+>
+> - Cowork pilot-cohort UX: `DESIGN-cowork-pilot-onboarding.md`
+> - CaseFile auditor/analyst UX: **does not exist yet** — a real, open gap.
 
 > [!NOTE]
 > **AI-Assisted Documentation**

@@ -7,6 +7,10 @@ updated: 2026-06-14
 
 # PRD: Veridact — Mortgage Audit Replay & QC
 
+> [!CAUTION]
+> **Not current.** Mortagate is a Microsoft Copilot Cowork plugin — see
+> `../prd-cowork-2026-08-28.md`.
+
 ## 0. Document Purpose
 
 This PRD defines the requirements for Veridact, an internal mortgage audit replay and QC tool. It is written for the development team (Brooks orchestrating Team RAM), the product owner (Sabir Asheed), and downstream workflow owners (architecture, UX, epics). The document builds on the product brief (`product-brief.md`), the canonical Notion page, Figma wireframes, and 13 existing ADRs. Functional requirements are globally numbered (FR-1 through FR-N) and grouped by feature. Glossary terms are used verbatim throughout. Assumptions are tagged inline and indexed in section 9.
@@ -322,9 +326,14 @@ PolicyRuleEvaluator evaluates rules against reconstructed facts with zero SOQL a
 
 **Consequences (testable):**
 - Evaluator is a pure function: facts in, results out
-- Supports operators: GTE, LTE, GT, LT, EQ, NEQ, IN, BETWEEN
+- Supports operators: GTE, LTE, GT, LT, EQ — **five, not eight.** ADR-33's D-4
+  closure (2026-08-02) removed NEQ, IN, and BETWEEN from the live
+  `Policy_Rule__c.Operator__c` picklist: NEQ/IN threw `PolicyEngineException`, and
+  BETWEEN silently never fired (no `Threshold_High__c` field). Corrected here
+  2026-08-28 — this PRD previously listed the pre-ADR-33 eight-operator set.
 - Missing facts produce INDETERMINATE result, not a failure (per ADR-3)
-- Evaluation is bulk-safe: 3 SOQL + 1 DML for N cases
+- Evaluation is bulk-safe: **3 SOQL + 2 DML per case** — see NFR-1 (§8), corrected
+  2026-08-28 to match `SOLUTION-ARCHITECTURE.md` §4.1/§4.5 and ADR-27
 
 #### FR-28: Deterministic rule ordering
 Replay checks are returned in deterministic order sorted by Rule_Code__c.
@@ -386,12 +395,42 @@ Replay checks are returned in deterministic order sorted by Rule_Code__c.
 
 ## 8. Cross-Cutting NFRs
 
-### Performance
+> **Numbered 2026-08-28.** These NFRs previously existed only as unnumbered bullets
+> here plus a numbered NFR-1..NFR-7 list in `planning docs/REQUIREMENTS-MATRIX.md`
+> (a different, borrower-era document — see its 2026-08-28 banner). This section is
+> now the PRD's own numbered source; NFR-1/3/4/6/7 below restate the matrix's
+> still-valid requirements, NFR-2 (mobile-first 375px) is intentionally **not**
+> restated — it was a borrower-portal requirement, superseded, and contradicts this
+> product's desktop-first cockpit (§2 Target User; `SOLUTION-ARCHITECTURE.md` §2).
+> NFR-5 (accessibility) is new — the matrix's NFR-5 was "no Salesforce chrome",
+> unrelated; that requirement is restated under Performance/Security context below
+> without a number, since it is a branding constraint, not user-facing NFR.
+
+### NFR-1: Bulk safety
+- Bulk replay: **3 SOQL + 2 DML per case** (per ADR-27's chunk-size-1 sweep, where
+  per-case budget IS the contract — not "1 DML for N cases", which was this PRD's own
+  prior wording and disagreed with `SOLUTION-ARCHITECTURE.md` §4.1/§4.5; architecture
+  is the reconciled source, corrected here 2026-08-28)
 - Queue loads within 2 seconds for up to 500 cases
 - Replay execution completes within 5 seconds for a single case
-- Bulk replay: 3 SOQL + 1 DML for N cases (per ADR-5)
 
-### Security
+### NFR-3: Accessibility (WCAG 2.1 AA)
+- WCAG 2.1 AA compliance on all screens
+- Keyboard navigable queue and review screens
+- Color is never the sole indicator of status (paired with text labels)
+- SLDS 2 design tokens for theming support
+
+### NFR-4: Reduced motion
+- `prefers-reduced-motion` honored on all transitions
+
+### NFR-6: Kernel testability
+- `PolicyRuleEvaluator` is unit-testable without an org — zero SOQL, zero DML in the
+  evaluator (per ADR-5)
+
+### NFR-7: Deterministic output
+- Same inputs produce byte-identical replay-check ordering across runs (per ADR-6)
+
+### Security (unnumbered — implementation constraint, not a user-facing NFR)
 - All Apex classes declare `with sharing`
 - SOQL uses `WITH USER_MODE` for user-context queries
 - No user input concatenated into SOQL strings
@@ -439,7 +478,8 @@ Replay checks are returned in deterministic order sorted by Rule_Code__c.
 | Allura Brain | Governed memory via MCP (`allura-mortgage`) | Active — 24 memories stored |
 | React (Next.js) | Auditor cockpit at `apps/veridact-frontend` | Shipped — Iteration 10 + ruleId hardening |
 | Figma | Design source of truth | Locked — 5 screens, brand kit v1.0.1 |
-| GitHub | `Allura-Ecosystem/mortagate` monorepo | Active — PRs #1-4, 3 branches |
+| GitHub | `Allura-Ecosystem/mortagate` monorepo | Active — PR #6 open, 4+ branches |
+| Microsoft Copilot Cowork | Skills-only evidence-review module (`microsoft-cowork/`), no write access to Veridact/Salesforce, no decisioning authority | Built — PR #6 open, pilot pending. Full spec: `EPICS-AND-STORIES.md` EP-6, US-6.2 deliverable |
 
 ## 11. ROI / Business Case
 

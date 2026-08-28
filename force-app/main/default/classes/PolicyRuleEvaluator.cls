@@ -160,6 +160,6 @@ public with sharing class PolicyRuleEvaluator {
                 throw new PolicyEngineException('PolicyRuleEvaluator: Non-numeric string in fact value: "' + s + '"');
             }
         }
-        throw new PolicyEngineException('PolicyRuleEvaluator: Fact value is not numeric: ' + value + ' (type: ' + value.getClass() + ')');
+        throw new PolicyEngineException('PolicyRuleEvaluator: Fact value is not numeric: ' + value);
     }
 }

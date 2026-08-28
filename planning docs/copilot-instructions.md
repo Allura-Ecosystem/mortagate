@@ -5,6 +5,12 @@
 > Portions of this document were drafted with the assistance of an AI language model (GitHub Copilot).
 > Content has not yet been fully reviewed — this is a working design reference, not a final specification.
 
+> [!CAUTION]
+> **Not current.** Mortagate is a Microsoft Copilot Cowork plugin — see
+> `product-brief-cowork.md` and `prds/prd-cowork-2026-08-28.md` in
+> `my-project/_bmad-output/planning-artifacts/`. Don't plan new work from this
+> document.
+
 ---
 
 ## Project Context

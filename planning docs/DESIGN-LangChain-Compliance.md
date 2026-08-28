@@ -3,6 +3,12 @@
 > **AI-Assisted Documentation**
 > Portions of this document were drafted with an AI language model. All architecture decisions require Captain approval before implementation.
 
+> [!CAUTION]
+> **Not current.** Mortagate is a Microsoft Copilot Cowork plugin — see
+> `product-brief-cowork.md` and `prds/prd-cowork-2026-08-28.md` in
+> `my-project/_bmad-output/planning-artifacts/`. Don't plan new work from this
+> document.
+
 ---
 
 ## 1. What This Is (and What It Is NOT)

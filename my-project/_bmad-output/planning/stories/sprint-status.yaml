@@ -1,48 +1,86 @@
-# Sprint Status — CaseFile Beta Readiness (G-2)
+# Sprint Status — Mortagate (Microsoft Copilot Cowork plugin)
 # generated: 2026-08-03
-# last_updated: 2026-08-03
-# project: CaseFile (Mortagate)
+# last_updated: 2026-08-28
+# project: Mortagate — Cowork plugin (G-2/CaseFile below is not active)
 # tracking_system: file-system
 # story_location: my-project/_bmad-output/planning/stories
 
 development_status:
-  # Epic: Beta Readiness (maps to G-2 success criteria)
-  epic-beta-readiness: in-progress
-  
-  # SC-1: Apex test suite — PASSED
+  # Epic: Beta Readiness (G-2) — not active, see ADR-36. All SC-n children below
+  # inherit not-active from the parent as of 2026-08-28 (VA fix — they previously
+  # still read ready-for-dev, contradicting the epic's own not-active status).
+  epic-beta-readiness: not-active
+
+  # SC-1: Apex test suite — PASSED (historical fact, predates the pivot)
   sc-1-apex-test-suite: done
-  
-  # SC-4: Embeddings non-zero — must run before SC-2
-  sc-4-embeddings-nonzero: ready-for-dev
-  
-  # SC-2a: Brain federation test with known-present data
-  sc-2a-brain-federation: ready-for-dev
-  
-  # SC-2b: Trace Mortagate decision path to Brain write (unbuilt, not bug)
-  sc-2b-brain-wiring: ready-for-dev
-  
-  # SC-3: memory_add score persistence (known bug: always 0.5)
-  sc-3-score-persistence: ready-for-dev
-  
-  # SC-5: Four p2-002 piecewise deploy slices
-  sc-5-deploy-slices: ready-for-dev
-  
-  # SC-6a: Upload document -> Evidence__c with hash + scan status
-  sc-6a-document-upload: ready-for-dev
-  
-  # SC-6b: Decision_Event__c written for that evidence
-  sc-6b-decision-written: ready-for-dev
-  
-  # SC-6c: Intake_Received__e fires (DEFERRED behind ADR-33 OQ-3)
-  sc-6c-async-spine: backlog
-  
-  # SC-7: Audit Replay reconstructs evidence, rule version, approver, timestamps
-  sc-7-audit-replay: ready-for-dev
-  
-  # SC-8: Analyst UAT script — non-engineer completes SC-6 unaided
-  sc-8-analyst-uat: backlog
+
+  # SC-4: Embeddings non-zero — not active, epic-beta-readiness deprecated (ADR-36)
+  sc-4-embeddings-nonzero: not-active
+
+  # SC-2a: Brain federation test with known-present data — not active (ADR-36)
+  sc-2a-brain-federation: not-active
+
+  # SC-2b: Trace Mortagate decision path to Brain write — not active (ADR-36)
+  sc-2b-brain-wiring: not-active
+
+  # SC-3: memory_add score persistence (known bug: always 0.5) — not active (ADR-36)
+  sc-3-score-persistence: not-active
+
+  # SC-5: Four p2-002 piecewise deploy slices — not active (ADR-36)
+  sc-5-deploy-slices: not-active
+
+  # SC-6a: Upload document -> Evidence__c with hash + scan status — not active (ADR-36)
+  sc-6a-document-upload: not-active
+
+  # SC-6b: Decision_Event__c written for that evidence — not active (ADR-36)
+  sc-6b-decision-written: not-active
+
+  # SC-6c: Intake_Received__e fires (DEFERRED behind ADR-33 OQ-3) — not active (ADR-36)
+  sc-6c-async-spine: not-active
+
+  # SC-7: Audit Replay reconstructs evidence, rule version, approver, timestamps — not active (ADR-36)
+  sc-7-audit-replay: not-active
+
+  # SC-8: Analyst UAT script — non-engineer completes SC-6 unaided — not active (ADR-36)
+  sc-8-analyst-uat: not-active
   
   # D-B ruling needed from Captain
   db-policy-rule-version-persistence: blocked
-  
+
   epic-beta-readiness-retrospective: optional
+
+  # Epic: Cowork Pilot Readiness (G-3) — added 2026-08-28 via Sprint Change Proposal
+  # (bmad-correct-course). Independent of epic-beta-readiness above; tracked in this
+  # same block because this is the sole sprint-status.yaml in the repo. Full detail:
+  # EPICS-AND-STORIES.md EP-6 (planning-artifacts) and
+  # GOAL-G3-cowork-pilot-readiness.md (planning).
+  # Status: in-progress — US-6.1..6.3 done, US-6.4 ready, US-6.5/6.6 human-gated,
+  # US-6.7/6.8 backlog. Not 'backlog' (3/8 done) and not 'done' (5 remain).
+  epic-cowork-pilot-readiness: in-progress
+
+  # US-6.1: Author a Cowork-scoped product brief — done 2026-08-28
+  us-6-1-cowork-brief: done
+
+  # US-6.2: Add a Cowork PRD section — done 2026-08-28 (specified; behavioural
+  # verification is US-6.7)
+  us-6-2-cowork-prd-section: done
+
+  # US-6.3: Architecture integration/boundary subsection — done this session
+  us-6-3-architecture-boundaries: done
+
+  # US-6.4: Pilot-cohort onboarding UX doc — created this session; 3 open items
+  # (invite/licensing mechanics, synthetic fixture source, feedback channel) are
+  # Sabir decisions, not dev work — blocked pending those decisions
+  us-6-4-pilot-onboarding-ux: blocked
+
+  # US-6.5: Review and merge PR #6 — requires Sabir
+  us-6-5-merge-pr-6: blocked
+
+  # US-6.6: Tenant-side package validation — requires interactive M365 sign-in
+  us-6-6-tenant-validation: blocked
+
+  # US-6.7: Private pilot upload, synthetic docs — depends on US-6.6
+  us-6-7-pilot-upload: backlog
+
+  # US-6.8: Feedback loop and connector go/no-go — depends on US-6.7
+  us-6-8-feedback-and-connector-decision: backlog

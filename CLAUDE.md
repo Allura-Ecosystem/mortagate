@@ -1,6 +1,9 @@
 # Mortgage Approval Engine
 
-This file provides Claude Code and Claude Desktop project context for the Salesforce Community Mortgage Approval Engine.
+This file provides Claude Code and Claude Desktop project context for Mortagate.
+
+Mortagate is a **Microsoft Copilot Cowork plugin** (`microsoft-cowork/`). That is
+the whole product. Decision record: ADR-36 in `planning docs/RISKS-AND-DECISIONS.md`.
 
 ## Response Protocol — Brooks (mandatory)
 
@@ -45,8 +48,8 @@ Rules:
   menu; if a decision is needed, present it inside `NX` and let Sabir pick a command.
 - Track work as **named workstreams** (WS-1, WS-2, WS-3 …), each with state and
   blocker. Do not report loose task lists.
-- `bash` is non-functional in Claude Desktop sessions. Anything requiring `sf`
-  is a `GO` hand-off block for Sabir to run, never a completion claim.
+- `bash` is non-functional in Claude Desktop sessions. Any command-line hand-off
+  is a `GO` block for Sabir to run, never a completion claim.
 - `hydrate` = reload memory + repo state and render `WS`.
 
 ## Source Of Truth
@@ -54,20 +57,25 @@ Rules:
 - Primary project reference: `copilot-instructions.md`
 - Documentation standard: Carlos Guidelines
 - Memory group: `allura-mortgage`
-- Salesforce org alias: `mortagate-de`
+- **Product:** `microsoft-cowork/` — brief at
+  `my-project/_bmad-output/planning-artifacts/product-brief-cowork.md`, PRD at
+  `my-project/_bmad-output/planning-artifacts/prds/prd-cowork-2026-08-28.md`.
 
-Before implementation, create or update the required Carlos artifacts:
+The 6 Carlos docs below predate the current product and are not current
+direction, except `RISKS-AND-DECISIONS.md`, which stays live — it's where ADR-34,
+ADR-35, and ADR-36 live. Before new implementation work, create or update
+Cowork-scoped equivalents of the others instead of editing them in place:
 
 - `planning docs/BLUEPRINT.md`
 - `planning docs/SOLUTION-ARCHITECTURE.md`
 - `planning docs/REQUIREMENTS-MATRIX.md`
-- `planning docs/RISKS-AND-DECISIONS.md`
+- `planning docs/RISKS-AND-DECISIONS.md` — current, keep using this one
 - `planning docs/DATA-DICTIONARY.md`
 - `planning docs/copilot-instructions.md`
 
 DESIGN-* deep dives, epics, readiness reports, and other BMad artifacts live in `my-project/_bmad-output/planning/`.
 
-If documentation conflicts with Salesforce metadata, Apex, Flow XML, LWC source, or JSON schema, defer to source code or schema first.
+If documentation conflicts with the Cowork module's manifest, skill definitions, or JSON schema, defer to source code or schema first.
 
 ## Project Structure
 
@@ -85,17 +93,10 @@ Never write output to `docs/superpowers/`, `superpowers/specs/`, or any Superpow
 
 ## Current Runtime Gate
 
-`mortagate.gates.json` defines phase-0 through phase-2 gate checks. Salesforce CLI commands require an authenticated org:
-
-```bash
-sf org login web --alias mortagate-de --set-default
-sf org display --target-org mortagate-de
-```
-
-Sandbox orgs should use:
-
-```bash
-sf org login web --alias mortagate-de --instance-url https://test.salesforce.com --set-default
-```
-
-Do not claim Salesforce gate completion until the commands in `mortagate.gates.json` pass against `mortagate-de`.
+`mortagate.gates.json` does not describe this product — it verifies the deprecated
+implementation. `mortagate-cowork.gates.json` is the active gate file: package
+structure, planning docs, build/local CI, and tenant validation (manual, needs a
+licensed human on a Frontier-enabled tenant — not automatable). Its commands assume
+PR #6 is merged; `microsoft-cowork/` doesn't exist on `main` yet, so none of its
+checks can run until then. It also names a real gap: `.github/workflows/ci.yml`
+has no job that validates the Cowork package itself.

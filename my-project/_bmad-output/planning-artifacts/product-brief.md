@@ -1,5 +1,9 @@
 # Product Brief: Veridact — Mortgage Audit Replay & QC
 
+> [!CAUTION]
+> **Not current.** Mortagate is a Microsoft Copilot Cowork plugin — see
+> `product-brief-cowork.md` in this same directory.
+
 > **AI-Assisted Documentation**
 > This brief was drafted with AI assistance, synthesizing the canonical Notion product page, Allura Brain memories, existing Carlos documentation, and Figma wireframes. Content has been reviewed against the codebase but requires stakeholder sign-off.
 

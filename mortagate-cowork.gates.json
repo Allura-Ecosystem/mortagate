@@ -1,0 +1,145 @@
+{
+  "$schema": "https://allura.local/schemas/gate-runner.v1.json",
+  "project": {
+    "id": "mortagate-cowork",
+    "name": "Mortagate — Microsoft Copilot Cowork Plugin",
+    "platform": "microsoft-copilot-cowork",
+    "memory_group_id": "allura-mortgage",
+    "source_of_truth": [
+      "my-project/_bmad-output/planning-artifacts/product-brief-cowork.md",
+      "my-project/_bmad-output/planning-artifacts/prds/prd-cowork-2026-08-28.md",
+      "planning docs/RISKS-AND-DECISIONS.md"
+    ],
+    "notes": "Created 2026-08-28 (ADR-36 follow-up). mortagate.gates.json describes the deprecated Salesforce implementation and does not apply to this product. This file's commands assume PR #6 (branch feat/microsoft-cowork-plugin) is merged -- microsoft-cowork/ does not exist on main yet, so none of these checks can run until then."
+  },
+  "runner": {
+    "version": 1,
+    "default_shell": "bash",
+    "fail_fast": true,
+    "required_environment": {}
+  },
+  "phases": [
+    {
+      "id": "phase-0",
+      "name": "Package Structure Readiness",
+      "intent": "Confirm the Cowork app package exists and is structurally valid before any tenant-side action.",
+      "acceptance_criteria": [
+        "manifest.json exists and parses as valid JSON.",
+        "All four skill directories exist with SKILL.md frontmatter.",
+        "Icon assets exist and are valid PNGs at the required dimensions."
+      ],
+      "checks": [
+        {
+          "id": "p0-001-manifest-exists",
+          "type": "file_exists",
+          "paths": [
+            "microsoft-cowork/appPackage/manifest.json"
+          ],
+          "required": true
+        },
+        {
+          "id": "p0-002-structural-validator",
+          "type": "command",
+          "command": "python3 microsoft-cowork/scripts/validate_package.py microsoft-cowork/appPackage",
+          "required": true,
+          "notes": "Offline structural validator already exists in the module source (PR #6) -- this gate just wires it into a runnable check, it doesn't invent new validation logic."
+        },
+        {
+          "id": "p0-003-skill-frontmatter",
+          "type": "glob_exists",
+          "paths": [
+            "microsoft-cowork/appPackage/skills/*/SKILL.md"
+          ],
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "phase-1",
+      "name": "Planning Documentation Readiness",
+      "intent": "Confirm the Cowork-scoped planning artifacts exist -- the same discipline mortagate.gates.json applied to the deprecated product, kept for this one.",
+      "acceptance_criteria": [
+        "Product brief exists.",
+        "PRD exists with numbered requirements.",
+        "Epic exists in the live backlog."
+      ],
+      "checks": [
+        {
+          "id": "p1-001-brief",
+          "type": "file_exists",
+          "paths": [
+            "my-project/_bmad-output/planning-artifacts/product-brief-cowork.md"
+          ],
+          "required": true
+        },
+        {
+          "id": "p1-002-prd",
+          "type": "file_exists",
+          "paths": [
+            "my-project/_bmad-output/planning-artifacts/prds/prd-cowork-2026-08-28.md"
+          ],
+          "required": true
+        },
+        {
+          "id": "p1-003-epic",
+          "type": "content_match",
+          "paths": [
+            "my-project/_bmad-output/planning-artifacts/EPICS-AND-STORIES.md"
+          ],
+          "pattern": "EP-6",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Package Build and Local CI",
+      "intent": "Confirm the package builds and existing local checks pass. NOTE: as of 2026-08-28, .github/workflows/ci.yml has zero jobs that touch microsoft-cowork/ -- the four jobs it runs (validate-salesforce, validate-agents, lwc-tests, no-secrets) are repo-wide and happen to execute on any PR including #6, but none of them validate the Cowork package itself. That gap is real and is not closed by this gate file; a Cowork CI job is a separate, not-yet-done follow-up.",
+      "acceptance_criteria": [
+        "Microsoft 365 Agents Toolkit manifest validation passes.",
+        "Package builds to a zip without errors.",
+        "LWC unit tests pass (repo-wide, not Cowork-specific, but currently the only automated test signal touching this PR)."
+      ],
+      "checks": [
+        {
+          "id": "p2-001-toolkit-validate",
+          "type": "command",
+          "command": "cd microsoft-cowork && teamsapp validate --env local",
+          "required": true,
+          "notes": "Microsoft 365 Agents Toolkit CLI. Requires teamsapp/atk installed; not yet wired into CI."
+        },
+        {
+          "id": "p2-002-package-build",
+          "type": "command",
+          "command": "cd microsoft-cowork && teamsapp package --env local",
+          "required": true
+        },
+        {
+          "id": "p2-003-lwc-tests",
+          "type": "command",
+          "command": "npm run test:unit",
+          "required": false,
+          "notes": "Repo-wide, not Cowork-specific. Kept because it's the existing signal; do not treat a pass here as evidence Cowork itself is tested."
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Tenant Validation (manual, not automatable)",
+      "intent": "The one gate that cannot run from this environment. Requires a Frontier-enabled Microsoft 365 Copilot tenant and a licensed human.",
+      "acceptance_criteria": [
+        "Package uploaded to a Frontier-enabled tenant by a licensed user.",
+        "All four skills appear and are invocable in Cowork.",
+        "No manifest or permission errors on upload."
+      ],
+      "checks": [
+        {
+          "id": "p3-001-tenant-upload",
+          "type": "manual_review",
+          "required": true,
+          "notes": "US-6.6. Cannot be executed by an agent session -- interactive M365 sign-in required. See GOAL-G3-cowork-pilot-readiness.md."
+        }
+      ]
+    }
+  ]
+}

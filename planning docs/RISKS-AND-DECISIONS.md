@@ -197,6 +197,153 @@ This is the decision log. Undocumented decisions are decisions waiting to be mad
 
 **D-B RULING — 2026-08-03 (owner: Sabir, per Brooks recommendation):** The ADR-18 in-memory adaptation satisfies the governance invariant "every approval references `Policy_Rule_Version__c`" for beta. `ReplayService` reads `Policy_Rule__c`, adapts to in-memory `Policy_Rule_Version__c` shape, evaluates, and writes `Replay_Check__c` records. No `Policy_Rule_Version__c` is persisted. This is acceptable for beta because the replay results are fully traceable (10 checks with expected vs actual, rule names, sort order). **Production requires persistence** — a new Apex class must write `Policy_Rule_Version__c` records from the audit loop. Added as parked item (g): "Persist `Policy_Rule_Version__c` records from the audit loop — the ADR-18 in-memory adaptation satisfies beta but not production governance."
 
+### ADR-34 — Microsoft Copilot Cowork module sits outside the ADR-33 pilot-scope freeze
+
+**Decision (2026-08-28, Sabir — approved via Brooks recommendation):** The Microsoft
+Copilot Cowork module (`microsoft-cowork/`, [PR #6](https://github.com/Allura-Ecosystem/mortagate/pull/6),
+opened 2026-08-28) is **not** subject to the ADR-33 pilot-scope freeze (2026-08-02) and
+does not require re-opening or widening that freeze. ADR-33 froze scope at "the
+post-close audit loop only" and named an explicit in-scope list (replay kernel, Audit
+Case + Findings + sign-off receipt, append-only enforcement, `SecondPassSweepBatch`,
+Agentforce auditor copilot, KYC/OFAC gate) plus a parked list (a)–(g). Cowork appears
+in neither list — it was built three weeks after the freeze with no ADR checkpoint
+against it, which this ADR closes retroactively.
+
+**Basis for the recommendation (measured, not assumed — 2026-08-28):**
+- Zero Salesforce writes: `microsoft-cowork/` contains no Apex, no metadata, no
+  reference to `mortagate-de` or any CaseFile SObject. Confirmed by file listing
+  (`git ls-tree -r feat/microsoft-cowork-plugin -- microsoft-cowork`).
+- Zero Allura Brain touchpoints: no `group_id`, no MCP memory calls, anywhere in the
+  module's skills or docs. Confirmed by grep across
+  `microsoft-cowork/docs/REFERENCE-ARCHITECTURE.md` and the four skill definitions.
+- Read-only against user-supplied evidence only: the module's own README states it
+  "does not approve or deny credit, set pricing or rate, issue notices, send
+  communications, or update a loan-origination system" — matching the boundary
+  independently written into `SOLUTION-ARCHITECTURE.md` §5 the same session.
+- It therefore cannot touch the replay kernel, `Audit_Case__c`/`Policy_Rule__c`
+  data, or any object ADR-33's freeze protects.
+
+**Rejected:** (a) Treating Cowork as automatically in-scope because it's mortgage-
+adjacent — the freeze is about the CaseFile Salesforce pilot specifically, not every
+tool an auditor might touch; extending it to a standalone M365 package with no data
+path into `mortagate-de` would freeze work that was never at risk. (b) Silently
+leaving this unruled — ADR-33 explicitly says a new ADR is required for any scope
+reinterpretation, and "Cowork just doesn't count" is itself an interpretation.
+
+**Why:** Governance discipline means the freeze's boundary is decided once and cited,
+not re-derived by whoever notices the gap. This ADR is that decision — pending
+Sabir's sign-off, the same pattern as ADR-32/33's owner rulings.
+
+**Status:** **ACTIVE.** Approved 2026-08-28. See `GOAL-G3-cowork-pilot-readiness.md` and
+`EPICS-AND-STORIES.md` EP-6 for the epic this closes out (US-6.3 architecture work
+references this ADR).
+
+**Addendum 2026-08-28 — Allura Enterprise Dashboard (Epic 25) relationship,
+disclosed not resolved.** A separate project
+(`nexu-io/open-design/.od/projects/allura-enterprise-dashboard-brandlocked`)
+independently specifies Mortgage Approval Gate as Epic 25's first signed module,
+with a four-step Cowork flow (intake → evidence/policy context → request human
+review → Allura decision + receipt) that is directionally consistent with this
+ADR's ruling — neither side cites the other, and they were authored without
+cross-reference. This ADR's ruling (Cowork is exempt from the ADR-33 Salesforce
+freeze) is **unaffected and stands**: that freeze is specific to the CaseFile
+Salesforce pilot, and nothing here changes it.
+
+**What this addendum does not do:** it does not adopt the Epic 25 module contract
+(signed-manifest admission, host-owned lifecycle states, capability grants) as
+governing Cowork's architecture. That is a materially larger commitment —
+different trust model, different host, different admission requirements — than a
+same-day documentation pass should decide. Recorded here as a known, disclosed
+relationship for whoever picks up EP-6/US-6.8 next; a decision to adopt, ignore,
+or partially align with the Epic 25 contract is deferred, not made.
+
+### ADR-35 — EP-0 "Schema Foundation" is an explicitly exempt foundation epic, not a user-value violation
+
+**Decision (2026-08-28, Brooks recommendation, documented assumption per
+`implementation-readiness-report-2026-08-28.md` finding C-1):** EP-0's six stories
+(`As a developer, I can deploy...`) are a deliberate exception to the
+create-epics-and-stories standard's user-value rule, not an oversight. On a
+Salesforce project the object layer must exist before any LWC can render or any
+replay can execute — there is no way to phrase "deploy `Policy_Rule__c`" as auditor
+value without concealing what the story actually does.
+
+**Rejected:** (a) Folding EP-0's schema stories into the first story of each
+downstream epic that needs a table — inspected and rejected: `Audit_Case__c`,
+`Loan__c`, and `Policy_Rule__c` are each consumed by 3+ downstream epics (EP-1
+through EP-5), so distributing their deployment would either duplicate the
+deployment story N times or create a hidden cross-epic dependency the backlog's own
+"no forward references" rule exists to prevent. (b) Silently leaving EP-0 unexplained
+— the readiness check flags it every time it runs, and an unexplained violation
+reads as an unnoticed one.
+
+**Why:** A named exemption is auditable; an implicit one is not. This ADR is the
+record that EP-0's shape was a choice, checked against the alternative, not a gap.
+
+**Status:** ACTIVE. Scope: EP-0 only. Does not exempt EP-5 ("Integration and
+Hardening"), which the same readiness pass marked 🟡 on user value for a different
+reason (cross-cutting NFR work, not schema) — EP-5 was not reviewed under this ADR
+and carries no exemption.
+
+### ADR-36 — Platform pivot: Mortagate is a Microsoft Copilot Cowork plugin only. Salesforce is deprecated.
+
+**Decision (2026-08-28, Sabir — explicit, unambiguous directive):** Mortagate stops
+being a Salesforce product. The Cowork module (`microsoft-cowork/`, PR #6, EP-6) is
+now **the entire product**, not an adjunct to a Salesforce audit-replay engine. The
+Salesforce implementation — `force-app/` (253 metadata components), the CaseFile
+Audit Queue / Case Review / Finding Detail / Sign-off Receipt / Analytics cockpit,
+the policy replay kernel, Agentforce integration, and every epic built around
+them (EP-0 through EP-5) — is **deprecated as of this decision**, effective
+immediately.
+
+**What "deprecated" means here, precisely:**
+- No further feature work proceeds against `force-app/`, the Salesforce PRD
+  (FR-1..28), or EP-0..EP-5. They stop being the active backlog.
+- The Salesforce source code is **not deleted in this pass.** Removing it is a
+  separate, mechanically larger task (`sfdx-project.json`, CI wiring, 253 files
+  with interdependent deploy manifests) that deserves its own dedicated pass, not
+  a rider on a same-turn strategic pivot. It is marked deprecated, not erased.
+- `mortagate.gates.json`'s phase-2 Salesforce gates (org auth, piecewise deploy,
+  Apex tests, LWC tests, manual reviews) are **no longer the definition of
+  "dev-ready."** CLAUDE.md's "Current Runtime Gate" section, which mandates these
+  commands pass before claiming gate completion, is superseded for this product's
+  actual scope — a corresponding gate file for the Cowork-only product does not
+  yet exist and is a named follow-up, not silently assumed.
+- Every ADR that governs the Salesforce implementation specifically (ADR-1
+  through ADR-33, ADR-35) remains historically accurate — they describe what was
+  built and why, and stay as the record of that work. They stop being
+  forward-looking guidance for new work.
+- ADR-34 (Cowork exempt from the ADR-33 pilot-scope freeze) is **superseded by
+  this decision**, not contradicted — the freeze it exempted Cowork from no
+  longer has a live product to freeze. ADR-34's underlying finding (Cowork makes
+  no Salesforce writes, no Allura Brain calls) stands as historical fact.
+
+**Rejected:** (a) Keeping Salesforce as a parallel or future-phase track — the
+directive was explicit and total, not a deprioritization. (b) Deleting `force-app/`
+immediately to "complete" the pivot in one pass — conflates a strategic decision
+with a mechanical cleanup task; doing both at once raises the risk of getting
+either wrong, and the source code deprecated-but-present is a safe, reversible
+state while the delete-or-archive decision gets its own attention.
+
+**Why:** The prior architecture (Salesforce cockpit + Cowork as a bolt-on evidence
+module) is now the wrong frame entirely. Documenting the reversal as a numbered
+ADR — the same discipline applied to every other decision this session — means
+future readers don't have to reconstruct "wait, why does this repo have both a
+Salesforce org and a Cowork package" from git archaeology.
+
+**Cascading updates from this ADR** (tracked so nothing is silently assumed done):
+- [x] `CLAUDE.md` — project identity and Current Runtime Gate section
+- [x] `BLUEPRINT.md`, PRD, `SOLUTION-ARCHITECTURE.md`, `REQUIREMENTS-MATRIX.md`,
+      `DATA-DICTIONARY.md` — superseded banners pointing to the Cowork PRD/brief
+- [x] `EPICS-AND-STORIES.md` — EP-0..EP-5 marked deprecated, EP-6 sole active epic
+- [x] `mortagate-cowork.gates.json` — Cowork-scoped gate definition authored
+      2026-08-28. Its commands assume PR #6 is merged and cannot run until then.
+      Also surfaced a real gap while writing it: `.github/workflows/ci.yml` has
+      no job that validates the Cowork package — not closed by this gate file,
+      a separate follow-up.
+- [ ] `force-app/` disposition (delete vs. archive) — not decided this pass
+
+**Status:** ACTIVE.
+
 ---
 
 ## Risk Register
