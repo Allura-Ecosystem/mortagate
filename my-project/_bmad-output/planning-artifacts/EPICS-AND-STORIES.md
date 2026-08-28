@@ -854,10 +854,13 @@
 - **I can** review and merge the Cowork module PR
 - **So that** the module lands on `main` and the pilot can begin
 - **Acceptance Criteria:**
-  - [ ] PR #6 reviewed against the CW-1..CW-22 requirements in `prds/prd-cowork-2026-08-28.md`
-  - [ ] All CI checks green at time of merge (8 checks per the Cowork PRD §7)
-  - [ ] Merged to `main`; `feat/microsoft-cowork-plugin` deleted or retained per repo convention
-  - [ ] `microsoft-cowork/` present on `main`
+  - [x] PR #6 reviewed against the CW-1..CW-22 requirements in `prds/prd-cowork-2026-08-28.md` <!-- 2026-08-28: Pike coverage 21/22 + Fowler adversarial; findings remediated c2ed5d6; verdict posted to PR #6 -->
+  - [x] All CI checks green at time of merge (4/4 SUCCESS on both PRs at merge time; PRD §7's 8-count includes 4 that are tenant-side/live, unrun by design) <!-- merged 2026-08-28 -->
+  - [x] Merged to `main`; `feat/microsoft-cowork-plugin` deleted per repo convention <!-- #6 squash d5ff074, branch deleted -->
+  - [x] `microsoft-cowork/` present on `main` <!-- 20 files verified incl. docs/REFERENCE-ARCHITECTURE.md -->
+
+  > ✅ US-6.5 closed 2026-08-28. PR #7 (planning pivot, 6559ecd) merged first,
+  > then PR #6 (module, d5ff074). Both via PR API with 4/4 CI green at merge time.
 - **Layer:** Salesforce/Engineering
 - **Depends on:** none
 - **Owner:** Sabir — requires human approval, Brooks does not merge PRs unilaterally

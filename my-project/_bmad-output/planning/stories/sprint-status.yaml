@@ -73,8 +73,11 @@ development_status:
   # Sabir decisions, not dev work — blocked pending those decisions
   us-6-4-pilot-onboarding-ux: blocked
 
-  # US-6.5: Review and merge PR #6 — requires Sabir
-  us-6-5-merge-pr-6: blocked
+  # US-6.5: Review and merge PR #6 — DONE 2026-08-28. Reviewed vs CW-1..CW-22
+  # (Pike 21/22 + Fowler adversarial, findings remediated c2ed5d6, verdict posted
+  # to PR #6), merged #7 (6559ecd) + #6 (d5ff074) via PR API; microsoft-cowork/
+  # (20 files incl. REFERENCE-ARCHITECTURE.md) verified on origin/main.
+  us-6-5-merge-pr-6: done
 
   # US-6.6: Tenant-side package validation — requires interactive M365 sign-in
   us-6-6-tenant-validation: blocked
