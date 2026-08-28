@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.28/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.28",
+  "version": "0.1.0",
+  "id": "e0b0ac58-3f14-5b71-99c9-2958d7d0bb31",
+  "developer": {
+    "name": "Allura Ecosystem",
+    "websiteUrl": "https://github.com/Allura-Ecosystem/mortagate",
+    "privacyUrl": "https://github.com/Allura-Ecosystem/mortagate/blob/main/microsoft-cowork/PRIVACY.md",
+    "termsOfUseUrl": "https://github.com/Allura-Ecosystem/mortagate/blob/main/microsoft-cowork/TERMS.md"
+  },
+  "name": {
+    "short": "Mortgate Evidence Review",
+    "full": "Mortgate Evidence Review for Copilot Cowork"
+  },
+  "description": {
+    "short": "Guided mortgage evidence review and audit-packet drafting.",
+    "full": "Guided, human-supervised mortgage evidence review, policy-replay comparison, and audit-packet drafting for Copilot Cowork. It does not make credit decisions or send notices."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#164B8E",
+  "agentSkills": [
+    { "folder": "./skills/mortgage-case-onboarding" },
+    { "folder": "./skills/loan-file-evidence-review" },
+    { "folder": "./skills/policy-replay-review" },
+    { "folder": "./skills/audit-packet-draft" }
+  ]
+}
