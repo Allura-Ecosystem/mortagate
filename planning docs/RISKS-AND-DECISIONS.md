@@ -335,8 +335,11 @@ Salesforce org and a Cowork package" from git archaeology.
 - [x] `BLUEPRINT.md`, PRD, `SOLUTION-ARCHITECTURE.md`, `REQUIREMENTS-MATRIX.md`,
       `DATA-DICTIONARY.md` — superseded banners pointing to the Cowork PRD/brief
 - [x] `EPICS-AND-STORIES.md` — EP-0..EP-5 marked deprecated, EP-6 sole active epic
-- [ ] `mortagate.gates.json` — new Cowork-scoped gate definition (not authored
-      this pass — named follow-up)
+- [x] `mortagate-cowork.gates.json` — Cowork-scoped gate definition authored
+      2026-08-28. Its commands assume PR #6 is merged and cannot run until then.
+      Also surfaced a real gap while writing it: `.github/workflows/ci.yml` has
+      no job that validates the Cowork package — not closed by this gate file,
+      a separate follow-up.
 - [ ] `force-app/` disposition (delete vs. archive) — not decided this pass
 
 **Status:** ACTIVE.

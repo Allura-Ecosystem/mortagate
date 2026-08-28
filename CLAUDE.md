@@ -93,8 +93,10 @@ Never write output to `docs/superpowers/`, `superpowers/specs/`, or any Superpow
 
 ## Current Runtime Gate
 
-`mortagate.gates.json` does not describe this product. A Cowork-scoped gate file
-doesn't exist yet — named follow-up in ADR-36. Until it exists, "dev-ready" means:
-PR review/merge (US-6.5), tenant-side package validation (US-6.6), and the CI
-checks already listed in the Cowork PRD §7 (manifest validation, package build,
-structural validator).
+`mortagate.gates.json` does not describe this product — it verifies the deprecated
+implementation. `mortagate-cowork.gates.json` is the active gate file: package
+structure, planning docs, build/local CI, and tenant validation (manual, needs a
+licensed human on a Frontier-enabled tenant — not automatable). Its commands assume
+PR #6 is merged; `microsoft-cowork/` doesn't exist on `main` yet, so none of its
+checks can run until then. It also names a real gap: `.github/workflows/ci.yml`
+has no job that validates the Cowork package itself.
