@@ -7,6 +7,10 @@ updated: 2026-06-14
 
 # PRD: Veridact — Mortgage Audit Replay & QC
 
+> [!CAUTION]
+> **Not current.** Mortagate is a Microsoft Copilot Cowork plugin — see
+> `../prd-cowork-2026-08-28.md`.
+
 ## 0. Document Purpose
 
 This PRD defines the requirements for Veridact, an internal mortgage audit replay and QC tool. It is written for the development team (Brooks orchestrating Team RAM), the product owner (Sabir Asheed), and downstream workflow owners (architecture, UX, epics). The document builds on the product brief (`product-brief.md`), the canonical Notion page, Figma wireframes, and 13 existing ADRs. Functional requirements are globally numbered (FR-1 through FR-N) and grouped by feature. Glossary terms are used verbatim throughout. Assumptions are tagged inline and indexed in section 9.

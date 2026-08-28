@@ -1,5 +1,12 @@
 # DESIGN: CaseFile Auditor UX — Authority Pointer
 
+> [!CAUTION]
+> **Not current.** CaseFile is deprecated (ADR-36) — Mortagate is a Microsoft
+> Copilot Cowork plugin. Deliberately kept outside `{planning_artifacts}` (no
+> symlink) as of 2026-08-28 so a `*ux*.md` glob check doesn't surface a
+> deprecated-product doc alongside the live Cowork UX doc — same pattern already
+> applied to `DESIGN-onboarding-ux.md`.
+
 > **This is a pointer document, not a design spec.** CaseFile's UX source of truth is
 > a Figma file, not repo-committed prose. This file exists so a readiness check or a
 > new contributor can *find* that authority without reading it out of a product brief

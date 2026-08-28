@@ -728,3 +728,139 @@ named explicitly rather than left to be rediscovered.
 
 **Assessed by:** Brooks · **Date:** 2026-08-28 · **Pass:** 2 of 2
 **Verdict:** 🟢 READY (up from 🟠 NEEDS WORK in Pass 1, same day)
+
+---
+
+## PASS 3 — POST-PIVOT RE-SCOPE (2026-08-28, same day)
+
+Triggered by re-invoking `/bmad-check-implementation-readiness` after ADR-36 (platform
+pivot: Cowork-only, CaseFile/Salesforce deprecated). **Scope changes from Pass 1/2:**
+CaseFile's PRD and epics are no longer primary artifacts for this assessment — they
+describe a deprecated product. Only the Cowork product (EP-6, `prd-cowork-2026-08-28.md`,
+`product-brief-cowork.md`) is assessed as the live backlog.
+
+Config updated before this run: `_bmad/bmm/config.yaml` project_name/comments still
+said "CaseFile" and referenced a `salesforce_org_alias` — both stale post-ADR-36,
+corrected as part of loading config for this pass.
+
+### Step 1 — Document Discovery (re-scoped)
+
+**PRD:**
+- `prds/prd-cowork-2026-08-28.md` — **in scope**, live, CW-1..CW-22.
+- `prds/prd-Mortagate-2026-06-14/prd.md` — **out of scope**, describes the deprecated
+  product.
+
+🔴 **CRITICAL — this PRD carries no banner.** It sits inside `{planning_artifacts}`
+(the live-backlog root) with no disclosure that its product is deprecated. Contrast
+with `planning docs/SOLUTION-ARCHITECTURE.md`, `REQUIREMENTS-MATRIX.md`,
+`DATA-DICTIONARY.md`, and `BLUEPRINT.md`, all of which got a `[!CAUTION] Not current`
+banner during the ADR-36 pivot commit. This file — sitting in the *more* prominent,
+*more* likely-to-be-read-first location — was missed.
+
+**Product brief:**
+- `product-brief-cowork.md` — **in scope**, live.
+- `product-brief.md` — **out of scope**, same gap as above.
+
+🔴 **CRITICAL — same missing-banner defect.** `product-brief.md` has zero mention of
+ADR-36. A reader landing here first (plausible — it's alphabetically first and
+shorter) gets no signal the product it describes isn't being built.
+
+**Architecture:**
+- `SOLUTION-ARCHITECTURE.md` (symlink → `planning docs/SOLUTION-ARCHITECTURE.md`) —
+  correctly bannered "Not current" from the prior pivot commit. But this means:
+
+🔴 **CRITICAL — no in-scope architecture document exists for the active product on
+this branch.** The Cowork module's own architecture doc,
+`microsoft-cowork/docs/REFERENCE-ARCHITECTURE.md`, lives only on branch
+`feat/microsoft-cowork-plugin` (PR #6, unmerged) — `microsoft-cowork/` does not exist
+on this branch at all (`ls microsoft-cowork` → No such file or directory). This is a
+structural gap, not a documentation-quality gap: the assessment cannot evaluate an
+architecture document that isn't present, on this branch, at all.
+
+**Epics & Stories:**
+- `EPICS-AND-STORIES.md` — EP-6 marked **Active**; EP-0..EP-5 correctly marked **Not
+  active** in the overview table (confirmed by direct read, not assumed from memory).
+
+**UX:**
+- `DESIGN-cowork-pilot-onboarding-ux.md` (symlink) — in scope, correctly scoped to
+  Cowork pilot cohort.
+- `DESIGN-casefile-auditor-ux.md` (symlink) — this is a pointer doc (to Figma) for the
+  now-deprecated CaseFile auditor persona. Not actively misleading (it's clearly
+  labeled as CaseFile-scoped in its own content), but it's discoverable via the same
+  `*ux*.md` glob as the in-scope Cowork doc, with nothing at the glob level
+  distinguishing "in scope" from "historical."
+
+### Critical Issues Summary (Pass 3)
+
+| # | Finding | Severity |
+|---|---|---|
+| 1 | `product-brief.md` and CaseFile PRD sit unbannered in the live `{planning_artifacts}` root | 🔴 Critical |
+| 2 | No architecture document exists for the active product on this branch at all | 🔴 Critical |
+| 3 | `DESIGN-casefile-auditor-ux.md` glob-discoverable alongside in-scope Cowork UX doc, no scope marker at filename level | 🟡 Medium |
+
+### Resolutions applied (same pass, after the findings above)
+
+| # | Finding | Resolution | Verified |
+|---|---|---|---|
+| 1 | `product-brief.md` + CaseFile PRD unbannered in live root | `[!CAUTION] Not current` banner added to both, pointing at the Cowork counterparts (`product-brief-cowork.md`, `prds/prd-cowork-2026-08-28.md`) | `grep -c "Not current"` → 1 in each |
+| 2 | No in-scope architecture doc on this branch | **Not fixable in this pass** — `microsoft-cowork/docs/REFERENCE-ARCHITECTURE.md` exists only on `feat/microsoft-cowork-plugin` (PR #6, unmerged). Tracked as US-6.5 (human-gated merge). README now states the gap explicitly so nothing treats `SOLUTION-ARCHITECTURE.md` as filling it. | README §"No live architecture document exists on this branch" |
+| 3 | `DESIGN-casefile-auditor-ux.md` glob-discoverable, no scope marker | **Removed from `{planning_artifacts}` entirely** (same treatment as the borrower UX doc) — deprecated product's pointer no longer sits next to the live Cowork doc under a glob that can't tell them apart. Source doc in `planning/` bannered; README documents the removal. | `ls planning-artifacts/*ux*.md` → Cowork doc only |
+| 4 | **NEW — two more unbannered Carlos docs:** `DESIGN-LangChain-Compliance.md` and `copilot-instructions.md` describe the deprecated Salesforce product with zero banner (the pivot commit bannered 4 of 6 Carlos docs; these two were missed) | Same `[!CAUTION] Not current` banner applied to both, matching the BLUEPRINT form | `grep -c "Not current"` → 1 in each; 6/6 Carlos docs now bannered (RISKS-AND-DECISIONS.md correctly stays live — it holds the ADRs) |
+
+### Step 2 — PRD Analysis (re-scoped to Cowork)
+
+`prds/prd-cowork-2026-08-28.md` re-read in full; CW-1..CW-22 re-extracted and compared
+against the Pass 1/2 extraction — **no drift**:
+
+- **CW-1..CW-3** — Case onboarding (plain-language start, scope/boundaries stated up front, user-attached documents only)
+- **CW-4..CW-8** — Evidence review (inventory, missing/ambiguous/conflicting, never infer from absence)
+- **CW-9..CW-12** — Policy replay review (compare *supplied* replay, map to evidence, report unsupported, never restate as decision)
+- **CW-13..CW-15** — Audit packet draft (reviewer-ready, always draft-marked, every finding cited)
+- **CW-16..CW-22** — Refusal boundaries (7 prohibited actions, plain-language refusals)
+
+**Total: 22 requirements, CW-1..CW-22, no gaps.** Every requirement carries an
+acceptance criterion. Traceability table maps each CW group to its shipped skill
+directory. CaseFile FR-1..FR-28 excluded from this pass as deprecated-product content.
+
+### Step 3 — Epic Coverage Validation (re-scoped)
+
+EP-6 is the only active epic. Its 8 stories (US-6.1..US-6.8) cover the CW groups:
+
+| CW group | Covered by | Status |
+|---|---|---|
+| CW-1..CW-15 (4 skills) | US-6.7 pilot exercise criteria | ✓ specified; behavioural verification is pilot work |
+| CW-16..CW-22 (refusals) | US-6.7 adversarial exercise criteria | ✓ specified; pilot work |
+| PRD/brief/UX/architecture traceability | US-6.1..US-6.4 | ✓ closed (US-6.1, US-6.2, US-6.3, US-6.4) |
+| Merge + tenant validation + pilot + go/no-go | US-6.5..US-6.8 | ⏳ open, human-gated |
+
+No orphan CW requirements; no phantom story references. The PRD's traceability table
+and EP-6's story ACs agree in both directions.
+
+### Step 4 — UX Alignment (re-scoped)
+
+- `DESIGN-cowork-pilot-onboarding-ux.md` (symlink → `planning/DESIGN-cowork-pilot-onboarding.md`) — **in scope, current, correct persona** (internal mortgage employee, pilot cohort). Explicitly distinguished from the borrower persona.
+- CaseFile auditor UX pointer removed from the glob root (finding 3) — no deprecated-product UX surfaces as current.
+- US-6.4's three open items (invite/licensing, fixture source, feedback channel) remain open — flagged for Sabir, not assumed.
+
+### Step 5 — Epic Quality Review (re-scoped to EP-6)
+
+| Check | Result |
+|---|---|
+| Stories missing `Depends on` | **0** ✅ |
+| Forward dependencies (story depends on a later story) | **0** ✅ |
+| Circular dependencies | **0** ✅ |
+| Stories without acceptance criteria | **0** ✅ (8/8 have ACs) |
+| Dependency chain | US-6.1 → US-6.2/6.3/6.4 → US-6.5 → US-6.6 → US-6.7 → US-6.8 — strictly forward, no cycles |
+
+EP-6 is clean by the structural standard. US-6.5..US-6.8 are correctly external/human-gated (merge, tenant sign-in, pilot, go/no-go) — appropriate for a pilot epic, not a defect.
+
+### Step 6 — Overall Verdict (Pass 3)
+
+**🟢 READY — with one structural dependency.**
+
+- All four findings from this pass are resolved (1, 3, 4) or explicitly tracked (2).
+- The remaining gap — no in-scope architecture doc on this branch — is **not a documentation defect**: the doc exists on PR #6 and lands with the merge (US-6.5). It is a merge-blocked structural dependency, owned by Sabir (Brooks does not merge PRs unilaterally).
+- The planning layer for the active product is now internally consistent: live PRD (CW-1..CW-22), live brief, live epics (EP-6), live UX doc, and every deprecated-product document bannered or removed from glob discovery.
+
+**Assessed by:** Brooks · **Date:** 2026-08-28 · **Pass:** 3 of 3
+**Verdict:** 🟢 READY (Cowork-scoped) — blocked only on PR #6 merge (US-6.5) for the architecture artifact.
