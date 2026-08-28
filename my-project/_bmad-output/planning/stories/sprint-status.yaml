@@ -80,7 +80,11 @@ development_status:
   # (20 files incl. REFERENCE-ARCHITECTURE.md) verified on origin/main.
   us-6-5-merge-pr-6: done
 
-  # US-6.6: Tenant-side package validation — requires interactive M365 sign-in
+  # US-6.6: Tenant-side package validation — requires interactive M365 sign-in.
+  # BLOCKED (external): Sabir has no Microsoft account yet; will use a friend's
+  # Frontier-enabled tenant when available. Runbook ready: planning/US-6.6-tenant-
+  # validation-runbook.md. Pilot rule holds regardless of tenant owner: synthetic
+  # documents only, private "Only you" upload, no production borrower data.
   us-6-6-tenant-validation: blocked
 
   # US-6.7: Private pilot upload, synthetic docs — depends on US-6.6
