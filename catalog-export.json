@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "packageId": "mortagate-cowork",
+  "canonical": {
+    "repository": "https://github.com/Allura-Ecosystem/mortagate.git",
+    "defaultBranch": "main",
+    "sourceRoot": "microsoft-cowork"
+  },
+  "destination": {
+    "repository": "https://github.com/Allura-Ecosystem/allura-plugins.git",
+    "path": "packages/mortagate-cowork",
+    "status": "future-generated-export",
+    "mode": "pinned-generated-export"
+  },
+  "export": {
+    "include": [
+      "PRIVACY.md",
+      "README.md",
+      "TERMS.md",
+      "appPackage/color.png",
+      "appPackage/manifest.json",
+      "appPackage/outline.png",
+      "appPackage/skills/audit-packet-draft/SKILL.md",
+      "appPackage/skills/audit-packet-draft/references/safety-boundaries.md",
+      "appPackage/skills/loan-file-evidence-review/SKILL.md",
+      "appPackage/skills/loan-file-evidence-review/references/safety-boundaries.md",
+      "appPackage/skills/mortgage-case-onboarding/SKILL.md",
+      "appPackage/skills/mortgage-case-onboarding/references/safety-boundaries.md",
+      "appPackage/skills/policy-replay-review/SKILL.md",
+      "appPackage/skills/policy-replay-review/references/safety-boundaries.md",
+      "docs/CONNECTOR-ROADMAP.md",
+      "docs/REFERENCE-ARCHITECTURE.md",
+      "m365agents.yml",
+      "scripts/generate_icons.py",
+      "scripts/validate_package.py"
+    ],
+    "exclude": [
+      {
+        "path": ".gitignore",
+        "reason": "Repository-local generated-output ignore rules are not package content."
+      }
+    ],
+    "forbiddenPatterns": [
+      ".env",
+      ".localConfigs",
+      "dist",
+      "node_modules",
+      "*.zip",
+      "*.pem",
+      "*.key"
+    ]
+  },
+  "provenance": {
+    "requiredFields": [
+      "sourceRepository",
+      "sourceCommit",
+      "contractPath",
+      "contractSha256",
+      "generatedBy"
+    ],
+    "contractPath": "catalog-export.json",
+    "edits": "Contribute changes to the canonical Mortgate repository before regenerating the downstream package."
+  },
+  "authority": {
+    "canonicalRepositoryOwns": [
+      "mortagate-cowork-product-source",
+      "mortagate-cowork-safety-boundaries",
+      "mortagate-cowork-export-contract"
+    ],
+    "downstreamIsAuthority": false
+  }
+}

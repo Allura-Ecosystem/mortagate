@@ -95,8 +95,9 @@ Never write output to `docs/superpowers/`, `superpowers/specs/`, or any Superpow
 
 `mortagate.gates.json` does not describe this product — it verifies the deprecated
 implementation. `mortagate-cowork.gates.json` is the active gate file: package
-structure, planning docs, build/local CI, and tenant validation (manual, needs a
-licensed human on a Frontier-enabled tenant — not automatable). Its commands assume
-PR #6 is merged; `microsoft-cowork/` doesn't exist on `main` yet, so none of its
-checks can run until then. It also names a real gap: `.github/workflows/ci.yml`
-has no job that validates the Cowork package itself.
+structure, export-contract validation, product documentation, local build checks,
+and tenant validation (manual, needs a licensed human on a Frontier-enabled tenant —
+not automatable). `microsoft-cowork/` is present on `main`; the `cowork-product` CI
+job validates its offline package structure, catalog export contract, validator tests,
+and product-documentation links. Microsoft toolkit packaging and tenant upload remain
+separate local/manual evidence.

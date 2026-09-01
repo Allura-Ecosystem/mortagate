@@ -1,4 +1,7 @@
-# Mortgage Approval Engine — AI Instructions
+# Mortgate Evidence Review — AI Instructions
+
+> [!CAUTION]
+> ADR-36 makes `microsoft-cowork/` the entire current product. The Salesforce-specific standards retained below apply only when reading the deprecated Veridact implementation; do not use them to start new product work or claim current readiness. Current product entry points are `README.md`, `docs/`, `AGENTS.md`, `CLAUDE.md`, and `mortagate-cowork.gates.json`.
 
 > [!NOTE]
 > **AI-Assisted Documentation**
@@ -9,8 +12,9 @@
 
 ## Project Context
 
-**Project:** Salesforce Community Mortgage Approval Engine (Allura Tuned)
-**Platform:** Salesforce (Experience Cloud, Flows, Apex, LWC)
+**Current product:** Mortgate Evidence Review for Microsoft Copilot Cowork (`microsoft-cowork/`)
+**Current platform:** Microsoft 365 Copilot Cowork (skills-only package)
+**Deprecated historical platform:** Salesforce Experience Cloud, Flows, Apex, and LWC
 **Documentation Standard:** Carlos Guidelines (AI-GUIDELINES.md)
 
 ---

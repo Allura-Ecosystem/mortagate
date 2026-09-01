@@ -10,7 +10,7 @@
       "my-project/_bmad-output/planning-artifacts/prds/prd-cowork-2026-08-28.md",
       "planning docs/RISKS-AND-DECISIONS.md"
     ],
-    "notes": "Created 2026-08-28 (ADR-36 follow-up). mortagate.gates.json describes the deprecated Salesforce implementation and does not apply to this product. This file's commands assume PR #6 (branch feat/microsoft-cowork-plugin) is merged -- microsoft-cowork/ does not exist on main yet, so none of these checks can run until then."
+    "notes": "Created 2026-08-28 as the ADR-36 follow-up and updated during canonical repository productization. mortagate.gates.json describes the deprecated Salesforce implementation and does not apply to this product."
   },
   "runner": {
     "version": 1,
@@ -40,7 +40,7 @@
         {
           "id": "p0-002-structural-validator",
           "type": "command",
-          "command": "python3 microsoft-cowork/scripts/validate_package.py microsoft-cowork/appPackage",
+          "command": "python3 microsoft-cowork/scripts/validate_package.py --package-root microsoft-cowork/appPackage",
           "required": true,
           "notes": "Offline structural validator already exists in the module source (PR #6) -- this gate just wires it into a runnable check, it doesn't invent new validation logic."
         },
@@ -94,32 +94,52 @@
     {
       "id": "phase-2",
       "name": "Package Build and Local CI",
-      "intent": "Confirm the package builds and existing local checks pass. NOTE: as of 2026-08-28, .github/workflows/ci.yml has zero jobs that touch microsoft-cowork/ -- the four jobs it runs (validate-salesforce, validate-agents, lwc-tests, no-secrets) are repo-wide and happen to execute on any PR including #6, but none of them validate the Cowork package itself. That gap is real and is not closed by this gate file; a Cowork CI job is a separate, not-yet-done follow-up.",
+      "intent": "Confirm the Cowork package, export contract, and product documentation pass current local and CI checks.",
       "acceptance_criteria": [
         "Microsoft 365 Agents Toolkit manifest validation passes.",
         "Package builds to a zip without errors.",
-        "LWC unit tests pass (repo-wide, not Cowork-specific, but currently the only automated test signal touching this PR)."
+        "Offline package and catalog-export validators pass.",
+        "Product documentation links resolve locally."
       ],
       "checks": [
         {
           "id": "p2-001-toolkit-validate",
           "type": "command",
-          "command": "cd microsoft-cowork && teamsapp validate --env local",
+          "command": "cd microsoft-cowork/appPackage && npx --yes @microsoft/m365agentstoolkit-cli validate --manifest-file manifest.json --validate-method validation-rules --interactive false",
           "required": true,
           "notes": "Microsoft 365 Agents Toolkit CLI. Requires teamsapp/atk installed; not yet wired into CI."
         },
         {
           "id": "p2-002-package-build",
           "type": "command",
-          "command": "cd microsoft-cowork && teamsapp package --env local",
+          "command": "cd microsoft-cowork && npx --yes @microsoft/m365agentstoolkit-cli package --manifest-file appPackage/manifest.json --output-package-file dist/mortgate-evidence-review.zip --interactive false && cd .. && python3 microsoft-cowork/scripts/validate_package.py --package-root microsoft-cowork/appPackage --archive microsoft-cowork/dist/mortgate-evidence-review.zip",
           "required": true
         },
         {
-          "id": "p2-003-lwc-tests",
+          "id": "p2-003-export-contract",
+          "type": "command",
+          "command": "python3 scripts/validate_catalog_export.py && python3 -m unittest discover -s tests -p 'test_*.py'",
+          "required": true,
+          "notes": "Validates the exact safe-file allowlist and the future allura-plugins/packages/mortagate-cowork destination without writing downstream."
+        },
+        {
+          "id": "p2-004-doc-links",
+          "type": "command",
+          "command": "python3 scripts/check_markdown_links.py",
+          "required": true
+        },
+        {
+          "id": "p2-005-gitleaks",
+          "type": "command",
+          "command": "for surface in microsoft-cowork docs scripts tests .opencode/command .opencode/plugins; do gitleaks detect --no-git --source \"$surface\" --redact --exit-code 1 || exit 1; done",
+          "required": true
+        },
+        {
+          "id": "p2-006-legacy-lwc-tests",
           "type": "command",
           "command": "npm run test:unit",
           "required": false,
-          "notes": "Repo-wide, not Cowork-specific. Kept because it's the existing signal; do not treat a pass here as evidence Cowork itself is tested."
+          "notes": "Deprecated Salesforce regression signal only. A pass is not evidence that Cowork itself is tenant-ready."
         }
       ]
     },

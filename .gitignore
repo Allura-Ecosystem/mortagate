@@ -17,3 +17,5 @@ _bmad/render/
 .agents/
 .codex/
 .bmad-loop/
+__pycache__/
+*.py[cod]

@@ -87,6 +87,10 @@ It must not expose approval, denial, pricing, rate-setting, notice issuance, or 
 
 See `docs/REFERENCE-ARCHITECTURE.md`.
 
+## Canonical source and catalog relationship
+
+This directory is the current product source inside the canonical [Mortgate repository](https://github.com/Allura-Ecosystem/mortagate). The root [`catalog-export.json`](../catalog-export.json) allowlists reusable files for a future generated [`allura-plugins/packages/mortagate-cowork`](https://github.com/Allura-Ecosystem/allura-plugins/tree/main/packages/mortagate-cowork) package. That catalog path is not published yet, and downstream copies must send fixes back to Mortgate before regeneration.
+
 ## Microsoft sources
 
 - [Build plugins for Copilot Cowork](https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-plugin-development)

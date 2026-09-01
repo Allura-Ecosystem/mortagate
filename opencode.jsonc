@@ -12,6 +12,7 @@
     }
   },
   "plugin": [
-    "opencode-scheduler"
+    "opencode-scheduler",
+    "./.opencode/plugins/mortgate-plugin.ts"
   ]
 }

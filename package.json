@@ -2,8 +2,12 @@
   "name": "mortagate",
   "private": true,
   "version": "1.0.0",
-  "description": "Veridact mortgage approval engine — LWC + Apex on Salesforce Experience Cloud.",
+  "description": "Mortgate Evidence Review for Microsoft Copilot Cowork; legacy Salesforce source is archived.",
   "scripts": {
+    "validate:cowork": "python3 microsoft-cowork/scripts/validate_package.py --package-root microsoft-cowork/appPackage",
+    "validate:export": "python3 scripts/validate_catalog_export.py",
+    "test:catalog-export": "python3 -m unittest discover -s tests -p 'test_*.py'",
+    "docs:links": "python3 scripts/check_markdown_links.py",
     "test:unit": "sfdx-lwc-jest",
     "test:unit:watch": "sfdx-lwc-jest --watch",
     "test:unit:coverage": "sfdx-lwc-jest --coverage",

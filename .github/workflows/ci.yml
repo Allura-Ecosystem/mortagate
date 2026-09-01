@@ -7,6 +7,23 @@ on:
     branches: [main]
 
 jobs:
+  cowork-product:
+    name: Validate canonical Cowork product
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Cowork package source
+        run: python3 microsoft-cowork/scripts/validate_package.py --package-root microsoft-cowork/appPackage
+      - name: Validate catalog export contract
+        run: python3 scripts/validate_catalog_export.py
+      - name: Test catalog export validator
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Check product documentation links
+        run: python3 scripts/check_markdown_links.py
+
   validate-salesforce:
     name: Validate Salesforce metadata
     runs-on: ubuntu-latest
@@ -71,6 +88,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Scan current product and export tooling with gitleaks
+        run: |
+          for surface in microsoft-cowork docs scripts tests .opencode/command .opencode/plugins; do
+            docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.24.2 detect \
+              --no-git --source="/repo/$surface" --redact --exit-code=1
+          done
       - name: Check no credentials committed
         run: |
           set -e

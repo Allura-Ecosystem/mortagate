@@ -5,20 +5,20 @@
 
 ## Source of Truth
 
-- **Project:** Salesforce Community Mortgage Approval Engine (Mortgate, brand: Veridact)
+- **Product (current):** **Mortgate Evidence Review for Microsoft Copilot Cowork** — a native Microsoft 365 Copilot Cowork skills package under `microsoft-cowork/`. This is the whole product. Decision record: **ADR-36** (platform pivot to Cowork-only) in `planning docs/RISKS-AND-DECISIONS.md`.
+- **Deprecated:** The prior **Salesforce Community Mortgage Approval Engine** (brand: Veridact) is no longer active product. Its legacy metadata (`force-app/`, `sfdx-project.json`, Apex/LWC/Flow) and old Carlos docs remain in-repo for reference only; do not develop or deploy to it.
 - **Memory group:** `allura-mortgage`
-- **Org alias:** `mortgate-de`
-- **Documentation standard:** Carlos Guidelines (see `copilot-instructions.md` §1)
+- **Documentation standard:** Carlos Guidelines; current Cowork product docs are indexed from `README.md` and governed by ADR-36 in `planning docs/RISKS-AND-DECISIONS.md`.
 - **Claude context:** See `CLAUDE.md`
-- **AI instructions:** See `copilot-instructions.md`
+- **AI instructions:** See `.github/copilot-instructions.md`
 
-If documentation conflicts with Salesforce metadata, Apex, Flow XML, LWC source, or JSON schema, defer to source code or schema first.
+If documentation conflicts with the Cowork module's manifest, skill definitions, or JSON schema, defer to source code or schema first.
 
 ## Harness: Team RAM (Mortgate)
 
-**Goal:** Provide a Brooks-orchestrated team of specialist agents (Woz, Knuth, Hightower, Pike, Fowler, Bellard) to build, review, deploy, and govern the Salesforce Mortgage Approval Engine under Carlos Guidelines and the Allura memory group `allura-mortgage`.
+**Goal:** Provide a Brooks-orchestrated team of specialist agents (Woz, Knuth, Hightower, Pike, Fowler, Bellard) to build, review, and govern the **Mortgate Evidence Review for Microsoft Copilot Cowork** plugin under Carlos Guidelines and the Allura memory group `allura-mortgage`.
 
-**Trigger:** When the user requests work on the **Mortgate** project (Salesforce mortgage app, Apex/LWC/Flow code, sf CLI deploy, `mortgate-de` org, or any of the six Carlos Guidelines docs), load the `mortgate-orchestrator` skill and route through Brooks. Simple chat or non-project questions do not require the orchestrator.
+**Trigger:** When the user requests work on the **Mortgate** project (the Cowork plugin, `microsoft-cowork/`, its four Agent Skills, the Cowork package manifest, gate execution, or Cowork-scoped planning docs), load the `mortgate-orchestrator` skill and route through Brooks. Simple chat or non-project questions do not require the orchestrator.
 
 **Skills to load in this project (when applicable):**
 
@@ -26,36 +26,32 @@ If documentation conflicts with Salesforce metadata, Apex, Flow XML, LWC source,
 | ----------------------- | ---------------------------------------------- |
 | `mortgate-orchestrator` | Project entry, status, routing, story start    |
 | `carlos-guidelines`     | Before writing any code; doc sync work         |
-| `sf-deploy`             | sf CLI, org auth, deploy, gate execution       |
-| `sf-data-model`         | SObject design, schema review, DATA-DICTIONARY |
-| `lwc-craft`             | LWC component build / review                   |
-| `apex-quality`          | Apex build, review, refactor                   |
+
+> The legacy Salesforce skills (`sf-deploy`, `sf-data-model`, `lwc-craft`, `apex-quality`) apply only to the deprecated Salesforce implementation and are **not** part of current Cowork product work.
 
 **Required loop:**
 
 ```text
-Brooks → Scout hydration → Allura Brain (group_id: allura-mortgage) → Skills → Route → Build/review → Validate (mortgate.gates.json) → Log
+Brooks → Scout hydration → Allura Brain (group_id: allura-mortgage) → Skills → Route → Build/review → Validate (mortagate-cowork.gates.json) → Log
 ```
 
 **Non-negotiables:**
 
 - All memory operations use `group_id: "allura-mortgage"`.
-- Carlos Guidelines six docs must exist before code lands.
-- `mortgate.gates.json` must pass before claiming done.
-- `Decision_Event__c` is append-only — never UPDATE/DELETE.
-- No DML / SOQL / Get Records inside loops in Apex.
-- Source of truth: Schema > Code > Docs.
+- Carlos Guidelines six docs must exist before code lands — but for the Cowork product, work from Cowork-scoped planning artifacts (`my-project/_bmad-output/planning-artifacts/`) and keep `planning docs/RISKS-AND-DECISIONS.md` live (ADR-34/35/36). Do not edit the other five legacy Carlos docs in place for current work.
+- `mortagate-cowork.gates.json` is the **active** gate file and must pass before claiming done. (`mortgate.gates.json` verifies the deprecated Salesforce implementation and does not apply.)
+- Source of truth: Source / schema > Code > Docs.
 
 **Agent registry (canonical):**
 
 | Agent            | File                                                    | Role                          |
 | ---------------- | ------------------------------------------------------- | ----------------------------- |
 | Brooks (primary) | `.opencode/agent/core/brooks.md`                        | Architect, ADR, contract gate |
-| Woz              | `.opencode/agent/subagents/code/woz.md`                 | Apex / LWC / Flow builder     |
-| Knuth            | `.opencode/agent/subagents/infrastructure/knuth.md`     | SObject data architect        |
-| Hightower        | `.opencode/agent/subagents/infrastructure/hightower.md` | sf CLI, deploy, gates         |
-| Pike             | `.opencode/agent/subagents/review/pike.md`              | LWC interface review          |
-| Fowler           | `.opencode/agent/subagents/review/fowler.md`            | Apex refactor gate            |
+| Woz              | `.opencode/agent/subagents/code/woz.md`                 | Builder (legacy Apex/LWC/Flow; Cowork packaging) |
+| Knuth            | `.opencode/agent/subagents/infrastructure/knuth.md`     | Data architect (legacy SObject) |
+| Hightower        | `.opencode/agent/subagents/infrastructure/hightower.md` | Deploy / gates (legacy sf CLI; Cowork package validation) |
+| Pike             | `.opencode/agent/subagents/review/pike.md`              | Interface review (legacy LWC; Cowork skill UX) |
+| Fowler           | `.opencode/agent/subagents/review/fowler.md`            | Refactor gate (legacy Apex) |
 | Bellard          | `.opencode/agent/subagents/code/bellard.md`             | Deep diagnostics / perf       |
 
 **Claude runtime adapter (`.claude/`):**
@@ -80,3 +76,4 @@ Brooks → Scout hydration → Allura Brain (group_id: allura-mortgage) → Skil
 | ---------- | ------------------------ | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | 2026-06-06 | Initial Team RAM install | `.opencode/agent/`, `.opencode/skills/`, `AGENTS.md`                                                     | Add governed Brooks-orchestrated agent team to Mortgate project under Allura memory group `allura-mortgage` |
 | 2026-06-06 | Claude runtime adapter   | `.claude/agents/`, `.claude/skills/mortgate-*/` etc., `.claude/settings.local.json`, `.claude/AGENTS.md` | Mirror canonical Team RAM to Claude Code / Desktop runtime                                                  |
+| 2026-08-29 | Doc sync to Cowork-only | `AGENTS.md`                                                                                              | Align with ADR-36 / CLAUDE.md: `microsoft-cowork/` is the product, `mortagate-cowork.gates.json` is the active gate, Salesforce implementation marked deprecated |
