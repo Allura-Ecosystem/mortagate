@@ -73,7 +73,7 @@ alongside the loan-origination system.
 |---|---|---|---|
 | E-1 | B-5 — `undated-scan` classified inconsistently between `ambiguous` and `unidentified` | Low | **Open.** Sharpen the taxonomy guidance so "recognisable type, missing date" maps unambiguously to `ambiguous` |
 | E-2 | Evidence metadata incomplete — connector roadmap §4 requires source system, document ID, document hash, page/section, extraction version, confidence, freshness. Skills currently cite file and page only | Medium | **Open.** No connector exists, so not yet load-bearing, but the skill output tables should carry the fields now or the connector work forces a rewrite of all four |
-| E-3 | No change-management control for skill edits | Medium | **Open.** Skills are prompts; a `SKILL.md` edit is a behaviour change with no compile step. Needs a documented gate requiring the refusal suite to be re-run and re-approved |
+| E-3 | No change-management control for skill edits | Medium | **Closed 2026-09-02.** `microsoft-cowork/docs/CHANGE-MANAGEMENT.md` defines four change classes, a five-step gate requiring the refusal suite and a blind fixture re-run, named-approver sign-off for boundary widening, and a dual-target parity check so the Claude and Microsoft channels cannot drift apart |
 
 ## F. Controls not yet in scope
 
