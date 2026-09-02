@@ -2,7 +2,12 @@
   "mcpServers": {
     "allura-brain": {
       "type": "http",
-      "url": "http://localhost:5888/mcp"
+      "url": "https://mcp.faithmeats.org/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:ALLURA_MCP_TROY_DESKTOP_TOKEN}",
+        "CF-Access-Client-Id": "{env:ALLURA_CF_ACCESS_CLIENT_ID}",
+        "CF-Access-Client-Secret": "{env:ALLURA_CF_ACCESS_CLIENT_SECRET}"
+      }
     }
   }
 }
