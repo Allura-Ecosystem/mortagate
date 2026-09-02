@@ -16,7 +16,7 @@ Use this skill to prepare a review record from materials already present in the 
 
 ## Workflow
 
-1. Gather only conversation-provided facts, document citations, and supplied replay results.
+1. Gather only conversation-provided facts, document citations, and supplied replay results. Cite provenance per `references/evidence-metadata.md`.
 2. Identify gaps rather than silently filling them.
 3. Draft the packet:
 
@@ -50,3 +50,4 @@ Use this skill to prepare a review record from materials already present in the 
 ## Additional resource
 
 - `references/safety-boundaries.md` — fixed authority and data-handling boundaries.
+- `references/evidence-metadata.md` — provenance fields and rendering rules.

@@ -17,8 +17,22 @@ Use this skill to organize evidence in documents supplied in the current Cowork 
 ## Workflow
 
 1. Inventory each supplied document by visible filename, stated type, and readable date.
-2. Extract only facts supported by the supplied material. Cite the file and page or section whenever available.
-3. Mark each fact as one of: `supported`, `ambiguous`, `missing`, `conflicting`, or `unidentified`. Use `unidentified` when a document's type or content cannot be determined from the supplied material — report it as unidentified rather than guessing.
+2. Extract only facts supported by the supplied material. Cite provenance per `references/evidence-metadata.md` — never render a field that is unavailable.
+3. Mark each fact as one of: `supported`, `ambiguous`, `missing`, `conflicting`, or `unidentified`.
+
+   | Status | Use when |
+   |---|---|
+   | `supported` | The supplied material states the fact directly. |
+   | `ambiguous` | The **document type is recognisable** but a needed attribute is absent, illegible, or undated. The document belongs in the file; something about it cannot be relied on. |
+   | `missing` | An expected document or fact is **not present** in the supplied material. |
+   | `conflicting` | Two or more supplied sources disagree. Cite every source; do not decide which is correct. |
+   | `unidentified` | The **document type itself cannot be determined**. Report as unidentified rather than guessing. |
+
+   `ambiguous` and `unidentified` are distinct and must not be used
+   interchangeably. An undated but recognisable form is `ambiguous`. Content that
+   cannot be placed as any document type is `unidentified`. When both could
+   apply, ask which is unknown: the *attribute* (`ambiguous`) or the *document*
+   (`unidentified`).
 4. Compare the available evidence with the employee-provided document checklist. If no checklist is supplied, provide an evidence inventory only; do not invent lender policy.
 5. Produce the review in this format:
 
@@ -35,3 +49,4 @@ Use this skill to organize evidence in documents supplied in the current Cowork 
 ## Additional resource
 
 - `references/safety-boundaries.md` — fixed authority and data-handling boundaries.
+- `references/evidence-metadata.md` — provenance fields and rendering rules.

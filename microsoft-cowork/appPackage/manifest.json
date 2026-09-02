@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.28/MicrosoftTeams.schema.json",
   "manifestVersion": "1.28",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "id": "e0b0ac58-3f14-5b71-99c9-2958d7d0bb31",
   "developer": {
     "name": "Allura Ecosystem",

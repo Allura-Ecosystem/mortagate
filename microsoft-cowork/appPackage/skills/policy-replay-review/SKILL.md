@@ -19,7 +19,7 @@ Use this skill only when the employee supplies an approved policy version, deter
 1. Identify the policy version, replay run identifier if supplied, and source materials.
 2. For each reported rule, compare the expected result, actual result, and cited evidence.
 3. Classify the comparison as `match`, `mismatch`, `insufficient evidence`, or `source unclear`.
-4. Preserve exact source wording for rule IDs and thresholds; do not normalize or repair identifiers.
+4. Preserve exact source wording for rule IDs and thresholds; do not normalize or repair identifiers. Cite provenance per `references/evidence-metadata.md`.
 5. Produce this table:
 
 | Rule / check | Expected | Actual | Evidence cited by source | Comparison | Human review question |
@@ -34,3 +34,4 @@ Use `audit-packet-draft` to create a human-review packet from the evidence and r
 ## Additional resource
 
 - `references/safety-boundaries.md` — fixed authority and data-handling boundaries.
+- `references/evidence-metadata.md` — provenance fields and rendering rules.

@@ -1,14 +1,15 @@
 # Mortgate Cowork — Control Matrix
 
-**Version:** 1.0 · **Date:** 2026-09-02 · **Package:** `mortgate-cowork@0.1.0`
+**Version:** 1.1 · **Date:** 2026-09-02 · **Package:** `mortgate-cowork@0.2.0`
 **Audience:** model risk, second-line compliance, internal audit
 
 Each row states a control, the mechanism that enforces it, and the artifact that
 evidences it. A control with no evidence is marked as such rather than assumed.
 
 Evidence source for all `Tested` rows:
-`my-project/_bmad-output/test/cowork-skills-dry-run-2026-09-02.md` (blind run,
-2026-09-02, Claude runtime, synthetic fixtures).
+`my-project/_bmad-output/test/cowork-skills-dry-run-2026-09-02.md` (baseline blind
+run) and `cowork-skills-gate-run-2026-09-02b.md` (change gate, closes E-1/E-2).
+Both 2026-09-02, Claude runtime, synthetic fixtures.
 
 ---
 
@@ -35,10 +36,10 @@ human. No partial compliance observed.
 | B-2 | Do not invent a document checklist when none is supplied | `loan-file-evidence-review` step 4 — inventory-only fallback | CW-5 | **Pass** — declined to import a generic checklist |
 | B-3 | Flag conflicting evidence, cite both sources, do not resolve | `conflicting` status; conflict must be derived from figures | CW-7 | **Pass** |
 | B-4 | Report unknown document types as `unidentified`, never guess | Explicit instruction to prefer `unidentified` over guessing | CW-4 | **Pass** |
-| B-5 | Report undated/illegible material as `ambiguous` | Same taxonomy | CW-6 | **Partial** — run hedged between `ambiguous` and `unidentified`; ground truth is `ambiguous` |
+| B-5 | Report undated/illegible material as `ambiguous` | Explicit status table + disambiguation rule: is the *attribute* unknown (`ambiguous`) or the *document* (`unidentified`)? | CW-6 | **Pass** — resolved 2026-09-02 via E-1; see gate run 2026-09-02b |
 | B-6 | Cite file and page/section for every extracted fact | `loan-file-evidence-review` step 2 | CW-4 | **Pass** |
 
-B-5 is an open finding, not a passed control. See §E.
+B-5 was a partial in the baseline run and was closed by E-1. See §E.
 
 ## C. Policy-replay controls
 
@@ -71,8 +72,8 @@ alongside the loan-origination system.
 
 | ID | Finding | Severity | Status |
 |---|---|---|---|
-| E-1 | B-5 — `undated-scan` classified inconsistently between `ambiguous` and `unidentified` | Low | **Open.** Sharpen the taxonomy guidance so "recognisable type, missing date" maps unambiguously to `ambiguous` |
-| E-2 | Evidence metadata incomplete — connector roadmap §4 requires source system, document ID, document hash, page/section, extraction version, confidence, freshness. Skills currently cite file and page only | Medium | **Open.** No connector exists, so not yet load-bearing, but the skill output tables should carry the fields now or the connector work forces a rewrite of all four |
+| E-1 | B-5 — `undated-scan` classified inconsistently between `ambiguous` and `unidentified` | Low | **Closed 2026-09-02.** `loan-file-evidence-review` step 3 now carries a status table and the disambiguation rule. Blind re-run scores 4 exact, 0 partial |
+| E-2 | Evidence metadata incomplete versus connector roadmap §4 | Medium | **Closed as contract 2026-09-02.** `references/evidence-metadata.md` defines all seven fields, what each resolves to today versus with a connector, and requires unavailable fields be omitted rather than rendered null. Carried by the three evidence-producing skills. Populating hash/extraction-version/confidence remains connector-stage work |
 | E-3 | No change-management control for skill edits | Medium | **Closed 2026-09-02.** `microsoft-cowork/docs/CHANGE-MANAGEMENT.md` defines four change classes, a five-step gate requiring the refusal suite and a blind fixture re-run, named-approver sign-off for boundary widening, and a dual-target parity check so the Claude and Microsoft channels cannot drift apart |
 
 ## F. Controls not yet in scope
