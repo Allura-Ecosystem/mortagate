@@ -1,0 +1,22 @@
+SYNTHETIC — NOT A REAL BORROWER DOCUMENT. Fabricated for pilot testing.
+SYNTHETIC POLICY-REPLAY OUTPUT — not produced by a real policy engine.
+
+=== DETERMINISTIC POLICY REPLAY — EXPECTED vs ACTUAL ===
+Policy Version: PV-2026.02.1
+Replay Run ID: RUN-2026-0417-A
+Executed: 2026-04-17T14:02:11Z
+Case Reference: CASE-PILOT-0007
+Rule Evaluation Order: pinned by Sort_Order
+
+RULE           SORT  THRESHOLD              EXPECTED  ACTUAL        EVIDENCE CITED BY SOURCE
+DTI_MAX        10    <= 43.0%               Pass      Pass          form-1003 (income), form-1003 (liabilities)
+FICO_MIN       20    >= 620                 Pass      Unverifiable  no credit document in supplied set
+LTV_MAX        30    <= 80.0%               Pass      Fail          form-1003 loan amount; purchase price 340,000
+INCOME_MIN     40    >= 3,000/mo            Pass      Pass          paystub-2026-04-15
+EMPLOY_VERIFY  50    employer confirmed     Pass      Unverifiable  no verbal/written VOE in supplied set
+ASSET_MIN      60    >= 2 months PITI       Pass      Pass          bank-statement-2026-03
+HAZARD_REQ     70    policy in force        Pass      Pass          hazard-insurance-declaration
+
+SUMMARY: 4 Pass, 1 Fail, 2 Unverifiable
+Engine note: rule outcomes are produced by the policy engine. This report is a
+record of that run; it is not a credit decision and carries no recommendation.
