@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgate — Same employee. Same workspace. Different outcome.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1A2B4A;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #F5F5F5;
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+    padding: 48px 24px;
+  }
+  .canvas {
+    width: 1200px;
+    max-width: 100%;
+    background: linear-gradient(160deg, #1A2B4A 0%, #14213a 100%);
+    border-radius: 24px;
+    padding: 64px 72px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .overline {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #E85A3C;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+  h1 .accent { color: #E85A3C; }
+  .subtitle {
+    text-align: center;
+    color: rgba(245,245,245,0.72);
+    font-size: 17px;
+    max-width: 640px;
+    margin: 14px auto 0;
+  }
+
+  /* comparison columns */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 56px;
+    position: relative;
+    z-index: 2;
+  }
+  .col {
+    border-radius: 20px;
+    padding: 32px 28px;
+  }
+  .col.traditional {
+    background: rgba(245,245,245,0.05);
+    border: 1px solid rgba(245,245,245,0.1);
+  }
+  .col.mortgate {
+    background: linear-gradient(160deg, rgba(232,90,60,0.14), rgba(232,90,60,0.04));
+    border: 1px solid rgba(232,90,60,0.35);
+  }
+  .col .col-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .col .col-head .badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .col.traditional .badge { background: rgba(245,245,245,0.1); color: rgba(245,245,245,0.6); }
+  .col.mortgate .badge { background: #E85A3C; color: #F5F5F5; }
+  .col .col-title {
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .col.traditional .col-title { color: rgba(245,245,245,0.55); }
+  .col.mortgate .col-title { color: #F5F5F5; }
+
+  .chain {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .chain-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(245,245,245,0.06);
+    border: 1px solid rgba(245,245,245,0.1);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .col.traditional .chain-step { color: rgba(245,245,245,0.6); }
+  .col.mortgate .chain-step { color: #F5F5F5; }
+  .chain-step .idx {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .col.traditional .chain-step .idx { background: rgba(245,245,245,0.12); color: rgba(245,245,245,0.5); }
+  .col.mortgate .chain-step .idx { background: #E85A3C; color: #F5F5F5; }
+  .chain-arrow {
+    text-align: center;
+    color: rgba(245,245,245,0.35);
+    font-size: 16px;
+    line-height: 1;
+  }
+  .col.mortgate .chain-arrow { color: rgba(232,90,60,0.6); }
+
+  .col .outcome {
+    margin-top: 20px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .col.traditional .outcome {
+    background: rgba(245,245,245,0.05);
+    color: rgba(245,245,245,0.5);
+  }
+  .col.mortgate .outcome {
+    background: rgba(76,175,80,0.14);
+    border: 1px solid rgba(76,175,80,0.3);
+    color: #4CAF50;
+  }
+
+  /* verdict strip */
+  .verdict {
+    margin-top: 32px;
+    background: rgba(245,245,245,0.05);
+    border: 1px solid rgba(245,245,245,0.1);
+    border-radius: 16px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .verdict .icon { font-size: 30px; }
+  .verdict .text h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #F5F5F5;
+  }
+  .verdict .text p {
+    font-size: 14px;
+    color: rgba(245,245,245,0.7);
+    margin-top: 2px;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(245,245,245,0.4);
+    margin-top: 36px;
+    position: relative;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="overline">The Difference</div>
+  <h1>Same employee. Same workspace.<br><span class="accent">Different outcome.</span></h1>
+  <p class="subtitle">Traditional mortgage software adds a whole new system. Mortgate adds expertise to the one you already have.</p>
+
+  <div class="compare">
+    <div class="col traditional">
+      <div class="col-head">
+        <span class="badge">Traditional</span>
+        <span class="col-title">Another platform</span>
+      </div>
+      <div class="chain">
+        <div class="chain-step"><span class="idx">1</span>New website</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-step"><span class="idx">2</span>New login</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-step"><span class="idx">3</span>New UI to learn</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-step"><span class="idx">4</span>Vendor database</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-step"><span class="idx">5</span>New workflow</div>
+      </div>
+      <div class="outcome">Employees learn a second system. IT deploys another platform.</div>
+    </div>
+
+    <div class="col mortgate">
+      <div class="col-head">
+        <span class="badge">Mortgate</span>
+        <span class="col-title">A smarter coworker</span>
+      </div>
+      <div class="chain">
+        <div class="chain-step"><span class="idx">1</span>Existing AI coworker</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-step"><span class="idx">2</span>Install Mortgate</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-step"><span class="idx">3</span>Review mortgage files</div>
+      </div>
+      <div class="outcome">The workflow travels with the employee. No new system to learn.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="icon">💡</div>
+    <div class="text">
+      <h3>You're buying the mortgage expertise and review procedure — not an application.</h3>
+      <p>IT approves a focused capability package instead of replacing the LOS or deploying another mortgage platform.</p>
+    </div>
+  </div>
+
+  <div class="footer-note">Lower adoption friction · Smaller security surface · Easy to specialize</div>
+</div>
+</body>
+</html>

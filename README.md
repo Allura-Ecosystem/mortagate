@@ -1,11 +1,83 @@
 # Mortgate Evidence Review
 
-**Mortgate Evidence Review for Microsoft Copilot Cowork** is a human-supervised mortgage evidence-review package. The canonical product source is [`microsoft-cowork/`](microsoft-cowork/).
+**Mortgate is a specialized mortgage evidence-review capability you install into an AI workspace you already use** — not another mortgage SaaS platform. The canonical product source is [`microsoft-cowork/`](microsoft-cowork/), a native Microsoft Copilot Cowork skills package.
 
 Mortgate helps an authorized employee inventory supplied loan-file documents, identify missing or conflicting evidence, compare a supplied deterministic policy replay, and draft an audit packet. It does **not** approve or deny credit, set pricing, issue notices, contact borrowers, or write to a loan system of record.
 
 > [!IMPORTANT]
 > ADR-36 made the Microsoft Copilot Cowork package the entire current product on 2026-08-28. The Salesforce/Veridact implementation under [`force-app/`](force-app/) is retained only as historical evidence and is not supported for new development or deployment.
+
+## What Mortgate is — and is not
+
+**Traditional mortgage software:**
+
+```text
+Employee → new website → new login → new UI → vendor database → new workflow
+```
+
+**Mortgate:**
+
+```text
+Employee → existing AI coworker → install Mortgate → review mortgage files
+```
+
+Mortgate sells the **mortgage expertise and review procedure**, not an application:
+
+- **No separate SaaS dashboard** — no extra application for employees to learn.
+- **No new AI model** — Mortgate uses the intelligence of the host workspace.
+- **No application backend for the current read-only design** — no live connector, credential store, database, or lending decision engine.
+- **The workflow travels with the user** — the employee hands the AI the loan documents and invokes the review capability where they already work.
+- **Lower adoption friction** — IT approves a focused capability package rather than replacing the LOS or deploying another mortgage platform.
+- **Host-native tools become Mortgate's tools** — Cowork already works across files and multi-step tasks; the skills add specialized domain expertise.
+- **Much smaller security surface** — read-only by design; no write access into a production loan system.
+- **Easy specialization** — improve the methodology without rebuilding a product UI.
+- **Composable** — other skills work beside Mortgate rather than every capability living inside one giant application.
+
+### The moat is the workflow
+
+A generic AI session can read PDFs. Mortgate tells the host **what to look for, in what order, how to compare it, what it must not do, what evidence it must retain, and what artifact to hand back to the reviewer**:
+
+```text
+Case onboarding
+→ Document inventory
+→ Evidence comparison
+→ Gap detection
+→ Conflict detection
+→ Policy replay
+→ Citations
+→ Audit packet
+→ Human decision
+```
+
+### One capability, multiple AI workspaces
+
+```text
+                 MORTGATE
+       Mortgage Review Methodology
+                    │
+          ┌─────────┼─────────┐
+          ↓         ↓         ↓
+       Cowork    ChatGPT    Codex
+          │         │         │
+          └─────────┼─────────┘
+                    ↓
+          Supplied Mortgage File
+                    ↓
+        Structured Evidence Review
+                    ↓
+            Cited Audit Packet
+                    ↓
+              HUMAN REVIEW
+```
+
+> [!NOTE]
+> **Microsoft Copilot Cowork is the current canonical product** (ADR-36). The ChatGPT/Codex surfaces above are the architecture and product-strategy direction — they are not shipped until the corresponding packaging actually lands in this repository.
+
+### The pitch
+
+> Don't buy another mortgage AI platform. Upgrade the AI workspace you already have.
+
+Ocrolus, LoanLogics, and similar vendors sell systems. Mortgate sells **capability**: **no new SaaS · no new workflow · no automated credit decision**.
 
 ## Product at a glance
 

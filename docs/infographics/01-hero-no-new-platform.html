@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mortgate — No new platform. Just a smarter coworker.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1A2B4A;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #F5F5F5;
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+    padding: 48px 24px;
+  }
+  .canvas {
+    width: 1200px;
+    max-width: 100%;
+    background: linear-gradient(160deg, #1A2B4A 0%, #14213a 100%);
+    border-radius: 24px;
+    padding: 64px 72px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* soft droplet echoes */
+  .canvas::before, .canvas::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.18;
+  }
+  .canvas::before {
+    width: 420px; height: 420px;
+    background: #E85A3C;
+    top: -140px; right: -120px;
+  }
+  .canvas::after {
+    width: 360px; height: 360px;
+    background: #5B8DB8;
+    bottom: -120px; left: -100px;
+  }
+
+  .overline {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #E85A3C;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+  h1 .accent { color: #E85A3C; }
+  .subtitle {
+    text-align: center;
+    color: rgba(245,245,245,0.72);
+    font-size: 18px;
+    max-width: 640px;
+    margin: 16px auto 0;
+  }
+
+  /* central Mortgate shape */
+  .mortgate-blob {
+    margin: 48px auto 0;
+    width: 340px;
+    height: 150px;
+    background: linear-gradient(135deg, #E85A3C 0%, #f07a5e 100%);
+    border-radius: 50% 50% 46% 54% / 60% 60% 40% 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 24px 60px rgba(232,90,60,0.35);
+    position: relative;
+    z-index: 2;
+  }
+  .mortgate-blob .name {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #F5F5F5;
+  }
+  .mortgate-blob .tag {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(245,245,245,0.85);
+    margin-top: 2px;
+  }
+
+  /* arrows down */
+  .arrows {
+    display: flex;
+    justify-content: center;
+    gap: 120px;
+    margin: 20px 0 0;
+    position: relative;
+    z-index: 2;
+  }
+  .arrows span {
+    font-size: 22px;
+    color: rgba(245,245,245,0.55);
+  }
+
+  /* workspace cards */
+  .workspaces {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .ws-card {
+    flex: 1;
+    max-width: 240px;
+    background: rgba(245,245,245,0.07);
+    border: 1px solid rgba(245,245,245,0.14);
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+  .ws-card .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+  }
+  .ws-card.cowork .dot { background: #5B8DB8; }
+  .ws-card.chatgpt .dot { background: #4CAF50; }
+  .ws-card.codex .dot { background: #E85A3C; }
+  .ws-card .name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #F5F5F5;
+  }
+  .ws-card .role {
+    font-size: 13px;
+    color: rgba(245,245,245,0.6);
+    margin-top: 4px;
+  }
+
+  /* flow row */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 48px;
+    position: relative;
+    z-index: 2;
+    flex-wrap: wrap;
+  }
+  .flow .step {
+    background: rgba(245,245,245,0.08);
+    border: 1px solid rgba(245,245,245,0.16);
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #F5F5F5;
+  }
+  .flow .step.human {
+    background: #E85A3C;
+    border-color: #E85A3C;
+  }
+  .flow .arrow {
+    color: rgba(245,245,245,0.5);
+    font-size: 18px;
+  }
+
+  /* benefit chips */
+  .benefits {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 2;
+    flex-wrap: wrap;
+  }
+  .benefit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(245,245,245,0.06);
+    border: 1px solid rgba(245,245,245,0.12);
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(245,245,245,0.9);
+  }
+  .benefit .check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #4CAF50;
+    color: #1A2B4A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(245,245,245,0.4);
+    margin-top: 40px;
+    position: relative;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="overline">Mortgate · Mortgage Evidence Review</div>
+  <h1>No new platform.<br>Just a <span class="accent">smarter coworker.</span></h1>
+  <p class="subtitle">Mortgage evidence-review intelligence you install into the AI workspace your team already uses.</p>
+
+  <div class="mortgate-blob">
+    <div class="name">Mortgate</div>
+    <div class="tag">Review Methodology</div>
+  </div>
+
+  <div class="arrows">
+    <span>↓</span><span>↓</span><span>↓</span>
+  </div>
+
+  <div class="workspaces">
+    <div class="ws-card cowork">
+      <div class="dot"></div>
+      <div class="name">Cowork</div>
+      <div class="role">Microsoft 365</div>
+    </div>
+    <div class="ws-card chatgpt">
+      <div class="dot"></div>
+      <div class="name">ChatGPT</div>
+      <div class="role">OpenAI</div>
+    </div>
+    <div class="ws-card codex">
+      <div class="dot"></div>
+      <div class="name">Codex</div>
+      <div class="role">OpenAI</div>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="step">Your files</div>
+    <span class="arrow">→</span>
+    <div class="step">Mortgage review</div>
+    <span class="arrow">→</span>
+    <div class="step">Evidence</div>
+    <span class="arrow">→</span>
+    <div class="step human">Human</div>
+  </div>
+
+  <div class="benefits">
+    <div class="benefit"><span class="check">✓</span>No new SaaS</div>
+    <div class="benefit"><span class="check">✓</span>No new workflow</div>
+    <div class="benefit"><span class="check">✓</span>No automated credit decision</div>
+  </div>
+
+  <div class="footer-note">Don't buy another mortgage AI platform. Upgrade the AI workspace you already have.</div>
+</div>
+</body>
+</html>
