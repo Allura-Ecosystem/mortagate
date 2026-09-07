@@ -83,45 +83,27 @@ Case onboarding
 
 Ocrolus, LoanLogics, and similar vendors sell systems. Mortgate sells **capability**: **no new SaaS · no new workflow · no automated credit decision**.
 
-## Product principles, explained visually
+## Mortgate, explained visually
 
-The following conceptual explainers show the evidence discipline behind Mortgate. They are **not screenshots and do not expand the current Cowork package's scope**: today, Mortgate is a skills-only, read-only evidence-review package that compares a *supplied* replay and produces drafts for a human reviewer. The decision-engine and durable-record patterns shown here are legacy/future architecture concepts, not a claim that the current package approves, rejects, or writes to any system.
+These three product explainers tell the product story in order: the evidence-review problem, the current workflow, and the difference between a reusable mortgage-review procedure and a generic AI conversation. They are conceptual illustrations—not screenshots—and do not expand the current Cowork package's scope.
 
-### 1. Evidence and replay context should be traceable
+### 1. Mortgage review gets messy
 
-A review handoff should preserve the supplied policy version, attached evidence, replay inputs/results, and citations so a human can understand the draft.
+Loan files can contain missing, conflicting, and repeated material. Mortgate helps reviewers organize that evidence into a structured review and hand it to a human reviewer with fewer blind spots and less manual comparison.
 
-![Conceptual evidence trail: versioned policy, loan evidence, replay result, and audit receipt](docs/infographics/product-explainers/01-every-decision-has-a-receipt.png)
+![Mortgage review gets messy: a loan file with missing, conflicting, and repeated evidence is organized into a Mortgate structured review and human review](docs/infographics/product-explainers/review-gets-messy.png)
 
-### 2. Replay the rule version in force
+### 2. How Mortgate audits a mortgage file
 
-A later policy must not silently rewrite a historical review. Mortgate compares the deterministic replay the employee supplies; it does not compute or override policy.
+The current Cowork workflow turns an attached loan file into a human-review draft: document inventory, evidence comparison, comparison with a *supplied* deterministic policy replay, and a cited audit packet. It flags missing and conflicting evidence; **it does not make the loan decision**.
 
-![Conceptual policy replay: select a case, load the policy version in force, and replay its checks](docs/infographics/product-explainers/02-replay-the-rules-in-force.png)
+![How Mortgate audits a mortgage file: loan file, inventory, compare, policy replay, audit packet, and human review](docs/infographics/product-explainers/how-mortgate-audits-a-file.png)
 
-### 3. Every finding needs supporting evidence
+### 3. A workflow, not just a prompt
 
-Findings should point back to the documents and facts that support them, making the human review faster and more verifiable.
+Generic AI can summarize a document in response to a prompt. Mortgate provides a reusable mortgage-review workflow around the host AI: onboarding, evidence review, comparison, supplied policy replay, a cited draft, and human review.
 
-![Conceptual traceability: rules point to the evidence supporting each finding](docs/infographics/product-explainers/03-every-rule-points-to-evidence.png)
-
-### 4. Missing evidence stays unresolved
-
-If required evidence is absent, ambiguous, or conflicting, Mortgate flags the gap for review rather than guessing an outcome.
-
-![Conceptual safe handling: missing evidence yields an indeterminate review signal, not a guessed decision](docs/infographics/product-explainers/04-missing-facts-stay-unresolved.png)
-
-### 5. Human review is the control point
-
-The package drafts an audit packet; an authorized employee reviews it and acts only in an approved system of record.
-
-![Conceptual human review: reviewed findings and evidence become a completed audit handoff](docs/infographics/product-explainers/05-sign-off-creates-durable-trail.png)
-
-### 6. Explanation never becomes a credit decision
-
-Plain-language summaries may explain supplied replay results, but Mortgate cannot approve, deny, price, notify, or change records.
-
-![Conceptual boundary: the copilot explains supplied results without approving, rejecting, or changing records](docs/infographics/product-explainers/06-copilot-explains-kernel-decides.png)
+![Generic AI versus Mortgate: a generic prompt-to-summary interaction contrasted with the Mortgate mortgage-review workflow and human review](docs/infographics/product-explainers/generic-ai-vs-mortgate.png)
 
 ## Product at a glance
 
