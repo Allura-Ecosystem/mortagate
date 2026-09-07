@@ -87,25 +87,41 @@ Ocrolus, LoanLogics, and similar vendors sell systems. Mortgate sells **capabili
 
 The following conceptual explainers show the evidence discipline behind Mortgate. They are **not screenshots and do not expand the current Cowork package's scope**: today, Mortgate is a skills-only, read-only evidence-review package that compares a *supplied* replay and produces drafts for a human reviewer. The decision-engine and durable-record patterns shown here are legacy/future architecture concepts, not a claim that the current package approves, rejects, or writes to any system.
 
-| Principle | What it means for evidence review |
-|---|---|
-| **Evidence and replay context should be traceable** | A review handoff should preserve the supplied policy version, the attached evidence, the replay inputs/results, and citations so a human can understand the draft. |
-| **Replay the rule version in force** | A later policy must not silently rewrite a historical review. Mortgate compares the deterministic replay the employee supplies; it does not compute or override policy. |
-| **Every finding needs supporting evidence** | Findings should point back to the documents and facts that support them, making the human review faster and more verifiable. |
-| **Missing evidence stays unresolved** | If required evidence is absent, ambiguous, or conflicting, Mortgate flags the gap for review rather than guessing an outcome. |
-| **Human review is the control point** | The package drafts an audit packet; an authorized employee reviews it and acts only in an approved system of record. |
-| **Explanation never becomes a credit decision** | Plain-language summaries may explain supplied replay results, but Mortgate cannot approve, deny, price, notify, or change records. |
+### 1. Evidence and replay context should be traceable
 
-<p align="center">
-  <a href="docs/infographics/product-explainers/01-every-decision-has-a-receipt.png"><img src="docs/infographics/product-explainers/01-every-decision-has-a-receipt.png" alt="Conceptual evidence trail: versioned policy, loan evidence, replay result, and audit receipt" width="48%"></a>
-  <a href="docs/infographics/product-explainers/02-replay-the-rules-in-force.png"><img src="docs/infographics/product-explainers/02-replay-the-rules-in-force.png" alt="Conceptual policy replay: select a case, load the policy version in force, and replay its checks" width="48%"></a>
-  <br>
-  <a href="docs/infographics/product-explainers/03-every-rule-points-to-evidence.png"><img src="docs/infographics/product-explainers/03-every-rule-points-to-evidence.png" alt="Conceptual traceability: rules point to the evidence supporting each finding" width="48%"></a>
-  <a href="docs/infographics/product-explainers/04-missing-facts-stay-unresolved.png"><img src="docs/infographics/product-explainers/04-missing-facts-stay-unresolved.png" alt="Conceptual safe handling: missing evidence yields an indeterminate review signal, not a guessed decision" width="48%"></a>
-  <br>
-  <a href="docs/infographics/product-explainers/05-sign-off-creates-durable-trail.png"><img src="docs/infographics/product-explainers/05-sign-off-creates-durable-trail.png" alt="Conceptual human review: reviewed findings and evidence become a completed audit handoff" width="48%"></a>
-  <a href="docs/infographics/product-explainers/06-copilot-explains-kernel-decides.png"><img src="docs/infographics/product-explainers/06-copilot-explains-kernel-decides.png" alt="Conceptual boundary: the copilot explains supplied results without approving, rejecting, or changing records" width="48%"></a>
-</p>
+A review handoff should preserve the supplied policy version, attached evidence, replay inputs/results, and citations so a human can understand the draft.
+
+![Conceptual evidence trail: versioned policy, loan evidence, replay result, and audit receipt](docs/infographics/product-explainers/01-every-decision-has-a-receipt.png)
+
+### 2. Replay the rule version in force
+
+A later policy must not silently rewrite a historical review. Mortgate compares the deterministic replay the employee supplies; it does not compute or override policy.
+
+![Conceptual policy replay: select a case, load the policy version in force, and replay its checks](docs/infographics/product-explainers/02-replay-the-rules-in-force.png)
+
+### 3. Every finding needs supporting evidence
+
+Findings should point back to the documents and facts that support them, making the human review faster and more verifiable.
+
+![Conceptual traceability: rules point to the evidence supporting each finding](docs/infographics/product-explainers/03-every-rule-points-to-evidence.png)
+
+### 4. Missing evidence stays unresolved
+
+If required evidence is absent, ambiguous, or conflicting, Mortgate flags the gap for review rather than guessing an outcome.
+
+![Conceptual safe handling: missing evidence yields an indeterminate review signal, not a guessed decision](docs/infographics/product-explainers/04-missing-facts-stay-unresolved.png)
+
+### 5. Human review is the control point
+
+The package drafts an audit packet; an authorized employee reviews it and acts only in an approved system of record.
+
+![Conceptual human review: reviewed findings and evidence become a completed audit handoff](docs/infographics/product-explainers/05-sign-off-creates-durable-trail.png)
+
+### 6. Explanation never becomes a credit decision
+
+Plain-language summaries may explain supplied replay results, but Mortgate cannot approve, deny, price, notify, or change records.
+
+![Conceptual boundary: the copilot explains supplied results without approving, rejecting, or changing records](docs/infographics/product-explainers/06-copilot-explains-kernel-decides.png)
 
 ## Product at a glance
 
