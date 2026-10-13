@@ -85,6 +85,15 @@ Ocrolus, LoanLogics, and similar vendors sell systems. Mortgate sells **capabili
 | `policy-replay-review` | Compare supplied expected and actual replay results |
 | `audit-packet-draft` | Prepare a human-review handoff packet |
 
+## Workflow update — 0.2.1
+
+The four skills now carry forward cited evidence for the same case and source
+versions, refresh findings when inputs change, and proceed directly when scope
+and materials are already supplied. One capable host model can carry out the
+requested review without repeating intake or launching a specialist for each
+skill. Human review, refusal boundaries, and the skills-only package remain
+unchanged. See [change management](docs/CHANGE-MANAGEMENT.md) for validation limits.
+
 ## Local validation and packaging
 
 Microsoft 365 Agents Toolkit CLI is the package validator.

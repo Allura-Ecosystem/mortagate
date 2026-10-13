@@ -45,13 +45,12 @@ Before a boundary or behavioural change merges:
 
 ## Version and provenance
 
-- The package version in `.claude-plugin/plugin.json` and
-  `appPackage/manifest.json` must be incremented for any boundary or behavioural
-  change.
-- Both distribution targets are emitted from one source. A skill edit that lands
-  in `skills/` but not `appPackage/skills/` — or the reverse — is a defect: the
-  Claude and Microsoft channels would then enforce different boundaries.
-  Verify both before merge.
+- Increment `appPackage/manifest.json` for any boundary or behavioural change.
+- `appPackage/skills/` is the canonical source currently present in this
+  repository. This directory does not currently ship a `.claude-plugin/` or
+  parallel root `skills/` distribution. Downstream Claude/Codex distributions
+  must be generated from the pinned canonical skills and checked for parity;
+  do not edit a downstream copy as the source of truth.
 
 ## What this gate does not cover
 
@@ -59,3 +58,20 @@ Connector-stage controls (`CONNECTOR-ROADMAP.md` §1–7) are not implemented an
 are therefore out of scope here. When a connector is built, tool-level changes
 need their own gate covering scope enforcement, `readOnlyHint` annotations, and
 the audit pathway.
+
+## 0.2.1 — adaptive review context (2026-10-13)
+
+Behavioural update: all four skills reuse cited same-case context, invalidate
+changed inputs, inherit the host model choice, and avoid redundant intake for a
+clear authorized review. Safety boundary sections and reference files are
+unchanged. This is a local source update, not a tenant deployment or merge.
+
+Validation performed: offline package structure; exact catalog-export contract;
+existing export unit tests; documentation links; unchanged safety-section and
+reference comparison against the parent commit. In-session refusal and fixture
+walkthrough details are recorded in the repository's dated test evidence. That
+walkthrough is not a blind host-runtime eval, because prior fixture expectations
+were already present in the review context. A fresh independent blind run and
+Microsoft tenant checks remain required before claiming the full change gate
+passed or tenant readiness. No latency or model-quality improvement is claimed
+without runtime measurements.

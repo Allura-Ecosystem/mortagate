@@ -108,3 +108,14 @@ borrower data has been processed. M365 tenant validation (US-6.6) is blocked on
 licensing; the runbook is written at
 `planning/US-6.6-tenant-validation-runbook.md`. This matrix evidences **skill
 behaviour**, not connector security or platform availability.
+
+## 0.2.1 local workflow review — 2026-10-13
+
+The results above remain the historical 0.2.0 evidence; they are not a fresh
+0.2.1 runtime certification. [Current review](cowork-workflow-review-2026-10-13.md)
+records mechanical checks and a non-blind walkthrough. E-3 now identifies
+`appPackage/skills/` as this repository's canonical distribution and requires
+pinned parity for downstream copies; the previously described second local
+Claude distribution is absent. New context-reuse controls require matching case,
+source versions, scope, and authorization, with refresh on changes. Independent
+blind and tenant gates remain pending; no existing pass is upgraded by this note.
