@@ -1,155 +1,87 @@
 # Mortgate Evidence Review for Copilot Cowork
 
-A native Microsoft Copilot Cowork skills package for internal, human-supervised mortgage evidence review. **Mortgate is a capability you install into an AI workspace you already use — not another mortgage SaaS platform.**
+> **AI-Assisted Documentation** — portions of this guide were drafted with AI assistance. Package manifests, schemas, and current validation evidence remain authoritative.
 
-It helps an authorized employee:
+Review supplied mortgage-file evidence and prepare a cited draft for a human reviewer in Microsoft Copilot Cowork.
 
-- onboard an evidence-review task;
-- inventory uploaded loan-file documents;
-- identify missing, ambiguous, and conflicting evidence;
-- compare a supplied deterministic policy replay; and
-- draft an audit packet for human review.
+Mortgate helps an authorized employee inventory documents, identify gaps and conflicts, compare supplied policy-replay results, and draft an audit packet. The current release contains four Agent Skills. It requires no live API, connector, credential, or data store.
 
-It does **not** approve or deny credit, set pricing or rate, issue notices, send communications, or update a loan-origination system.
+The skills do not approve or deny credit, set pricing or rates, issue notices, send communications, or update a loan-origination system. An authorized person makes decisions and uses the approved system of record.
 
-## Why Microsoft Copilot Cowork
+## Choose the task
 
-This package is for people already working in Microsoft 365. Cowork provides the employee workspace; this package contributes domain-specific skills. The employee sees a simple workflow, not an internal multi-agent framework.
-
-```text
-Employee request + attached evidence
-        ↓
-Copilot Cowork
-        ↓
-Mortgate Evidence Review skills
-        ↓
-Human-review draft and cited findings
-        ↓
-Authorized employee uses the approved system of record
-```
-
-### The moat is the workflow
-
-A generic AI session can read PDFs. Mortgate tells the host **what to look for, in what order, how to compare it, what it must not do, what evidence it must retain, and what artifact to hand back to the reviewer**:
-
-```text
-Case onboarding
-→ Document inventory
-→ Evidence comparison
-→ Gap detection
-→ Conflict detection
-→ Policy replay
-→ Citations
-→ Audit packet
-→ Human decision
-```
-
-### One capability, multiple AI workspaces
-
-```text
-                 MORTGATE
-       Mortgage Review Methodology
-                    │
-          ┌─────────┼─────────┐
-          ↓         ↓         ↓
-       Cowork    ChatGPT    Codex
-          │         │         │
-          └─────────┼─────────┘
-                    ↓
-          Supplied Mortgage File
-                    ↓
-        Structured Evidence Review
-                    ↓
-            Cited Audit Packet
-                    ↓
-              HUMAN REVIEW
-```
-
-> [!NOTE]
-> **Copilot Cowork is the current canonical product surface** (ADR-36). The ChatGPT/Codex surfaces above are the architecture and product-strategy direction — they are not shipped until the corresponding packaging actually lands in this repository.
-
-### The pitch
-
-> Don't buy another mortgage AI platform. Upgrade the AI workspace you already have.
-
-Ocrolus, LoanLogics, and similar vendors sell systems. Mortgate sells **capability**: **no new SaaS · no new workflow · no automated credit decision**.
-
-## Current release: skills only
-
-`appPackage/` is a Microsoft 365 app package source. The four skills are standard Agent Skills and require no live API, credential, connector, or data store.
-
-| Skill | Employee request it supports |
+| Skill | Employee request |
 |---|---|
-| `mortgage-case-onboarding` | Start a review and identify needed materials |
-| `loan-file-evidence-review` | Summarize supplied evidence and identify gaps |
+| `mortgage-case-onboarding` | Start a review and identify the materials needed |
+| `loan-file-evidence-review` | Summarize supplied evidence and identify gaps or conflicts |
 | `policy-replay-review` | Compare supplied expected and actual replay results |
-| `audit-packet-draft` | Prepare a human-review handoff packet |
+| `audit-packet-draft` | Prepare a cited handoff packet for human review |
 
-## Workflow update — 0.2.1
+For example:
 
-The four skills now carry forward cited evidence for the same case and source
-versions, refresh findings when inputs change, and proceed directly when scope
-and materials are already supplied. One capable host model can carry out the
-requested review without repeating intake or launching a specialist for each
-skill. Human review, refusal boundaries, and the skills-only package remain
-unchanged. See [change management](docs/CHANGE-MANAGEMENT.md) for validation limits.
+> Review these supplied loan documents. Inventory what is present, cite gaps and conflicting facts, and prepare questions for the human reviewer. Do not infer missing evidence or make a credit decision.
 
-## Local validation and packaging
+The host works from the supplied material. A policy-replay review compares provided results; it does not execute a live policy engine or establish regulatory compliance.
 
-Microsoft 365 Agents Toolkit CLI is the package validator.
+## Review workflow
+
+```text
+Employee request and attached evidence
+  → Confirm the task and relevant source versions
+  → Inventory documents and compare evidence
+  → Identify gaps, conflicts, and cited findings
+  → Draft a review packet
+  → Human review and action in the approved system of record
+```
+
+Version `0.2.1` lets the four skills reuse cited evidence for the same case and source versions. Changed inputs require refreshed findings. Clear tasks proceed directly without repeating intake or launching a specialist for each skill. See [change management](docs/CHANGE-MANAGEMENT.md) for evaluation limits.
+
+## Validate, package, and install
+
+`appPackage/` contains the Microsoft 365 app package source. Run these commands from the directory containing this README: `microsoft-cowork/` in the source repository, or `packages/mortagate-cowork/` in the catalog export.
 
 ```bash
 (
-  cd microsoft-cowork/appPackage
+  cd appPackage
   npx --yes @microsoft/m365agentstoolkit-cli validate \
     --manifest-file manifest.json \
     --validate-method validation-rules \
     --interactive false
 )
 
-(
-  cd microsoft-cowork
-  npx --yes @microsoft/m365agentstoolkit-cli package \
-    --manifest-file appPackage/manifest.json \
-    --output-package-file dist/mortgate-evidence-review.zip \
-    --interactive false
-)
+npx --yes @microsoft/m365agentstoolkit-cli package \
+  --manifest-file appPackage/manifest.json \
+  --output-package-file dist/mortgate-evidence-review.zip \
+  --interactive false
 
-python3 microsoft-cowork/scripts/validate_package.py \
-  --package-root microsoft-cowork/appPackage \
-  --archive microsoft-cowork/dist/mortgate-evidence-review.zip
+python3 scripts/validate_package.py \
+  --package-root appPackage \
+  --archive dist/mortgate-evidence-review.zip
 ```
 
-The local package can be uploaded privately in Cowork: **+ → Customize → Plugins → Upload plugin → Only you**. A tenant administrator controls any pilot-group deployment.
+The Microsoft 365 Agents Toolkit CLI validates and packages the app; the Python script checks local structure and the generated archive. Passing these checks does not prove that a tenant has enabled the plugin or that a live review succeeded.
 
-## Connector phase: deliberately not included yet
+Where plugin upload is enabled, upload the archive privately in Cowork: **+ → Customize → Plugins → Upload plugin → Only you**. A tenant administrator controls pilot-group deployment. Confirm current availability and requirements in the [Microsoft plugin documentation](https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-plugins).
 
-A future connector must be a remote Streamable HTTP MCP service over HTTPS and use Microsoft Entra/OAuth. It must expose only a small, explicit, tenant-scoped tool surface such as:
+## What is not included
 
-```text
-get_case_summary(case_id)
-list_case_documents(case_id)
-get_evidence_packet(case_id)
-get_policy_replay(case_id, replay_id)
-```
+There is no live case connector in this release. The [connector roadmap](docs/CONNECTOR-ROADMAP.md) describes a future remote Streamable HTTP MCP service over HTTPS with Microsoft Entra/OAuth and a small, explicit tool surface such as case summaries, document lists, evidence packets, and policy-replay retrieval.
 
-It must not expose approval, denial, pricing, rate-setting, notice issuance, or policy override tools. See `docs/CONNECTOR-ROADMAP.md`.
+That future surface must exclude credit approval or denial, pricing, rate setting, notice issuance, and policy overrides. Current skills do not gain those capabilities from the roadmap.
 
-## Reference architecture lessons
+Copilot Cowork is the canonical product surface under ADR-36. ChatGPT and Codex packaging remain future direction unless separately released. The legacy Salesforce implementation is outside this package.
 
-- Confluent’s workshop is a useful reference for event ingestion and reproducible infrastructure, but its automated decisioning model is out of scope here.
-- Red Hat’s quickstart is useful for RBAC, PII masking, compliance-source tiering, audit chains, and evaluation patterns. Its mortgage compliance content is simulated; it is not imported as policy.
+## Source and catalog
 
-See `docs/REFERENCE-ARCHITECTURE.md`.
+This directory is the product source in the [Mortgate repository](https://github.com/Allura-Ecosystem/mortagate). The [catalog export contract](https://github.com/Allura-Ecosystem/mortagate/blob/main/catalog-export.json) allowlists reusable files for the published [Allura catalog distribution](https://github.com/Allura-Ecosystem/allura-plugins/tree/main/packages/mortagate-cowork).
 
-## Canonical source and catalog relationship
+The catalog records an exact source commit and file hashes. Send content changes to Mortgate, then regenerate the catalog package. Publication in the catalog does not install or enable the package in a Microsoft tenant.
 
-This directory is the current product source inside the canonical [Mortgate repository](https://github.com/Allura-Ecosystem/mortagate). The root [`catalog-export.json`](../catalog-export.json) allowlists reusable files for a future generated [`allura-plugins/packages/mortagate-cowork`](https://github.com/Allura-Ecosystem/allura-plugins/tree/main/packages/mortagate-cowork) package. That catalog path is not published yet, and downstream copies must send fixes back to Mortgate before regeneration.
+## Further reading
 
-## Microsoft sources
-
+- [Change management](docs/CHANGE-MANAGEMENT.md)
+- [Reference architecture](docs/REFERENCE-ARCHITECTURE.md) — external examples are design references, not imported mortgage policy
+- [Privacy](PRIVACY.md) and [terms](TERMS.md)
 - [Build plugins for Copilot Cowork](https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-plugin-development)
 - [Use plugins with Copilot Cowork](https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-plugins)
 - [Manage plugins for Copilot Cowork](https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-manage-plugins)
-
-> Copilot Cowork is a Frontier preview. A controlled tenant pilot and current Microsoft validation are required before production use.
